@@ -1,0 +1,30 @@
+.bc-canvas {
+  display: block;
+  opacity: var(--canvas-opacity);
+  transition: opacity var(--canvas-transition-duration-in) var(--custom-easing);
+
+  &--faded {
+    opacity: 0;
+    pointer-events: none;
+    transition-duration: var(--canvas-transition-duration-out);
+  }
+}
+
+canvas {
+  -webkit-user-select: none;
+  bottom: 0;
+  cursor: pointer;
+  height: 100%;
+  left: 0;
+  position: absolute;
+  right: 0;
+  tap-highlight-color: transparent;
+  top: 0;
+  user-select: none;
+  width: 100%;
+  z-index: -1;
+
+  .container--reduced-motion & {
+    cursor: default;
+  }
+}

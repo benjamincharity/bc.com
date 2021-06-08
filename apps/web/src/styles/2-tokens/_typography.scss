@@ -1,0 +1,15 @@
+:root {
+  --font-stack-unicode: 'VT323', monospace;
+  --font-stack-serif: 'Source Serif Pro', serif;
+  --font-stack-monospaced: 'Fira Code', Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace, monospace;
+  --title-color: #fff;
+  --title-fontSize-small: clamp(2rem, 23vw, 2rem);
+  --title-fontSize: clamp(3rem, 23vw, 6rem);
+  //--title-lineHeight-small: 1.2em;
+  //--title-lineHeight: 1.4em;
+  --title-shadow-color: rgba(0, 0, 0, 0.4);
+  --title-shadow: 2px 2px 2px var(--title-shadow-color);
+  --title-sub-page-color: #444;
+  --title-transition-duration-fast: 50ms;
+  --title-transition-duration: 200ms;
+}

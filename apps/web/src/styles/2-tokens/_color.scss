@@ -1,0 +1,40 @@
+:root {
+  // Dynamic
+  // Note: Highlight tokens will be overwritten when a palette is selected
+  --highlight-color-1: #ff9800;
+  --highlight-color-2: #ff9800;
+  --highlight-color-3: #ff9800;
+  --highlight-color-4: #ff9800;
+  --highlight-color-5: #ff9800;
+
+  // Abstract
+  --color-drakenhofNightshade-tint: #a7c0d9;
+  --color-drakenhofNightshade: #2262a1;
+  --color-drakenhofNightshade-shade: #0e2740;
+  --color-drWhite: #fafafa;
+  --color-goshawkGrey: #444;
+  --color-grey: #808080;
+  --color-grey: #fefefe;
+  --color-loveLetter: #e8608c;
+  --color-turkishTeal: #71cbc4;
+
+  // Structured
+  --app-color-dark: var(--color-goshawkGrey);
+  --app-color-grey: var(--color-grey);
+  --app-color-light: var(--color-drWhite);
+  --app-color-accent-1-tint: var(--color-drakenhofNightshade-tint);
+  --app-color-accent-1: var(--color-drakenhofNightshade);
+  --app-color-accent-1-dark: var(--color-drakenhofNightshade-shade);
+  --app-color-accent-2: var(--color-turkishTeal);
+  --app-color-accent-3: var(--color-loveLetter);
+
+  // Backgrounds
+  --app-light-backgroundColor: #fafafa;
+
+  // Elements
+  --app-link-color: var(--app-color-accent-1);
+  --color-code-background: #f7f7f7;
+  --color-code-boxShadow: #dfdfdf;
+  --color-image-outline: #dfdfdf;
+  --color-inlineCode-backgroundColor: #e4e4e4;
+}

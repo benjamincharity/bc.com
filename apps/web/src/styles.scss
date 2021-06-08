@@ -1,1 +1,30 @@
-/* You can add global styles to this file, and also import other style files */
+/* prettier-ignore */
+
+// 1. Settings
+@import
+  "styles/1-settings/global";
+
+// 2. Design Tokens
+@import
+  "styles/2-tokens/animation",
+  "styles/2-tokens/color",
+  "styles/2-tokens/sizes",
+  "styles/2-tokens/typography",
+  "styles/2-tokens/zindex";
+
+// 3. Tools
+@import
+  "styles/3-tools/a11y",
+  "styles/3-tools/cursors",
+  "styles/3-tools/layout",
+  "styles/3-tools/text";
+
+// 4. Generic
+@import
+  "styles/4-generic/normalize",
+  "styles/4-generic/print";
+
+// 5. Elements
+@import
+  "styles/5-elements/hr",
+  "styles/5-elements/link";

@@ -1,0 +1,9 @@
+[[redirects]]
+  from = "/contact"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/projects"
+  to = "/"
+  status = 410

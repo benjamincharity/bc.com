@@ -1,0 +1,22 @@
+/**
+ * The list of possible z-index values
+ *
+ * (items at the top have a higher value)
+ */
+$z-layers: (
+  'popover',
+  'header',
+  'info',
+  'page',
+  'site-background'
+);
+
+:root {
+  @each $index in $z-layers {
+    --global-zindex-#{$index}:
+      #{(
+        length($z-layers) - index($z-layers, $index)
+      ) +
+      500};
+  }
+}

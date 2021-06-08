@@ -1,0 +1,54 @@
+<div class="page u-pointer-off">
+  <h2 class="title title--secondary u-pointer" @AnimationIn1>
+    UX, UI, and design systems
+    <br />
+    Engineer
+  </h2>
+
+  <nav class="navigation" @AnimationIn2>
+    <ul class="navigation__list">
+      <li class="navigation__list-item" *ngFor="let link of navigationLinks">
+        <ng-container
+          *ngIf="link?.destination?.startsWith('http'); else internalLink"
+        >
+          <a
+            class="navigation__link o-squiggle-underline-link"
+            [href]="link.destination"
+          >
+            {{ link.display }}
+            <svg
+              width="24"
+              height="24"
+              xmlns="http://www.w3.org/2000/svg"
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+            >
+              <path
+                d="M14 4h-13v18h20v-11h1v12h-22v-20h14v1zm10 5h-1v-6.293l-11.646 11.647-.708-.708 11.647-11.646h-6.293v-1h8v8z"
+              />
+            </svg>
+          </a>
+        </ng-container>
+        <ng-template #internalLink>
+          <a
+            class="navigation__link o-squiggle-underline-link u-pointer"
+            [routerLink]="link.destination"
+            >{{ link.display }}</a
+          >
+        </ng-template>
+      </li>
+    </ul>
+  </nav>
+
+  <section class="companies u-pointer" @AnimationIn3>
+    <h3 class="companies__title">Trusted by</h3>
+    <ul class="companies__list">
+      <li
+        class="companies__company"
+        *ngFor="let company of companies; let last = last"
+      >
+        {{ company }}
+      </li>
+    </ul>
+  </section>
+</div>

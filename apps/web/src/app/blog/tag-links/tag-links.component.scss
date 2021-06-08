@@ -1,0 +1,14 @@
+:host {
+  display: inline-block;
+}
+
+.tags {
+  //padding: 1em;
+  text-align: center;
+
+  .tag {
+    display: inline-block;
+    margin: 0.5em 2em;
+    pointer-events: auto;
+  }
+}

@@ -1,0 +1,74 @@
+<section
+  class="articles"
+  [@enter]="{ value: '', params: { translate: '26px' } }"
+>
+  <div class="articles__current-tag" *ngIf="currentTag$ | async as tag">
+    <div>
+      <span class="articles__current-tag-info">
+        Showing articles tagged <strong>`{{ tag }}`</strong>.
+      </span>
+      <a
+        class="o-animated-link-underline"
+        routerLink="/articles"
+        [queryParams]="{}"
+        >Clear filter</a
+      >
+    </div>
+  </div>
+
+  <ng-container *ngIf="(allArticles$ | async)?.length < 1">
+    <ng-container *ngFor="let skeleton of skeletonCount">
+      <ngx-skeleton-loader
+        count="1"
+        [theme]="skeletonSizes.title"
+      ></ngx-skeleton-loader>
+
+      <ngx-skeleton-loader
+        count="1"
+        [theme]="skeletonSizes.description"
+      ></ngx-skeleton-loader>
+    </ng-container>
+  </ng-container>
+
+  <ul
+    *ngIf="allArticles$ | async as articles"
+    class="articles__list"
+    aria-label="Articles"
+  >
+    <li
+      class="articles__listing"
+      *ngFor="let article of articles; let i = index"
+      [@enter]="{ value: '', params: { delay: i * 100, translate: '26px' } }"
+    >
+      <a
+        class="articles__listing-link o-sliding-background-link g{{ i + 1 }}"
+        [routerLink]="article.route"
+      >
+        {{ article.titleTrimmed }}
+        <span class="articles__listing-link-tail"
+          >{{ article.titleTail }}
+          <span class="articles__listing-link-arrow" aria-hidden="true"
+            >&#10149;</span
+          >
+        </span>
+      </a>
+      <div *ngIf="article?.description" class="articles__listing-description">
+        {{ article.description }}
+        <span class="articles__listing-reading-time"
+          >[{{ article.readingTime | number: "1.0-0" }}min]</span
+        >
+      </div>
+    </li>
+  </ul>
+</section>
+
+<hr class="o-fancy-hr" />
+
+<aside class="tags-filter">
+  <h2 class="tags-filter__title">Browse articles by tag:</h2>
+  <bc-tag-links
+    [tags]="allTags$ | async"
+    routeBase="/articles"
+    [currentTag]="currentTag$ | async"
+  ></bc-tag-links>
+</aside>
