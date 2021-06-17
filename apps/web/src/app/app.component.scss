@@ -30,6 +30,12 @@ bc-root {
   position: relative;
   width: 100vw;
   z-index: 1;
+
+  ::selection {
+    background-color: var(--highlight-color-1);
+    color: var(--title-color);
+    text-shadow: var(--title-shadow);
+  }
 }
 
 .container {
