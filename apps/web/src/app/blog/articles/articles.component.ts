@@ -14,14 +14,18 @@ import { fadeInUpOnEnterAnimation } from 'angular-animations';
 import { MetafrenzyService } from 'ngx-metafrenzy';
 import { BehaviorSubject } from 'rxjs';
 import { filter } from 'rxjs/operators';
+
 import { buildCanonicalUrl } from '../../app-routing.module';
 import {
   blogDescription,
   blogImagePath,
   siteTitle,
 } from '../../shared/content.constants';
-
 import { ArticleTags, ScullyService } from '../../shared/scully.service';
+import {
+  skeletonArticleListingSizes,
+  SkeletonInstanceThemeObject,
+} from '../../shared/skeleton.constants';
 
 /**
  * Convert string to ArticleTag
@@ -29,6 +33,7 @@ import { ArticleTags, ScullyService } from '../../shared/scully.service';
  * @param value - The value to check
  * @returns True if it is an ArticleTag
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function typeGuardArticleTags(value: any): value is ArticleTags {
   return Object.values(ArticleTags).includes(value);
 }
@@ -43,16 +48,6 @@ export function pluckTagFromUrl(url: string): string {
   return url?.split('?')[1]?.split('=')[1] ?? '';
 }
 
-export interface SkeletonInstanceThemeObject {
-  title: SkeletonTheme;
-  description: SkeletonTheme;
-}
-
-export interface SkeletonTheme {
-  'height.px'?: number;
-  width?: string;
-}
-
 @UntilDestroy()
 @Component({
   selector: 'bc-articles',
@@ -64,19 +59,10 @@ export interface SkeletonTheme {
 })
 export class ArticlesComponent implements OnInit {
   readonly skeletonCount = new Array(3);
-  readonly skeletonSizes: SkeletonInstanceThemeObject = {
-    title: {
-      'height.px': 40,
-      width: '100%',
-    },
-    description: {
-      'height.px': 22,
-      width: '70%',
-    },
-  };
+  readonly skeletonSizes: SkeletonInstanceThemeObject = skeletonArticleListingSizes;
   allArticles$ = this.scullyService.visibleArticles$;
-  allTags$: BehaviorSubject<readonly ArticleTags[]> =
-    this.scullyService.allTags$;
+  allTags$: BehaviorSubject<readonly ArticleTags[]> = this.scullyService
+    .allTags$;
   currentTag$ = new BehaviorSubject<ArticleTags | null>(null);
   navigationEnd$ = this.router.events.pipe(
     untilDestroyed(this),

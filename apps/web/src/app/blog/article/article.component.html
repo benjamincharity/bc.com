@@ -1,9 +1,4 @@
-<article
-  *ngIf="articleMetadata$ | async as metadata"
-  class="article line-numbers"
-  @fadeInUpOnEnter
-  @fadeOutDownOnLeave
->
+<article class="article">
   <nav class="article__nav">
     <a
       class="article__nav-link o-animated-link-underline"
@@ -11,25 +6,30 @@
       ><span>&#8668;</span> Back to all articles</a
     >
   </nav>
-  <div class="article__content">
-    <ng-container *ngIf="(allArticles$ | async)?.length < 1">
-      <ng-container *ngFor="let skeleton of skeletonCount">
-        <ngx-skeleton-loader
-          count="1"
-          [theme]="skeletonSizes.title"
-        ></ngx-skeleton-loader>
-
-        <ngx-skeleton-loader
-          count="1"
-          [theme]="skeletonSizes.description"
-        ></ngx-skeleton-loader>
-      </ng-container>
-    </ng-container>
-
+  <div
+    class="article__content line-numbers"
+    *ngIf="articleMetadata$ | async as metadata; else loading"
+    @fadeInUpOnEnter
+    @fadeOutDownOnLeave
+  >
     <scully-content></scully-content>
   </div>
 
-  <footer class="article__tags">
+  <ng-template #loading>
+    <ngx-skeleton-loader
+      count="1"
+      [theme]="skeletonSizes.title"
+    ></ngx-skeleton-loader>
+
+    <ng-container *ngFor="let description of skeletonSizes.description">
+      <ngx-skeleton-loader
+        count="1"
+        [theme]="description"
+      ></ngx-skeleton-loader>
+    </ng-container>
+  </ng-template>
+
+  <footer class="article__tags" *ngIf="articleMetadata$ | async as metadata">
     <h6>Tags:</h6>
     <bc-tag-links routeBase="/articles" [tags]="metadata.tags"></bc-tag-links>
   </footer>
