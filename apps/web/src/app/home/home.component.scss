@@ -19,12 +19,6 @@
   font-family: var(--font-stack-unicode);
   text-align: center;
 
-  ::selection {
-    background-color: var(--highlight-color-1);
-    color: var(--title-color);
-    text-shadow: var(--title-shadow);
-  }
-
   .page {
     padding: 1rem;
   }
