@@ -15,14 +15,27 @@ import {
 import { MetafrenzyService } from 'ngx-metafrenzy';
 import { combineLatest } from 'rxjs';
 import { map, pluck } from 'rxjs/operators';
+
 import { buildCanonicalUrl } from '../../app-routing.module';
 import {
   blogDescription,
   blogImagePath,
   siteTitle,
 } from '../../shared/content.constants';
-
 import { HighlightService } from '../../shared/highlight.service';
+import {
+  skeletonArticleSizes,
+  SkeletonInstanceThemeArrayObject,
+} from '../../shared/skeleton.constants';
+
+const DRAFT_KEY = `___UNPUBLISHED___`;
+const DRAFT_METADATA = {
+  title: 'Mock title',
+  description:
+    'Mock description Picture view field green off. Food sign less manage ago strategy.',
+  tags: ['ux', 'design'],
+  publishDate: '2021-03-23',
+};
 
 @Component({
   selector: 'bc-article',
@@ -36,12 +49,15 @@ import { HighlightService } from '../../shared/highlight.service';
   encapsulation: ViewEncapsulation.None,
 })
 export class ArticleComponent implements AfterViewChecked {
+  readonly skeletonSizes: SkeletonInstanceThemeArrayObject = skeletonArticleSizes;
   articleMetadata$ = combineLatest([
     this.activatedRoute.params.pipe(pluck('postId')),
     this.scully.available$,
   ]).pipe(
     map(([postId, routes]) =>
-      routes.find((route) => route.route === `/articles/${postId}`),
+      postId.includes(DRAFT_KEY)
+        ? { ...DRAFT_METADATA }
+        : routes.find((route) => route.route === `/articles/${postId}`),
     ),
   );
 
