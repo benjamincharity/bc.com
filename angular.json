@@ -116,34 +116,6 @@
       "projectType": "application",
       "root": "apps/web",
       "sourceRoot": "apps/web/src"
-    },
-    "web-e2e": {
-      "architect": {
-        "e2e": {
-          "builder": "@nrwl/cypress:cypress",
-          "configurations": {
-            "production": {
-              "devServerTarget": "web:serve:production"
-            }
-          },
-          "options": {
-            "cypressConfig": "apps/web-e2e/cypress.json",
-            "devServerTarget": "web:serve",
-            "tsConfig": "apps/web-e2e/tsconfig.e2e.json"
-          }
-        },
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": [
-              "apps/web-e2e/**/*.{js,ts}"
-            ]
-          }
-        }
-      },
-      "projectType": "application",
-      "root": "apps/web-e2e",
-      "sourceRoot": "apps/web-e2e/src"
     }
   },
   "schematics": {

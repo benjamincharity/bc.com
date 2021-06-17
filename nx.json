@@ -7,7 +7,7 @@
     ".eslintrc.json": "*"
   },
   "affected": {
-    "defaultBase": "master"
+    "defaultBase": "main"
   },
   "npmScope": "bc",
   "tasksRunnerOptions": {
@@ -20,7 +20,6 @@
           "test",
           "e2e"
         ],
-        "accessToken": "ZDZlZDY4ODktM2NkOS00YmIwLTkwYWItN2RhYTMxZTM1OTVhfHJlYWQtd3JpdGU=",
         "canTrackAnalytics": false,
         "showUsageWarnings": true
       }
@@ -29,12 +28,6 @@
   "projects": {
     "web": {
       "tags": []
-    },
-    "web-e2e": {
-      "tags": [],
-      "implicitDependencies": [
-        "web"
-      ]
     }
   }
 }
