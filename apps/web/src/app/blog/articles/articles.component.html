@@ -55,7 +55,7 @@
       <div *ngIf="article?.description" class="articles__listing-description">
         {{ article.description }}
         <span class="articles__listing-reading-time"
-          >[{{ article.readingTime | number: "1.0-0" }}min]</span
+          >[{{ article.readingTime | number: '1.0-0' }}min]</span
         >
       </div>
     </li>
@@ -64,11 +64,10 @@
 
 <hr class="o-fancy-hr" />
 
-<aside class="tags-filter">
-  <h2 class="tags-filter__title">Browse articles by tag:</h2>
-  <bc-tag-links
-    [tags]="allTags$ | async"
-    routeBase="/articles"
-    [currentTag]="currentTag$ | async"
-  ></bc-tag-links>
-</aside>
+<bc-tag-links
+  [tags]="allTags$ | async"
+  routeBase="/articles"
+  [currentTag]="currentTag$ | async"
+>
+  <h2>Browse articles by tag:</h2>
+</bc-tag-links>

@@ -25,6 +25,7 @@ bc-root {
   @include take-space;
 
   display: block;
+  font-size: var(--font-size);
   height: 100vh;
   min-width: var(--page-minWidth);
   position: relative;
@@ -116,6 +117,13 @@ bc-root {
 
   &--small {
     max-height: 100px;
+
+    .o-sliding-background-link {
+      &:focus {
+        outline: 8px dashed var(--app-color-accent-1);
+        outline-offset: 14px;
+      }
+    }
 
     .global-header__title {
       --title-color: var(--title-sub-page-color);

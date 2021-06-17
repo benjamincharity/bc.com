@@ -1,6 +1,6 @@
 {
   "name": "bc",
-  "version": "6.0.0-beta.1",
+  "version": "6.0.0",
   "license": "MIT",
   "scripts": {
     "ng": "nx",

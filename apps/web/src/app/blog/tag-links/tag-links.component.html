@@ -1,14 +1,21 @@
-<ul class="tags" *ngIf="tags?.length">
-  <li
-    class="tag"
-    [class.tag--last]="last"
-    *ngFor="let tag of tags; let last = last"
-  >
-    <bc-circled-link
-      [isActive]="tag === currentTag"
-      [routerLink]="routeBase"
-      [queryParams]="{ tag: tag }"
-      >{{ tag }}</bc-circled-link
+<aside class="tags-wrapper">
+  <header>
+    <ng-content></ng-content>
+  </header>
+
+  <ul class="tags" *ngIf="tags?.length">
+    <li
+      class="tag"
+      [class.tag--last]="last"
+      *ngFor="let tag of tags; let last = last"
     >
-  </li>
-</ul>
+      <a
+        class="o-animated-link-underline"
+        [class.is-active]="tag === currentTag"
+        [routerLink]="routeBase"
+        [queryParams]="{ tag: tag }"
+      >{{ tag }}</a
+      >
+    </li>
+  </ul>
+</aside>
