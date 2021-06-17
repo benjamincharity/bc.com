@@ -29,8 +29,7 @@
     </ng-container>
   </ng-template>
 
-  <footer class="article__tags" *ngIf="articleMetadata$ | async as metadata">
+  <bc-tag-links [tags]="(articleMetadata$ | async).tags" routeBase="/articles">
     <h6>Tags:</h6>
-    <bc-tag-links routeBase="/articles" [tags]="metadata.tags"></bc-tag-links>
-  </footer>
+  </bc-tag-links>
 </article>

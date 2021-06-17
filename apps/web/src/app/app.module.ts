@@ -18,7 +18,6 @@ import { TagLinksComponent } from './blog/tag-links/tag-links.component';
 import { CanvasComponent } from './canvas/canvas.component';
 import { HomeComponent } from './home/home.component';
 import { NotFoundComponent } from './not-found/not-found.component';
-import { CircledLinkComponent } from './shared/circled-link/circled-link.component';
 import { InfoComponent } from './shared/info/info.component';
 import { KonamiDirective } from './shared/konami/konami.directive';
 
@@ -43,7 +42,6 @@ import { KonamiDirective } from './shared/konami/konami.directive';
     ArticleComponent,
     ArticlesComponent,
     CanvasComponent,
-    CircledLinkComponent,
     HomeComponent,
     InfoComponent,
     KonamiDirective,

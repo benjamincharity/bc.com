@@ -17,6 +17,12 @@
     width: 100%;
   }
 
+  &.is-active,
+  &:focus {
+    outline: 2px dashed var(--app-link-color);
+    outline-offset: 3px;
+  }
+
   &:hover {
     transition-duration: 150ms;
 
