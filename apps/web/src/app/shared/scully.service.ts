@@ -121,7 +121,7 @@ export function sortByPublishDate(): (
       map((routes) =>
         routes.sort(
           (a, b) =>
-            determineDateTime(a.publishDate) - determineDateTime(b.publishDate),
+            determineDateTime(b.publishDate) - determineDateTime(a.publishDate),
         ),
       ),
     );
