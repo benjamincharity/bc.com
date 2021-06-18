@@ -13,8 +13,8 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import { fadeInUpOnEnterAnimation } from 'angular-animations';
 import { MetafrenzyService } from 'ngx-metafrenzy';
-import { buildCanonicalUrl } from '../app-routing.module';
 
+import { buildCanonicalUrl } from '../app-routing.module';
 import { CanvasComponent, shuffle } from '../canvas/canvas.component';
 import { Palette, PALETTES } from '../canvas/palettes.data';
 import {
