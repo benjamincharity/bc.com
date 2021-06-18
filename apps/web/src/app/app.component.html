@@ -48,4 +48,6 @@
   [showInfo]="(showInfo$ | async) === true"
   [animationsArePaused]="canvas.isPaused"
   (togglePauseRequest)="canvas.togglePause()"
+  (infoPanelStateChange)="userHasInteractedWithInfoPanel$.next()"
+  #info="bcInfo"
 ></bc-info>

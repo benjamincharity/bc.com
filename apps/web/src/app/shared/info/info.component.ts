@@ -13,14 +13,12 @@ import {
   styleUrls: ['./info.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
+  exportAs: 'bcInfo',
 })
 export class InfoComponent {
-  userHasInteracted = false;
   set showPopover(value: boolean) {
-    if (value) {
-      this.userHasInteracted = value;
-    }
     this._showPopover = value;
+    this.infoPanelStateChange.emit(this._showPopover);
   }
   get showPopover(): boolean {
     return this._showPopover;
@@ -31,6 +29,7 @@ export class InfoComponent {
   @Input() animationsArePaused = false;
 
   @Output() readonly togglePauseRequest = new EventEmitter<void>();
+  @Output() readonly infoPanelStateChange = new EventEmitter<boolean>();
 
   stopEvent(event: MouseEvent): void {
     event.preventDefault();
