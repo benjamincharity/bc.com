@@ -2,6 +2,7 @@ import { DOCUMENT } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  HostListener,
   Inject,
   OnInit,
   ViewChild,
@@ -14,11 +15,12 @@ import {
   rotateOutDownRightOnLeaveAnimation,
 } from 'angular-animations';
 import { BehaviorSubject, interval, Subscription, timer } from 'rxjs';
-import { delay, filter, startWith, tap } from 'rxjs/operators';
+import { delay, filter, skip, startWith, takeUntil, tap } from 'rxjs/operators';
 
 import { CanvasComponent } from './canvas/canvas.component';
 import { Palette, PALETTES } from './canvas/palettes.data';
 import { shrinkHeaderAnimation } from './shared/animation.constants';
+import { InfoComponent } from './shared/info/info.component';
 import { createSVG } from './shared/squiggle';
 import { BC_WINDOW } from './shared/window.service';
 
@@ -72,12 +74,14 @@ export class AppComponent implements OnInit {
   partyModeEnabled = false;
   partyModeSubscription: Subscription | undefined;
   showInfo$ = new BehaviorSubject<boolean>(false);
+  userHasInteractedWithInfoPanel$ = new BehaviorSubject<void>(undefined);
 
   get shouldBeReducedMotion(): boolean {
     return this.mediaQuery.media.includes('reduce') && this.mediaQuery.matches;
   }
 
   @ViewChild(CanvasComponent) canvas?: CanvasComponent;
+  @ViewChild('info') info?: InfoComponent;
 
   constructor(
     @Inject(DOCUMENT) private document: Document,
@@ -90,6 +94,10 @@ export class AppComponent implements OnInit {
     this.updateRouteAndLogoState();
   }
 
+  @HostListener('document:keydown.escape') onKeydownHandler() {
+    this.info.showPopover = false;
+  }
+
   /**
    * Show the info trigger after a delay, then hide if no user interaction has occurred
    */
@@ -100,6 +108,7 @@ export class AppComponent implements OnInit {
         tap(() => this.showInfo$.next(true)),
         delay(DEFAULT_INFO_EXIT_DELAY),
         tap(() => this.showInfo$.next(false)),
+        takeUntil(this.userHasInteractedWithInfoPanel$.pipe(skip(1))),
       )
       .subscribe();
   }
