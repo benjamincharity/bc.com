@@ -44,7 +44,7 @@
     will-change: transform;
 
     &-link {
-      &:focus {
+      &:focus-visible {
         outline: 4px dashed var(--app-link-color);
         outline-offset: 0;
       }
