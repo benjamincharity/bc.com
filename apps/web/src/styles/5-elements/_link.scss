@@ -18,7 +18,7 @@
   }
 
   &.is-active,
-  &:focus {
+  &:focus-visible {
     outline: 2px dashed var(--app-link-color);
     outline-offset: 3px;
   }
@@ -47,7 +47,7 @@
 
   &:focus,
   &:hover {
-    // NOTE: This property is dynamically set
+    // NOTE: This property is set dynamically
     background-image: var(--o-squiggle-link-backgroundImage);
     background-position: 0 100%;
     background-size: auto 6px;

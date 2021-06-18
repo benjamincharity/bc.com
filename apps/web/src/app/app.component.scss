@@ -119,7 +119,7 @@ bc-root {
     max-height: 100px;
 
     .o-sliding-background-link {
-      &:focus {
+      &:focus-visible {
         outline: 8px dashed var(--app-color-accent-1);
         outline-offset: 14px;
       }
