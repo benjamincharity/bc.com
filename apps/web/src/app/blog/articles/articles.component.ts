@@ -13,7 +13,7 @@ import { ScullyRoutesService } from '@scullyio/ng-lib';
 import { fadeInUpOnEnterAnimation } from 'angular-animations';
 import { MetafrenzyService } from 'ngx-metafrenzy';
 import { BehaviorSubject } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { filter, tap } from 'rxjs/operators';
 
 import { buildCanonicalUrl } from '../../app-routing.module';
 import {
@@ -60,7 +60,9 @@ export function pluckTagFromUrl(url: string): string {
 export class ArticlesComponent implements OnInit {
   readonly skeletonCount = new Array(3);
   readonly skeletonSizes: SkeletonInstanceThemeObject = skeletonArticleListingSizes;
-  allArticles$ = this.scullyService.visibleArticles$;
+  allArticles$ = this.scullyService.visibleArticles$.pipe(
+    tap((v) => console.log(v)),
+  );
   allTags$: BehaviorSubject<readonly ArticleTags[]> = this.scullyService
     .allTags$;
   currentTag$ = new BehaviorSubject<ArticleTags | null>(null);

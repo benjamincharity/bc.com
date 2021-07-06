@@ -1,0 +1,32 @@
+.article-dates {
+  --article-dates-paddingTop: 0.4em;
+  --article-dates-fontFamily: var(--font-stack-monospaced);
+  --articles-dates-fontSize: 10px;
+  --articles-dates-color: var(--app-color-grey);
+  --articles-dates-time-borderRadius: 2px;
+
+  color: var(--articles-dates-color);
+  display: block;
+  font-family: var(--article-dates-fontFamily);
+  font-size: var(--articles-dates-fontSize);
+  font-style: italic;
+  font-weight: normal;
+  letter-spacing: initial;
+  padding: var(--article-dates-paddingTop) 0;
+  transition: opacity 200ms ease-out;
+
+  &__item {
+    display: inline-block;
+    line-height: 1.2em;
+
+    &:not(:last-of-type) {
+      margin-right: 1em;
+
+      &::after {
+        content: '•';
+        display: inline-block;
+        margin-left: 1em;
+      }
+    }
+  }
+}

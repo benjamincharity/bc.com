@@ -62,7 +62,7 @@ have. Next we need the `content-encoding` key. Add the value `gzip`.
 
 That's it! Your files should now load correctly and happiness will flow over the earth.
 
-##### references
+##### References
 
 [1]: Yeah, I know this is probably not true. But I was frustrated, so let me be dramatic. [Original StackOverflow 
 Question][so-question]

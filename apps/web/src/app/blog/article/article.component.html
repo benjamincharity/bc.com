@@ -12,6 +12,11 @@
     @fadeInUpOnEnter
     @fadeOutDownOnLeave
   >
+    <bc-article-dates
+      [publishDate]="metadata.publishDate"
+      [lastUpdatedDate]="metadata.lastUpdatedDate"
+    ></bc-article-dates>
+
     <scully-content></scully-content>
   </div>
 

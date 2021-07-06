@@ -27,6 +27,7 @@ export enum ArticleTags {
 export interface ArticleRoute extends ScullyRoute {
   titleTrimmed: string;
   titleTail: string;
+  lastUpdatedDate: string;
 }
 
 /**

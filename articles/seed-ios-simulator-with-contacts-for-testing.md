@@ -35,12 +35,12 @@ Here is the [template][template] I used:
 <script src="https://gist.github.com/benjamincharity/c295aea01a74b036fec0.js"></script>
 
 I won't dive into the template here. If you are curious about the structure of the object, check out Adam's article 
-(linked above). Also, the custom tags are well explained by the help section on the JSON Generator website.
+(linked above). Also, the custom tags are explained by the help section on the JSON Generator website.
 
 The primary changes between Adam's template and my own is:
 
-1. All phone numbers are 'fake' e.g. (638) 555-8374
-2. All emails are 'fake' e.g. user@gmail9999.com
+1. All phone numbers are 'fake' e.g., (638) 555-8374
+2. All emails are 'fake' e.g., user@gmail9999.com
 3. `n.families` & `n.givens` are strings rather than arrays
 
 > Note: There seems to be a limit of about 100 that the generator will output in one run, so I had to run it several 
