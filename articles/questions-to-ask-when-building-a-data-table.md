@@ -8,7 +8,7 @@ tags:
     - ui
     - design
 published: true
-publishDate: '2021-06-17'
+publishDate: 2021-06-17
 ---
 
 # Questions to ask when building a data-table

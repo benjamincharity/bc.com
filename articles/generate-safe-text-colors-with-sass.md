@@ -4,7 +4,7 @@ description: Learn how to dynamically generate a safe text color based on the ba
 tags: [sass, css]
 published: true
 publishDate: 2014-01-21
-previousUrl: https://blog.benjamincharity.com/generate-safe-text-colors-with-sass/
+lastUpdatedDate: 2014-01-21
 ---
 
 # Generate Safe Text Colors with Sass

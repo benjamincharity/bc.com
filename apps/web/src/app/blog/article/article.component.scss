@@ -53,6 +53,7 @@ bc-article {
 // Styles for article markdown content
 .article__content {
   --content-lineHeight: 1.4em;
+  --article-dates-paddingTop: 0;
   margin-bottom: 1rem;
 
   h1:first-of-type {

@@ -58,6 +58,10 @@
           >[{{ article.readingTime | number: '1.0-0' }}min]</span
         >
       </div>
+      <bc-article-dates
+        [publishDate]="article.publishDate"
+        [lastUpdatedDate]="article.lastUpdatedDate"
+      ></bc-article-dates>
     </li>
   </ul>
 </section>

@@ -20,6 +20,7 @@ import { HomeComponent } from './home/home.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { InfoComponent } from './shared/info/info.component';
 import { KonamiDirective } from './shared/konami/konami.directive';
+import { ArticleDatesComponent } from './blog/article-dates/article-dates.component';
 
 @NgModule({
   imports: [
@@ -47,6 +48,7 @@ import { KonamiDirective } from './shared/konami/konami.directive';
     KonamiDirective,
     NotFoundComponent,
     TagLinksComponent,
+    ArticleDatesComponent,
   ],
   providers: [{ provide: APP_BASE_HREF, useValue: '/' }],
   bootstrap: [AppComponent],

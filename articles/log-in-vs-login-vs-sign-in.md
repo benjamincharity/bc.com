@@ -4,6 +4,7 @@ description: A short look at the terminology around sign-ups and logging in and 
 tags: [ux, ui]
 published: true
 publishDate: 2016-02-13
+lastUpdatedDate: 2021-05-22
 previousUrl: https://blog.benjamincharity.com/log-in-vs-login-vs-sign-in/
 ---
 

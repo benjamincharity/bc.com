@@ -1,9 +1,10 @@
 ---
 title: Ever Wondered Where the Title UX Originated?
-description: The term UX was coined by Donald Norman during his time at Apple in the 90s.
+description: Donald Norman coined the term 'UX' during his time at Apple in the 90s.
 tags: [ux]
 published: true
 publishDate: 2014-02-26
+lastUpdatedDate: 2021-05-31
 previousUrl: https://blog.benjamincharity.com/ever-wondered-where-the-title-ux-originated/
 ---
 

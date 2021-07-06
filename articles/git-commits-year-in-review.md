@@ -69,7 +69,7 @@ convert -quality 100 -delay 30 *.jpg _myMovieName.mp4
 ```
 
 This will run a [conversion][4] with the quality set to 100 with a [delay of 30 ticks per second][5] between each 
-image. Every JPG in the current directory will be used and the output file will be saved in the same directory with 
+image. Every JPG in the current directory will be used, and the output file will be saved in the same directory with 
 the name `_movie.mp4`.
 
 **Note:** In my own tests the video always seems to have a render error about 4/5 of the way through. I've tried 

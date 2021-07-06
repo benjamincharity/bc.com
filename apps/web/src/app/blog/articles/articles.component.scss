@@ -43,6 +43,13 @@
     padding: 0.2em 0;
     will-change: transform;
 
+    &:focus,
+    &:hover {
+      .articles__listing-dates {
+        opacity: 1;
+      }
+    }
+
     &-link {
       &:focus-visible {
         outline: 4px dashed var(--app-link-color);
