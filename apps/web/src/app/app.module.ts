@@ -12,6 +12,7 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { ArticleDatesComponent } from './blog/article-dates/article-dates.component';
 import { ArticleComponent } from './blog/article/article.component';
 import { ArticlesComponent } from './blog/articles/articles.component';
 import { TagLinksComponent } from './blog/tag-links/tag-links.component';
@@ -20,7 +21,6 @@ import { HomeComponent } from './home/home.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { InfoComponent } from './shared/info/info.component';
 import { KonamiDirective } from './shared/konami/konami.directive';
-import { ArticleDatesComponent } from './blog/article-dates/article-dates.component';
 
 @NgModule({
   imports: [

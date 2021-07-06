@@ -1,6 +1,5 @@
 import { isPlatformBrowser } from '@angular/common';
-import { Injectable, Inject } from '@angular/core';
-import { PLATFORM_ID } from '@angular/core';
+import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 
 // Base
 import 'clipboard';
