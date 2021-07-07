@@ -28,7 +28,7 @@
     "help": "nx help",
     "scully": "npx scully --",
     "scully:serve": "npx scully serve --",
-    "jam-it": "ng build && npm run scully -- --scanRoutes && npm run scully serve",
+    "jam-it": "ng build && yarn run scully -- --scanRoutes && yarn run scully serve",
     "deploy": "nx build web --prod && npx scully --scan --prod",
     "new-post": "ng generate @scullyio/init:post --target='articles' --metaDataFile='tools/articles.template.yaml'"
   },

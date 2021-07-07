@@ -128,4 +128,28 @@ bc-article {
       transform: rotate(45deg);
     }
   }
+
+  // Overwrite default styles for code toolbar
+  // NOTE: Needed for specificity
+  div.code-toolbar {
+    .toolbar {
+      right: 0.3em;
+      top: 0;
+
+      > .toolbar-item {
+        > button {
+          background-color: var(--highlight-color-1);
+          border-radius: 2px;
+          box-shadow: none;
+          color: var(--app-color-light);
+          cursor: pointer;
+          font-family: var(--font-stack-monospaced);
+          font-size: 10px;
+          padding: 0.2em 0.6em;
+          text-shadow: rgba(black, 0.5);
+          text-transform: uppercase;
+        }
+      }
+    }
+  }
 }
