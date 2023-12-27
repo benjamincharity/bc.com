@@ -1,42 +1,18 @@
-# See http://help.github.com/ignore-files/ for more about ignoring files.
+node_modules
 
-# compiled output
-/dist
-/tmp
-/out-tsc
+.cache
+.env
+.vercel
+.output
 
-# dependencies
-/node_modules
+/build/
+/public/build
+/api/index.js
+/api/index.js.map
+/api/_assets
+/app/tailwind.css
 
-# IDEs and editors
-/.idea
-.project
-.classpath
-.c9/
-*.launch
-.settings/
-*.sublime-workspace
-
-# IDE - VSCode
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
-
-# misc
-/.sass-cache
-/connect.lock
-/coverage
-/libpeerconnection.log
-npm-debug.log
-yarn-error.log
-testem.log
-/typings
-
-# System Files
 .DS_Store
-Thumbs.db
-
-# Local Netlify folder
-.netlify
+/test-results/
+/playwright-report/
+/playwright/.cache/
