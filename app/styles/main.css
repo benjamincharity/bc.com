@@ -58,13 +58,11 @@
   --title-transition-duration-fast: 50ms;
   --title-transition-duration: 200ms;
 
-  :root {
     --global-zindex-popover: 504;
     --global-zindex-header: 503;
     --global-zindex-info: 502;
     --global-zindex-page: 501;
     --global-zindex-site-background: 500;
-  }
 }
 
 body {

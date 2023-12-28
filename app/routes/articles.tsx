@@ -12,20 +12,20 @@ import { siteMetadata } from "~/siteMetadata";
 import type { Frontmatter } from "~/utils/articles.server";
 import { ARTICLES } from "~/utils/articles.server";
 
-export const meta: MetaFunction = ({ data }) => {
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
   const { title, summary, image } = data.attributes;
   const articleImage = `${siteMetadata.url}${image}`;
 
-  return {
-    title: title,
-    description: summary,
-    "og:title": title,
-    "og:description": summary,
-    "og:image": articleImage,
-    "twitter:title": title,
-    "twitter:description": summary,
-    "twitter:image": articleImage,
-  };
+  return [
+    { name: "title", content: title },
+    { name: "description", content: summary },
+    { property: "og:title", content: title },
+    { property: "og:description", content: summary },
+    { property: "og:image", content: articleImage },
+    { name: "twitter:title", content: title },
+    { name: "twitter:description", content: summary },
+    { name: "twitter:image", content: articleImage }
+  ];
 };
 
 export const links: LinksFunction = () => {
@@ -65,8 +65,12 @@ export const loader: LoaderFunction = ({ request }) => {
   return json(article);
 };
 
+// eslint-disable-next-line
+type FixMeLater = any;
+
 export default function Articles() {
-  const article = useLoaderData();
+  // TODO: Fix any
+  const article:FixMeLater = useLoaderData();
   const { title, summary, date, lastmod, image } = article.attributes;
   const articleImage = `${siteMetadata.url}${image}`;
 

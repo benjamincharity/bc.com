@@ -27,24 +27,26 @@ export const links: LinksFunction = () => {
   ];
 };
 
-export const meta: MetaFunction = ({ location }) => ({
-  charset: "utf-8",
-  title: siteMetadata.title,
-  description: siteMetadata.description,
-  viewport: "width=device-width,initial-scale=1",
-  robots: "index, follow",
-  "og:url": `${siteMetadata.url}${location.pathname}`,
-  "og:type": "website",
-  "og:site_name": siteMetadata.title,
-  "og:title": siteMetadata.title,
-  "og:description": siteMetadata.description,
-  "og:image": siteMetadata.image,
-  "twitter:card": "summary",
-  "twitter:site": `@${siteMetadata.twitter}`,
-  "twitter:title": siteMetadata.title,
-  "twitter:description": siteMetadata.description,
-  "twitter:image": siteMetadata.image,
-});
+export const meta: MetaFunction = ({ location }) => {
+  return [
+    { charset: "utf-8" },
+    { title: siteMetadata.title },
+    { name: "description", content: siteMetadata.description },
+    { name: "viewport", content: "width=device-width,initial-scale=1" },
+    { name: "robots", content: "index, follow" },
+    { property: "og:url", content: `${siteMetadata.url}${location.pathname}` },
+    { property: "og:type", content: "website" },
+    { property: "og:site_name", content: siteMetadata.title },
+    { property: "og:title", content: siteMetadata.title },
+    { property: "og:description", content: siteMetadata.description },
+    { property: "og:image", content: siteMetadata.image },
+    { name: "twitter:card", content: "summary" },
+    { name: "twitter:site", content: `@${siteMetadata.twitter}` },
+    { name: "twitter:title", content: siteMetadata.title },
+    { name: "twitter:description", content: siteMetadata.description },
+    { name: "twitter:image", content: siteMetadata.image },
+  ];
+};
 
 export default function App() {
   useEffect(() => {

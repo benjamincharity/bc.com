@@ -1,8 +1,7 @@
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import type { Frontmatter } from "~/utils/articles.server";
-import { filterArticlesByTitle } from "~/utils/articles.server";
-import { getArticlesSortedByDate } from "~/utils/articles.server";
+import { filterArticlesByTitle, getArticlesSortedByDate } from "~/utils/articles.server";
 import { ArticlesList } from "~/components/ArticlesList";
 import { getPagingData } from "~/utils/paging.server";
 import { SearchForm } from "~/components/SearchForm";

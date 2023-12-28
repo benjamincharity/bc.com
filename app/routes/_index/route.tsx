@@ -5,6 +5,7 @@ import type { InteractiveCanvasRefType } from "~/components/InteractiveCanvas/In
 import InteractiveCanvas from "~/components/InteractiveCanvas/InteractiveCanvas";
 import type { Palette } from "~/components/InteractiveCanvas/palettes.data";
 import { PALETTES } from "~/components/InteractiveCanvas/palettes.data";
+import { ClientOnly } from "~/components/ClientOnly";
 
 const DEFAULT_INFO_INTRO_DELAY = 7000;
 const DEFAULT_INFO_EXIT_DELAY = DEFAULT_INFO_INTRO_DELAY * 2;
@@ -56,43 +57,43 @@ export default function Index() {
     setLogoState(localDetermination ? LogoStates.DEFAULT : LogoStates.SHRUNK);
   }, []);
 
-  useEffect(() => {
-    const onKeydownHandler = (event: KeyboardEvent) => {
-      if (event.key === "Escape" && infoRef.current) {
-        // infoRef.current.showPopover = false;
-      }
-    };
+  // useEffect(() => {
+  //   const onKeydownHandler = (event: KeyboardEvent) => {
+  //     if (event.key === "Escape" && infoRef.current) {
+  //       // infoRef.current.showPopover = false;
+  //     }
+  //   };
+  //
+  //   document.addEventListener("keydown", onKeydownHandler);
+  //
+  //   return () => {
+  //     document.removeEventListener("keydown", onKeydownHandler);
+  //   };
+  // }, []);
 
-    document.addEventListener("keydown", onKeydownHandler);
-
-    return () => {
-      document.removeEventListener("keydown", onKeydownHandler);
-    };
-  }, []);
-
-  useEffect(() => {
-    const showThenHideInfo = () => {
-      const infoTimer = setTimeout(() => {
-        if (shouldShowBackground) {
-          setShowInfo(true);
-
-          const hideInfoTimer = setTimeout(() => {
-            setShowInfo(false);
-          }, DEFAULT_INFO_EXIT_DELAY);
-
-          return () => {
-            clearTimeout(hideInfoTimer);
-          };
-        }
-      }, DEFAULT_INFO_INTRO_DELAY);
-
-      return () => {
-        clearTimeout(infoTimer);
-      };
-    };
-
-    showThenHideInfo();
-  }, [shouldShowBackground]);
+  // useEffect(() => {
+  //   const showThenHideInfo = () => {
+  //     const infoTimer = setTimeout(() => {
+  //       if (shouldShowBackground) {
+  //         setShowInfo(true);
+  //
+  //         const hideInfoTimer = setTimeout(() => {
+  //           setShowInfo(false);
+  //         }, DEFAULT_INFO_EXIT_DELAY);
+  //
+  //         return () => {
+  //           clearTimeout(hideInfoTimer);
+  //         };
+  //       }
+  //     }, DEFAULT_INFO_INTRO_DELAY);
+  //
+  //     return () => {
+  //       clearTimeout(infoTimer);
+  //     };
+  //   };
+  //
+  //   showThenHideInfo();
+  // }, [shouldShowBackground]);
 
   const setNewPaletteColors = (palette: Palette) => {
     document.documentElement.style.setProperty(
@@ -172,12 +173,13 @@ export default function Index() {
           !shouldShowBackground ? "background--hidden" : ""
         } ${partyModeEnabled ? "background--party-mode" : ""}`}
       >
-        <InteractiveCanvas
-          ref={canvasRef}
-          isDisabled={shouldBeReducedMotion}
-          palettes={palettes}
-          paletteChange={setNewPaletteColors}
-        />
+        <ClientOnly>
+          <InteractiveCanvas
+            ref={canvasRef}
+            isDisabled={shouldBeReducedMotion}
+            // paletteChange={setNewPaletteColors}
+          />
+        </ClientOnly>
         <div className="canvas-fallback"></div>
       </div>
 

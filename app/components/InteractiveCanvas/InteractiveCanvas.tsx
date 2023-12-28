@@ -4,18 +4,21 @@ import React, {
   useState,
   useCallback,
   useImperativeHandle,
-  useLayoutEffect,
 } from "react";
 import type { Palette } from "./palettes.data";
 import { Row } from "./row";
-import { InclusiveDebounce } from "~/utils/debounce";
+import { state$ } from "~/components/InteractiveCanvas/store";
+import { useDebounce } from "@uidotdev/usehooks";
 
-function isMouseEvent(event: any): event is MouseEvent {
+// TODO: STILL working on infinite loop
+// TODO: STILL working on infinite loop
+// TODO: STILL working on infinite loop
+// TODO: STILL working on infinite loop
+// TODO: STILL working on infinite loop
+// colors are present in row finally
+
+function isMouseEvent(event: MouseEvent | TouchEvent): event is MouseEvent {
   return event instanceof MouseEvent;
-}
-
-function isTouchEvent(event: any): event is TouchEvent {
-  return event instanceof TouchEvent;
 }
 
 export enum ArrowDirection {
@@ -38,10 +41,6 @@ const dummyWindow = {
   devicePixelRatio: 1,
 };
 
-function shuffle<T>(arr: T[]): T[] {
-  return arr.sort(() => Math.random() - 0.5);
-}
-
 function clamp(n: number, min: number, max: number): number {
   return Math.max(min, Math.min(n, max));
 }
@@ -49,8 +48,7 @@ function clamp(n: number, min: number, max: number): number {
 export interface InteractiveCanvasProps {
   forwardedRef?: React.Ref<InteractiveCanvasRefType>;
   isDisabled?: boolean;
-  paletteChange: (palette: Palette) => void;
-  palettes: ReadonlyArray<Palette>;
+  paletteChange?: (palette: Palette) => void;
 }
 
 export interface InteractiveCanvasRefType {
@@ -64,189 +62,226 @@ const InteractiveCanvas = React.forwardRef<
   InteractiveCanvasRefType,
   InteractiveCanvasProps
 >((props, ref) => {
-  const { palettes, isDisabled = false, paletteChange } = props;
+  const { isDisabled = false, paletteChange } = props;
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [context, setContext] = useState<CanvasRenderingContext2D | null>(null);
-  const [currentPalettes, setCurrentPalettes] = useState<
-    ReadonlyArray<Palette>
-  >([]);
-  const [dist, setDist] = useState(0);
-  const [mouseOff] = useState(-1000);
-  const [mouseX, setMouseX] = useState(mouseOff);
-  const [mouseY, setMouseY] = useState(mouseOff);
-  const [paletteNumber, setPaletteNumber] = useState(-1);
-  const [rows, setRows] = useState<Row[]>([]);
-  const [scale, setScale] = useState(1);
-  const [totalPoints, setTotalPoints] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
+  // const [context, setContext] = useState<CanvasRenderingContext2D | null>(null);
+  // const [currentPalettes, setCurrentPalettes] = useState<
+  //   ReadonlyArray<Palette>
+  // >([]);
   const localWindow = typeof window !== "undefined" ? window : dummyWindow;
+  const needsRedraw = false;
 
-  useEffect(() => {
-    const handleMove = (event: MouseEvent | TouchEvent) => {
-      const x = isMouseEvent(event)
-        ? event.pageX
-        : event.targetTouches[0].pageX;
-      const y = isMouseEvent(event)
-        ? event.pageY
-        : event.targetTouches[0].pageY;
-      setMouseX(x * scale);
-      setMouseY(y * scale);
-    };
-
-    const canvas = canvasRef.current;
-    setContext(canvas?.getContext("2d") || null);
-    setCurrentPalettes(shuffle([...palettes]));
-
-    if (!isDisabled) {
-      const handleMouseMove: EventListener = (event) => {
-        if (isMouseEvent(event)) {
-          handleMove(event);
-        }
-      };
-
-      const handleTouchMove: EventListener = (event) => {
-        if (isTouchEvent(event)) {
-          handleMove(event);
-        }
-      };
-
-      // Use the dummy window object for SSR
-      localWindow.addEventListener(
-        "mousemove",
-        handleMouseMove as EventListenerOrEventListenerObject,
-        { passive: true }
-      );
-      localWindow.addEventListener(
-        "touchmove",
-        handleTouchMove as EventListenerOrEventListenerObject,
-        { passive: true }
-      );
-
-      return () => {
-        localWindow.removeEventListener(
-          "mousemove",
-          handleMouseMove as EventListenerOrEventListenerObject
-        );
-        localWindow.removeEventListener(
-          "touchmove",
-          handleTouchMove as EventListenerOrEventListenerObject
-        );
-      };
+  const drawRows = useCallback(() => {
+    if (!needsRedraw) {
+      return;
+    }
+    const canvas = canvasRef.current!;
+    const context = canvas.getContext("2d");
+    const totalPoints = state$.totalPoints.peek();
+    if (
+      !totalPoints ||
+      !canvas ||
+      !context ||
+      !canvas.offsetWidth ||
+      !canvas.offsetHeight
+    ) {
+      return;
     }
 
-    return undefined;
-  }, [localWindow, palettes, isDisabled, scale]);
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    const rows = state$.rows.peek();
+    const dist = state$.dist.peek();
+    for (let i = rows.length; i--; ) {
+      console.log("calling row.draw: ", rows[i]);
+      rows[i].draw(
+        canvas,
+        dist,
+        state$.mouse.x.peek(),
+        state$.mouse.y.peek(),
+        totalPoints
+      );
+    }
+    state$.needsRedraw.set(false);
+  }, [needsRedraw]);
 
-  useImperativeHandle(ref, () => ({
-    canvasRef,
-    wobbleRows: (goToNextPalette = true) => {
+  // const setPalette = useCallback(
+  //   (palette: Palette) => {
+  //     const canvas = canvasRef.current;
+  //     console.log("setPalette: ", !!canvas);
+  //     if (canvas) {
+  //       const palette: Palette = PALETTES[paletteNumber] ?? PALETTES[0];
+  //       console.log("palette: ", palette[0]);
+  //       canvas.style.backgroundColor = palette[0];
+  //       for (let i = rows.length; i--; ) {
+  //         console.log("pal color: ", palette[i + 1]);
+  //         rows[rows.length - i - 1].color = palette[i + 1];
+  //       }
+  //     }
+  //   },
+  //   [paletteNumber, rows]
+  // );
+
+  // currently only called one place
+  // const resizeRows = useCallback(
+  //   (canvas: HTMLCanvasElement) => {
+  //     const currentHeight = localWindow.innerHeight;
+  //     const currentWidth = localWindow.innerWidth;
+  //     const scale = state$.scale.peek();
+  //     const rows = state$.rows.peek();
+  //     const totalPoints = state$.totalPoints.peek();
+  //     canvas.width = currentWidth * scale;
+  //     canvas.height = currentHeight * scale;
+  //     canvas.style.width = `${currentWidth}px`;
+  //     canvas.style.height = `${currentHeight}px`;
+  //     state$.totalPoints.set(
+  //       Math.round(clamp(Math.pow(Math.random() * 8, 2), 16, currentWidth / 35))
+  //     );
+  //     state$.dist.set(clamp(currentWidth / 4, 150, 200));
+  //
+  //     for (let i = rows.length; i--; ) {
+  //       rows[i].resize(totalPoints);
+  //     }
+  //     drawRows();
+  //   },
+  //   [drawRows, localWindow.innerHeight, localWindow.innerWidth]
+  // );
+
+  const handleMove = useCallback((event: MouseEvent | TouchEvent) => {
+    const x = isMouseEvent(event) ? event.pageX : event.targetTouches[0].pageX;
+    const y = isMouseEvent(event) ? event.pageY : event.targetTouches[0].pageY;
+    state$.mouse.set({ x, y });
+  }, []);
+
+  // useEffect(() => {
+  //   const canvas = canvasRef.current;
+  //   setContext(canvas?.getContext("2d") || null);
+  //   // setCurrentPalettes(shuffle([...PALETTES]));
+  // }, [localWindow, isDisabled]);
+
+  // useImperativeHandle(ref, () => ({
+  //   canvasRef,
+  //   wobbleRows: (goToNextPalette = true) => {
+  //     // const canvas = canvasRef.current;
+  //     // if (canvas) {
+  //     //   const currentHeight = localWindow.innerHeight;
+  //     //   const currentWidth = localWindow.innerWidth;
+  //     //   canvas.width = currentWidth * scale;
+  //     //   canvas.height = currentHeight * scale;
+  //     //   canvas.style.width = `${currentWidth}px`;
+  //     //   canvas.style.height = `${currentHeight}px`;
+  //     // }
+  //     // const updatedRows = [...rows];
+  //     // for (let i = updatedRows.length; i--; ) {
+  //     //   updatedRows[i].wobble(dist, totalPoints);
+  //     // }
+  //     // setRows(updatedRows);
+  //     // if (goToNextPalette) {
+  //     //   nextPalette();
+  //     // }
+  //   },
+  //   resetMousePositions: () => {
+  //     // setMouseX(mouseOff);
+  //     // setMouseY(mouseOff);
+  //   },
+  //   togglePause: () => {
+  //     // setIsPaused(!isPaused);
+  //     // if (!isPaused) {
+  //     //   update();
+  //     // }
+  //   },
+  // }));
+
+  const update = useCallback(() => {
+    state$.needsRedraw.set(true);
+    // if (!isPaused) {
+    //   requestAnimationFrame(update);
+    //   if (canvasRef.current) {
+    //     console.log("update func: calling drawRows");
+    //     drawRows();
+    //   }
+    // }
+  }, []);
+
+  const renderCanvas = useCallback(() => {
+    console.log("____________renderCanvas____________");
+    if (canvasRef.current) {
       const canvas = canvasRef.current;
-      if (canvas) {
-        const currentHeight = localWindow.innerHeight;
-        const currentWidth = localWindow.innerWidth;
-        canvas.width = currentWidth * scale;
-        canvas.height = currentHeight * scale;
-        canvas.style.width = `${currentWidth}px`;
-        canvas.style.height = `${currentHeight}px`;
-      }
-      const updatedRows = [...rows];
-      for (let i = updatedRows.length; i--; ) {
-        updatedRows[i].wobble(dist, totalPoints);
-      }
-      setRows(updatedRows);
-      if (goToNextPalette) {
-        nextPalette();
-      }
-    },
-    resetMousePositions: () => {
-      setMouseX(mouseOff);
-      setMouseY(mouseOff);
-    },
-    togglePause: () => {
-      setIsPaused(!isPaused);
-      if (!isPaused) {
-        update();
-      }
-    },
-  }));
+      const scale = state$.scale.peek();
+      const palette = state$.palette.peek();
+      const totalPoints = state$.totalPoints.peek();
+      canvas.style.backgroundColor = palette[0];
 
-  const drawRows = useCallback(
-    (canvas: HTMLCanvasElement) => {
-      if (!totalPoints) {
-        return;
-      }
+      const localRows = [4 / 5, 3 / 5, 2 / 5, 1 / 5].map((fraction, i) => {
+        const row = new Row(fraction, scale, totalPoints);
+        row.color = palette[palette.length - i - 1];
+        return row;
+      });
 
-      const context: CanvasRenderingContext2D | null = canvas.getContext("2d");
-      if (!context) {
-        return;
-      }
-      console.log("in drawRows: ", context, totalPoints);
-      context.clearRect(0, 0, canvas.width, canvas.height);
-      for (let i = rows.length; i--; ) {
-        console.log(
-          "CALLING ROW DRAW: ",
-          canvas,
-          dist,
-          mouseX,
-          mouseY,
-          totalPoints
-        );
-        rows[i].draw(canvas, dist, mouseX, mouseY, totalPoints);
-      }
-    },
-    [dist, mouseX, mouseY, rows, totalPoints]
-  );
+      state$.rows.set(localRows);
+      // resizeRows(canvas);
 
-  const handleResizeInner = useCallback(() => {
-    console.log("========= HANDLE RESIZE INNER ========");
-    const canvas = canvasRef.current;
-    const currentHeight = localWindow.innerHeight;
-    const currentWidth = localWindow.innerWidth;
-    if (canvas) {
+      // start resizeRows
+      const currentHeight = localWindow.innerHeight;
+      const currentWidth = localWindow.innerWidth;
+      const rows = state$.rows.peek();
       canvas.width = currentWidth * scale;
       canvas.height = currentHeight * scale;
       canvas.style.width = `${currentWidth}px`;
       canvas.style.height = `${currentHeight}px`;
+      state$.totalPoints.set(
+        Math.round(clamp(Math.pow(Math.random() * 8, 2), 16, currentWidth / 35))
+      );
+      state$.dist.set(clamp(currentWidth / 4, 150, 200));
+
+      for (let i = rows.length; i--; ) {
+        rows[i].resize(totalPoints);
+      }
+      drawRows();
+      // end resizeRows
+
+      // update();
     }
+  }, [drawRows, localWindow.innerHeight, localWindow.innerWidth]);
 
-    const newTotalPoints = Math.round(
-      clamp(Math.pow(Math.random() * 8, 2), 16, currentWidth / 35)
-    );
-    console.log(
-      "111 handleResize: InteractiveCanvas: newTotalPoints: ",
-      newTotalPoints,
-      totalPoints
-    );
-    setTotalPoints(newTotalPoints);
-
-    setDist(clamp(currentWidth / 4, 150, 200));
-    setRows([
-      new Row(4 / 5, scale, totalPoints),
-      new Row(3 / 5, scale, totalPoints),
-      new Row(2 / 5, scale, totalPoints),
-      new Row(1 / 5, scale, totalPoints),
-    ]);
-
-    if (canvas) {
-      drawRows(canvas);
-    }
-  }, [
-    drawRows,
-    localWindow.innerHeight,
-    localWindow.innerWidth,
-    scale,
-    totalPoints,
-  ]);
-  const debounceRef = useRef<InclusiveDebounce | null>(null);
+  const debouncedRenderCanvas = useDebounce(renderCanvas, 300);
 
   const handleResize = useCallback(() => {
-    if (debounceRef.current) {
-      console.log("in handle resize current exists");
-      debounceRef.current.run();
-    }
-  }, []);
+    debouncedRenderCanvas?.();
+  }, [debouncedRenderCanvas]);
+
+  // const handlePaletteChange = useCallback(
+  //   (newNumber: number) => {
+  //     const palette = PALETTES[newNumber] ?? PALETTES[0];
+  //     console.log("CALLING palette change");
+  //     paletteChange?.(palette);
+  //
+  //     if (canvasRef.current) {
+  //       canvasRef.current.style.backgroundColor = palette[0];
+  //       const updatedRows = [...rows];
+  //       for (let i = updatedRows.length; i--; ) {
+  //         updatedRows[updatedRows.length - i - 1].color = palette[i + 1];
+  //       }
+  //       setRows(updatedRows);
+  //     }
+  //   },
+  //   [paletteChange, rows]
+  // );
 
   useEffect(() => {
+    if (needsRedraw) {
+      requestAnimationFrame(drawRows);
+    }
+  }, [drawRows, needsRedraw]);
+
+  // INITIAL LOAD:
+  useEffect(() => {
+    state$.scale.set(localWindow.devicePixelRatio);
+
+    if (canvasRef.current) {
+      console.log("CALLING initial renderCanvas");
+      // initialize();
+      debouncedRenderCanvas?.();
+    }
     const handleWindowResize = () => {
       handleResize();
     };
@@ -257,95 +292,65 @@ const InteractiveCanvas = React.forwardRef<
     return () => {
       localWindow.removeEventListener("resize", handleWindowResize);
     };
-  }, [localWindow, handleResize]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  const handlePaletteChange = (newNumber: number) => {
-    const palette = palettes[newNumber] ?? palettes[0];
-    paletteChange(palette);
+  // NOTE: cre
+  // useEffect(() => {
+  //   if (!debounceRef.current) {
+  //     debounceRef.current = new InclusiveDebounce(() => {
+  //       const canvas = canvasRef.current;
+  //       const scale = state$.scale.peek();
+  //       const currentHeight = localWindow.innerHeight;
+  //       const currentWidth = localWindow.innerWidth;
+  //       if (canvas) {
+  //         canvas.width = currentWidth * scale;
+  //         canvas.height = currentHeight * scale;
+  //         canvas.style.width = `${currentWidth}px`;
+  //         canvas.style.height = `${currentHeight}px`;
+  //       }
+  //
+  //       const newTotalPoints = Math.round(
+  //         clamp(Math.pow(Math.random() * 8, 2), 16, currentWidth / 35)
+  //       );
+  //
+  //       state$.dist.set(clamp(currentWidth / 4, 150, 200));
+  //       state$.rows.set([
+  //         new Row(4 / 5, scale, newTotalPoints),
+  //         new Row(3 / 5, scale, newTotalPoints),
+  //         new Row(2 / 5, scale, newTotalPoints),
+  //         new Row(1 / 5, scale, newTotalPoints),
+  //       ]);
+  //       setTotalPoints(newTotalPoints);
+  //
+  //       if (canvas) {
+  //         drawRows();
+  //       }
+  //     });
+  //   }
+  // }, [
+  //   drawRows,
+  //   localWindow.innerHeight,
+  //   localWindow.innerWidth,
+  //   scale,
+  //   totalPoints,
+  // ]);
 
-    if (canvasRef.current) {
-      canvasRef.current.style.backgroundColor = palette[0];
-      const updatedRows = [...rows];
-      for (let i = updatedRows.length; i--; ) {
-        updatedRows[updatedRows.length - i - 1].color = palette[i + 1];
-      }
-      setRows(updatedRows);
-    }
-  };
-
-  const previousPalette = () => {
-    const unvalidatedNumber = paletteNumber - 1;
-    const validatedNumber =
-      unvalidatedNumber < 0 ? palettes.length : unvalidatedNumber;
-    setPaletteNumber(validatedNumber);
-    handlePaletteChange(validatedNumber);
-  };
-
-  const nextPalette = () => {
-    const unvalidatedNumber = paletteNumber + 1;
-    const validatedNumber =
-      unvalidatedNumber > palettes.length - 1 ? 0 : unvalidatedNumber;
-    setPaletteNumber(validatedNumber);
-    handlePaletteChange(validatedNumber);
-  };
-
-  const update = () => {
-    if (!isPaused) {
-      requestAnimationFrame(update);
-      if (canvasRef.current) {
-        drawRows(canvasRef.current);
-      }
-    }
-  };
-
-  useLayoutEffect(() => {
-    handleResize();
-    setScale(localWindow.devicePixelRatio);
-  }, [handleResize, localWindow.devicePixelRatio]);
-
-  useEffect(() => {
-    if (!debounceRef.current) {
-      debounceRef.current = new InclusiveDebounce(() => {
-        console.log("Debounced action performed");
-        console.log("========= HANDLE RESIZE INNER ========");
-        const canvas = canvasRef.current;
-        const currentHeight = localWindow.innerHeight;
-        const currentWidth = localWindow.innerWidth;
-        if (canvas) {
-          canvas.width = currentWidth * scale;
-          canvas.height = currentHeight * scale;
-          canvas.style.width = `${currentWidth}px`;
-          canvas.style.height = `${currentHeight}px`;
+  return (
+    <canvas
+      ref={canvasRef}
+      onMouseMove={(e) => {
+        if (!isDisabled) {
+          handleMove(e as unknown as MouseEvent);
         }
-
-        const newTotalPoints = Math.round(
-          clamp(Math.pow(Math.random() * 8, 2), 16, currentWidth / 35)
-        );
-
-        setDist(clamp(currentWidth / 4, 150, 200));
-        setRows([
-          new Row(4 / 5, scale, newTotalPoints),
-          new Row(3 / 5, scale, newTotalPoints),
-          new Row(2 / 5, scale, newTotalPoints),
-          new Row(1 / 5, scale, newTotalPoints),
-        ]);
-        setTotalPoints(newTotalPoints);
-
-        if (canvas) {
-          drawRows(canvas);
+      }}
+      onTouchMove={(e) => {
+        if (!isDisabled) {
+          handleMove(e as unknown as TouchEvent);
         }
-      });
-    }
-  }, [
-    drawRows,
-    handleResizeInner,
-    localWindow.innerHeight,
-    localWindow.innerWidth,
-    scale,
-    totalPoints,
-  ]);
-
-  return <canvas ref={canvasRef} />;
+      }}
+    />
+  );
 });
 
 export default React.memo(InteractiveCanvas);

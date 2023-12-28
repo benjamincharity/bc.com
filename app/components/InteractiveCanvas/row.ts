@@ -24,7 +24,6 @@ export class Row {
     mouseY: number,
     totalPoints: number
   ): void {
-    // TODO: Not sure why this check is necessary
     if (!this.points.length) {
       return;
     }
@@ -33,7 +32,8 @@ export class Row {
       return;
     }
     let point: Point = this.points[totalPoints - 1];
-    // console.log("Row: totalPoints: ", totalPoints);
+    // TODO: color not present here:
+    // console.log("ROW: this.color: ", this.color);
     if (this.color) {
       context.fillStyle = this.color;
     }
@@ -77,13 +77,10 @@ export class Row {
   }
 
   resize(totalPoints: number): void {
-    // console.log("resize: ", totalPoints);
     this.points = new Array(totalPoints);
-    // console.log("this.points after array: ", this.points);
     for (let i = 0; i < totalPoints; i++) {
       this.points[i] = new Point(i / (totalPoints - 3), this.y, this.scale);
     }
-    // console.log("this.points after LOOP: ", this.points);
   }
 
   wobble(dist: number, totalPoints: number): void {

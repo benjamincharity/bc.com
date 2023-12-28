@@ -13,11 +13,11 @@ interface LoaderData {
 export const meta: MetaFunction = () => {
   const title = `Tags - ${siteMetadata.author}`;
 
-  return {
-    title: title,
-    "og:title": title,
-    "twitter:title": title,
-  };
+  return [
+    { name: "title", content: title },
+    { property: "og:title", content: title },
+    { name: "twitter:title", content: title },
+  ];
 };
 
 export const loader: LoaderFunction = async () => {

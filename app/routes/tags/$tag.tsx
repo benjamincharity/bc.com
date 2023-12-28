@@ -27,14 +27,14 @@ export const meta: MetaFunction = ({ params }) => {
   const title = `${tag} - ${siteMetadata.author}`;
   const summary = `Articles about ${tag} of ${siteMetadata.author}.`;
 
-  return {
-    title: title,
-    description: summary,
-    "og:title": title,
-    "og:description": summary,
-    "twitter:title": title,
-    "twitter:description": summary,
-  };
+  return [
+    { name: "title", content: title },
+    { name: "description", content: summary },
+    { property: "og:title", content: title },
+    { property: "og:description", content: summary },
+    { name: "twitter:title", content: title },
+    { name: "twitter:description", content: summary },
+  ];
 };
 
 export const loader = async ({

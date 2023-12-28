@@ -6,14 +6,14 @@ export const meta: MetaFunction = () => {
   const title = `About - ${siteMetadata.author}`;
   const summary = `About me - ${siteMetadata.author}`;
 
-  return {
-    title: title,
-    description: summary,
-    "og:title": title,
-    "og:description": summary,
-    "twitter:title": title,
-    "twitter:description": summary,
-  };
+  return [
+    { name: "title", content: title },
+    { name: "description", content: summary },
+    { property: "og:title", content: title },
+    { property: "og:description", content: summary },
+    { name: "twitter:title", content: title },
+    { name: "twitter:description", content: summary },
+  ];
 };
 
 export default function About() {
