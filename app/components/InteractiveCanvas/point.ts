@@ -11,6 +11,7 @@ export class Point {
   vy: number;
 
   constructor(x: number, y: number, scale: number) {
+    // console.log('POINT constructor: ', x, y, scale);
     this.scale = scale;
     this.x = x;
     this.y = y;
@@ -24,7 +25,7 @@ export class Point {
     canvas: HTMLCanvasElement,
     dist: number,
     mouseX: number,
-    mouseY: number
+    mouseY: number,
   ): void {
     const damping = 0.1;
     const viscosity = 15;

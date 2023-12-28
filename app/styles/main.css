@@ -43,10 +43,10 @@
   --color-inlineCode-backgroundColor: #e4e4e4;
 
   --global-site-maxWidth: 40rem;
-  --font-stack-unicode: "VT323", monospace;
-  --font-stack-serif: "Source Serif Pro", serif;
-  --font-stack-monospaced: "Fira Code", Consolas, Monaco, "Andale Mono",
-    "Ubuntu Mono", monospace, monospace;
+  --font-stack-unicode: 'VT323', monospace;
+  --font-stack-serif: 'Source Serif Pro', serif;
+  --font-stack-monospaced: 'Fira Code', Consolas, Monaco, 'Andale Mono',
+    'Ubuntu Mono', monospace, monospace;
   --title-color: #fff;
   --title-fontSize-small: clamp(2rem, 23vw, 2rem);
   --title-fontSize: clamp(3rem, 23vw, 6rem);
@@ -58,11 +58,11 @@
   --title-transition-duration-fast: 50ms;
   --title-transition-duration: 200ms;
 
-    --global-zindex-popover: 504;
-    --global-zindex-header: 503;
-    --global-zindex-info: 502;
-    --global-zindex-page: 501;
-    --global-zindex-site-background: 500;
+  --global-zindex-popover: 504;
+  --global-zindex-header: 503;
+  --global-zindex-info: 502;
+  --global-zindex-page: 501;
+  --global-zindex-site-background: 500;
 }
 
 body {
@@ -161,7 +161,7 @@ body {
 .o-animated-link-underline::before {
   background: var(--app-link-color);
   bottom: 0;
-  content: "";
+  content: '';
   height: 1px;
   left: 0;
   opacity: 0;
@@ -195,7 +195,7 @@ body {
 .o-fancy-hr::before {
   background: var(--app-color-accent-1);
   border: 2px solid var(--app-color-accent-1);
-  content: "";
+  content: '';
   display: inline-block;
   height: 6px;
   left: 50%;
@@ -353,4 +353,11 @@ body {
 }
 .global-header__title a:any-link {
   color: inherit;
+}
+.u-pointer {
+  pointer-events: auto;
+}
+
+.u-pointer-off {
+  pointer-events: none;
 }

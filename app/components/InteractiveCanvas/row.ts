@@ -1,4 +1,4 @@
-import { Point } from "./point";
+import { Point } from './point';
 
 /**
  * An individual, horizontal strip of the canvas
@@ -13,7 +13,6 @@ export class Row {
   constructor(y: number, scale: number, totalPoints: number) {
     this.y = y;
     this.scale = scale;
-    this.points = [];
     this.resize(totalPoints);
   }
 
@@ -22,18 +21,17 @@ export class Row {
     dist: number,
     mouseX: number,
     mouseY: number,
-    totalPoints: number
+    totalPoints: number,
   ): void {
+    console.log('canvas in draw: ', canvas);
     if (!this.points.length) {
       return;
     }
-    const context: CanvasRenderingContext2D | null = canvas.getContext("2d");
+    const context: CanvasRenderingContext2D | null = canvas.getContext('2d');
     if (!context) {
       return;
     }
     let point: Point = this.points[totalPoints - 1];
-    // TODO: color not present here:
-    // console.log("ROW: this.color: ", this.color);
     if (this.color) {
       context.fillStyle = this.color;
     }
@@ -55,7 +53,7 @@ export class Row {
           cx,
           cy,
           cx,
-          cy
+          cy,
         );
         point.x = 0;
       }
@@ -66,7 +64,7 @@ export class Row {
         cx,
         cy,
         cx,
-        cy
+        cy,
       );
     }
 
@@ -83,6 +81,7 @@ export class Row {
     }
   }
 
+  // TODO: calling this makes rows disappear
   wobble(dist: number, totalPoints: number): void {
     for (let i = totalPoints - 1; i > 0; i--) {
       this.points[i].vy += (Math.random() - 0.5) * dist * 0.6;
