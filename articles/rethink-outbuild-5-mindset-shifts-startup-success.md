@@ -1,19 +1,18 @@
 ---
-title: 'Rethink to Outbuild: 5 Mindset Shifts for Smarter Startup Strategy'
-description: "Discover the critical mindset shifts every entrepreneur needs to make in the build vs. buy debate. Learn how embracing strategic laziness, valuing time, cultivating an ecosystem, prioritizing adaptability, and mastering 'good enough' can transform your startup's approach to growth and innovation. Dive into our guide and start building a smarter, more successful startup today."
+title: 'Questions to ask when building a data-table'
+description: |
+  Discover the critical mindset shifts every entrepreneur needs to make in the build vs. buy debate. Learn how embracing strategic laziness, valuing time, cultivating an ecosystem, prioritizing adaptability, and mastering 'good enough' can transform your startup's approach to growth and innovation. Dive into our guide and start building a smarter, more successful startup today.
 tags:
-  [
-    'Entrepreneurship',
-    'Startup Strategy',
-    'Business Growth',
-    'Innovation',
-    'Build vs. Buy',
-    'Time Management',
-    'Efficiency',
-    'Startup Culture',
-    'Strategic Planning',
-    'Tech Startups',
-  ]
+  - 'Entrepreneurship'
+  - 'Startup Strategy'
+  - 'Business Growth'
+  - 'Innovation'
+  - 'Build vs. Buy'
+  - 'Time Management'
+  - 'Efficiency'
+  - 'Startup Culture'
+  - 'Strategic Planning'
+  - 'Tech Startups'
 published: true
 publishDate: 2024-01-01
 ---
