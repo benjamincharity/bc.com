@@ -4,10 +4,13 @@
 /dist
 /tmp
 /out-tsc
+.cache/
+/api
+/build
+/public
 
 # dependencies
 /node_modules
-
 # IDEs and editors
 /.idea
 .project
