@@ -5,7 +5,6 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 
 export enum ArticleTags {
-  // ANGULAR = 'angular',
   ANGULARJS = 'angularjs',
   CLI = 'cli',
   CSS = 'css',
@@ -18,10 +17,17 @@ export enum ArticleTags {
   OSX = 'osx',
   S3 = 's3',
   SASS = 'sass',
+  SOFTWARE = 'software',
+  STARTUPS = 'startups',
+  STARTUP_CULTURE = 'startup-culture',
+  STRATEGIC_PLANNING = 'strategic-planning',
+  TIME_MANAGEMENT = 'time-management',
   TOOL = 'tool',
+  TOOLS = 'tools',
   UI = 'ui',
   UX = 'ux',
   VIM = 'vim',
+  WORKFLOW = 'workflow',
 }
 
 export interface ArticleRoute extends ScullyRoute {

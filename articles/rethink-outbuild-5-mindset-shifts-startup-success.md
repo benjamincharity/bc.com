@@ -3,16 +3,10 @@ title: 'Rethink to Outbuild: 5 Mindset Shifts for Startup Success in the Build v
 description: |
   Discover the critical mindset shifts every entrepreneur needs to make in the build vs. buy debate. Learn how embracing strategic laziness, valuing time, cultivating an ecosystem, prioritizing adaptability, and mastering 'good enough' can transform your startup's approach to growth and innovation.
 tags:
-  - 'Entrepreneurship'
-  - 'Startup Strategy'
-  - 'Business Growth'
-  - 'Innovation'
-  - 'Build vs. Buy'
-  - 'Time Management'
-  - 'Efficiency'
-  - 'Startup Culture'
-  - 'Strategic Planning'
-  - 'Tech Startups'
+  - 'startups'
+  - 'time-management'
+  - 'startup-culture'
+  - 'strategic-planning'
 published: true
 publishDate: 2024-01-01
 ---
