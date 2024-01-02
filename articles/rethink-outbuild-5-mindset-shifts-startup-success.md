@@ -14,7 +14,7 @@ tags:
   - 'Strategic Planning'
   - 'Tech Startups'
 published: true
-publishDate: 2024-01-02
+publishDate: 2024-01-01
 ---
 
 In the relentless drive of startup culture, the difference between thriving and surviving often boils down to how we make our choices, especially in building versus buying. This isn't just about choosing between options; it's about transforming your entire approach to ensure efficiency, creativity, and impact. Forget the old playbook of constant creation; let's explore how doing less can mean achieving more.
