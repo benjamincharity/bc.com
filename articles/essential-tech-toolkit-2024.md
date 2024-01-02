@@ -1,22 +1,20 @@
 ---
 title: "Essential Tech Toolkit for 2024: A Professional's Guide to Software & Services"
-description: |
-  Discover the top tools and services powering a tech professional's workflow in 2024. From development to design, communication to productivity, this guide unpacks a curated list of software essentials for the modern tech landscape.
-tags: [
-  "Tech Toolkit",
-  "Software Guide",
-  "Productivity Tools",
-  "2024 Technology",
-  "Software for Professionals",
-  "Development Tools",
-  "Design Software",
-  "Communication Tools",
-  "Tech Innovations",
-  "Workflow Enhancement",
-  "Tech Services"
-]
+description: "Discover the top tools and services powering a tech professional's workflow in 2024. From development to design, communication to productivity, this guide unpacks a curated list of software essentials for the modern tech landscape."
+tags:
+  - 'Tech Toolkit'
+  - 'Software Guide'
+  - 'Productivity Tools'
+  - '2024 Technology'
+  - 'Software for Professionals'
+  - 'Development Tools'
+  - 'Design Software'
+  - 'Communication Tools'
+  - 'Tech Innovations'
+  - 'Workflow Enhancement'
+  - 'Tech Services'
 published: true
-publishDate: 2024-01-08
+publishDate: 2024-01-02
 ---
 
 As 2024 unfolds, I've compiled a go-to list of the tools and services I rely on daily. Covering everything from development to design, these resources enhance my workflow and might be the next addition to your digital toolkit. Here's what's currently part of my tech routine.
@@ -88,7 +86,7 @@ As 2024 unfolds, I've compiled a go-to list of the tools and services I rely on 
 
 ### **Hardware**
 
-- **Monitor:** [Samsung](https://www.samsung.com/) Curved 49-inch - Pro tip: I’ve found that for *very* wide screens, it can help to position it a little lower than usual and then tilt it slightly up.
+- **Monitor:** [Samsung](https://www.samsung.com/) Curved 49-inch - Pro tip: I’ve found that for _very_ wide screens, it can help to position it a little lower than usual and then tilt it slightly up.
 - **Webcam:** [Insta360](https://www.insta360.com/) - I’ve tried many different webcams looking for a great picture, etc. Even so far as to buy a Canon M50 and a good lens. But none have been so easy to use as the Insta360. The tracking is a nice feature in casual settings. Whiteboard mode is excellent for remote work.
 - **Desk:** [Uplift Desk](https://www.upliftdesk.com/) - Uplift motorized standing/sitting desk with a whiteboard top. I should have done the whiteboard desk much sooner. It is very convenient.
 - **Custom actions:** [StreamDeck MK2](https://www.elgato.com/us/en/p/stream-deck-mk2-black) - Customizable LCD keys to control apps and platforms.
