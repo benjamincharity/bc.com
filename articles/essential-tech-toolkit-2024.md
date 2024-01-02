@@ -80,12 +80,6 @@ As 2024 unfolds, I've compiled a go-to list of the tools and services I rely on 
 - **Organize Everything:** [Notion](https://www.notion.so/) - Everything is here, from my pet’s vet history to lists of home service providers I use to long-term plans.
 - **Long-term Bookmark Storage:** [Pinboard](https://pinboard.in/) - A fast, no-nonsense bookmarking site.
 
-### **Things I’m Going to Stop Using**
-
-- **Window Manager:** [Rectangle](https://rectangleapp.com/) - While it is fantastic, I like the simplicity of Divvy. It is as fast to use in almost all of my use cases and only requires a single shortcut. Historically, I’ve always had a bunch of keyboard shortcuts for window management, but as my monitor continually grows, so do my desired configurations.
-- **Snippet Management:** [Cacher](https://www.cacher.io/) - As AI and intelligent autocomplete become more prevalent, I no longer use a dedicated snippet manager.
-- **Keep Computer Awake:** [KeepingYouAwake](https://keepingyouawake.app/) - Switching to Lungo since it is from the same developer as Dato.
-
 ### **Hardware**
 
 - **Monitor:** [Samsung](https://www.samsung.com/) Curved 49-inch - Pro tip: I’ve found that for _very_ wide screens, it can help to position it a little lower than usual and then tilt it slightly up.
@@ -98,5 +92,11 @@ As 2024 unfolds, I've compiled a go-to list of the tools and services I rely on 
 - **Time Tracking:** [Wakatime](https://wakatime.com/) - Helps keep track of coding time for personal insights.
 - **AI Service:** [ChatGPT](https://openai.com/) - I use this for exploring code, debugging, brainstorming, and writing.
 - **Writing Assistant:** [Grammarly](https://www.grammarly.com/) - Improves my writing across various platforms.
+
+### **Things I’m Going to Stop Using**
+
+- **Window Manager:** [Rectangle](https://rectangleapp.com/) - While it is fantastic, I like the simplicity of Divvy. It is as fast to use in almost all of my use cases and only requires a single shortcut. Historically, I’ve always had a bunch of keyboard shortcuts for window management, but as my monitor continually grows, so do my desired configurations.
+- **Snippet Management:** [Cacher](https://www.cacher.io/) - As AI and intelligent autocomplete become more prevalent, I no longer use a dedicated snippet manager.
+- **Keep Computer Awake:** [KeepingYouAwake](https://keepingyouawake.app/) - Switching to Lungo since it is from the same developer as Dato.
 
 That's the rundown of my current toolkit as we navigate the tech landscape of 2024. I hope you find some gems that fit seamlessly into your workflow or inspire a fresh approach. Here's to efficient and inspired working in the year ahead! 🍾 🚀
