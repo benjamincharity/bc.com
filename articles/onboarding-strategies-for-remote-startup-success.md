@@ -55,4 +55,6 @@ While it may not be the most conventional advice, encouraging team members to mu
 
 While most startups offer a home office stipend, go the extra mile by providing a list of useful items that existing team members have found valuable in improving their setups and processes. This proactive approach helps newcomers feel supported and well-equipped.
 
+---
+
 **Remote onboarding for early-stage software startups is a unique opportunity to make a lasting impression on new team members.** By personalizing welcome packages, fostering face-to-face communication, and setting clear boundaries, you can create an onboarding experience that sets the right tone for your company's culture and values. Remember, a well-crafted onboarding process integrates new employees efficiently and instills a sense of belonging and purpose from day one.
