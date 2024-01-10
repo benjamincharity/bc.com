@@ -84,6 +84,7 @@
       }
 
       &-tail {
+        display: inline-block;
         padding-right: 38px;
         // Set up for absolute child
         position: relative;
