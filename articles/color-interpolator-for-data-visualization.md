@@ -30,6 +30,56 @@ The color interpolator generates intermediate colors from two input colors. This
 
 The implementation involves two primary functions: `interpolateColor` and `interpolateColors`. `interpolateColor` blends two colors based on a given factor, while `interpolateColors` generates an array of colors between the two specified colors. The code snippet demonstrates the process in JavaScript, applicable for web-based data visualization.
 
+```typescript
+/**
+ * Interpolate two colors
+ *
+ * @param color1 - The starting color
+ * @param color2 - The end color
+ * @param factor - The interpolation factor (default: 0.5)
+ * @returns The interpolated color
+ */
+function interpolateColor(
+  color1: number[],
+  color2: number[],
+  factor: number = 0.5,
+): number[] {
+  if (color1.length !== color2.length) {
+    throw new Error('Color arrays must have the same length');
+  }
+
+  return color1.map((value, index) => {
+    const diff = color2[index] - value;
+    return Math.round(value + factor * diff);
+  });
+}
+```
+
+```typescript
+/**
+ * Create an array of color values between two colors
+ *
+ * @param color1 - The starting color in the format 'rgb(0, 0, 0)'
+ * @param color2 - The end color in the format 'rgb(255, 255, 255)'
+ * @param steps - The number of desired colors
+ * @returns The array of interpolated color values
+ */
+function interpolateColors(color1, color2, steps) {
+  const [r1, g1, b1] = color1.match(/\d+/g).map(Number);
+  const [r2, g2, b2] = color2.match(/\d+/g).map(Number);
+
+  const interpolatedColorArray = [];
+
+  for (let i = 0; i < steps; i++) {
+    const factor = i / (steps - 1);
+    const [r, g, b] = interpolateColor([r1, g1, b1], [r2, g2, b2], factor);
+    interpolatedColorArray.push(`rgb(${r}, ${g}, ${b})`);
+  }
+
+  return interpolatedColorArray;
+}
+```
+
 ## Usage
 
 The usage involves:
@@ -37,6 +87,12 @@ The usage involves:
 - Defining the start and end colors (`COLOR_ONE` and `COLOR_TWO`).
 - Setting the number of desired color steps (`STEPS`).
 - Applying the generated colors to HTML elements, in this case, divs within a wrapper.
+
+<iframe height="400" style="width: 100%;" scrolling="no" title="Interpolate colors" src="https://codepen.io/benjamincharity/embed/rvMYMX?default-tab=js%2Cresult" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true" data-external="1">
+  See the Pen <a href="https://codepen.io/benjamincharity/pen/rvMYMX">
+  Interpolate colors</a> by Benjamin Charity (<a href="https://codepen.io/benjamincharity">@benjamincharity</a>)
+  on <a href="https://codepen.io">CodePen</a>.
+</iframe>
 
 ---
 
