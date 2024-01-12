@@ -12,6 +12,7 @@ export function shuffle<T>(arr: T[]): T[] {
 interface StateShape {
   canvasSize: { width: number; height: number };
   dist: number;
+  isPaused: boolean;
   mouse: { x: number; y: number };
   needsRedraw: boolean;
   nextPalette(): void;
@@ -20,7 +21,8 @@ interface StateShape {
   paused: boolean;
   previousPalette(): void;
   resetMouse(): void;
-  rows: ObservableComputed<Row[]>;
+  // rows: ObservableComputed<Row[]>;
+  // rows: Row[];
   scale: number;
   totalPoints: number;
 }
@@ -28,19 +30,21 @@ interface StateShape {
 export const state$ = observable<StateShape>({
   canvasSize: { width: 0, height: 0 },
   dist: 0,
+  isPaused: false,
   palettes: shuffle([...PALETTES]),
   palette: PALETTES[0],
   mouse: { x: MOUSE_OFF, y: MOUSE_OFF },
-  rows: computed(() => {
-    const totalPoints = state$.totalPoints.get();
-    const scale: number = state$.scale.get();
-    const palette = state$.palette.get();
-    return [4 / 5, 3 / 5, 2 / 5, 1 / 5].map((fraction, i) => {
-      const row: Row = new Row(fraction, scale, totalPoints);
-      row.color = palette[palette.length - i - 1];
-      return row;
-    });
-  }),
+  // rows: [],
+  // rows: computed(() => {
+  //   const totalPoints = state$.totalPoints.get();
+  //   const scale: number = state$.scale.get();
+  //   const palette = state$.palette.get();
+  //   return [4 / 5, 3 / 5, 2 / 5, 1 / 5].map((fraction, i) => {
+  //     const row: Row = new Row(fraction, scale, totalPoints);
+  //     row.color = palette[palette.length - i - 1];
+  //     return row;
+  //   });
+  // }),
   scale: 1,
   totalPoints: 0,
   paused: false,

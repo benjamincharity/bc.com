@@ -23,7 +23,6 @@ export class Row {
     mouseY: number,
     totalPoints: number,
   ): void {
-    console.log('canvas in draw: ', canvas);
     if (!this.points.length) {
       return;
     }
@@ -32,6 +31,13 @@ export class Row {
       return;
     }
     let point: Point = this.points[totalPoints - 1];
+
+    // AT this point totalPoints is 18 but this.points is still the previous 16
+    // TODO: figure out why this is needed. Shouldn't be able to get into this state.
+    if (!point) {
+      return;
+    }
+
     if (this.color) {
       context.fillStyle = this.color;
     }
@@ -75,16 +81,15 @@ export class Row {
   }
 
   resize(totalPoints: number): void {
-    this.points = new Array(totalPoints);
-    for (let i = 0; i < totalPoints; i++) {
-      this.points[i] = new Point(i / (totalPoints - 3), this.y, this.scale);
+    this.points = [];
+    for (let i = totalPoints; i--; ) {
+      this.points.push(new Point(i / (totalPoints - 3), this.y, this.scale));
     }
   }
 
-  // TODO: calling this makes rows disappear
   wobble(dist: number, totalPoints: number): void {
     for (let i = totalPoints - 1; i > 0; i--) {
-      this.points[i].vy += (Math.random() - 0.5) * dist * 0.6;
+      this.points[i].vy += (Math.random() - 0) * dist * 0.6;
     }
   }
 }
