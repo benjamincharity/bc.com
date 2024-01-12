@@ -1,17 +1,14 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
-
 // Base
 import 'clipboard';
 import Prism from 'prismjs';
-
 // Plugins
 // Note: Toolbar must be above copy to clipboard
 import 'prismjs/plugins/toolbar/prism-toolbar';
 import 'prismjs/plugins/copy-to-clipboard/prism-copy-to-clipboard';
 import 'prismjs/plugins/diff-highlight/prism-diff-highlight';
 import 'prismjs/plugins/line-numbers/prism-line-numbers';
-
 // Styles
 import 'prismjs/components/prism-bash';
 import 'prismjs/components/prism-css';
@@ -30,7 +27,7 @@ import 'prismjs/components/prism-yaml';
 @Injectable({ providedIn: 'root' })
 export class HighlightService {
   constructor(
-    @Inject(PLATFORM_ID) private platformId: Record<string, unknown>
+    @Inject(PLATFORM_ID) private platformId: Record<string, unknown>,
   ) {}
 
   highlightAll(): void {
