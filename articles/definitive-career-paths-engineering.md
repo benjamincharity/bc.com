@@ -25,7 +25,7 @@ Implementing these dual paths becomes even more critical at a growth inflection 
 
 Supporting very senior non-managers is also crucial. Senior ICs bring invaluable knowledge and experience to the technical side of the business. By valuing these roles, **companies leverage their expertise and demonstrate to all employees that technical excellence is recognized and rewarded, independent of managerial aspirations.**
 
-![Engineering Career Paths](assets/blogs/Engineering-Career-Paths.png)
+![Engineering Career Paths](assets/blog/Engineering-Career-Paths.png)
 
 ## Tech Lead
 
