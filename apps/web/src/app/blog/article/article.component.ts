@@ -33,6 +33,7 @@ const DRAFT_METADATA = {
   title: 'Mock title',
   description:
     'Mock description Picture view field green off. Food sign less manage ago strategy.',
+  disableHighlight: false,
   tags: ['ux', 'design'],
   publishDate: '2021-03-23',
 };

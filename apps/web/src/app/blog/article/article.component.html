@@ -8,6 +8,7 @@
   </nav>
   <div
     class="article__content line-numbers"
+    [ngClass]="!!(articleMetadata$ | async)?.disableHighlight ? 'article__content--disable-highlight' : ''"
     *ngIf="articleMetadata$ | async as metadata; else loading"
     @fadeInUpOnEnter
     @fadeOutDownOnLeave
@@ -34,7 +35,7 @@
     </ng-container>
   </ng-template>
 
-  <bc-tag-links [tags]="(articleMetadata$ | async).tags" routeBase="/articles">
+  <bc-tag-links [tags]="(articleMetadata$ | async)?.tags" routeBase="/articles">
     <h6>Tags:</h6>
   </bc-tag-links>
 </article>

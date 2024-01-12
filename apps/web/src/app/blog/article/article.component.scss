@@ -130,15 +130,17 @@ bc-article {
     }
   }
 
-  strong {
-    border-radius: 1em 0 1em 0;
-    background-image: linear-gradient(
-      -100deg,
-      rgba(255, 244, 0, 0.2),
-      rgba(255, 244, 0, 0.5) 95%,
-      rgba(255, 244, 0, 0.1)
-    );
-    font-weight: 600;
+  &:not(.article__content--disable-highlight) {
+    strong {
+      border-radius: 1em 0 1em 0;
+      background-image: linear-gradient(
+        -100deg,
+        rgba(255, 244, 0, 0.2),
+        rgba(255, 244, 0, 0.5) 95%,
+        rgba(255, 244, 0, 0.1)
+      );
+      font-weight: 600;
+    }
   }
 
   iframe {
