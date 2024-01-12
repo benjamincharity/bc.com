@@ -59,11 +59,11 @@ export class ArticleComponent implements AfterViewChecked {
     this.activatedRoute.params.pipe(pluck('postId')),
     this.scully.available$,
   ]).pipe(
-    map(([postId, routes]) => {
-      return isDraft(postId)
+    map(([postId, routes]) =>
+      isDraft(postId)
         ? { ...DRAFT_METADATA }
-        : routes.find((route) => route.route === `/articles/${postId}`);
-    }),
+        : routes.find((route) => route.route === `/articles/${postId}`),
+    ),
   );
 
   constructor(
