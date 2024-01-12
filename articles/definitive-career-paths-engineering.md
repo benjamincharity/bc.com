@@ -7,6 +7,8 @@ tags:
     - process
 published: false
 publishDate: 2024-01-24T00:00:00.000Z
+slugs:
+    - ___UNPUBLISHED___lrb3bf27_ybd7IEBmCCaW7qtLWVLFtritbP2gGfZX
 ---
 
 # Engineering Career Clarity: Definitive Paths for ICs and Managers
@@ -33,12 +35,16 @@ In the engineering team structure, the Tech Lead role stands out as a unique pos
 
 A Tech Lead scales technical expertise within the team and makes independent decisions, contributing significantly to the team's and individual members' development. They actively learn to manage complex situations, balancing technical challenges with leadership responsibilities. This role is crucial for mentoring and guiding the team, bridging hands-on technical work and managerial oversight.
 
+<div class="disable-highlight">
+
 ### Tech Lead (NOT a Role)
 
 - **Technical Skill:** Scales by delegating effectively.
 - **Get Stuff Done:** Focused on the team's productivity and collective impact.
 - **Impact:** Makes independent decisions for the team and contributes to career development.
 - **Communication & Leadership:** Actively learning how to handle complex management situations.
+
+</div>
 
 ## The Individual Contributor Path
 

@@ -6,6 +6,8 @@ tags:
     - onboarding
 published: false
 publishDate: 2024-01-22T00:00:00.000Z
+slugs:
+    - ___UNPUBLISHED___lrb3bf2h_SboWPyh5mWzVytwjHe8L18hWqS5Su0AR
 ---
 
 # Navigating a New Product: A Guide for New Team Members
