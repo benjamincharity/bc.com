@@ -2,9 +2,9 @@
 title: 'Engineering Career Clarity: Definitive Paths for ICs and Managers'
 description: "Explore the importance of defining distinct career trajectories for individual contributors (ICs) and managers within engineering teams. Learn how dual career paths benefit talent management, skill utilization, retention, and organizational growth.\n"
 tags:
-  - leadership
-  - management
-  - process
+    - leadership
+    - management
+    - process
 published: false
 publishDate: 2024-01-24T00:00:00.000Z
 ---
