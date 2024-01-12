@@ -4,21 +4,19 @@ description: |
   This list of 196 questions can assist with the initial discovery phase and align the expectations of 
   all stakeholders when building a data-table.
 tags:
-    - ux
-    - ui
-    - design
+  - ux
+  - ui
+  - design
+  - planning
 published: true
 publishDate: 2021-06-17
 ---
 
 # Questions to ask when building a data-table
 
-Data tables are certainly one of the most complex UI features to implement. Because of this complexity, it is very 
-easy miss requirements and also very costly to refactor. The list of questions below has been slowly built out over 
-many years and several data-table implementations across varying companies. It is meant to assist with the initial 
-discovery phase and help to align the expectations of all stakeholders.
+Data tables are certainly one of the most complex UI features to implement. **Because of this complexity, it is very easy miss requirements and also very costly to refactor.** The list of questions below has been slowly built out over many years and several data-table implementations across varying companies. It is meant to assist with the initial discovery phase and help to align the expectations of all stakeholders.
 
-> Note: We lightly discuss the topics of searching and filtering data and keyboard controls below. They could easily 
+> Note: We lightly discuss the topics of searching and filtering data and keyboard controls below. They could easily
 > both be their own lists due to how complex each topic is.
 
 Jump to section:
@@ -69,7 +67,7 @@ Jump to section:
   - Should query results highlighted?
     - Should it be highlighted at the row level, cell level or both?
 - Can the user search for specific data?
-  - Note: We consider it a 'search' when the query requests data from the server and a 'filter' when the query 
+  - Note: We consider it a 'search' when the query requests data from the server and a 'filter' when the query
     narrows a data-set.
   - Note: See the section above 'Should the table allow filtering the data?' as most of the questions also apply here.
 - How should the data initially be sorted when the table first loads?
@@ -191,7 +189,7 @@ Jump to section:
 ## General
 
 - Should the current state be restored if the page is refreshed?
-  - State refers to sort, filter, column visibility, column order, column and row pinning, row selection, cell 
+  - State refers to sort, filter, column visibility, column order, column and row pinning, row selection, cell
     selection…
 - Should the table support sharing or bookmarking a URL to a specific filtered or sorted state?
 - Should the table support multiple display densities?
@@ -222,7 +220,7 @@ Jump to section:
 
 ---
 
-As always, I welcome any feedback, corrections, or suggestions on clarity. This is a document I personally continue 
+As always, I welcome any feedback, corrections, or suggestions on clarity. This is a document I personally continue
 to reference, and I hope it can help others as well!
 
 ---
