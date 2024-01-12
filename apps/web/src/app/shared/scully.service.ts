@@ -10,6 +10,7 @@ export enum ArticleTags {
   CSS = 'css',
   COLOR = 'color',
   COMMUNICATION = 'communication',
+  CULTURE = 'culture',
   DATA_VIZ = 'data-viz',
   DESIGN = 'design',
   GIT = 'git',
