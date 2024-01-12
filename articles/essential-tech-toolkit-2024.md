@@ -5,6 +5,7 @@ tags:
   - 'software'
   - 'tools'
   - 'workflow'
+disableHighlight: true
 published: true
 publishDate: 2024-01-02T00:00:00.000Z
 ---
@@ -34,7 +35,7 @@ As 2024 unfolds, I've compiled a go-to list of the tools and services I rely on 
 
 - **OSX and iPad Drawing:** [Mockup](https://mockup.io/) - A simple app to create mockups and wireframes.
 - **Design and Prototyping Tool:** [Figma](https://www.figma.com/) - My primary design app these days.
-- **Image Optimizer:** ImageOptim - Optimizes your images in batches by drag and drop or automation.
+- **Image Optimizer:** [ImageOptim](https://imageoptim.com/mac) - Optimizes your images in batches by drag and drop or automation.
 
 ### **General Utilities**
 
