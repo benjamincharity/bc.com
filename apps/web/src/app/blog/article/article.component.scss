@@ -67,6 +67,7 @@ bc-article {
   pre {
     background: var(--color-code-background) !important;
     box-shadow: 0 0 0 1px var(--color-code-boxShadow) !important;
+    font-size: 0.8em;
   }
 
   blockquote {
@@ -147,8 +148,6 @@ bc-article {
   // Overwrite default styles for code toolbar
   // NOTE: Needed for specificity
   div.code-toolbar {
-    font-size: 80%;
-
     .toolbar {
       right: 0.3em;
       top: 0;
