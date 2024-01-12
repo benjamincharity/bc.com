@@ -139,6 +139,6 @@ This method is particularly effective in enhancing employee satisfaction and ret
 
 Let's sum this up: Creating defined career paths for both ICs and managers in the tech field is crucial, and it’s more than just a smart strategy. It's critical for any tech company aspiring to grow and innovate. It is a practical tool for developing talent and sparking new ideas. Look at industry leaders like Salesforce and Bain & Company — their success isn't just luck but a testament to the effectiveness of well-planned career trajectories. Let’s take these insights, set our teams on these paths, and prepare to see impressive results. Here’s to shaping careers as ambitious and forward-thinking as the technology we love!
 
-# Further Reading
+## Further Reading
 
 - https://www.adeccogroup.com/future-of-work/latest-insights/the-importance-of-career-progression-in-retaining-talent/
