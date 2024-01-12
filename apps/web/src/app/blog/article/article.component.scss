@@ -140,9 +140,15 @@ bc-article {
     font-weight: 600;
   }
 
+  iframe {
+    margin-top: 16px;
+  }
+
   // Overwrite default styles for code toolbar
   // NOTE: Needed for specificity
   div.code-toolbar {
+    font-size: 80%;
+
     .toolbar {
       right: 0.3em;
       top: 0;
