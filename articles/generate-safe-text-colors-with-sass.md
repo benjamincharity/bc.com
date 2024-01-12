@@ -1,7 +1,7 @@
 ---
 title: Generate Safe Text Colors with Sass
 description: Learn how to dynamically generate a safe text color based on the background color with Sass.
-tags: [sass, css]
+tags: [sass, css, color]
 published: true
 publishDate: 2014-01-21
 lastUpdatedDate: 2014-01-21
@@ -70,24 +70,24 @@ $lightness-bound: 70 !global;
 }
 ```
 
-<small>**Note:** the `!global` declaration is new as of Sass 3.3. Simply remove this declaration if you are on an 
+<small>**Note:** the `!global` declaration is new as of Sass 3.3. Simply remove this declaration if you are on an
 earlier version of Sass.</small>
 
 ### Wwwwomp #2.
 
-What if the user sets the initial color to yellow? While true yellow is below our threshold for lightness (yellow 
-comes in at 50% lightness), a lighter text will still be incredibly hard to read. Yes, we all hope they don't use 
+What if the user sets the initial color to yellow? While true yellow is below our threshold for lightness (yellow
+comes in at 50% lightness), a lighter text will still be incredibly hard to read. Yes, we all hope they don't use
 bright yellow...but, we both know _someone_ will.
 
 After trying color after color I came up with what I call [The Danger Zone][dangerzone] of the HSL color space.
 
 ![The danger zone of the HSL color space][hsl]
 
-Lightness is defined on a vertical scale from 0 to 100 while Hue is defined on a horizontal scale from 0<sup>o</sup> 
+Lightness is defined on a vertical scale from 0 to 100 while Hue is defined on a horizontal scale from 0<sup>o</sup>
 to 360<sup>o</sup>.
 
-We need to know when a color lands in this 'danger zone' and when it doesn't. When the initial color is within the 
-danger zone we will darken the text color, and when the initial color is not in the danger zone we will lighten the 
+We need to know when a color lands in this 'danger zone' and when it doesn't. When the initial color is within the
+danger zone we will darken the text color, and when the initial color is not in the danger zone we will lighten the
 text color.
 
 ```scss
