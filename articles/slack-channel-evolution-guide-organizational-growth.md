@@ -7,8 +7,6 @@ tags:
   - management
 published: false
 publishDate: 2024-01-15T00:00:00.000Z
-slugs:
-  - ___UNPUBLISHED___lravax2v_OkijWM9BLBhNnKyuSfezyWOgiomsq9P7
 ---
 
 # Slack Channel Evolution: A Guide for Organizational Growth
@@ -66,13 +64,13 @@ Consider using an asynchronous check-in process. If we don't have a dedicated to
 
 _50-300 people_
 
-DevOps is evolving into a distinct entity as we progress, prompting us to separate it from the Engineering channel. Similarly, we're detaching Design from the Product channel. The product will continue to focus on high-level matters and important updates while the more tactical aspects shift to Design.
+DevOps is evolving into a distinct entity as we progress, prompting us to separate it from the Engineering channel. Similarly, we're detaching Design from the Product channel. **The product will continue to focus on high-level matters and important updates while the more tactical aspects shift to Design.**
 
 Along this journey, we'll reach a point where introducing regional channels becomes valuable. This necessity varies, as a company with 50 employees across three cities may find it helpful, whereas one spread across 30+ cities might not.
 
-During this stage, we'll also need to refine departmental conversations, enabling the introduction of team and guild channels. While guild and department channels overlap, guild channels are dedicated to discussing the guild's activities. Therefore, while product design and organization discussions occur in the department-design channel, designers can connect with peers across teams and projects, facilitating knowledge sharing and collaboration.
+During this stage, we'll also need to refine departmental conversations, enabling the introduction of team and guild channels. While guild and department channels overlap, guild channels discuss the guild's activities. Therefore, while product design and organization discussions occur in the department-design channel, designers can connect with peers across teams and projects, facilitating knowledge sharing and collaboration.
 
-As we move forward, the need for dedicated IT support arises, leading us to create a dedicated channel. Integrating your knowledge base with Slack would be highly beneficial at this stage if not already implemented.
+As we move forward, the need for dedicated IT support arises, leading us to create a dedicated channel. Integrating your knowledge base with Slack would be highly beneficial if you still need to implement it.
 
 - Channels
   - `#dept-dev-ops` - Split from engineering.
@@ -84,9 +82,9 @@ As we move forward, the need for dedicated IT support arises, leading us to crea
 
 ## Expansion
 
-_♾️ people_
+_♾️_
 
-During the Expansion stage, the primary structural foundation has been laid, and the emphasis now lies on extending operations and capabilities within the established framework. It marks a phase where the organization seeks to maximize its potential and grow effectively. This stage is characterized by a concerted effort to harness the existing structure for expansion and development.
+During the Expansion stage, the primary structural foundation has been laid, and the emphasis now lies on extending operations and capabilities within the established framework. **It marks a phase where the organization seeks to maximize its potential and grow effectively.** This stage is characterized by a concerted effort to harness the existing structure for expansion and development.
 
 ## Bonus
 
@@ -94,4 +92,4 @@ Adding custom emojis and GIFs can be a game-changer for building a vibrant compa
 
 ---
 
-As we conclude this discussion, it's crucial to highlight a key point: while our structured approach to organization may seem ambitious early on, it's a strategic investment in our long-term success. Questions about our organizational structure and channel management aren't just recurring; they're fundamental to our journey toward growth and excellence. By establishing a solid foundation now, **we're not merely organizing for the present but laying the groundwork for our future, enabling us to concentrate on what truly matters—innovation**, execution, and delivering value to our customers. Just like a sturdy tree, our strength doesn't only come from visible branches but from deep and robust roots. Let's nurture these roots, empowering ourselves to reach new heights and unlock our full potential as senior leaders.
+As we conclude this discussion, it's crucial to highlight a key point: while our structured approach to organization may seem ambitious early on, it's a strategic investment in our long-term success. **Questions about our organizational structure and channel management aren't just recurring; they're fundamental to our journey toward growth and excellence.** By establishing a solid foundation now, we're not merely organizing for the present but laying the groundwork for our future, enabling us to concentrate on what truly matters—innovation, execution, and delivering value to our customers. Just like a sturdy tree, our strength doesn't only come from visible branches but from deep and robust roots. Let's nurture these roots, empowering ourselves to reach new heights and unlock our full potential as senior leaders.
