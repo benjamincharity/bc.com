@@ -2,13 +2,13 @@
 title: 'Engineering Career Clarity: Definitive Paths for ICs and Managers'
 description: "Explore the importance of defining distinct career trajectories for individual contributors (ICs) and managers within engineering teams. Learn how dual career paths benefit talent management, skill utilization, retention, and organizational growth.\n"
 tags:
-    - leadership
-    - management
-    - process
+  - leadership
+  - management
+  - process
 published: false
 publishDate: 2024-01-24T00:00:00.000Z
 slugs:
-    - ___UNPUBLISHED___lrb3bf27_ybd7IEBmCCaW7qtLWVLFtritbP2gGfZX
+  - ___UNPUBLISHED___lrb3bf27_ybd7IEBmCCaW7qtLWVLFtritbP2gGfZX
 ---
 
 # Engineering Career Clarity: Definitive Paths for ICs and Managers
@@ -99,7 +99,7 @@ In engineering, the individual contributor (IC) track offers a distinct and impa
 
 ## The Manager Path
 
-The managerial track is a distinct career path focusing on leadership, team productivity, and strategic decision-making. This path is tailored for those who excel in guiding teams, managing projects, and aligning technological efforts with overarching business goals. Let's explore the various stages of the managerial track, detailing the evolution of responsibilities, skills, and leadership roles from Tech Lead to Chief Technology Officer (CTO).
+The managerial track is a distinct career path focusing on leadership, team productivity, and strategic decision-making. **This path is tailored for those who excel in guiding teams, managing projects, and aligning technological efforts with overarching business goals.** Let's explore the various stages of the managerial track, detailing the evolution of responsibilities, skills, and leadership roles from Tech Lead to Chief Technology Officer (CTO).
 
 ### Engineering Lead
 

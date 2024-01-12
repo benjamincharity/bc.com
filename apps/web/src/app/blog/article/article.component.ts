@@ -30,13 +30,17 @@ import {
 
 const DRAFT_KEY = `___UNPUBLISHED___`;
 const DRAFT_METADATA = {
-  title: 'Mock title',
+  title: 'Can you punch up the fun level on these icons?',
   description:
-    'Mock description Picture view field green off. Food sign less manage ago strategy.',
+    'Make the font bigger could you move it a tad to the left, and we are your relatives can you make it faster?, but we need to make the new version clean and sexy. Im not sure, try something else. This looks perfect.',
   disableHighlight: false,
-  tags: ['ux', 'design'],
+  tags: ['ux', 'design', 'javascript'],
   publishDate: '2021-03-23',
 };
+function isDraft(postId: string): boolean {
+  const draftRegex = new RegExp(DRAFT_KEY, 'i');
+  return draftRegex.test(postId);
+}
 
 @Component({
   selector: 'bc-article',
@@ -55,11 +59,11 @@ export class ArticleComponent implements AfterViewChecked {
     this.activatedRoute.params.pipe(pluck('postId')),
     this.scully.available$,
   ]).pipe(
-    map(([postId, routes]) =>
-      postId.includes(DRAFT_KEY)
+    map(([postId, routes]) => {
+      return isDraft(postId)
         ? { ...DRAFT_METADATA }
-        : routes.find((route) => route.route === `/articles/${postId}`),
-    ),
+        : routes.find((route) => route.route === `/articles/${postId}`);
+    }),
   );
 
   constructor(
