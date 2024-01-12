@@ -2,9 +2,9 @@
 title: 'Slack Channel Evolution: A Guide for Organizational Growth'
 description: "Discover a practical roadmap for Slack channel organization to facilitate seamless company growth. Learn when and how to create channels that align with your evolving organizational needs, ensuring efficient communication and collaboration as your team expands.\n"
 tags:
-  - communication
-  - startup
-  - management
+    - communication
+    - startup
+    - management
 published: false
 publishDate: 2024-01-15T00:00:00.000Z
 ---

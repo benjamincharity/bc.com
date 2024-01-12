@@ -2,10 +2,10 @@
 title: 'Thriving Beyond the Walls: Enhancing Team Connectivity and Engagement in Remote Work'
 description: "Discover key strategies to create a cohesive and engaged remote workforce. This guide covers balancing in-person and remote interactions, enhancing structured communication, and ensuring transparent career growth. Learn how to foster a diverse, continuously evolving remote work environment.\n"
 tags:
-  - culture
-  - startups
-  - process
-  - remote
+    - culture
+    - startups
+    - process
+    - remote
 published: false
 publishDate: 2024-01-17T00:00:00.000Z
 ---
