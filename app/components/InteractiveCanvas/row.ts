@@ -7,6 +7,7 @@ export class Row {
   color: string | undefined;
   points: Point[] = [];
   scale: number;
+  totalPoints = 0;
   // The y-axis of the row
   y: number;
 
@@ -21,7 +22,6 @@ export class Row {
     dist: number,
     mouseX: number,
     mouseY: number,
-    totalPoints: number,
   ): void {
     if (!this.points.length) {
       return;
@@ -30,7 +30,7 @@ export class Row {
     if (!context) {
       return;
     }
-    let point: Point = this.points[totalPoints - 1];
+    let point: Point = this.points[this.totalPoints - 1];
 
     // AT this point totalPoints is 18 but this.points is still the previous 16
     // TODO: figure out why this is needed. Shouldn't be able to get into this state.
@@ -44,7 +44,7 @@ export class Row {
     context.beginPath();
     context.moveTo(point.x * canvas.width, point.y * canvas.height);
 
-    for (let i = totalPoints - 1; i > 0; i--) {
+    for (let i = this.totalPoints - 1; i > 0; i--) {
       point = this.points[i];
       point.move(canvas, dist, mouseX, mouseY);
       let cx = ((point.x + this.points[i - 1].x) / 2) * canvas.width;
@@ -52,7 +52,7 @@ export class Row {
 
       if (i === 1) {
         cx = canvas.width;
-      } else if (i === totalPoints - 1) {
+      } else if (i === this.totalPoints - 1) {
         context.bezierCurveTo(
           point.x * canvas.width,
           point.y * canvas.height,
@@ -85,11 +85,12 @@ export class Row {
     for (let i = totalPoints; i--; ) {
       this.points.push(new Point(i / (totalPoints - 3), this.y, this.scale));
     }
+    this.totalPoints = this.points.length; // Update totalPoints
   }
 
   wobble(dist: number, totalPoints: number): void {
     for (let i = totalPoints - 1; i > 0; i--) {
-      this.points[i].vy += (Math.random() - 0) * dist * 0.6;
+      this.points[i].vy += (Math.random() - 0.5) * dist * 0.6;
     }
   }
 }

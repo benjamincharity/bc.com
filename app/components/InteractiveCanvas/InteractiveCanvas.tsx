@@ -42,19 +42,21 @@ function clamp(n: number, min: number, max: number): number {
 
 function determineMousePosition(
   event: React.MouseEvent | React.TouchEvent,
+  canvas: HTMLCanvasElement,
 ): { x: number; y: number } | undefined {
   let x, y;
   const nativeEvent = event.nativeEvent;
+  const rect = canvas.getBoundingClientRect();
   if (
     typeof TouchEvent !== 'undefined' &&
     nativeEvent instanceof TouchEvent &&
     nativeEvent.targetTouches?.length > 0
   ) {
-    x = nativeEvent.targetTouches[0].pageX;
-    y = nativeEvent.targetTouches[0].pageY;
+    x = nativeEvent.targetTouches[0].pageX - rect.left;
+    y = nativeEvent.targetTouches[0].pageY - rect.top;
   } else if (nativeEvent instanceof MouseEvent) {
-    x = nativeEvent.x;
-    y = nativeEvent.y;
+    x = nativeEvent.clientX - rect.left;
+    y = nativeEvent.clientY - rect.top;
   } else {
     return; // Neither touch nor mouse event, exit the function
   }
@@ -174,14 +176,23 @@ const InteractiveCanvas = React.forwardRef<
       onMouseDown={() => {
         if (!isDisabled) {
           canvasInstance?.wobbleRows();
+          canvasInstance?.nextPalette();
         }
       }}
       onMouseLeave={() => {
         canvasInstance?.setMousePosition(MOUSE_OFF, MOUSE_OFF);
       }}
       onMouseMove={(e) => {
-        if (!isDisabled) {
-          const result = determineMousePosition(e);
+        if (!isDisabled && canvasRef.current) {
+          const result = determineMousePosition(e, canvasRef.current);
+          if (result) {
+            canvasInstance?.setMousePosition(result.x, result.y);
+          }
+        }
+      }}
+      onTouchMove={(e) => {
+        if (!isDisabled && canvasRef.current) {
+          const result = determineMousePosition(e, canvasRef.current);
           if (result) {
             canvasInstance?.setMousePosition(result.x, result.y);
           }
@@ -190,17 +201,10 @@ const InteractiveCanvas = React.forwardRef<
       onTouchStart={(e) => {
         !isDisabled && e.preventDefault();
       }}
-      onTouchMove={(e) => {
-        if (!isDisabled) {
-          const result = determineMousePosition(e);
-          if (result) {
-            canvasInstance?.setMousePosition(result.x, result.y);
-          }
-        }
-      }}
       onTouchEnd={() => {
         if (!isDisabled) {
           canvasInstance?.wobbleRows();
+          canvasInstance?.nextPalette();
         }
         canvasInstance?.setMousePosition(MOUSE_OFF, MOUSE_OFF);
       }}
