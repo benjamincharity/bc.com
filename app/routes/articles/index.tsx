@@ -1,10 +1,13 @@
-import { json } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
-import type { Frontmatter } from "~/utils/articles.server";
-import { filterArticlesByTitle, getArticlesSortedByDate } from "~/utils/articles.server";
-import { ArticlesList } from "~/components/ArticlesList";
-import { getPagingData } from "~/utils/paging.server";
-import { SearchForm } from "~/components/SearchForm";
+import { json } from '@remix-run/node';
+import { useLoaderData } from '@remix-run/react';
+import type { Frontmatter } from '~/utils/articles.server';
+import {
+  filterArticlesByTitle,
+  getArticlesSortedByDate,
+} from '~/utils/articles.server';
+import { ArticlesList } from '~/components/ArticlesList';
+import { getPagingData } from '~/utils/paging.server';
+import { SearchForm } from '~/components/SearchForm';
 
 interface LoaderData {
   page: number;
@@ -17,9 +20,11 @@ interface LoaderData {
 
 export const loader = async ({ request }: { request: Request }) => {
   const url = new URL(request.url);
-  const query = url.searchParams.get("q");
+  const query = url.searchParams.get('q');
 
-  const articles = query ? filterArticlesByTitle(query) : getArticlesSortedByDate();
+  const articles = query
+    ? filterArticlesByTitle(query)
+    : getArticlesSortedByDate();
   const data = getPagingData(request, articles);
 
   return json<LoaderData>({ ...data, query });
@@ -28,14 +33,14 @@ export const loader = async ({ request }: { request: Request }) => {
 export default function Articles() {
   const { page, articles, nextPage, previousPage, totalPages, query } =
     useLoaderData<LoaderData>();
-  console.table({
-    page,
-    articles,
-    nextPage,
-    previousPage,
-    totalPages,
-    query,
-  });
+  // console.table({
+  //   page,
+  //   articles,
+  //   nextPage,
+  //   previousPage,
+  //   totalPages,
+  //   query,
+  // });
 
   return (
     <div className="w-full">
