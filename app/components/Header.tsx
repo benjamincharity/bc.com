@@ -1,62 +1,62 @@
-import Drawer from "@mui/material/Drawer";
-import { Link } from "@remix-run/react";
-import { useEffect, useState } from "react";
-import { siteMetadata } from "~/siteMetadata";
-import { isDarkMode } from "~/utils/darkMode";
-import menuIcon from "../assets/menu.webp";
-import { BlogLinks } from "./BlogLinks";
+import { Link } from '@remix-run/react';
+import { useEffect, useState } from 'react';
+import { determineIfShouldShowBackground } from '~/routes/_index/route';
 
-export const Header = () => {
-  const [shouldShowDrawer, setShouldShowDrawer] = useState(false);
-  const [siteLogo, setSiteLogo] = useState(siteMetadata.logo);
+export enum LogoStates {
+  VOID = 'void',
+  DEFAULT = 'default',
+  SHRUNK = 'shrunk',
+}
 
-  const openDrawer = () => setShouldShowDrawer(true);
-  const closeDrawer = () => setShouldShowDrawer(false);
+const getLogoClass = (logoState: LogoStates) => {
+  switch (logoState) {
+    case LogoStates.VOID:
+      return 'void-state';
+    case LogoStates.DEFAULT:
+      return 'default-state';
+    case LogoStates.SHRUNK:
+      return 'shrunk-state';
+    default:
+      return '';
+  }
+};
+
+export interface HeaderProps {}
+
+export const Header = (props: HeaderProps) => {
+  const [logoState, setLogoState] = useState<LogoStates>(LogoStates.VOID);
+
+  const [shouldShowBackground, setShouldShowBackground] = useState(false);
 
   useEffect(() => {
-    if (isDarkMode() && siteMetadata.logo_dark_mode) {
-      setSiteLogo(siteMetadata.logo_dark_mode);
-    }
+    const localDetermination = determineIfShouldShowBackground(
+      window.location.pathname,
+    );
+    setShouldShowBackground(localDetermination);
+    setLogoState(localDetermination ? LogoStates.DEFAULT : LogoStates.SHRUNK);
   }, []);
 
   return (
-    <header className="flex justify-between items-center max-w-full w-full py-8 gap-x-12 md:gap-x-0">
-      <Link
-        className="home text-3xl font-medium no-underline flex-1 m-0 not-prose md:my-4"
-        to="/"
-      >
-        {siteLogo ? (
-          <img alt="Website logo" src={siteLogo} loading="lazy" />
+    <header
+      className={`global-header ${
+        !shouldShowBackground ? 'global-header--small' : ''
+      } ${shouldShowBackground ? 'u-pointer-off' : ''}`}
+    >
+      <h1 className={`global-header__title ${getLogoClass(logoState)}`}>
+        {shouldShowBackground ? (
+          <>
+            Benjamin
+            <br />
+            Charity
+          </>
         ) : (
-          <span>{siteMetadata.domain}</span>
+          <Link className="o-sliding-background-link" to="/">
+            Benjamin
+            <br />
+            Charity
+          </Link>
         )}
-      </Link>
-
-      <div className="sm:flex items-center gap-4 hidden flex-1 justify-end">
-        <BlogLinks />
-      </div>
-
-      <div className="sm:hidden not-prose" onClick={openDrawer}>
-        <img
-          alt="Menu"
-          src={menuIcon}
-          width={42}
-          height={42}
-          loading="lazy"
-          className="dark:invert"
-        />
-      </div>
-
-      <Drawer
-        anchor="right"
-        open={shouldShowDrawer}
-        onClose={closeDrawer}
-        onClick={closeDrawer}
-      >
-        <div className="flex flex-col pr-8 pl-4 pt-8 gap-4 dark:bg-slate-900 h-full min-w-[125px]">
-          <BlogLinks />
-        </div>
-      </Drawer>
+      </h1>
     </header>
   );
 };

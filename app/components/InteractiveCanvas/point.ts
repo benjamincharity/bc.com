@@ -2,7 +2,6 @@
  * Individual points on the canvas
  */
 export class Point {
-  scale: number;
   x: number;
   y: number;
   ix: number;
@@ -10,9 +9,7 @@ export class Point {
   vx: number;
   vy: number;
 
-  constructor(x: number, y: number, scale: number) {
-    // console.log('POINT constructor: ', x, y, scale);
-    this.scale = scale;
+  constructor(x: number, y: number) {
     this.x = x;
     this.y = y;
     this.ix = x;
@@ -29,14 +26,14 @@ export class Point {
   ): void {
     const damping = 0.1;
     const viscosity = 15;
-    const width = canvas.width / this.scale;
-    const height = canvas.height / this.scale;
+    const width = canvas.width;
+    const height = canvas.height;
 
     this.vx += ((this.ix - this.x) / viscosity) * width;
     this.vy += ((this.iy - this.y) / viscosity) * height;
 
-    const dx = this.x * width - mouseX / this.scale;
-    const dy = this.y * height - mouseY / this.scale;
+    const dx = this.x * width - mouseX;
+    const dy = this.y * height - mouseY;
 
     if (Math.sqrt(dx * dx + dy * dy) < dist) {
       const a = Math.atan2(dy, dx);

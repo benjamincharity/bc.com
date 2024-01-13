@@ -7,6 +7,7 @@ import type { Palette } from '~/components/InteractiveCanvas/palettes.data';
 import { PALETTES } from '~/components/InteractiveCanvas/palettes.data';
 import { ClientOnly } from '~/components/ClientOnly';
 import { InfoBubble, InfoBubbleProps } from '~/components/InfoBubble';
+import { Navigation } from '~/routes/_index/utils/Navigation';
 
 const DEFAULT_INFO_INTRO_DELAY = 7000;
 const DEFAULT_INFO_EXIT_DELAY = DEFAULT_INFO_INTRO_DELAY * 2;
@@ -17,32 +18,20 @@ export function determineIfShouldShowBackground(url: string): boolean {
   return pagesWithBackground.includes(url.replace(/\//, ''));
 }
 
-export enum LogoStates {
-  VOID = 'void',
-  DEFAULT = 'default',
-  SHRUNK = 'shrunk',
-}
-
 export default function Index() {
   const location = useLocation();
   const navigate = useNavigate();
   const [currentRoute, setCurrentRoute] = useState(location.pathname);
   const [isSubPage, setIsSubPage] = useState(true);
   const [shouldShowBackground, setShouldShowBackground] = useState(false);
-  const [logoState, setLogoState] = useState<LogoStates>(LogoStates.VOID);
   const [partyModeEnabled, setPartyModeEnabled] = useState(false);
-  const [shouldBeReducedMotion, setShouldBeReducedMotion] = useState<boolean>(
-    false,
-  );
+  const [shouldBeReducedMotion, setShouldBeReducedMotion] =
+    useState<boolean>(false);
   const [palettes] = useState<ReadonlyArray<Palette>>([...PALETTES]);
-  const [
-    partyModeInterval,
-    setPartyModeInterval,
-  ] = useState<NodeJS.Timeout | null>(null);
-  const [
-    userHasInteractedWithInfoPanel,
-    setUserHasInteractedWithInfoPanel,
-  ] = useState<boolean>(false);
+  const [partyModeInterval, setPartyModeInterval] =
+    useState<NodeJS.Timeout | null>(null);
+  const [userHasInteractedWithInfoPanel, setUserHasInteractedWithInfoPanel] =
+    useState<boolean>(false);
 
   const infoRef = useRef(null);
   const canvasRef = useRef<InteractiveCanvasRefType>(null);
@@ -71,8 +60,6 @@ export default function Index() {
       window.location.pathname,
     );
     setShouldShowBackground(localDetermination);
-
-    setLogoState(localDetermination ? LogoStates.DEFAULT : LogoStates.SHRUNK);
   }, []);
 
   // useEffect(() => {
@@ -144,7 +131,7 @@ export default function Index() {
   };
 
   return (
-    <div>
+    <div className={'bc-home'}>
       <div
         className={`container ${
           !shouldShowBackground ? 'container--no-background' : ''
@@ -154,78 +141,26 @@ export default function Index() {
         // bcKonami
         // konami={togglePartyMode}
       >
-        <header
-          className={`global-header ${
-            !shouldShowBackground ? 'global-header--small' : ''
-          } ${shouldShowBackground ? 'u-pointer-off' : ''}`}
-        >
-          {/*<h1 className="global-header__title" shrink={logoState}>*/}
-          <h1 className="global-header__title">
-            {shouldShowBackground ? (
-              <>
-                Benjamin
-                <br />
-                Charity
-                {/*<div style={{ transform: 'scale3d(.6,.6,1)' }}>*/}
-                {/*  <br />*/}
-                {/*  <Memo>{() => <div>X: {state$.mouse.x.get()}</div>}</Memo>*/}
-                {/*  <br />*/}
-                {/*  <Memo>{() => <div>Y: {state$.mouse.y.get()}</div>}</Memo>*/}
-                {/*</div>*/}
-              </>
-            ) : (
-              <Link className="o-sliding-background-link" to="/">
-                Benjamin
-                <br />
-                Charity
-              </Link>
-            )}
-          </h1>
-        </header>
-
         <main
           className={`container__inner ${
             shouldShowBackground ? 'u-pointer-off' : ''
           }`}
+          style={{ outline: '2px solid red' }}
         >
           <Outlet />
         </main>
       </div>
 
-      <div
-        className={`background ${
-          !shouldShowBackground ? 'background--hidden' : ''
-        } ${partyModeEnabled ? 'background--party-mode' : ''}`}
-      >
-        <ClientOnly>
-          <InteractiveCanvas
-            ref={canvasRef}
-            isDisabled={shouldBeReducedMotion}
-            // paletteChange={setNewPaletteColors}
-          />
-        </ClientOnly>
-        <div className="canvas-fallback"></div>
-      </div>
-
-      {/*<bc-info*/}
-      {/**ngIf="shouldShowBackground"*/}
-      {/*[showInfo]="(showInfo$ | async) === true"*/}
-      {/*[animationsArePaused]="canvas.isPaused"*/}
-      {/*(togglePauseRequest)="canvas.togglePause()"*/}
-      {/*(infoPanelStateChange)="userHasInteractedWithInfoPanel$.next()"*/}
-      {/*#info="bcInfo"*/}
-      {/*></bc-info>*/}
-
-      {/*<InfoBubble*/}
-      {/*  animationsArePaused={!!canvasRef.current?.isPaused}*/}
-      {/*  togglePauseRequest={() => {*/}
-      {/*    if (canvasRef.current) {*/}
-      {/*      canvasRef.current.togglePause();*/}
-      {/*    }*/}
-      {/*  }}*/}
-      {/*  // infoPanelStateChange={() => userHasInteractedWithInfoPanel()}*/}
-      {/*  ref={infoRef}*/}
-      {/*/>*/}
+      <InfoBubble
+        // animationsArePaused={!!canvasRef.current?.isPaused}
+        togglePauseRequest={() => {
+          if (canvasRef.current) {
+            // canvasRef.current.togglePause();
+          }
+        }}
+        // infoPanelStateChange={() => userHasInteractedWithInfoPanel()}
+        ref={infoRef}
+      />
     </div>
   );
 }

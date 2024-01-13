@@ -1,13 +1,14 @@
 import { Row } from '~/components/InteractiveCanvas/row';
-import { MOUSE_OFF, shuffle } from '~/components/InteractiveCanvas/store';
 import {
   Palette,
   PALETTES,
 } from '~/components/InteractiveCanvas/palettes.data';
+import { shuffle } from '~/utils/shuffle';
+
+export const MOUSE_OFF = -1000;
 
 export class Canvas {
   canvas: HTMLCanvasElement;
-  scale: number;
   rows: Row[];
   totalPoints: number;
   dist: number;
@@ -17,13 +18,11 @@ export class Canvas {
 
   constructor(
     canvas: HTMLCanvasElement,
-    scale: number,
     rows: Row[],
     totalPoints: number,
     dist: number,
   ) {
     this.canvas = canvas;
-    this.scale = scale;
     this.rows = rows;
     this.totalPoints = totalPoints;
     this.dist = dist;
@@ -32,8 +31,8 @@ export class Canvas {
   }
 
   updateCanvasSizeAndRows() {
-    this.canvas.width = window.innerWidth * this.scale;
-    this.canvas.height = window.innerHeight * this.scale;
+    this.canvas.width = window.innerWidth;
+    this.canvas.height = window.innerHeight;
     this.canvas.style.width = `${window.innerWidth}px`;
     this.canvas.style.height = `${window.innerHeight}px`;
 
@@ -62,6 +61,9 @@ export class Canvas {
   wobbleRows(goToNextPalette = true) {
     for (let i = this.rows.length; i--; ) {
       this.rows[i].wobble(this.dist, this.totalPoints);
+    }
+    if (goToNextPalette) {
+      this.nextPalette();
     }
   }
 

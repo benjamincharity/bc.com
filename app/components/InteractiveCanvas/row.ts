@@ -6,14 +6,12 @@ import { Point } from './point';
 export class Row {
   color: string | undefined;
   points: Point[] = [];
-  scale: number;
   totalPoints = 0;
   // The y-axis of the row
   y: number;
 
-  constructor(y: number, scale: number, totalPoints: number) {
+  constructor(y: number, totalPoints: number) {
     this.y = y;
-    this.scale = scale;
     this.resize(totalPoints);
   }
 
@@ -23,20 +21,11 @@ export class Row {
     mouseX: number,
     mouseY: number,
   ): void {
-    if (!this.points.length) {
-      return;
-    }
-    const context: CanvasRenderingContext2D | null = canvas.getContext('2d');
-    if (!context) {
+    const context: CanvasRenderingContext2D | null = canvas?.getContext('2d');
+    if (!this.points.length || !context) {
       return;
     }
     let point: Point = this.points[this.totalPoints - 1];
-
-    // AT this point totalPoints is 18 but this.points is still the previous 16
-    // TODO: figure out why this is needed. Shouldn't be able to get into this state.
-    if (!point) {
-      return;
-    }
 
     if (this.color) {
       context.fillStyle = this.color;
@@ -83,7 +72,7 @@ export class Row {
   resize(totalPoints: number): void {
     this.points = [];
     for (let i = totalPoints; i--; ) {
-      this.points.push(new Point(i / (totalPoints - 3), this.y, this.scale));
+      this.points.push(new Point(i / (totalPoints - 3), this.y));
     }
     this.totalPoints = this.points.length; // Update totalPoints
   }

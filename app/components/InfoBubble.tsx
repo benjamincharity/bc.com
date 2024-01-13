@@ -5,8 +5,8 @@ const DEFAULT_INFO_INTRO_DELAY = 7000;
 const DEFAULT_INFO_EXIT_DELAY = DEFAULT_INFO_INTRO_DELAY * 2;
 
 export interface InfoBubbleProps {
-  animationsArePaused: boolean;
-  userHasInteractedWithInfoPanel: boolean;
+  animationsArePaused?: boolean;
+  userHasInteractedWithInfoPanel?: boolean;
   togglePauseRequest: () => void;
   ref: React.Ref<FixMeLater>;
 }

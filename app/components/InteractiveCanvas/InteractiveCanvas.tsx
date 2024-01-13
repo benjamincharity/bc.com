@@ -6,20 +6,10 @@ import React, {
   useState,
 } from 'react';
 import { Palette, PALETTES } from './palettes.data';
-import { MOUSE_OFF, shuffle } from '~/components/InteractiveCanvas/store';
 import { useDebounce } from '@uidotdev/usehooks';
 import { Row } from '~/components/InteractiveCanvas/row';
-import { observable } from '@legendapp/state';
-import { Canvas } from '~/components/InteractiveCanvas/canvas';
-
-// function isMouseEvent(event: MouseEvent | TouchEvent): event is MouseEvent {
-//   return event instanceof MouseEvent;
-// }
-
-// export enum ArrowDirection {
-//   ARROW_LEFT = 'ArrowLeft',
-//   ARROW_RIGHT = 'ArrowRight',
-// }
+import { Canvas, MOUSE_OFF } from '~/components/InteractiveCanvas/canvas';
+import { shuffle } from '~/utils/shuffle';
 
 // Define a dummy window object for SSR
 const dummyWindow = {
@@ -52,8 +42,8 @@ function determineMousePosition(
     nativeEvent instanceof TouchEvent &&
     nativeEvent.targetTouches?.length > 0
   ) {
-    x = nativeEvent.targetTouches[0].pageX - rect.left;
-    y = nativeEvent.targetTouches[0].pageY - rect.top;
+    x = nativeEvent.targetTouches[0].clientX - rect.left;
+    y = nativeEvent.targetTouches[0].clientY - rect.top;
   } else if (nativeEvent instanceof MouseEvent) {
     x = nativeEvent.clientX - rect.left;
     y = nativeEvent.clientY - rect.top;
@@ -76,12 +66,6 @@ export interface InteractiveCanvasRefType {
   wobbleRows: (goToNextPalette?: boolean) => void;
 }
 
-//
-// point.ts is identical
-// once row.ts was identical again we are much closer.
-// seems mouse position is off now?
-//
-//
 const InteractiveCanvas = React.forwardRef<
   InteractiveCanvasRefType,
   InteractiveCanvasProps
@@ -92,31 +76,24 @@ const InteractiveCanvas = React.forwardRef<
   const [isPaused, setIsPaused] = useState(false);
   const shuffled = shuffle([...PALETTES]);
   const [palette, setPalette] = useState<Palette>(shuffled[0]);
-  const [scale, setScale] = useState(1);
   const [totalPoints, setTotalPoints] = useState(0);
   const [dist, setDist] = useState(0);
   const rows = useMemo(() => {
     return [4 / 5, 3 / 5, 2 / 5, 1 / 5].map((fraction, i) => {
-      const row: Row = new Row(fraction, scale, totalPoints);
+      const row: Row = new Row(fraction, totalPoints);
       row.color = palette[palette.length - i - 1];
       return row;
     });
-  }, [scale, palette, totalPoints]);
+  }, [palette, totalPoints]);
 
   const [canvasInstance, setCanvasInstance] = useState<Canvas | null>(null);
 
   useEffect(() => {
     if (canvasRef.current) {
-      const instance = new Canvas(
-        canvasRef.current,
-        scale,
-        rows,
-        totalPoints,
-        dist,
-      );
+      const instance = new Canvas(canvasRef.current, rows, totalPoints, dist);
       setCanvasInstance(instance);
     }
-  }, [canvasRef, scale, rows, totalPoints, dist]);
+  }, [canvasRef, rows, totalPoints, dist]);
 
   const renderCanvas = useCallback(() => {
     if (canvasInstance) {
@@ -151,7 +128,6 @@ const InteractiveCanvas = React.forwardRef<
     );
     setTotalPoints(newTotalPoints);
     setDist(clamp(localWindow.innerWidth / 4, 150, 200));
-    setScale(localWindow.devicePixelRatio);
 
     if (canvasRef.current) {
       debouncedRenderCanvas?.();
@@ -175,8 +151,7 @@ const InteractiveCanvas = React.forwardRef<
       ref={canvasRef}
       onMouseDown={() => {
         if (!isDisabled) {
-          canvasInstance?.wobbleRows();
-          canvasInstance?.nextPalette();
+          canvasInstance?.wobbleRows(true);
         }
       }}
       onMouseLeave={() => {
@@ -203,8 +178,7 @@ const InteractiveCanvas = React.forwardRef<
       }}
       onTouchEnd={() => {
         if (!isDisabled) {
-          canvasInstance?.wobbleRows();
-          canvasInstance?.nextPalette();
+          canvasInstance?.wobbleRows(true);
         }
         canvasInstance?.setMousePosition(MOUSE_OFF, MOUSE_OFF);
       }}

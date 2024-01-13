@@ -11,15 +11,10 @@ import { useEffect } from 'react';
 import { DynamicLinks } from './components/DynamicLinks';
 import { siteMetadata } from './siteMetadata';
 import { isDarkMode } from './utils/darkMode';
-// import { enableReactTracking } from '@legendapp/state/config/enableReactTracking';
-// import { enableReactComponents } from '@legendapp/state/config/enableReactComponents';
 
 import styles from '~/styles/main.css';
-
-// enableReactTracking({
-//   auto: true,
-// });
-// enableReactComponents();
+import { Header } from '~/components/Header';
+import { FancyBackground } from '~/components/FancyBackground';
 
 export const links: LinksFunction = () => {
   return [
@@ -72,15 +67,20 @@ export default function App() {
         <DynamicLinks />
         <Links />
       </head>
+
       <body>
         <div className="bc-root">
-          {/*<Header />*/}
+          <Header />
           <Outlet />
-          {/*<Footer />*/}
           <ScrollRestoration />
+          {/*TODO: need to turn this off based on route so i need to move it down a levell*/}
+          {/*TODO: need to turn this off based on route so i need to move it down a levell*/}
+          {/*TODO: need to turn this off based on route so i need to move it down a levell*/}
+          {/*TODO: need to turn this off based on route so i need to move it down a levell*/}
+          <FancyBackground shouldShowBackground={true} />
+          <Scripts />
+          <LiveReload />
         </div>
-        <Scripts />
-        <LiveReload />
       </body>
     </html>
   );
