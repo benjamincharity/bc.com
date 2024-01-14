@@ -1,10 +1,12 @@
-import type { LoaderFunction, MetaFunction } from "@remix-run/node";
-import { json } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
-import { ARTICLES } from "~/utils/articles.server";
-import { Badge } from "~/components/Badge";
-import type { SEOHandle } from "@balavishnuvj/remix-seo";
-import { siteMetadata } from "~/siteMetadata";
+import type { LoaderFunction, MetaFunction } from '@remix-run/node';
+import { json } from '@remix-run/node';
+import { useLoaderData } from '@remix-run/react';
+// import { ARTICLES } from "~/utils/articles.server";
+import { Badge } from '~/components/Badge';
+import type { SEOHandle } from '@balavishnuvj/remix-seo';
+import { siteMetadata } from '~/siteMetadata';
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const ARTICLES: any[] = [];
 
 interface LoaderData {
   tags: Array<[string, number]>;
@@ -14,9 +16,9 @@ export const meta: MetaFunction = () => {
   const title = `Tags - ${siteMetadata.author}`;
 
   return [
-    { name: "title", content: title },
-    { property: "og:title", content: title },
-    { name: "twitter:title", content: title },
+    { name: 'title', content: title },
+    { property: 'og:title', content: title },
+    { name: 'twitter:title', content: title },
   ];
 };
 

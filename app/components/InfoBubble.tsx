@@ -1,5 +1,6 @@
 import React, { ForwardedRef, ReactElement, useEffect, useState } from 'react';
-import { FixMeLater } from '~/routes/articlesOTHER';
+
+type FixMeLater = any;
 
 const DEFAULT_INFO_INTRO_DELAY = 7000;
 const DEFAULT_INFO_EXIT_DELAY = DEFAULT_INFO_INTRO_DELAY * 2;
