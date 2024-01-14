@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useEffect } from 'react';
 import { COMPANIES } from '~/data/companies.data';
 import { shuffle } from '~/utils/shuffle';
 import { NAVIGATION_LINKS } from '~/data/navigation.data';
@@ -8,7 +8,11 @@ export interface NavigationProps {}
 
 export const Navigation = React.memo((props: NavigationProps): ReactElement => {
   //const {} = props;
-  const companies = shuffle<string>([...COMPANIES]);
+  const [companies, setCompanies] = React.useState<string[]>([...COMPANIES]);
+
+  useEffect(() => {
+    setCompanies(shuffle([...COMPANIES]));
+  }, []);
 
   return (
     <div className="page u-pointer-off">

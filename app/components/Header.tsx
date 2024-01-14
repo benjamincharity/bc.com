@@ -1,6 +1,20 @@
-import { Link } from '@remix-run/react';
+import { Link, useLocation } from '@remix-run/react';
 import { useEffect, useState } from 'react';
 import { determineIfShouldShowBackground } from '~/routes/_index/route';
+import { motion } from 'framer-motion';
+import { state$ } from '~/store';
+
+const headerVariants = {
+  initial: { opacity: 0, y: -26 },
+  default: { opacity: 1, y: 0, scale: 1 },
+  shrunk: { opacity: 1, y: 0, scale: 0.4 },
+};
+
+const transition = {
+  type: 'spring',
+  stiffness: 260,
+  damping: 20,
+};
 
 export enum LogoStates {
   VOID = 'void',
@@ -21,29 +35,31 @@ const getLogoClass = (logoState: LogoStates) => {
   }
 };
 
-export interface HeaderProps {}
-
-export const Header = (props: HeaderProps) => {
+export const Header = () => {
+  const location = useLocation();
   const [logoState, setLogoState] = useState<LogoStates>(LogoStates.VOID);
-
-  const [shouldShowBackground, setShouldShowBackground] = useState(false);
+  const isVisible = state$.isVisible.get();
 
   useEffect(() => {
     const localDetermination = determineIfShouldShowBackground(
-      window.location.pathname,
+      location.pathname,
     );
-    setShouldShowBackground(localDetermination);
+    state$.isVisible.set(localDetermination);
     setLogoState(localDetermination ? LogoStates.DEFAULT : LogoStates.SHRUNK);
-  }, []);
+  }, [location.pathname]);
 
   return (
-    <header
-      className={`global-header ${
-        !shouldShowBackground ? 'global-header--small' : ''
-      } ${shouldShowBackground ? 'u-pointer-off' : ''}`}
+    <motion.header
+      animate={isVisible ? 'default' : 'shrunk'}
+      className={`global-header ${!isVisible ? 'global-header--small' : ''} ${
+        isVisible ? 'u-pointer-off' : ''
+      }`}
+      initial="initial"
+      transition={transition}
+      variants={headerVariants}
     >
       <h1 className={`global-header__title ${getLogoClass(logoState)}`}>
-        {shouldShowBackground ? (
+        {isVisible ? (
           <>
             Benjamin
             <br />
@@ -57,6 +73,6 @@ export const Header = (props: HeaderProps) => {
           </Link>
         )}
       </h1>
-    </header>
+    </motion.header>
   );
 };

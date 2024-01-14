@@ -2,12 +2,12 @@ import React, { useEffect, useState, useRef } from 'react';
 import { Link, Outlet, useLocation, useNavigate } from '@remix-run/react';
 import { generateSvgSquiggle } from '~/utils/generateSvgSquiggle';
 import type { InteractiveCanvasRefType } from '~/components/InteractiveCanvas/InteractiveCanvas';
-import InteractiveCanvas from '~/components/InteractiveCanvas/InteractiveCanvas';
 import type { Palette } from '~/components/InteractiveCanvas/palettes.data';
 import { PALETTES } from '~/components/InteractiveCanvas/palettes.data';
 import { ClientOnly } from '~/components/ClientOnly';
 import { InfoBubble, InfoBubbleProps } from '~/components/InfoBubble';
-import { Navigation } from '~/routes/_index/utils/Navigation';
+import { Navigation } from '~/routes/_index/components/Navigation';
+import { state$ } from '~/store';
 
 const DEFAULT_INFO_INTRO_DELAY = 7000;
 const DEFAULT_INFO_EXIT_DELAY = DEFAULT_INFO_INTRO_DELAY * 2;
@@ -148,15 +148,14 @@ export default function Index() {
           style={{ outline: '2px solid red' }}
         >
           <Outlet />
+          <Navigation />
         </main>
       </div>
 
       <InfoBubble
-        // animationsArePaused={!!canvasRef.current?.isPaused}
+        animationsArePaused={state$.isPaused.get()}
         togglePauseRequest={() => {
-          if (canvasRef.current) {
-            // canvasRef.current.togglePause();
-          }
+          state$.isPaused.set(!state$.isPaused.get());
         }}
         // infoPanelStateChange={() => userHasInteractedWithInfoPanel()}
         ref={infoRef}

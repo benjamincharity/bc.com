@@ -1,5 +1,5 @@
-import { getArticlesSortedByDate } from "~/utils/articles.server";
-import { siteMetadata } from "../siteMetadata";
+import { getArticlesSortedByDate } from '~/utils/articles.server';
+import { siteMetadata } from '../siteMetadata';
 
 export async function loader() {
   const articles = getArticlesSortedByDate();
@@ -26,22 +26,22 @@ export async function loader() {
                 <title>${a.title}</title>
                 <link>${siteMetadata.url}/articles/${a.slug}</link>
                 <description>${a.summary}</description>
-                <pubDate>${new Date(a.date).toUTCString()}</pubDate>
+                <pubDate>${new Date(
+                  a.date ?? new Date(),
+                ).toUTCString()}</pubDate>
                 <author>${siteMetadata.email} (${siteMetadata.author})</author>
-                ${a.tags
-                  .map((tag) => `<category>${tag}</category>`)
-                  .join("")}
+                ${a.tags.map((tag) => `<category>${tag}</category>`).join('')}
             </item>
-            `
+            `,
           )
-          .join("")}
+          .join('')}
     </channel>
   </rss>`;
 
   return new Response(feed, {
     status: 200,
     headers: {
-      "Content-Type": "application/xml",
+      'Content-Type': 'application/xml',
     },
   });
 }

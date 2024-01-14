@@ -6,8 +6,9 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLocation,
 } from '@remix-run/react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { DynamicLinks } from './components/DynamicLinks';
 import { siteMetadata } from './siteMetadata';
 import { isDarkMode } from './utils/darkMode';
@@ -15,6 +16,9 @@ import { isDarkMode } from './utils/darkMode';
 import styles from '~/styles/main.css';
 import { Header } from '~/components/Header';
 import { FancyBackground } from '~/components/FancyBackground';
+import { state$ } from '~/store';
+import { determineIfShouldShowBackground } from '~/routes/_index/route';
+import { motion } from 'framer-motion';
 
 export const links: LinksFunction = () => {
   return [
@@ -52,6 +56,17 @@ export const meta: MetaFunction = ({ location }) => {
 };
 
 export default function App() {
+  const location = useLocation();
+  const [show, setShow] = useState(state$.isVisible.get());
+  const isDefaultRoute = location.pathname === '/';
+
+  useEffect(() => {
+    const path = location.pathname;
+    const result = determineIfShouldShowBackground(path);
+    state$.isVisible.set(result);
+    setShow(result);
+  }, [location.pathname]);
+
   useEffect(() => {
     if (isDarkMode()) {
       document.documentElement.classList.add('dark');
@@ -73,11 +88,15 @@ export default function App() {
           <Header />
           <Outlet />
           <ScrollRestoration />
-          {/*TODO: need to turn this off based on route so i need to move it down a levell*/}
-          {/*TODO: need to turn this off based on route so i need to move it down a levell*/}
-          {/*TODO: need to turn this off based on route so i need to move it down a levell*/}
-          {/*TODO: need to turn this off based on route so i need to move it down a levell*/}
-          <FancyBackground shouldShowBackground={true} />
+          {show && isDefaultRoute && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5 }}
+            >
+              <FancyBackground />
+            </motion.div>
+          )}
           <Scripts />
           <LiveReload />
         </div>

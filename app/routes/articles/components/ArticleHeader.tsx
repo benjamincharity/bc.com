@@ -1,12 +1,11 @@
-import { formatDate } from "~/utils/date";
-import type { Frontmatter } from "~/utils/articles.server";
-import avatar from "../assets/avatar1.webp";
-import Divider from "@mui/material/Divider";
-import { Badge } from "./Badge";
-import { siteMetadata } from "~/siteMetadata";
+import { formatDate } from '~/utils/date';
+import type { Frontmatter } from '~/utils/articles.server';
+import avatar from '../../../assets/avatar1.webp';
+import { Badge } from '../../../components/Badge';
+import { siteMetadata } from '~/siteMetadata';
 
 interface Props {
-  attributes: Pick<Frontmatter, "title" | "date" | "tags">;
+  attributes: Pick<Frontmatter, 'title' | 'date' | 'tags'>;
 }
 
 export const ArticleHeader = ({ attributes }: Props) => {
@@ -27,11 +26,11 @@ export const ArticleHeader = ({ attributes }: Props) => {
         <span className="">{formatDate(attributes.date)}</span>
       </div>
       <div className="mb-8 flex gap-4 flex-wrap justify-center">
-        {attributes.tags.map((tag) => (
+        {attributes.tags?.map((tag) => (
           <Badge key={tag} label={`#${tag}`} linkTo={`/tags/${tag}`} />
         ))}
       </div>
-      <Divider />
+      <hr />
     </div>
   );
 };

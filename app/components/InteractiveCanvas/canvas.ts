@@ -4,6 +4,15 @@ import {
   PALETTES,
 } from '~/components/InteractiveCanvas/palettes.data';
 import { shuffle } from '~/utils/shuffle';
+import { createSVG } from '~/components/Squiggle';
+
+export const PaletteDirection = {
+  NEXT: 'next',
+  PREV: 'prev',
+} as const;
+
+export type PaletteDirection =
+  typeof PaletteDirection[keyof typeof PaletteDirection];
 
 export const MOUSE_OFF = -1000;
 
@@ -58,12 +67,14 @@ export class Canvas {
     }
   }
 
-  wobbleRows(goToNextPalette = true) {
+  wobbleRows(paletteDirection?: PaletteDirection) {
     for (let i = this.rows.length; i--; ) {
       this.rows[i].wobble(this.dist, this.totalPoints);
     }
-    if (goToNextPalette) {
+    if (paletteDirection === PaletteDirection.NEXT) {
       this.nextPalette();
+    } else if (paletteDirection === PaletteDirection.PREV) {
+      this.previousPalette();
     }
   }
 
@@ -78,12 +89,14 @@ export class Canvas {
     for (let i = this.rows.length; i--; ) {
       this.rows[i].color = this.palette[this.palette.length - i - 1];
     }
+    this.setNewPaletteColors(newPalette);
   }
 
   nextPalette() {
     const currentIndex = this.shuffled.indexOf(this.palette);
     const nextIndex = (currentIndex + 1) % this.shuffled.length;
     this.setPalette(this.shuffled[nextIndex]);
+    this.setNewPaletteColors(this.palette);
   }
 
   previousPalette() {
@@ -91,5 +104,18 @@ export class Canvas {
     const prevIndex =
       (currentIndex - 1 + this.shuffled.length) % this.shuffled.length;
     this.setPalette(this.shuffled[prevIndex]);
+    this.setNewPaletteColors(this.palette);
+  }
+
+  setNewPaletteColors(palette: Palette): void {
+    document.documentElement.style.setProperty(
+      `--o-squiggle-link-backgroundImage`,
+      `url(data:image/svg+xml;base64,${window.btoa(createSVG(palette[0]))})`,
+    );
+
+    for (let i = 0; i < palette.length; i += 1) {
+      const cssVar = `--highlight-color-${i + 1}`;
+      document.documentElement.style.setProperty(cssVar, `${palette[i]}`);
+    }
   }
 }

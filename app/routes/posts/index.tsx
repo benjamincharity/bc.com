@@ -120,7 +120,7 @@ export default function Index() {
   return (
     <div className={`${maxWidthClasses} ${textClasses}`}>
       {/*<ArticleHeader attributes={article.attributes as Frontmatter} />*/}
-      Articles index
+      Posts index
       <Outlet />
       <script
         type="application/ld+json"
