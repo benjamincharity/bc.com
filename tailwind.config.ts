@@ -42,6 +42,7 @@ export default {
         grey: '#808080',
         loveLetter: '#f184a8',
         turkishTeal: '#8ae6df',
+        // appAccent: 'var(--app-color-accent-1)',
       },
       textShadow: {
         sm: '0 1px 2px var(--tw-shadow-color)',
