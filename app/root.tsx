@@ -12,11 +12,8 @@ import { useEffect, useState } from 'react';
 import { DynamicLinks } from './components/DynamicLinks';
 import { siteMetadata } from './siteMetadata';
 import { isDarkMode } from './utils/darkMode';
-
-// import styles from '~/styles/main.css';
 import sharedStyles from '~/styles/shared.css';
 import twStyles from './styles/tailwind.css';
-
 import { Header } from '~/components/Header';
 import { FancyBackground } from '~/components/FancyBackground/FancyBackground';
 import { state$ } from '~/store';

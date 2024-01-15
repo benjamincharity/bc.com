@@ -7,3 +7,90 @@
     background-position: calc(100% + 20px) 100%, 100% 100%, 0 100%; /* final position */
   }
 }
+
+/*ARTICLE CONTENT*/
+.rendered-markdown {
+  @apply text-lg overflow-x-hidden;
+}
+.rendered-markdown p {
+  @apply my-5;
+}
+.rendered-markdown strong {
+  @apply bg-strongBg rounded-tl-2xl rounded-br-2xl;
+}
+.rendered-markdown strong code {
+  @apply bg-mark;
+}
+
+.rendered-markdown pre {
+  @apply bg-codeBackground
+      box-border
+      border-0
+      border-solid
+      border-codeBoxShadow
+      text-xs;
+}
+
+.rendered-markdown blockquote {
+  @apply italic border-l-4 border-drakenhofNightshade;
+}
+.rendered-markdown blockquote p {
+  @apply my-5;
+}
+
+.rendered-markdown h1 {
+  @apply font-bold;
+}
+
+.rendered-markdown h2 {
+  @apply mt-8 mb-4;
+}
+
+.rendered-markdown h3 {
+  @apply mt-5 mb-2;
+}
+
+.rendered-markdown abbr {
+  @apply cursor-help;
+  text-underline-offset: 2px;
+}
+
+.rendered-markdown hr {
+  /*@include fancy-hr;*/
+}
+
+.rendered-markdown kbd,
+.rendered-markdown :not(pre) > code {
+  /*background-color: var(--color-inlineCode-backgroundColor);*/
+  border-radius: 4px;
+  /*color: var(--app-color-dark);*/
+  font-size: 80%;
+  font-weight: bold;
+  margin: 0;
+  padding: 0.1em 0.4em 0.2em;
+  position: relative;
+  top: -1px;
+}
+
+.rendered-markdown img {
+  @apply inline-block max-w-full outline-imageOutline;
+}
+
+.rendered-markdown a {
+  /*@include animated-link-underline;*/
+}
+
+.rendered-markdown ul {
+  @apply list-square list-outside ml-5 leading-normal;
+}
+.rendered-markdown ul li::marker {
+  @apply rotate-45;
+}
+
+.rendered-markdown strong {
+  @apply font-semibold;
+}
+
+.rendered-markdown iframe {
+  @apply mt-5;
+}

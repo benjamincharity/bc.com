@@ -54,7 +54,7 @@ export const Header = () => {
       className={`global-header pointer-events-none relative z-20 text-center ${
         bgIsVisible
           ? 'u-pointer-off text-titleLarge'
-          : 'global-header--small max-h-24 pointer-events-auto text-gray-700 text-titleSmall'
+          : 'global-header--small pointer-events-auto text-gray-700 text-titleSmall'
       }`}
       initial="initial"
       transition={transition}
