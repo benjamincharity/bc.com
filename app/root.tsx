@@ -15,7 +15,7 @@ import { isDarkMode } from './utils/darkMode';
 
 // import styles from '~/styles/main.css';
 import sharedStyles from '~/styles/shared.css';
-import twStyles from './tailwind.css';
+import twStyles from './styles/tailwind.css';
 
 import { Header } from '~/components/Header';
 import { FancyBackground } from '~/components/FancyBackground/FancyBackground';
