@@ -1,6 +1,6 @@
 import type { Frontmatter } from '~/utils/articles.server';
 import { Link } from '@remix-run/react';
-import { ArticleTitle } from '~/routes/articles/components/ArticleTitle';
+import { ArticleTitleLink } from '~/routes/articles/components/ArticleTitleLink';
 
 type Article = Pick<
   Frontmatter,
@@ -33,10 +33,10 @@ export const ArticlesList = ({
               prefetch="intent"
               to={article.slug}
             >
-              <ArticleTitle title={article.title} />
+              <ArticleTitleLink title={article.title} />
             </Link>
 
-            <div className="articles__listing-description">
+            <div className="articles__listing-description leading-4">
               {article.summary}
               <span className="articles__listing-reading-time">
                 [{article.formattedDate}]

@@ -15,8 +15,8 @@ export const Navigation = React.memo((props: NavigationProps): ReactElement => {
   }, []);
 
   return (
-    <div className="page u-pointer-off">
-      <h2 className="title title--secondary u-pointer">
+    <div className="navigation pointer-events-none z-30">
+      <h2 className="title title--secondary u-pointer text-shadow">
         Engineering leader at high-growth
         <br />
         startups & scale-ups

@@ -1,9 +1,11 @@
-import { Frontmatter, getPosts } from '~/utils/articles.server';
+import { Frontmatter, getAllArticles } from '~/utils/articles.server';
 import { DataFunctionArgs } from '@remix-run/server-runtime';
-import { useLoaderData } from '@remix-run/react';
+import { Link, useLoaderData } from '@remix-run/react';
+import { ArticleTitleLink } from '~/routes/articles/components/ArticleTitleLink';
+import SlidingLink from '~/components/SlidingLink';
 
 export async function loader(data: DataFunctionArgs) {
-  const posts = await getPosts();
+  const posts = await getAllArticles();
   return posts;
 }
 
@@ -30,22 +32,25 @@ function BlogItem(props: {
   };
 }) {
   const { item } = props;
+
   return (
-    <div className="blog-item">
-      <a href={`/articles/${item.slug}`}>
-        {' '}
-        <h3>{item.frontmatter.meta?.title ?? item.slug} </h3>
-      </a>
-      <p>{item.frontmatter.meta?.description}</p>
-    </div>
+    <article className="article-tease font-sourceSerif4 mb-4">
+      <ArticleTitleLink
+        title={item.frontmatter.title}
+        to={`/articles/${item.slug}`}
+      />
+
+      <p className={'text-base text-gray-600 font-bold leading-5 opacity-80'}>
+        {item.frontmatter.summary}
+      </p>
+    </article>
   );
 }
 
 export default function Index() {
   return (
-    <div>
-      <h1>Blargs</h1>
+    <section className={'articles max-w-2xl m-auto pt-8'}>
       <ListOfBlogPosts />
-    </div>
+    </section>
   );
 }

@@ -1,0 +1,89 @@
+.background {
+  bottom: 0;
+  height: 100%;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 100%;
+  transition: opacity 200ms 120ms ease-out;
+  z-index: 1;
+}
+.background--party-mode {
+  animation: spin 5s infinite linear;
+}
+.background--hidden {
+  opacity: 0;
+  pointer-events: none;
+  transition-delay: 0ms;
+}
+.background .bc-canvas {
+  /*bottom: 0;*/
+  /*height: 100%;*/
+  /*left: 0;*/
+  /*position: absolute;*/
+  /*right: 0;*/
+  /*top: 0;*/
+  /*width: 100%;*/
+  /*z-index: 2;*/
+}
+.background .canvas-fallback {
+  /*bottom: 0;*/
+  /*height: 100%;*/
+  /*left: 0;*/
+  /*position: absolute;*/
+  /*right: 0;*/
+  /*top: 0;*/
+  /*width: 100%;*/
+  /*background-color: var(--highlight-color-1);*/
+  /*opacity: var(--canvas-opacity);*/
+  /*transition: var(--canvas-fallback-transition);*/
+  z-index: 1;
+}
+.background .canvas-fallback--faded {
+  opacity: 0;
+  transition-duration: var(--canvas-transition-duration-out);
+}
+
+.global-header {
+  /*margin-top: clamp(16px, 1em, 32px);*/
+  /*max-height: initial;*/
+  /*pointer-events: none;*/
+  /*position: relative;*/
+  /*text-align: center;*/
+  /*transition: max-height 500ms ease-out;*/
+  /*z-index: var(--global-zindex-header);*/
+}
+.global-header--small {
+  /*max-height: 100px;*/
+}
+.global-header--small .o-sliding-background-link:focus-visible {
+  outline: 8px dashed var(--app-color-accent-1);
+  outline-offset: 14px;
+}
+.global-header--small .global-header__title {
+  /*--title-color: var(--title-sub-page-color);*/
+  /*pointer-events: auto;*/
+}
+.global-header__title {
+  /*color: var(--title-color);*/
+  /*display: inline-block;*/
+  /*font-family: var(--font-stack-unicode);*/
+  /*font-size: var(--title-fontSize);*/
+  /*margin: 1rem 0 0 0;*/
+  /*pointer-events: none;*/
+  /*text-align: center;*/
+  /*text-shadow: var(--title-shadow);*/
+  /*text-transform: uppercase;*/
+  /*will-change: transform;*/
+}
+.global-header__title a {
+  --o-sliding-background-link-underline-color: transparent;
+  --o-sliding-background-link-underline-color-hover: var(--app-color-accent-2);
+  --o-sliding-background-link-color-underline-height: 4px;
+  padding: 0;
+  text-decoration: none;
+}
+.global-header__title a:any-link {
+  color: inherit;
+}

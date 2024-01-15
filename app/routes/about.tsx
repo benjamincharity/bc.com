@@ -1,18 +1,18 @@
-import type { MetaFunction } from "@remix-run/node";
-import { siteMetadata } from "~/siteMetadata";
-import avatar from "../assets/avatar.webp";
+import type { MetaFunction } from '@remix-run/node';
+import { siteMetadata } from '~/siteMetadata';
+import avatar from '../assets/avatar.webp';
 
 export const meta: MetaFunction = () => {
   const title = `About - ${siteMetadata.author}`;
   const summary = `About me - ${siteMetadata.author}`;
 
   return [
-    { name: "title", content: title },
-    { name: "description", content: summary },
-    { property: "og:title", content: title },
-    { property: "og:description", content: summary },
-    { name: "twitter:title", content: title },
-    { name: "twitter:description", content: summary },
+    { name: 'title', content: title },
+    { name: 'description', content: summary },
+    { property: 'og:title', content: title },
+    { property: 'og:description', content: summary },
+    { name: 'twitter:title', content: title },
+    { name: 'twitter:description', content: summary },
   ];
 };
 

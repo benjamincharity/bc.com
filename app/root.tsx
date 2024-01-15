@@ -13,18 +13,39 @@ import { DynamicLinks } from './components/DynamicLinks';
 import { siteMetadata } from './siteMetadata';
 import { isDarkMode } from './utils/darkMode';
 
-import styles from '~/styles/main.css';
+// import styles from '~/styles/main.css';
+import sharedStyles from '~/styles/shared.css';
+import twStyles from './tailwind.css';
+
 import { Header } from '~/components/Header';
-import { FancyBackground } from '~/components/FancyBackground';
+import { FancyBackground } from '~/components/FancyBackground/FancyBackground';
 import { state$ } from '~/store';
 import { determineIfShouldShowBackground } from '~/routes/_index/route';
 import { motion } from 'framer-motion';
 
 export const links: LinksFunction = () => {
   return [
+    { rel: 'preconnect', href: 'https://fonts.gstatic.com' },
+    {
+      rel: 'preconnect',
+      href: 'https://fonts.gstatic.com',
+      crossOrigin: 'anonymous',
+    },
     {
       rel: 'stylesheet',
-      href: styles,
+      href: 'https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600;700&family=VT323&display=swap',
+    },
+    // {
+    //   rel: 'stylesheet',
+    //   href: styles,
+    // },
+    {
+      rel: 'stylesheet',
+      href: sharedStyles,
+    },
+    {
+      rel: 'stylesheet',
+      href: twStyles,
     },
     {
       rel: 'icon',

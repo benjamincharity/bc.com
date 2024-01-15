@@ -1,0 +1,9 @@
+/*SLIDING LINK*/
+@keyframes slideBackground {
+  from {
+    background-position: calc(20px * -1) 100%, 100% 100%, 0 100%; /* initial position */
+  }
+  to {
+    background-position: calc(100% + 20px) 100%, 100% 100%, 0 100%; /* final position */
+  }
+}

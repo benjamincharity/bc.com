@@ -131,11 +131,11 @@ export default function Index() {
   };
 
   return (
-    <div className={'bc-home'}>
+    <div className={'bc-home relative z-20 font-vt323'}>
       <div
         className={`container ${
           !shouldShowBackground ? 'container--no-background' : ''
-        } ${shouldShowBackground ? 'u-pointer-off' : ''} ${
+        } ${shouldShowBackground ? 'pointer-events-none' : ''} ${
           shouldBeReducedMotion ? 'container--reduced-motion' : ''
         }`}
         // bcKonami

@@ -8,7 +8,7 @@ import type {
 } from '@remix-run/server-runtime';
 import { json } from '@remix-run/server-runtime';
 import { getMDXComponent } from 'mdx-bundler/client/index.js';
-import { Frontmatter, getPost } from '~/utils/articles.server';
+import { Frontmatter, getArticle } from '~/utils/articles.server';
 
 type LoaderData = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -22,7 +22,7 @@ export const loader: LoaderFunction = async ({ params, request }) => {
   console.log('slug: ', slug, params, request);
   if (!slug) throw new Response('Not found', { status: 404 });
 
-  const post = await getPost(slug);
+  const post = await getArticle(slug);
   if (post) {
     const { frontmatter, code } = post;
     return json({ frontmatter, code });
@@ -37,11 +37,13 @@ export default function Article() {
   console.log('HERE articles.$id---------------');
 
   return (
-    <>
+    <main className={'article font-sourceSerif4'}>
       <Link to="/">← Back to blog index</Link>
       <h1>{frontmatter.title}</h1>
 
-      <Component />
-    </>
+      <article className={'article__content'}>
+        <Component />
+      </article>
+    </main>
   );
 }

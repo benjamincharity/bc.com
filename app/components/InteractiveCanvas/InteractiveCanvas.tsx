@@ -188,7 +188,7 @@ export const InteractiveCanvas = React.memo((props: InteractiveCanvasProps) => {
 
   return (
     <canvas
-      className={'bc-canvas'}
+      className={'bc-canvas z-20 absolute inset-0'}
       ref={canvasRef}
       onMouseDown={() => {
         if (!isDisabled) {

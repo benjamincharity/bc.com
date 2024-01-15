@@ -35,9 +35,8 @@ export interface Frontmatter {
  * @param slug
  * @returns
  */
-export async function getPost(slug: string) {
+export async function getArticle(slug: string) {
   const filePath = path.join(process.cwd(), 'app', 'articles', slug + '.mdx');
-  console.log('filePath: ', filePath);
 
   const [source] = await Promise.all([readFile(filePath, 'utf-8')]);
 
@@ -84,7 +83,7 @@ export async function getPost(slug: string) {
  * Get all frontmatter for all posts
  * @returns
  */
-export async function getPosts() {
+export async function getAllArticles() {
   const filePath = path.join(process.cwd(), 'app', 'articles');
 
   const postsPath = await readdir(filePath, {
@@ -107,30 +106,3 @@ export async function getPosts() {
     }),
   );
 }
-// export const ARTICLES = [
-//   // EssentialTech2024,
-//   // PaddingSavesTheDay,
-//   // QuestionsBuildingTable,
-//   // RethinkToOutbuild,
-//   // Example1,
-// ];
-//
-// export const getArticlesSortedByDate = () => {
-//   return ARTICLES.map(articleFromModule).sort((a, b) =>
-//     a.publishDate > b.publishDate ? -1 : 1,
-//   );
-// };
-//
-// export const filterArticlesByTitle = (query: string) => {
-//   return ARTICLES.map(articleFromModule).filter((a) =>
-//     a.title.toLowerCase().includes(query.toLowerCase()),
-//   );
-// };
-//
-// function articleFromModule(mod: { attributes: Frontmatter; filename: string }) {
-//   return {
-//     ...mod.attributes,
-//     formattedDate: formatDate(new Date().toLocaleDateString()),
-//     slug: mod.filename.replace(/\.mdx?$/, ''),
-//   };
-// }

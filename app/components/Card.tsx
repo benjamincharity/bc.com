@@ -1,7 +1,7 @@
-import type { Frontmatter } from "~/utils/articles.server";
-import { InternalLink } from "./InternalLink";
+import type { Frontmatter } from '~/utils/articles.server';
+import { InternalLink } from './InternalLink';
 
-type Props = Pick<Frontmatter, "title" | "summary" | "slug" | "formattedDate">;
+type Props = Pick<Frontmatter, 'title' | 'summary' | 'slug' | 'formattedDate'>;
 
 export const Card = ({ title, summary, slug, formattedDate }: Props) => {
   return (

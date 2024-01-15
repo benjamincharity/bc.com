@@ -38,7 +38,7 @@ const getLogoClass = (logoState: LogoStates) => {
 export const Header = () => {
   const location = useLocation();
   const [logoState, setLogoState] = useState<LogoStates>(LogoStates.VOID);
-  const isVisible = state$.isVisible.get();
+  const bgIsVisible = state$.isVisible.get();
 
   useEffect(() => {
     const localDetermination = determineIfShouldShowBackground(
@@ -50,16 +50,24 @@ export const Header = () => {
 
   return (
     <motion.header
-      animate={isVisible ? 'default' : 'shrunk'}
-      className={`global-header ${!isVisible ? 'global-header--small' : ''} ${
-        isVisible ? 'u-pointer-off' : ''
+      animate={bgIsVisible ? 'default' : 'shrunk'}
+      className={`global-header pointer-events-none mt-4 relative z-20 text-center ${
+        bgIsVisible
+          ? 'u-pointer-off text-titleLarge'
+          : 'global-header--small max-h-24 pointer-events-auto text-gray-700 text-titleSmall'
       }`}
       initial="initial"
       transition={transition}
       variants={headerVariants}
     >
-      <h1 className={`global-header__title ${getLogoClass(logoState)}`}>
-        {isVisible ? (
+      <h1
+        className={`text-8xl inline-block  ${getLogoClass(
+          logoState,
+        )} font-vt323 leading-none text-center  ${
+          bgIsVisible ? 'text-white' : 'text-gray-700'
+        }}`}
+      >
+        {bgIsVisible ? (
           <>
             Benjamin
             <br />
