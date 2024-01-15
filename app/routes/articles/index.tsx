@@ -40,9 +40,22 @@ function BlogItem(props: {
         to={`/articles/${item.slug}`}
       />
 
-      <p className={'text-base text-gray-600 font-bold leading-5 opacity-80'}>
+      <p
+        className={
+          'text-base pt-1 mb-1 text-gray-600 font-bold leading-5 opacity-80'
+        }
+      >
         {item.frontmatter.summary}
+        {/*TODO*/}
+        <span className={'text-xs ml-1'}>[4 min]</span>
       </p>
+
+      <footer className={'text-[10px] font-mono italic text-gray-500'}>
+        Published on{' '}
+        <time dateTime={item.frontmatter.publishDate}>
+          {item.frontmatter.publishDate}
+        </time>
+      </footer>
     </article>
   );
 }

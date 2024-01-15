@@ -4,7 +4,7 @@ import SlidingLink from '~/components/SlidingLink';
 export interface ArticleTitleProps {
   level?: 1 | 2 | 3 | 4 | 5 | 6;
   title: string;
-  to?: string;
+  to: string;
 }
 
 export const ArticleTitleLink = React.memo(
@@ -20,7 +20,7 @@ export const ArticleTitleLink = React.memo(
       {
         className: 'group text-3xl font-bold text-gray-700  inline',
       },
-      <SlidingLink to={to}>
+      <SlidingLink prefetch={'intent'} to={to}>
         {titleTrimmed}
         <span className="listing-tail inline-block pr-10 whitespace-nowrap relative">
           {titleTail}
