@@ -39,7 +39,9 @@ export default function Article() {
   return (
     <main className={'article font-sourceSerif4 max-w-2xl mx-auto py-4'}>
       <BackLink to="/articles" />
-      <h1 className={'text-2xl'}>{frontmatter.title}</h1>
+      <h1 className={'text-3xl font-bold leading-tight text-gray-700'}>
+        {frontmatter.title}
+      </h1>
 
       <article className={'rendered-markdown'}>
         <Component components={{ MyC: Codepen }} />
