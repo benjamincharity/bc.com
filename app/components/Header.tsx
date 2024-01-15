@@ -51,7 +51,7 @@ export const Header = () => {
   return (
     <motion.header
       animate={bgIsVisible ? 'default' : 'shrunk'}
-      className={`global-header pointer-events-none mt-4 relative z-20 text-center ${
+      className={`global-header pointer-events-none relative z-20 text-center ${
         bgIsVisible
           ? 'u-pointer-off text-titleLarge'
           : 'global-header--small max-h-24 pointer-events-auto text-gray-700 text-titleSmall'
@@ -61,7 +61,7 @@ export const Header = () => {
       variants={headerVariants}
     >
       <h1
-        className={`text-8xl inline-block  ${getLogoClass(
+        className={`text-8xl inline-block uppercase font-bold ${getLogoClass(
           logoState,
         )} font-vt323 leading-none text-center  ${
           bgIsVisible ? 'text-white' : 'text-gray-700'

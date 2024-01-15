@@ -14,7 +14,8 @@
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "paths": {
-      "~/*": ["./app/*"]
+      "~/*": ["./app/*"],
+      "@shared/*": ["./app/components/*"],
     },
     "skipLibCheck": true,
 

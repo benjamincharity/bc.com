@@ -7,7 +7,7 @@ export default {
   theme: {
     extend: {
       backgroundImage: {
-        'sliding-gradient': 'linear-gradient(white, white), linear-gradient(#71cbc4, #71cbc4), linear-gradient(#e8608c, #e8608c)',
+        'sliding-gradient': 'linear-gradient(white, white), linear-gradient(#8ae6df, #8ae6df), linear-gradient(#f184a8, #f184a8)',
       },
       backgroundSize: {
         'sliding-initial': '20px 18px, 100% 18px, 0 18px',
@@ -40,8 +40,8 @@ export default {
         drWhite: '#fafafa',
         goshawkGrey: '#444',
         grey: '#808080',
-        loveLetter: '#e8608c',
-        turkishTeal: '#71cbc4',
+        loveLetter: '#f184a8',
+        turkishTeal: '#8ae6df',
       },
       textShadow: {
         sm: '0 1px 2px var(--tw-shadow-color)',
@@ -69,7 +69,6 @@ export default {
       };
       addUtilities(newUtilities);
     }),
-
   ],
 } satisfies Config
 

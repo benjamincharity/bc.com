@@ -17,9 +17,8 @@ type LoaderData = {
 };
 
 export const loader: LoaderFunction = async ({ params, request }) => {
-  console.log('HERE articles.$id---------------');
   const slug = params.id;
-  console.log('slug: ', slug, params, request);
+  // console.log('slug: ', slug, params, request);
   if (!slug) throw new Response('Not found', { status: 404 });
 
   const post = await getArticle(slug);
