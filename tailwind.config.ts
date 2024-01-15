@@ -30,11 +30,17 @@ export default {
       fontFamily: {
         vt323: ['"VT323"', ...defaultTheme.fontFamily.sans],
         sourceSerif4: ['"Source Serif 4"', ...defaultTheme.fontFamily.sans],
+        code: [
+          'Fira Code',
+          'Consolas',
+          'Monaco',
+          ...defaultTheme.fontFamily.sans,
+        ],
       },
-      fontSize: {
-        titleSmall: 'clamp(2rem, 23vw, 2rem)',
-        titleLarge: 'clamp(3rem, 23vw, 6rem)',
-      },
+      // fontSize: {
+      //   titleSmall: 'clamp(2rem, 23vw, 2rem)',
+      //   titleLarge: 'clamp(3rem, 23vw, 6rem)',
+      // },
       colors: {
         articleDescription: '#f0f',
         codeBackground: '#f7f7f7',
@@ -60,6 +66,18 @@ export default {
         sm: '0 1px 2px var(--tw-shadow-color)',
         DEFAULT: '0 2px 4px var(--tw-shadow-color)',
         lg: '0 8px 16px var(--tw-shadow-color)',
+      },
+      height: {
+        '10v': '10vh',
+        '20v': '20vh',
+        '30v': '30vh',
+        '40v': '40vh',
+        '50v': '50vh',
+        '60v': '60vh',
+        '70v': '70vh',
+        '80v': '80vh',
+        '90v': '90vh',
+        '100v': '100vh',
       },
     },
   },

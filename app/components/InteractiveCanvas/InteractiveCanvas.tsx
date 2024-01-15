@@ -14,6 +14,7 @@ import {
   PaletteDirection,
 } from '~/components/InteractiveCanvas/canvas';
 import { shuffle } from '~/utils/shuffle';
+import { state$ } from '~/store';
 
 // Define a dummy window object for SSR
 const dummyWindow = {
@@ -85,13 +86,14 @@ export interface InteractiveCanvasRefType {
   wobbleRows: (goToNextPalette?: boolean) => void;
 }
 
+const shuffled = shuffle([...PALETTES]);
+const palette = shuffled[0];
+
 export const InteractiveCanvas = React.memo((props: InteractiveCanvasProps) => {
   const { isDisabled = false, paletteChange, shouldShow = true } = props;
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const localWindow = typeof window !== 'undefined' ? window : dummyWindow;
-  const [isPaused, setIsPaused] = useState(false);
-  const shuffled = shuffle([...PALETTES]);
-  const [palette, setPalette] = useState<Palette>(shuffled[0]);
+  const isPaused = state$.isPaused.get();
   const [totalPoints, setTotalPoints] = useState(0);
   const [dist, setDist] = useState(0);
   const rows = useMemo(() => {
@@ -100,7 +102,7 @@ export const InteractiveCanvas = React.memo((props: InteractiveCanvasProps) => {
       row.color = palette[palette.length - i - 1];
       return row;
     });
-  }, [palette, totalPoints]);
+  }, [totalPoints]);
 
   const [canvasInstance, setCanvasInstance] = useState<Canvas | null>(null);
 
@@ -117,7 +119,13 @@ export const InteractiveCanvas = React.memo((props: InteractiveCanvasProps) => {
 
   useEffect(() => {
     if (canvasRef.current) {
-      const instance = new Canvas(canvasRef.current, rows, totalPoints, dist);
+      const instance = new Canvas(
+        canvasRef.current,
+        rows,
+        totalPoints,
+        dist,
+        shuffled,
+      );
       setCanvasInstance(instance);
     }
   }, [canvasRef, rows, totalPoints, dist]);
@@ -157,6 +165,11 @@ export const InteractiveCanvas = React.memo((props: InteractiveCanvasProps) => {
     };
     const handleKeyDown = (event: Event) => {
       const keyboardEvent = event as KeyboardEvent;
+
+      if (keyboardEvent.ctrlKey || keyboardEvent.metaKey) {
+        return;
+      }
+
       if (keyboardEvent.key === 'ArrowRight') {
         canvasInstance?.wobbleRows(PaletteDirection.NEXT);
       } else if (keyboardEvent.key === 'ArrowLeft') {

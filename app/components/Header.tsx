@@ -1,86 +1,43 @@
 import { Link, useLocation } from '@remix-run/react';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { determineIfShouldShowBackground } from '~/routes/_index/route';
-import { motion } from 'framer-motion';
 import { state$ } from '~/store';
 
-const headerVariants = {
-  initial: { opacity: 0, y: -26 },
-  default: { opacity: 1, y: 0, scale: 1 },
-  shrunk: { opacity: 1, y: 0, scale: 0.4 },
-};
-
-const transition = {
-  type: 'spring',
-  stiffness: 260,
-  damping: 20,
-};
-
-export enum LogoStates {
-  VOID = 'void',
-  DEFAULT = 'default',
-  SHRUNK = 'shrunk',
-}
-
-const getLogoClass = (logoState: LogoStates) => {
-  switch (logoState) {
-    case LogoStates.VOID:
-      return 'void-state';
-    case LogoStates.DEFAULT:
-      return 'default-state';
-    case LogoStates.SHRUNK:
-      return 'shrunk-state';
-    default:
-      return '';
-  }
-};
-
-export const Header = () => {
+export const Header = ({ isSmall = false }: { isSmall?: boolean }) => {
   const location = useLocation();
-  const [logoState, setLogoState] = useState<LogoStates>(LogoStates.VOID);
-  const bgIsVisible = state$.isVisible.get();
+  const [localIsSmall, setLocalIsSmall] = useState(isSmall);
+  const headerClasses = useMemo(() => {
+    const shared = `relative text-center z-20 font-vt323 leading-none transition-all`;
+    const largeState = `${shared} pointer-events-none text-white text-8xl`;
+    const smallState = `${shared} pointer-events-auto text-gray-700 text-4xl pt-6 transition-duration-200`;
+    return localIsSmall ? smallState : largeState;
+  }, [localIsSmall]);
 
   useEffect(() => {
     const localDetermination = determineIfShouldShowBackground(
       location.pathname,
     );
     state$.isVisible.set(localDetermination);
-    setLogoState(localDetermination ? LogoStates.DEFAULT : LogoStates.SHRUNK);
+    setLocalIsSmall(!localDetermination);
   }, [location.pathname]);
 
   return (
-    <motion.header
-      animate={bgIsVisible ? 'default' : 'shrunk'}
-      className={`global-header pointer-events-none relative z-20 text-center ${
-        bgIsVisible
-          ? 'u-pointer-off text-titleLarge'
-          : 'global-header--small pointer-events-auto text-gray-700 text-titleSmall'
-      }`}
-      initial="initial"
-      transition={transition}
-      variants={headerVariants}
-    >
-      <h1
-        className={`text-8xl inline-block uppercase font-bold ${getLogoClass(
-          logoState,
-        )} font-vt323 leading-none text-center  ${
-          bgIsVisible ? 'text-white' : 'text-gray-700'
-        }}`}
-      >
-        {bgIsVisible ? (
+    <header className={headerClasses}>
+      <h1 className={`inline-block uppercase leading-none }`}>
+        {localIsSmall ? (
+          <Link className="o-sliding-background-link font-bold" to="/">
+            Benjamin
+            <br />
+            Charity
+          </Link>
+        ) : (
           <>
             Benjamin
             <br />
             Charity
           </>
-        ) : (
-          <Link className="o-sliding-background-link" to="/">
-            Benjamin
-            <br />
-            Charity
-          </Link>
         )}
       </h1>
-    </motion.header>
+    </header>
   );
 };

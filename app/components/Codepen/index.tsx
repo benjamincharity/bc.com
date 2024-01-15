@@ -47,7 +47,6 @@ export const Codepen: React.FC<ReactCodepenProps> = ({
     script.onload = () => {
       // do not do anything if the component is already unmounted.
       if (!_isMounted.current) return;
-      console.log('load script');
       setLoadState(LOAD_STATE.loaded);
     };
     script.onerror = () => {

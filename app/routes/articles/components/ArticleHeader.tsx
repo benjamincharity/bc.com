@@ -9,6 +9,7 @@ interface Props {
 }
 
 export const ArticleHeader = ({ attributes }: Props) => {
+  const { short, full } = formatDate(attributes.date);
   return (
     <div className="text-center">
       <h1>{attributes.title}</h1>
@@ -23,7 +24,9 @@ export const ArticleHeader = ({ attributes }: Props) => {
         </div>
         <span className="mr-2">{siteMetadata.author}</span>
         <span className="mr-2 hidden sm:block"> • </span>
-        <span className="">{formatDate(attributes.date)}</span>
+        <time dateTime={attributes.date} title={full} className="">
+          {short}
+        </time>
       </div>
       <div className="mb-8 flex gap-4 flex-wrap justify-center">
         {attributes.tags?.map((tag) => (

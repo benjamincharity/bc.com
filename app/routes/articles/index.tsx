@@ -62,7 +62,7 @@ function BlogItem(props: {
 
 export default function Index() {
   return (
-    <section className={'articles max-w-2xl px-4 m-auto pt-16'}>
+    <section className={'articles max-w-2xl px-4 m-auto pt-16 relative z-20'}>
       <ListOfBlogPosts />
     </section>
   );

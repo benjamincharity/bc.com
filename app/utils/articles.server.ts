@@ -38,7 +38,7 @@ export interface Frontmatter {
 export async function getArticle(slug: string) {
   const filePath = path.join(process.cwd(), 'app', 'articles', slug + '.mdx');
 
-  const [source] = await Promise.all([readFile(filePath, 'utf-8')]);
+  const source = await readFile(filePath, 'utf-8');
 
   // Dyamically import all the rehype/remark plugins we are using
   const [rehypeHighlight, remarkGfm] = await Promise.all([
@@ -47,7 +47,7 @@ export async function getArticle(slug: string) {
   ]);
 
   const post = await bundleMDX<Frontmatter>({
-    source,
+    source: source.toString('utf-8'),
     cwd: process.cwd(),
 
     esbuildOptions: (options) => {

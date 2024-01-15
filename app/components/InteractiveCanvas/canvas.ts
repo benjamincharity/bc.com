@@ -12,7 +12,7 @@ export const PaletteDirection = {
 } as const;
 
 export type PaletteDirection =
-  typeof PaletteDirection[keyof typeof PaletteDirection];
+  (typeof PaletteDirection)[keyof typeof PaletteDirection];
 
 export const MOUSE_OFF = -1000;
 
@@ -30,13 +30,15 @@ export class Canvas {
     rows: Row[],
     totalPoints: number,
     dist: number,
+    palettes: Palette[],
   ) {
     this.canvas = canvas;
     this.rows = rows;
     this.totalPoints = totalPoints;
     this.dist = dist;
-    this.shuffled = shuffle([...PALETTES]);
-    this.palette = this.shuffled[0];
+    this.shuffled = palettes;
+    this.palette = palettes[0];
+    this.setNewPaletteColors(this.palette);
   }
 
   updateCanvasSizeAndRows() {

@@ -37,14 +37,10 @@ export default function Index() {
   const canvasRef = useRef<InteractiveCanvasRefType>(null);
 
   useEffect(() => {
-    // Similar to React, handle routing and state updates here
     const handleRouteChange = () => {
-      // Update states based on route change
       setCurrentRoute(location.pathname);
-      // Other state updates...
     };
 
-    // Call handleRouteChange initially and on every location change
     handleRouteChange();
   }, [location]);
 
@@ -100,19 +96,20 @@ export default function Index() {
   //   showThenHideInfo();
   // }, [shouldShowBackground]);
 
-  const setNewPaletteColors = (palette: Palette) => {
-    document.documentElement.style.setProperty(
-      `--o-squiggle-link-backgroundImage`,
-      `url(data:image/svg+xml;base64,${window.btoa(
-        generateSvgSquiggle(palette[0]),
-      )})`,
-    );
-
-    for (let i = 0; i < palette.length; i += 1) {
-      const cssVar = `--highlight-color-${i + 1}`;
-      document.documentElement.style.setProperty(cssVar, `${palette[i]}`);
-    }
-  };
+  // const setNewPaletteColors = (palette: Palette) => {
+  //   document.documentElement.style.setProperty(
+  //     `--o-squiggle-link-backgroundImage`,
+  //     `url(data:image/svg+xml;base64,${window.btoa(
+  //       generateSvgSquiggle(palette[0]),
+  //     )})`,
+  //   );
+  //
+  //   for (let i = 0; i < palette.length; i += 1) {
+  //     const cssVar = `--highlight-color-${i + 1}`;
+  //     console.log('cssVar: ', cssVar);
+  //     document.documentElement.style.setProperty(cssVar, `${palette[i]}`);
+  //   }
+  // };
 
   const togglePartyMode = (isOn: boolean) => {
     setPartyModeEnabled(isOn);
@@ -133,13 +130,13 @@ export default function Index() {
   return (
     <div className={'bc-home relative z-20 font-vt323'}>
       <div
-        className={`container ${
-          !shouldShowBackground ? 'container--no-background' : ''
-        } ${shouldShowBackground ? 'pointer-events-none' : ''} ${
-          shouldBeReducedMotion ? 'container--reduced-motion' : ''
-        }`}
-        // bcKonami
-        // konami={togglePartyMode}
+      // className={`container ${
+      //   !shouldShowBackground ? 'container--no-background' : ''
+      // } ${shouldShowBackground ? 'pointer-events-none' : ''} ${
+      //   shouldBeReducedMotion ? 'container--reduced-motion' : ''
+      // }`}
+      // bcKonami
+      // konami={togglePartyMode}
       >
         <main
           className={`container__inner ${

@@ -8,7 +8,7 @@ import {
   ScrollRestoration,
   useLocation,
 } from '@remix-run/react';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { DynamicLinks } from './components/DynamicLinks';
 import { siteMetadata } from './siteMetadata';
 import { isDarkMode } from './utils/darkMode';
@@ -19,6 +19,7 @@ import { FancyBackground } from '~/components/FancyBackground/FancyBackground';
 import { state$ } from '~/store';
 import { determineIfShouldShowBackground } from '~/routes/_index/route';
 import { motion } from 'framer-motion';
+import highlightStyle from 'highlight.js/styles/github.css';
 
 export const links: LinksFunction = () => {
   return [
@@ -75,22 +76,25 @@ export const meta: MetaFunction = ({ location }) => {
 
 export default function App() {
   const location = useLocation();
-  const [show, setShow] = useState(state$.isVisible.get());
-  const isDefaultRoute = location.pathname === '/';
 
-  useEffect(() => {
-    const path = location.pathname;
+  const setVisibility = useCallback((path: string) => {
     const result = determineIfShouldShowBackground(path);
     state$.isVisible.set(result);
-    setShow(result);
-  }, [location.pathname]);
+  }, []);
 
   useEffect(() => {
+    setVisibility(location.pathname);
+  }, [location.pathname, setVisibility]);
+
+  useEffect(() => {
+    setVisibility(location.pathname);
+
     if (isDarkMode()) {
       document.documentElement.classList.add('dark');
     } else {
       document.documentElement.classList.remove('dark');
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -102,22 +106,20 @@ export default function App() {
       </head>
 
       <body>
-        <div className="bc-root">
-          <Header />
+        <div className="relative text-lg h-100v">
+          <Header
+            isSmall={determineIfShouldShowBackground(location.pathname)}
+          />
           <Outlet />
           <ScrollRestoration />
-          {show && isDefaultRoute && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5 }}
-            >
-              <FancyBackground />
-            </motion.div>
-          )}
+          <FancyBackground
+            isVisible={determineIfShouldShowBackground(location.pathname)}
+          />
           <Scripts />
           <LiveReload />
         </div>
+        {/*deferred loading*/}
+        <link rel="stylesheet" href={highlightStyle} />
       </body>
     </html>
   );
