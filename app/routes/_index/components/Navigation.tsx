@@ -31,7 +31,7 @@ export const Navigation = React.memo((props: NavigationProps): ReactElement => {
               <li className={'block'} key={link.display}>
                 {link.destination?.startsWith('http') ? (
                   <a
-                    className={`squiggle-link text-2xl relative pointer-events-auto`}
+                    className={`squiggle-link text-3xl relative pointer-events-auto`}
                     href={link.destination}
                     rel={'noreferrer'}
                     target="_blank"
@@ -49,7 +49,7 @@ export const Navigation = React.memo((props: NavigationProps): ReactElement => {
                   </a>
                 ) : (
                   <Link
-                    className={`squiggle-link text-2xl pointer-events-auto`}
+                    className={`squiggle-link text-3xl pointer-events-auto`}
                     to={link.destination}
                   >
                     {link.display}

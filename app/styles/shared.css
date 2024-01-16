@@ -21,7 +21,7 @@ strong {
 
 /*SQUIGGLE LINK*/
 .squiggle-link {
-  @apply text-shadow-title text-[--highlight-color-1] relative leading-none inline-block no-underline;
+  @apply text-shadow-title pt-1 pb-2 text-[--highlight-color-1] relative leading-none inline-block no-underline;
   background: linear-gradient(
       to bottom,
       var(--highlight-color-1) 0%,
@@ -32,7 +32,7 @@ strong {
   /*color: var(--highlight-color-1);*/
   /*display: inline-block;*/
   /*line-height: 1;*/
-  padding: 0.46em 0.2em;
+  /*padding: 0 0.1em;*/
   /*text-decoration: none;*/
 }
 

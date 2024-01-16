@@ -1,4 +1,5 @@
 import { Link, LinkProps, useNavigate } from '@remix-run/react';
+import { navigationState$ } from '~/store';
 
 // .navigation__link {
 //   display: inline-block;
@@ -60,7 +61,12 @@ export const BackToArticlesLink = ({ ...props }: Partial<LinkProps>) => {
 
 export const BackToLink = ({ ...props }: Partial<LinkProps>) => {
   const navigate = useNavigate();
-  const goBack = () => navigate(-1);
+  const goBack = () => {
+    // Remove the current page from the history
+    navigationState$.history.pop();
+    // Navigate back
+    navigate(-1);
+  };
 
   return (
     <Link className={classes} {...props} to={'#'} onClick={goBack}>
@@ -71,7 +77,8 @@ export const BackToLink = ({ ...props }: Partial<LinkProps>) => {
       >
         &#8668;
       </span>{' '}
-      Back
+      Back to{' '}
+      {navigationState$.history.get()[navigationState$.history.length - 2]}
     </Link>
   );
 };

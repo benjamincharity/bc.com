@@ -16,7 +16,7 @@ import sharedStyles from '~/styles/shared.css';
 import twStyles from './styles/tailwind.css';
 import { Header } from '~/components/Header';
 import { FancyBackground } from '~/components/FancyBackground/FancyBackground';
-import { state$ } from '~/store';
+import { navigationState$, state$ } from '~/store';
 import { determineIfShouldShowBackground } from '~/routes/_index/route';
 import { motion } from 'framer-motion';
 import highlightStyle from 'highlight.js/styles/github.css';
@@ -77,6 +77,9 @@ export const meta: MetaFunction = ({ location }) => {
 export default function App() {
   const location = useLocation();
 
+  useEffect(() => {
+    // Push the new location into the history state
+  }, [location]);
   const setVisibility = useCallback((path: string) => {
     const result = determineIfShouldShowBackground(path);
     state$.isVisible.set(result);
@@ -84,6 +87,7 @@ export default function App() {
 
   useEffect(() => {
     setVisibility(location.pathname);
+    navigationState$.history.push(location.pathname);
   }, [location.pathname, setVisibility]);
 
   useEffect(() => {
