@@ -8,7 +8,7 @@ export const Header = ({ isSmall = false }: { isSmall?: boolean }) => {
   const [localIsSmall, setLocalIsSmall] = useState(isSmall);
   const headerClasses = useMemo(() => {
     const shared = `relative text-center z-20 font-vt323 leading-none transition-all`;
-    const largeState = `${shared} pointer-events-none text-white text-8xl`;
+    const largeState = `${shared} pointer-events-none text-white text-8xl py-10`;
     const smallState = `${shared} pointer-events-auto text-gray-700 text-4xl pt-6 transition-duration-200`;
     return localIsSmall ? smallState : largeState;
   }, [localIsSmall]);
@@ -23,7 +23,7 @@ export const Header = ({ isSmall = false }: { isSmall?: boolean }) => {
 
   return (
     <header className={headerClasses}>
-      <h1 className={`inline-block uppercase leading-none }`}>
+      <h1 className={`inline-block uppercase leading-[.9em] text-shadow-title`}>
         {localIsSmall ? (
           <Link className="o-sliding-background-link font-bold" to="/">
             Benjamin

@@ -128,7 +128,7 @@ export default function Index() {
   };
 
   return (
-    <div className={'bc-home relative z-20 font-vt323'}>
+    <div className={'bc-home relative z-20 font-vt323 pointer-events-none'}>
       <div
       // className={`container ${
       //   !shouldShowBackground ? 'container--no-background' : ''
@@ -138,25 +138,20 @@ export default function Index() {
       // bcKonami
       // konami={togglePartyMode}
       >
-        <main
-          className={`container__inner ${
-            shouldShowBackground ? 'u-pointer-off' : ''
-          }`}
-          style={{ outline: '2px solid red' }}
-        >
+        <main>
           <Outlet />
           <Navigation />
         </main>
       </div>
 
-      <InfoBubble
-        animationsArePaused={state$.isPaused.get()}
-        togglePauseRequest={() => {
-          state$.isPaused.set(!state$.isPaused.get());
-        }}
-        // infoPanelStateChange={() => userHasInteractedWithInfoPanel()}
-        ref={infoRef}
-      />
+      {/*<InfoBubble*/}
+      {/*  animationsArePaused={state$.isPaused.get()}*/}
+      {/*  togglePauseRequest={() => {*/}
+      {/*    state$.isPaused.set(!state$.isPaused.get());*/}
+      {/*  }}*/}
+      {/*  // infoPanelStateChange={() => userHasInteractedWithInfoPanel()}*/}
+      {/*  ref={infoRef}*/}
+      {/*/>*/}
     </div>
   );
 }

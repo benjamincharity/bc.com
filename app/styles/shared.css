@@ -14,6 +14,51 @@
   }
 }
 
+/*SQUIGGLE LINK*/
+.squiggle-link {
+  @apply text-shadow-title text-[--highlight-color-1] relative leading-none inline-block no-underline;
+  background: linear-gradient(
+      to bottom,
+      var(--highlight-color-1) 0%,
+      var(--highlight-color-1) 100%
+    )
+    repeat-x 0 100%;
+  background-size: 3px 3px;
+  /*color: var(--highlight-color-1);*/
+  /*display: inline-block;*/
+  /*line-height: 1;*/
+  padding: 0.46em 0.2em;
+  /*text-decoration: none;*/
+}
+
+.squiggle-link:focus,
+.squiggle-link:hover {
+  @apply no-underline;
+  background-image: var(--o-squiggle-link-backgroundImage);
+  background-position: 0 100%;
+  background-size: auto 6px;
+  background-repeat: repeat-x;
+}
+.squiggle-link:focus {
+  outline: 2px dashed;
+}
+.squiggle-link svg {
+  @apply absolute top-4 scale-50 left-[99%] fill-current opacity-0 transition-all;
+}
+.squiggle-link:focus svg,
+.squiggle-link:hover svg {
+  @apply opacity-100 left-[102%];
+}
+
+/*TRUSTED TITLE*/
+.trusted-title {
+  text-decoration-color: inherit;
+  text-decoration-thickness: 2px;
+  text-decoration: underline;
+  text-transform: uppercase;
+  text-underline-offset: 4px;
+}
+
 /*ARTICLE CONTENT*/
 .rendered-markdown {
   @apply text-lg overflow-x-hidden;

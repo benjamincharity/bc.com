@@ -4,6 +4,8 @@ import { shuffle } from '~/utils/shuffle';
 import { NAVIGATION_LINKS } from '~/data/navigation.data';
 import { Link } from '@remix-run/react';
 
+const baseLinkStyles = 'squiggle-link ';
+
 export interface NavigationProps {}
 
 export const Navigation = React.memo((props: NavigationProps): ReactElement => {
@@ -15,21 +17,21 @@ export const Navigation = React.memo((props: NavigationProps): ReactElement => {
   }, []);
 
   return (
-    <div className="navigation z-30">
-      <h2 className="title title--secondary u-pointer text-shadow">
+    <div className="navigation z-30 text-center pointer-events-none">
+      <h2 className="inline-block uppercase text-3xl m-4 mt-2 font-vt323 text-white leading-none text-shadow-title text-center">
         Engineering leader at high-growth
         <br />
         startups & scale-ups
       </h2>
 
-      <nav className="navigation">
-        <ul className="navigation__list">
+      <nav className="mb-8">
+        <ul>
           {NAVIGATION_LINKS.map((link) => {
             return (
-              <li className={'navigation__list-item'} key={link.display}>
+              <li className={'block'} key={link.display}>
                 {link.destination?.startsWith('http') ? (
                   <a
-                    className="navigation__link o-squiggle-underline-link"
+                    className={`squiggle-link text-2xl relative pointer-events-auto`}
                     href={link.destination}
                     rel={'noreferrer'}
                     target="_blank"
@@ -47,7 +49,7 @@ export const Navigation = React.memo((props: NavigationProps): ReactElement => {
                   </a>
                 ) : (
                   <Link
-                    className="navigation__link o-squiggle-underline-link u-pointer"
+                    className={`squiggle-link text-2xl pointer-events-auto`}
                     to={link.destination}
                   >
                     {link.display}
@@ -59,15 +61,13 @@ export const Navigation = React.memo((props: NavigationProps): ReactElement => {
         </ul>
       </nav>
 
-      <section className="companies u-pointer">
-        <h3 className="companies__title">Trusted by</h3>
-        <ul className="companies__list">
+      <section className="max-w-xl mx-auto text-base leading-tight">
+        <h3 className="opacity-60 trusted-title">Trusted by</h3>
+        <ul className="list-none pointer-events-auto">
           {companies.map((c, i) => {
             return (
               <li
-                className={`companies__company ${
-                  i === c.length - 1 ? 'last' : ''
-                }`}
+                className={`p-x-1 p-y-3 mr-3 lg:text-lg inline-block whitespace-nowrap leading-none ${i === c.length - 1 ? 'last' : ''}`}
                 key={c}
               >
                 {c}

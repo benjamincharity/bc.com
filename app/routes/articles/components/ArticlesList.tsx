@@ -9,10 +9,10 @@ type Article = Pick<
 
 interface Props {
   articles: Article[];
-  nextPage: number | null;
-  page: number;
-  previousPage: number | null;
-  totalPages: number;
+  // nextPage: number | null;
+  // page: number;
+  // previousPage: number | null;
+  // totalPages: number;
 }
 
 // export const ArticlesList = ({

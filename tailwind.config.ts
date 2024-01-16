@@ -11,6 +11,8 @@ export default {
           'linear-gradient(white, white), linear-gradient(#8ae6df, #8ae6df), linear-gradient(#f184a8, #f184a8)',
         'strongBg':
           'linear-gradient(-100deg, rgba(255, 244, 0, 0.2), rgba(255, 244, 0, 0.5) 95%, rgba(255, 244, 0, 0.1))',
+        'wavyBg':
+          'linear-gradient(to bottom,var(--highlight-color-1) 0,var(--highlight-color-1) 100%) repeat-x 0 100%',
       },
       backgroundSize: {
         'sliding-initial': '20px 18px, 100% 18px, 0 18px',
@@ -23,7 +25,6 @@ export default {
       transitionProperty: {
         'bg-size-position': 'background-size, background-position',
       },
-
       animation: {
         'slide-bg': 'slideBackground 3s ease-in-out infinite',
       },
@@ -66,6 +67,7 @@ export default {
         sm: '0 1px 2px var(--tw-shadow-color)',
         DEFAULT: '0 2px 4px var(--tw-shadow-color)',
         lg: '0 8px 16px var(--tw-shadow-color)',
+        title: '2px 2px 2px rgba(0,0,0,0.4)',
       },
       height: {
         '10v': '10vh',
