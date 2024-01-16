@@ -117,9 +117,9 @@
   text-underline-offset: 2px;
 }
 
+hr.fancy,
 .rendered-markdown hr {
   @apply bg-drakenhofNightshade;
-  /*background: var(--app-color-accent-1);*/
   border: 0;
   height: 1px;
   margin: 30px auto;
@@ -127,10 +127,9 @@
   position: relative;
   width: 16vw;
 }
+hr.fancy::before,
 .rendered-markdown hr::before {
   @apply bg-drakenhofNightshade border-2 border-solid border-drakenhofNightshade;
-  /*background: var(--app-color-accent-1);*/
-  /*border: 2px solid var(--app-color-accent-1);*/
   content: '';
   display: inline-block;
   height: 9px;
@@ -202,4 +201,10 @@
 
 .rendered-markdown iframe {
   @apply mt-5;
+}
+
+/*TAGS*/
+.pseudo-bullet {
+  @apply relative inline-block whitespace-nowrap;
+  padding: 0.1em 0.6em 0.1em 0.2em;
 }

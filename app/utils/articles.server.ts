@@ -79,16 +79,16 @@ export async function getArticle(slug: string) {
   };
 }
 
-export interface ArticlesLoaderData {
-  slug: string;
+export interface ArticleReference {
   frontmatter: Frontmatter;
+  slug: string;
 }
 
 /**
  * Get all frontmatter for all posts
  * @returns
  */
-export async function getAllArticles(): Promise<ArticlesLoaderData[]> {
+export async function getAllArticles(): Promise<ArticleReference[]> {
   const filePath = path.join(process.cwd(), 'app', 'articles');
 
   const postsPath = await readdir(filePath, {

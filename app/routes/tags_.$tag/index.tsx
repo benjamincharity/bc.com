@@ -1,7 +1,11 @@
 import type { MetaFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { useLoaderData, useParams } from '@remix-run/react';
-import { Frontmatter, getAllArticles } from '~/utils/articles.server';
+import {
+  ArticleReference,
+  Frontmatter,
+  getAllArticles,
+} from '~/utils/articles.server';
 // import { filterArticlesByTitle } from "~/utils/articles.server";
 // import { getArticlesSortedByDate } from "~/utils/articles.server";
 // import { ArticlesList } from "~/components/ArticlesList";
@@ -15,7 +19,7 @@ interface Params {
 }
 
 interface LoaderData {
-  articles: Frontmatter[];
+  articles: ArticleReference[];
   // nextPage: number | null;
   // previousPage: number | null;
   // totalPages: number;
@@ -52,9 +56,10 @@ export const loader = async ({
   const articles = await getAllArticles();
 
   // const articles = query ? filterArticlesByTitle(query) : getArticlesSortedByDate();
-  const filteredArticles = articles
-    .filter((a) => a.frontmatter?.tags?.includes(tag))
-    .map((a) => a.frontmatter);
+  const filteredArticles = articles.filter((a) =>
+    a.frontmatter?.tags?.includes(tag),
+  );
+  // .map((a) => a.frontmatter);
   // const data = getPagingData(request, filteredArticles);
 
   return json<LoaderData>({ articles: filteredArticles, query });
@@ -62,12 +67,7 @@ export const loader = async ({
 
 export default function Tag() {
   const { tag } = useParams();
-  // const data = useLoaderData<
-  //   Array<{
-  //     slug: string;
-  //     frontmatter: Frontmatter;
-  //   }>
-  // >();
+  const { articles, query } = useLoaderData<LoaderData>();
 
   // const { articles, nextPage, previousPage, totalPages, page, query } =
   //   useLoaderData<LoaderData>();
@@ -84,7 +84,7 @@ export default function Tag() {
         Showing articles tagged <code>{tag}</code>. Clear filter
       </div>
 
-      <ArticlesList />
+      <ArticlesList articles={articles} />
 
       {/*<ArticlesList*/}
       {/*  articles={articles}*/}

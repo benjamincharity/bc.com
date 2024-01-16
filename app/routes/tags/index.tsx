@@ -4,10 +4,15 @@ import { useLoaderData } from '@remix-run/react';
 import { Badge } from '~/components/Badge';
 import type { SEOHandle } from '@balavishnuvj/remix-seo';
 import { siteMetadata } from '~/siteMetadata';
-import { getAllArticles } from '~/utils/articles.server';
+import { ArticleReference, getAllArticles } from '~/utils/articles.server';
+import { ArticleTitle } from '~/components/ArticleTitle';
+import { BackToArticlesLink } from '~/routes/articles_.$id/components/BackToArticlesLink';
+import { getTagsFromArticles } from '~/utils/getTagsFromArticles';
+
+export type TagsPayload = Array<[string, number]>;
 
 interface LoaderData {
-  tags: Array<[string, number]>;
+  tags: TagsPayload;
 }
 
 export const meta: MetaFunction = () => {
@@ -22,16 +27,9 @@ export const meta: MetaFunction = () => {
 
 export const loader: LoaderFunction = async () => {
   const articles = await getAllArticles();
-  const tags = new Map<string, number>();
-
-  articles.forEach((a) => {
-    a.frontmatter?.tags?.forEach((tag: string) => {
-      tags.set(tag, (tags.get(tag) || 0) + 1);
-    });
-  });
 
   return json({
-    tags: Array.from(tags.entries()).sort((a, b) => b[1] - a[1]),
+    tags: getTagsFromArticles(articles),
   });
 };
 
@@ -49,8 +47,10 @@ export default function Tags() {
   const { tags } = useLoaderData<LoaderData>();
 
   return (
-    <div className="text-center mb-auto">
-      <h1>Tags</h1>
+    <div className="text-center mb-auto pt-8">
+      <ArticleTitle title={'Tags'} className={'mb-6'} />
+
+      <BackToArticlesLink />
       <div className="flex justify-center gap-4 flex-wrap">
         {tags.map(([tag, count]) => (
           <Badge key={tag} label={`#${tag} (${count})`} linkTo={tag} />

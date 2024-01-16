@@ -1,4 +1,4 @@
-import { Link } from '@remix-run/react';
+import { Link, LinkProps } from '@remix-run/react';
 
 // .navigation__link {
 //   display: inline-block;
@@ -40,15 +40,11 @@ import { Link } from '@remix-run/react';
 // }
 // }
 
-export interface BackLinkProps {
-  to: string;
-}
-
 const classes = 'group text-drakenhofNightshade font-bold';
 
-export const BackLink = ({ to, ...props }: BackLinkProps) => {
+export const BackToArticlesLink = ({ ...props }: Partial<LinkProps>) => {
   return (
-    <Link to={to} className={classes} {...props}>
+    <Link className={classes} {...props} to={'/articles'}>
       <span
         className={
           'inline-block origin-right transition groupHover:scale-150 focus:scale-150'
