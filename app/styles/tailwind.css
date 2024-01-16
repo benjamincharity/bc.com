@@ -5,3 +5,9 @@
 html {
   @apply overflow-x-hidden;
 }
+
+@layer utility {
+  .prose-wrapper {
+    @apply max-w-articleMaxWidth px-4 m-auto pt-16 relative z-20;
+  }
+}

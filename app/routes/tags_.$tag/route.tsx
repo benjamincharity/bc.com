@@ -1,4 +1,5 @@
 import type { MetaFunction } from '@remix-run/node';
+import pluralize from 'pluralize';
 import { json } from '@remix-run/node';
 import { useLoaderData, useParams } from '@remix-run/react';
 import {
@@ -13,6 +14,10 @@ import { getPagingData } from '~/utils/paging.server';
 import { siteMetadata } from '~/siteMetadata';
 import { SearchForm } from '~/components/SearchForm';
 import { ArticlesList } from '~/components/Articles/ArticlesList';
+import { BackToArticlesLink } from '../articles_.$id/components/BackToArticlesLink';
+import { BrowseByTags } from '~/routes/articles/components/BrowseByTags';
+import { getTagsFromArticles } from '~/utils/getTagsFromArticles';
+import { TagsPayload } from '~/routes/tags/route';
 
 interface Params {
   tag: string;
@@ -26,6 +31,7 @@ interface LoaderData {
   // page: number;
   query: string | null;
   // slug: string;
+  tags: TagsPayload;
 }
 
 export const meta: MetaFunction = ({ params }) => {
@@ -54,37 +60,46 @@ export const loader = async ({
   const url = new URL(request.url);
   const query = url.searchParams.get('q');
   const articles = await getAllArticles();
+  const tags = getTagsFromArticles(articles);
 
   // const articles = query ? filterArticlesByTitle(query) : getArticlesSortedByDate();
   const filteredArticles = articles.filter((a) =>
     a.frontmatter?.tags?.includes(tag),
   );
   // .map((a) => a.frontmatter);
-  // const data = getPagingData(request, filteredArticles);
+  const data = getPagingData(request, filteredArticles);
 
-  return json<LoaderData>({ articles: filteredArticles, query });
+  return json<LoaderData>({ articles: filteredArticles, query, tags });
 };
 
 export default function Tag() {
   const { tag } = useParams();
-  const { articles, query } = useLoaderData<LoaderData>();
+  const { articles, query, tags } = useLoaderData<LoaderData>();
 
   // const { articles, nextPage, previousPage, totalPages, page, query } =
   //   useLoaderData<LoaderData>();
 
   return (
-    <div className="w-full">
-      {/*<div className="md:flex md:justify-between md:items-center">*/}
-      {/*  <h1>#{tag}</h1>*/}
-      {/*  /!*<SearchForm query={query} />*!/*/}
-      {/*</div>*/}
+    <section
+      className="max-w-articleMaxWidth pt-8 mx-auto"
+      aria-labelledby="tagged-posts-header"
+    >
+      <header className={'mb-8'}>
+        <h1
+          id="tagged-posts-header"
+          className={
+            'text-gray-600 italic font-sourceSerif4 text-sm text-center'
+          }
+        >
+          Showing <strong>{articles?.length ?? 0}</strong>{' '}
+          {pluralize('article', articles?.length)} tagged with &quot;
+          <strong className={'highlight'}>{tag}.</strong>&quot;
+        </h1>
+      </header>
 
-      {/*TODO*/}
-      <div>
-        Showing articles tagged <code>{tag}</code>. Clear filter
-      </div>
+      <BackToArticlesLink />
 
-      <ArticlesList articles={articles} />
+      <ArticlesList articles={articles} className={'pt-4 mb-10'} />
 
       {/*<ArticlesList*/}
       {/*  articles={articles}*/}
@@ -93,6 +108,8 @@ export default function Tag() {
       {/*  previousPage={previousPage}*/}
       {/*  totalPages={totalPages}*/}
       {/*/>*/}
-    </div>
+
+      <BrowseByTags tags={tags} currentTag={tag} />
+    </section>
   );
 }

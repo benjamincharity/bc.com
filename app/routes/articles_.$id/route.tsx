@@ -10,14 +10,15 @@ import {
   getAllArticles,
   getArticle,
 } from '~/utils/articles.server';
-import { BackToArticlesLink } from '~/routes/articles_.$id/components/BackToArticlesLink';
+import { BackToLink } from '~/routes/articles_.$id/components/BackToArticlesLink';
 import { Codepen } from '~/components/Codepen';
 import { ArticleTitle } from '~/components/ArticleTitle';
 import { getTagsFromArticles } from '~/utils/getTagsFromArticles';
-import { TagsPayload } from '~/routes/tags';
+import { TagPayload, TagsPayload } from '~/routes/tags/route';
+import { PublishDate } from '~/routes/articles_.$id/components/PublishDate';
+import { BrowseByTags, Tags } from '~/routes/articles/components/BrowseByTags';
 
 type LoaderData = {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   frontmatter: Frontmatter;
   code: string;
   allTags: TagsPayload;
@@ -39,30 +40,30 @@ export const loader: LoaderFunction = async ({ params, request }) => {
   }
 };
 
+function getTagsWithCount(tags: string[], allTags: TagsPayload): TagsPayload {
+  return allTags.filter(([tag]) => tags.includes(tag));
+}
+
 export default function Article() {
   const { code, frontmatter, allTags } = useLoaderData<LoaderData>();
+  const localTags = getTagsWithCount(frontmatter.tags, allTags);
   const Component = useMemo(() => getMDXComponent(code), [code]);
 
   return (
     <main className={'article font-sourceSerif4 max-w-2xl mx-auto py-4'}>
-      <BackToArticlesLink />
+      <div className={'mb-2'}>
+        <BackToLink />
+      </div>
+      <PublishDate publishDate={frontmatter.publishDate} />
       <ArticleTitle title={frontmatter.title} />
 
       <article className={'rendered-markdown'}>
         <Component components={{ MyC: Codepen }} />
       </article>
 
-      <aside>
-        {allTags.map(([tag, count]) => (
-          <Link
-            key={tag + count}
-            to={`/tags/${tag}`}
-            className={'whitespace-nowrap text-base mr-3 relative'}
-          >
-            {tag} <sup>{count}</sup>
-          </Link>
-        ))}
-      </aside>
+      <hr className={'fancy'} />
+
+      <BrowseByTags heading={'Tags:'} tags={localTags} />
     </main>
   );
 }

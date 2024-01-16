@@ -1,8 +1,11 @@
-import type { Frontmatter } from "./articles.server";
+import type { ArticleReference } from './articles.server';
 
-export const getPagingData = (request: Request, articles: Frontmatter[]) => {
+export const getPagingData = (
+  request: Request,
+  articles: ArticleReference[],
+) => {
   const url = new URL(request.url);
-  const page = url.searchParams.get("page") ?? 0;
+  const page = url.searchParams.get('page') ?? 0;
   const pageNumber = Number(page);
 
   const from = 10 * pageNumber;

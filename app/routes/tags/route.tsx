@@ -6,10 +6,14 @@ import type { SEOHandle } from '@balavishnuvj/remix-seo';
 import { siteMetadata } from '~/siteMetadata';
 import { ArticleReference, getAllArticles } from '~/utils/articles.server';
 import { ArticleTitle } from '~/components/ArticleTitle';
-import { BackToArticlesLink } from '~/routes/articles_.$id/components/BackToArticlesLink';
+import {
+  BackToArticlesLink,
+  BackToLink,
+} from '~/routes/articles_.$id/components/BackToArticlesLink';
 import { getTagsFromArticles } from '~/utils/getTagsFromArticles';
 
-export type TagsPayload = Array<[string, number]>;
+export type TagPayload = [string, number];
+export type TagsPayload = Array<TagPayload>;
 
 interface LoaderData {
   tags: TagsPayload;
@@ -47,15 +51,18 @@ export default function Tags() {
   const { tags } = useLoaderData<LoaderData>();
 
   return (
-    <div className="text-center mb-auto pt-8">
-      <ArticleTitle title={'Tags'} className={'mb-6'} />
+    <div className="prose-wrapper pt-8">
+      <ArticleTitle title={'Tags'} className={'mb-6 text-center'} />
 
-      <BackToArticlesLink />
-      <div className="flex justify-center gap-4 flex-wrap">
+      <BackToLink />
+      <nav
+        className="flex justify-center gap-4 flex-wrap pt-6"
+        aria-label="Article tags"
+      >
         {tags.map(([tag, count]) => (
-          <Badge key={tag} label={`#${tag} (${count})`} linkTo={tag} />
+          <Badge key={tag} tag={tag} count={count} linkTo={tag} />
         ))}
-      </div>
+      </nav>
     </div>
   );
 }

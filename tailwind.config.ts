@@ -81,6 +81,9 @@ export default {
         '90v': '90vh',
         '100v': '100vh',
       },
+      maxWidth: {
+        articleMaxWidth: '640px',
+      },
     },
   },
   plugins: [

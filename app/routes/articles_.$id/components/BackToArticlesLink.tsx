@@ -1,4 +1,4 @@
-import { Link, LinkProps } from '@remix-run/react';
+import { Link, LinkProps, useNavigate } from '@remix-run/react';
 
 // .navigation__link {
 //   display: inline-block;
@@ -40,19 +40,38 @@ import { Link, LinkProps } from '@remix-run/react';
 // }
 // }
 
-const classes = 'group text-drakenhofNightshade font-bold';
+const classes =
+  'animated-link-underline text-drakenhofNightshade font-bold font-sourceSerif4';
 
 export const BackToArticlesLink = ({ ...props }: Partial<LinkProps>) => {
   return (
     <Link className={classes} {...props} to={'/articles'}>
       <span
         className={
-          'inline-block origin-right transition groupHover:scale-150 focus:scale-150'
+          'inline-block origin-right transition arrow relative -top-[1px]'
         }
       >
         &#8668;
       </span>{' '}
       Back to all articles
+    </Link>
+  );
+};
+
+export const BackToLink = ({ ...props }: Partial<LinkProps>) => {
+  const navigate = useNavigate();
+  const goBack = () => navigate(-1);
+
+  return (
+    <Link className={classes} {...props} to={'#'} onClick={goBack}>
+      <span
+        className={
+          'inline-block origin-right transition arrow relative -top-[1px]'
+        }
+      >
+        &#8668;
+      </span>{' '}
+      Back
     </Link>
   );
 };
