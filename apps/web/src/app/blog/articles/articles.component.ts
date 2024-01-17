@@ -60,9 +60,7 @@ export function pluckTagFromUrl(url: string): string {
 export class ArticlesComponent implements OnInit {
   readonly skeletonCount = new Array(3);
   readonly skeletonSizes: SkeletonInstanceThemeObject = skeletonArticleListingSizes;
-  allArticles$ = this.scullyService.visibleArticles$.pipe(
-    tap((v) => console.log(v)),
-  );
+  allArticles$ = this.scullyService.visibleArticles$;
   allTags$: BehaviorSubject<readonly ArticleTags[]> = this.scullyService
     .allTags$;
   currentTag$ = new BehaviorSubject<ArticleTags | null>(null);
