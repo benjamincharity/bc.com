@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { useLoaderData } from '@remix-run/react';
 import type { LoaderFunction } from '@remix-run/server-runtime';
 import { json } from '@remix-run/server-runtime';
@@ -17,9 +17,9 @@ import { PublishDate } from '~/routes/articles_.$id/components/PublishDate';
 import { BrowseByTags } from '~/routes/articles/components/BrowseByTags';
 
 type LoaderData = {
-  frontmatter: Frontmatter;
-  code: string;
   allTags: TagsPayload;
+  code: string;
+  frontmatter: Frontmatter;
 };
 
 export const loader: LoaderFunction = async ({ params, request }) => {
@@ -57,6 +57,10 @@ export default function Article() {
           updatedDate={frontmatter.updatedDate}
         />
         <PrimaryTitle title={frontmatter.title} />
+
+        <p className={'reading-time'}>
+          Reading time: {frontmatter.readingTime}min
+        </p>
 
         <section className={'rendered-markdown'}>
           <Component components={{ MarkdownCodepen: Codepen }} />

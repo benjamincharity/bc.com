@@ -32,6 +32,7 @@
     "react-router-dom": "6.21.2",
     "readability-scores": "1.0.8",
     "rehype-autolink-headings": "7.1.0",
+    "rehype-document": "7.0.3",
     "rehype-external-links": "3.0.0",
     "rehype-figure": "1.0.1",
     "rehype-format": "5.0.0",
@@ -48,6 +49,8 @@
     "remark-gfm": "4.0.0",
     "remark-github": "12.0.0",
     "remark-mdx-frontmatter": "4.0.0",
+    "remark-parse": "11.0.0",
+    "remark-rehype": "11.1.0",
     "remark-sectionize": "2.0.0",
     "remark-toc": "9.0.0",
     "unified": "11.0.4"

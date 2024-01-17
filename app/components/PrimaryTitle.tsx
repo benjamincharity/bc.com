@@ -7,7 +7,7 @@ export const PrimaryTitle = ({
 }) => {
   return (
     <h1
-      className={`text-3xl font-sourceSerif4 font-bold leading-tight text-gray-700 ${className}`}
+      className={`text-3xl font-sourceSerif4 font-bold leading-tight my-1 text-gray-700 ${className}`}
     >
       {title}
     </h1>

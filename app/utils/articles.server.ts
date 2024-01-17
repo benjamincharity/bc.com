@@ -14,6 +14,7 @@ export interface Frontmatter {
   tags: string[];
   title: string;
   updatedDate: string;
+  readingTime: number;
   meta?: {
     title?: string;
     description?: string;
@@ -30,7 +31,7 @@ export async function getArticle(slug: string) {
 
   const source = await readFile(filePath, 'utf-8');
 
-  // Dyamically import all the rehype/remark plugins we are using
+  // Dynamically import all the rehype/remark plugins we are using
   const [rehypeHighlight, remarkGfm] = await Promise.all([
     import('rehype-highlight').then((mod) => mod.default),
     import('remark-gfm').then((mod) => mod.default),
@@ -106,15 +107,4 @@ export async function getAllArticles(): Promise<ArticleReference[]> {
     const dateB = b.frontmatter.updatedDate || b.frontmatter.publishDate;
     return new Date(dateB).getTime() - new Date(dateA).getTime();
   });
-}
-
-export function getPagedArticles(
-  articles: ArticleReference[],
-  page: number,
-  pageSize = 4,
-) {
-  const start = (page - 1) * pageSize;
-  const end = start + pageSize;
-
-  return articles.slice(start, end);
 }

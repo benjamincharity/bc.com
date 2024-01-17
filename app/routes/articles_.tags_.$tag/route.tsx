@@ -78,10 +78,10 @@ export default function Tag() {
         </h1>
       </header>
 
-      <BackToLink className={'mb-0'} to={RoutesPath.articles}>
-        Back to all articles
+      <BackToLink to={RoutesPath.articles}>Back to all articles</BackToLink>
+      <BackToLink className={'mb-4'} to={RoutesPath.tags}>
+        Back to all tags
       </BackToLink>
-      <BackToLink to={RoutesPath.tags}>Back to all tags</BackToLink>
 
       <ArticlesList articles={articles} className={'pt-4 mb-10'} />
 

@@ -1,8 +1,8 @@
 /** @type {import('@remix-run/dev').AppConfig} */
 import { s } from 'hastscript';
 import remarkMdxFrontmatter from 'remark-mdx-frontmatter';
-import rehypeFigure from 'rehype-figure';
 import rehypeInferReadingTimeMeta from 'rehype-infer-reading-time-meta';
+import rehypeMeta from 'rehype-meta';
 import rehypeSlug from 'rehype-slug';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import remarkFrontmatter from 'remark-frontmatter';
@@ -13,121 +13,8 @@ import remarkGithub from 'remark-github';
 import remarkToc from 'remark-toc';
 import { nodeTypes } from '@mdx-js/mdx';
 import rehypeRaw from 'rehype-raw';
+import rehypeParse from 'rehype-parse';
 
-// TODO: support code copy, line numbers,
-// const mdx = async (filename) => {
-//   const [
-//     rehypeHighlight,
-//     rehypeSlug,
-//     rehypeAutolinkHeadings,
-//     sectionize,
-//     remarkGfm,
-//     visit,
-//   ] = await Promise.all([
-//     import('rehype-highlight').then((mod) => mod.default),
-//     import('rehype-slug').then((mod) => mod.default),
-//     import('rehype-autolink-headings').then((mod) => mod.default),
-//     import('remark-sectionize').then((mod) => mod.default),
-//     import('remark-gfm').then((mod) => mod.default),
-//     import('unist-util-visit').then((mod) => mod.visit),
-//   ]);
-//
-//   const mappings = {
-//     bash: 'terminal',
-//     console: 'terminal',
-//     ini: 'jinja',
-//     arduino: 'any',
-//   };
-//
-//   function rehypeRelCodeBlockTitles() {
-//     return (tree) => {
-//       visit(tree, 'element', (node, i, parent) => {
-//         let retrieved;
-//         if (
-//           node.tagName === 'pre' &&
-//           Array.isArray(node.children) &&
-//           node.children.length &&
-//           typeof node.children[0] === 'object' &&
-//           node.children[0].tagName === 'code' &&
-//           Array.isArray(node.children[0]?.properties?.className) &&
-//           node.children[0]?.properties?.className.some((className) => {
-//             if (
-//               !retrieved &&
-//               className.startsWith('language-') &&
-//               className.length > 9
-//             ) {
-//               retrieved = className;
-//               return true;
-//             }
-//             return false;
-//           })
-//         ) {
-//           const extractedName = retrieved.slice(9);
-//           node.properties['data-syntax'] =
-//             mappings[extractedName] || extractedName;
-//
-//           parent.children[i] = {
-//             type: 'element',
-//             tagName: 'div',
-//             properties: {
-//               class: 'syntax-container',
-//             },
-//             children: [node],
-//           };
-//         }
-//       });
-//     };
-//   }
-//
-//   function addAttributeToLinks() {
-//     return (tree) => {
-//       visit(tree, 'element', (node) => {
-//         if (node.tagName === 'a') {
-//           // Add or modify attributes here
-//           // For example, adding a `tabindex` attribute
-//           node.properties.tabindex = '0';
-//         }
-//       });
-//     };
-//   }
-//
-//   return {
-//     remarkPlugins: [remarkGfm, remarkMdxFrontmatter, sectionize],
-//     rehypePlugins: [
-//       rehypeSlug,
-//       [
-//         rehypeAutolinkHeadings,
-//         {
-//           behavior: 'wrap',
-//           content: s(
-//             'svg.octicon.octicon-link',
-//             {
-//               viewBox: '0 0 16 16',
-//               version: '1.1',
-//               width: 16,
-//               height: 16,
-//               ariaHidden: 'true',
-//             },
-//             s('path', {
-//               d: 'm7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z',
-//             }),
-//           ),
-//           headingProperties: { tabIndex: '-1', dir: 'auto' },
-//           properties: { className: ['heading-link'] },
-//         },
-//       ],
-//       [
-//         rehypeFigure,
-//         {
-//           className: 'image-container',
-//         },
-//       ],
-//       rehypeHighlight,
-//       rehypeRelCodeBlockTitles,
-//       addAttributeToLinks,
-//     ],
-//   };
-// };
 function link() {
   return s(
     'svg.icon',
@@ -147,45 +34,18 @@ function link() {
 
 /** @type {Readonly<CompileOptions>} */
 const mdx = {
-  // recmaPlugins: [recmaInjectMeta],
-  rehypePlugins: [
-    // rehypePrettyCodeBlocks,
-    [rehypeRaw, { passThrough: nodeTypes }],
-    // unifiedInferRemoteMeta,
-    // [
-    //   rehypeInferDescriptionMeta,
-    //   {inferDescriptionHast: true, truncateSize: 280}
-    // ],
-    rehypeInferReadingTimeMeta,
-    rehypeSlug,
-    [
-      rehypeAutolinkHeadings,
-      {
-        behavior: 'prepend',
-        content: link(),
-        properties: {
-          ariaLabel: 'Link to this section',
-          className: ['anchor'],
-        },
-      },
-    ],
-    // [rehypeStarryNight, {grammars: [...common, sourceMdx, sourceTsx]}],
-    rehypePresetMinify,
-    rehypeMinifyUrl,
-  ],
-  remarkPlugins: [
-    remarkFrontmatter,
-    remarkGfm,
-    remarkGithub,
-    [remarkMdxFrontmatter, { name: 'matter' }],
-    [remarkToc, { maxDepth: 3 }],
-  ],
+  // rehypePlugins: [
+  //   rehypeInferReadingTimeMeta,
+  //   [rehypeMeta, { og: true, twitter: true, copyright: true }],
+  // ],
+  // remarkPlugins: [
+  //   remarkFrontmatter,
+  //   [remarkMdxFrontmatter, { name: 'matter' }],
+  // ],
 };
 
 const cacheDirectory = './node_modules/.cache/remix';
 const ignoredRouteFiles = ['**/.*', '**/*.css', '**/*.test.{js,jsx,ts,tsx}'];
-// const server =
-//   process.env.NODE_ENV === 'development' ? undefined : './server.js';
 const serverBuildTarget = 'vercel';
 // const serverDependenciesToBundle = [
 //   /^rehype*/,

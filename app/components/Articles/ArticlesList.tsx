@@ -11,7 +11,11 @@ interface ArticleProps {
 const Article = React.forwardRef<HTMLDivElement, ArticleProps>(
   ({ item }, ref) => {
     return (
-      <article key={item.slug} className="font-sourceSerif4 mb-10" ref={ref}>
+      <article
+        key={item.slug}
+        className="font-sourceSerif4 mb-10 group"
+        ref={ref}
+      >
         <ArticleTitleLink
           title={item.frontmatter.title}
           to={RoutesPath.article(item.slug)}
@@ -23,8 +27,14 @@ const Article = React.forwardRef<HTMLDivElement, ArticleProps>(
           }
         >
           {item.frontmatter.summary}
-          {/*TODO*/}
-          <span className={'text-xs ml-1'}>[99 min]</span>
+          {!!item.frontmatter.readingTime && (
+            <span
+              className={'reading-time ml-2'}
+              title={`Estimated reading time: ${item.frontmatter.readingTime}min`}
+            >
+              [{item.frontmatter.readingTime}min]
+            </span>
+          )}
         </p>
 
         <PublishDate publishDate={item.frontmatter.publishDate} />

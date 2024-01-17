@@ -12,4 +12,12 @@
   .prose-wrapper {
     @apply max-w-articleMaxWidth px-4 m-auto pt-12 relative z-20;
   }
+
+  .reading-time {
+    @apply inline-block text-sm text-gray-600 opacity-70 group-hover:opacity-100 transition-opacity;
+  }
+  .reading-time::before {
+    @apply mr-1;
+    content: '⌚';
+  }
 }
