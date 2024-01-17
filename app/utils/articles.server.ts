@@ -10,7 +10,6 @@ export interface Frontmatter {
   publishDate: string;
   slug: string;
   summary: string;
-  // TODO: need to add categories and use that for 'tags' and use 'tag' for seo keywords
   tags: string[];
   title: string;
   updatedDate: string;
