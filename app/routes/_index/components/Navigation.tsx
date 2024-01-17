@@ -4,8 +4,6 @@ import { shuffle } from '~/utils/shuffle';
 import { NAVIGATION_LINKS } from '~/data/navigation.data';
 import { Link } from '@remix-run/react';
 
-const baseLinkStyles = 'squiggle-link ';
-
 export interface NavigationProps {}
 
 export const Navigation = React.memo((props: NavigationProps): ReactElement => {

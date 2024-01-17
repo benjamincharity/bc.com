@@ -48,11 +48,7 @@ strong {
   outline: 2px dashed;
 }
 .squiggle-link svg {
-  @apply absolute top-4 scale-50 left-[99%] fill-current opacity-0 transition-all;
-}
-.squiggle-link:focus svg,
-.squiggle-link:hover svg {
-  @apply opacity-100 left-[102%];
+  @apply absolute top-3 scale-50 left-[104%] fill-current transition-all;
 }
 
 /*TRUSTED TITLE*/
@@ -71,9 +67,8 @@ strong {
 .rendered-markdown p {
   @apply my-5;
 }
-
 strong.highlight,
-.rendered-markdown strong {
+.rendered-markdown strong:not(li strong) {
   @apply bg-strongBg rounded-tl-2xl rounded-br-2xl font-semibold;
 }
 strong.highlight code,

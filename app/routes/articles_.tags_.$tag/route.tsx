@@ -17,12 +17,7 @@ interface Params {
 
 interface LoaderData {
   articles: ArticleReference[];
-  // nextPage: number | null;
-  // previousPage: number | null;
-  // totalPages: number;
-  // page: number;
   query: string | null;
-  // slug: string;
   tags: TagsPayload;
 }
 
@@ -63,21 +58,18 @@ export const loader = async ({
 
 export default function Tag() {
   const { tag } = useParams();
-  const { articles, query, tags } = useLoaderData<LoaderData>();
-
-  // const { articles, nextPage, previousPage, totalPages, page, query } =
-  //   useLoaderData<LoaderData>();
+  const { articles, tags } = useLoaderData<LoaderData>();
 
   return (
     <section
       className="max-w-articleMaxWidth pt-8 mx-auto"
       aria-labelledby="tagged-posts-header"
     >
-      <header className={'mb-8'}>
+      <header>
         <h1
           id="tagged-posts-header"
           className={
-            'text-gray-600 italic font-sourceSerif4 text-sm text-center'
+            'text-gray-600 italic font-sourceSerif4 mb-4 text-sm text-center'
           }
         >
           Showing <strong>{articles?.length ?? 0}</strong>{' '}
@@ -86,16 +78,14 @@ export default function Tag() {
         </h1>
       </header>
 
-      <div className={'flex flex-col'}>
-        <div>
-          <BackToLink to={RoutesPath.articles}>Back to all articles</BackToLink>
-        </div>
-        {/*<div>*/}
-        {/*  <BackToLink to={RoutesPath.tags}>Back to all tags</BackToLink>*/}
-        {/*</div>*/}
-      </div>
+      <BackToLink className={'mb-0'} to={RoutesPath.articles}>
+        Back to all articles
+      </BackToLink>
+      <BackToLink to={RoutesPath.tags}>Back to all tags</BackToLink>
 
       <ArticlesList articles={articles} className={'pt-4 mb-10'} />
+
+      <hr className={'fancy'} />
 
       <BrowseByTags tags={tags} currentTag={tag} />
     </section>

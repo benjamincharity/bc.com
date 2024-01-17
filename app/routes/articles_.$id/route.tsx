@@ -48,10 +48,8 @@ export default function Article() {
   const Component = useMemo(() => getMDXComponent(code), [code]);
 
   return (
-    <main className={'article font-sourceSerif4 max-w-2xl mx-auto py-4'}>
-      <div className={'mb-4'}>
-        <BackToLink />
-      </div>
+    <main className={'prose-wrapper py-4'}>
+      <BackToLink />
 
       <article>
         <PublishDate

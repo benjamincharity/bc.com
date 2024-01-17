@@ -1,4 +1,4 @@
-import type { LinksFunction, MetaFunction } from '@remix-run/node';
+import { LinksFunction, MetaFunction } from '@remix-run/node';
 import {
   Links,
   LiveReload,
@@ -31,10 +31,6 @@ export const links: LinksFunction = () => {
       rel: 'stylesheet',
       href: 'https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600;700&family=VT323&display=swap',
     },
-    // {
-    //   rel: 'stylesheet',
-    //   href: styles,
-    // },
     {
       rel: 'stylesheet',
       href: sharedStyles,
@@ -75,9 +71,6 @@ export const meta: MetaFunction = ({ location }) => {
 export default function App() {
   const location = useLocation();
 
-  useEffect(() => {
-    // Push the new location into the history state
-  }, [location]);
   const setVisibility = useCallback((path: string) => {
     const result = determineIfShouldShowBackground(path);
     state$.isVisible.set(result);
@@ -113,7 +106,7 @@ export default function App() {
             isSmall={determineIfShouldShowBackground(location.pathname)}
           />
           <Outlet />
-          <ScrollRestoration />
+          <ScrollRestoration getKey={(location) => location.pathname} />
           <FancyBackground
             isVisible={determineIfShouldShowBackground(location.pathname)}
           />

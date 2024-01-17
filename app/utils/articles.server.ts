@@ -20,16 +20,6 @@ export interface Frontmatter {
   };
 }
 
-// The frontmatter can be any set of key values
-// But that's not especially useful to use
-// So we'll declare our own set of properties that we are going to expect to exist
-// export type Frontmatter = {
-//   meta?: {
-//     title?: string;
-//     description?: string;
-//   }
-// }
-
 /**
  * Get the React component, and frontmatter JSON for a given slug
  * @param slug
@@ -116,4 +106,15 @@ export async function getAllArticles(): Promise<ArticleReference[]> {
     const dateB = b.frontmatter.updatedDate || b.frontmatter.publishDate;
     return new Date(dateB).getTime() - new Date(dateA).getTime();
   });
+}
+
+export function getPagedArticles(
+  articles: ArticleReference[],
+  page: number,
+  pageSize = 4,
+) {
+  const start = (page - 1) * pageSize;
+  const end = start + pageSize;
+
+  return articles.slice(start, end);
 }

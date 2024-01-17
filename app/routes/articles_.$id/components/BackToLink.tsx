@@ -5,19 +5,17 @@ import { RoutesPath } from '~/data/routes.data';
 const classes =
   'animated-link-underline inline-block text-base text-drakenhofNightshade font-bold font-sourceSerif4';
 const spanClasses =
-  'inline-block origin-right transition arrow relative -top-[1px]';
+  'inline-block absolute -left-5 origin-right transition arrow -top-[1px]';
 
 export const BackToLink = (props: Partial<LinkProps>) => {
   const { children = 'Back to all articles', className = '', ...rest } = props;
 
   return (
-    <Link
-      className={`${classes} ${className}`}
-      to={RoutesPath.articles}
-      {...rest}
-    >
-      <span className={spanClasses}>&#8668;</span> {children}
-    </Link>
+    <div className={`mb-4 text-center ${className}`}>
+      <Link className={`${classes}`} to={RoutesPath.articles} {...rest}>
+        <span className={spanClasses}>&#8668;</span> {children}
+      </Link>
+    </div>
   );
 };
 
