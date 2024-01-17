@@ -1,6 +1,7 @@
-import { Link } from "@remix-run/react";
-import { siteMetadata } from "~/siteMetadata";
-import { SocialMedia } from "./SocialMedia";
+import { Link } from '@remix-run/react';
+import { siteMetadata } from '~/siteMetadata';
+import { SocialMedia } from './SocialMedia';
+import { RoutesPath } from '~/data/routes.data';
 
 export const Footer = () => {
   return (
@@ -11,7 +12,7 @@ export const Footer = () => {
         <div className="hidden sm:block">{` • `}</div>
         <div>{`© ${new Date().getFullYear()}`}</div>
         <div className="hidden sm:block">{` • `}</div>
-        <Link to="/" className="no-underline text-gray-500">
+        <Link to={RoutesPath.home} className="no-underline text-gray-500">
           {siteMetadata.domain}
         </Link>
       </div>

@@ -2,22 +2,14 @@ import type { MetaFunction } from '@remix-run/node';
 import pluralize from 'pluralize';
 import { json } from '@remix-run/node';
 import { useLoaderData, useParams } from '@remix-run/react';
-import {
-  ArticleReference,
-  Frontmatter,
-  getAllArticles,
-} from '~/utils/articles.server';
-// import { filterArticlesByTitle } from "~/utils/articles.server";
-// import { getArticlesSortedByDate } from "~/utils/articles.server";
-// import { ArticlesList } from "~/components/ArticlesList";
-import { getPagingData } from '~/utils/paging.server';
+import { ArticleReference, getAllArticles } from '~/utils/articles.server';
 import { siteMetadata } from '~/siteMetadata';
-import { SearchForm } from '~/components/SearchForm';
 import { ArticlesList } from '~/components/Articles/ArticlesList';
-import { BackToArticlesLink } from '../articles_.$id/components/BackToArticlesLink';
+import { BackToLink } from '../articles_.$id/components/BackToLink';
 import { BrowseByTags } from '~/routes/articles/components/BrowseByTags';
 import { getTagsFromArticles } from '~/utils/getTagsFromArticles';
-import { TagsPayload } from '~/routes/tags/route';
+import { TagsPayload } from '~/routes/articles_.tags/route';
+import { RoutesPath } from '~/data/routes.data';
 
 interface Params {
   tag: string;
@@ -62,12 +54,9 @@ export const loader = async ({
   const articles = await getAllArticles();
   const tags = getTagsFromArticles(articles);
 
-  // const articles = query ? filterArticlesByTitle(query) : getArticlesSortedByDate();
   const filteredArticles = articles.filter((a) =>
     a.frontmatter?.tags?.includes(tag),
   );
-  // .map((a) => a.frontmatter);
-  const data = getPagingData(request, filteredArticles);
 
   return json<LoaderData>({ articles: filteredArticles, query, tags });
 };
@@ -97,17 +86,16 @@ export default function Tag() {
         </h1>
       </header>
 
-      <BackToArticlesLink />
+      <div className={'flex flex-col'}>
+        <div>
+          <BackToLink to={RoutesPath.articles}>Back to all articles</BackToLink>
+        </div>
+        {/*<div>*/}
+        {/*  <BackToLink to={RoutesPath.tags}>Back to all tags</BackToLink>*/}
+        {/*</div>*/}
+      </div>
 
       <ArticlesList articles={articles} className={'pt-4 mb-10'} />
-
-      {/*<ArticlesList*/}
-      {/*  articles={articles}*/}
-      {/*  nextPage={nextPage}*/}
-      {/*  page={page}*/}
-      {/*  previousPage={previousPage}*/}
-      {/*  totalPages={totalPages}*/}
-      {/*/>*/}
 
       <BrowseByTags tags={tags} currentTag={tag} />
     </section>

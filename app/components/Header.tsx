@@ -2,6 +2,7 @@ import { Link, useLocation } from '@remix-run/react';
 import { useEffect, useMemo, useState } from 'react';
 import { determineIfShouldShowBackground } from '~/routes/_index/route';
 import { state$ } from '~/store';
+import { RoutesPath } from '~/data/routes.data';
 
 export const Header = ({ isSmall = false }: { isSmall?: boolean }) => {
   const location = useLocation();
@@ -25,7 +26,10 @@ export const Header = ({ isSmall = false }: { isSmall?: boolean }) => {
     <header className={headerClasses}>
       <h1 className={`inline-block uppercase leading-[.9em]`}>
         {localIsSmall ? (
-          <Link className="o-sliding-background-link font-bold" to="/">
+          <Link
+            className="o-sliding-background-link font-bold"
+            to={RoutesPath.home}
+          >
             Benjamin
             <br />
             Charity

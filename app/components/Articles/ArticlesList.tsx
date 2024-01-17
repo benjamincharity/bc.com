@@ -1,7 +1,7 @@
 import { ArticleReference } from '~/utils/articles.server';
 import { ArticleTitleLink } from '~/routes/articles/components/ArticleTitleLink';
-import { formatDate } from '~/utils/date';
-import { Datetime } from '~/components/Datetime';
+import { RoutesPath } from '~/data/routes.data';
+import { PublishDate } from '~/routes/articles_.$id/components/PublishDate';
 
 export function ArticlesList({
   articles = [],
@@ -13,12 +13,11 @@ export function ArticlesList({
   return (
     <section className={className}>
       {articles?.map((item) => {
-        const { short, full } = formatDate(item.frontmatter.publishDate);
         return (
           <article key={item.slug} className="font-sourceSerif4 mb-4">
             <ArticleTitleLink
               title={item.frontmatter.title}
-              to={`/articles/${item.slug}`}
+              to={RoutesPath.article(item.slug)}
             />
 
             <p
@@ -31,9 +30,7 @@ export function ArticlesList({
               <span className={'text-xs ml-1'}>[99 min]</span>
             </p>
 
-            <footer className={'text-[10px] font-mono italic text-gray-500'}>
-              Published on <Datetime date={item.frontmatter.publishDate} />
-            </footer>
+            <PublishDate publishDate={item.frontmatter.publishDate} />
           </article>
         );
       })}

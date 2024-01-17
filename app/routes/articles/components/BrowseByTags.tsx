@@ -1,17 +1,23 @@
 import { Link } from '@remix-run/react';
-import { TagsPayload } from '~/routes/tags/route';
+import { TagsPayload } from '~/routes/articles_.tags/route';
+import { RoutesPath } from '~/data/routes.data';
 
 export const BrowseByTags = ({
   tags,
   currentTag,
   heading,
+  id,
 }: {
   tags: TagsPayload;
   currentTag?: string;
   heading?: string;
+  id?: string;
 }) => {
   return (
-    <nav className={'text-center text-base font-bold font-sourceSerif4'}>
+    <nav
+      id={id}
+      className={'text-center text-base font-bold font-sourceSerif4'}
+    >
       {!!heading && <h5 className={'text-gray-600 mb-2'}>{heading}</h5>}
       <Tags tags={tags} currentTag={currentTag} />
     </nav>
@@ -40,7 +46,7 @@ export const Tags = ({
             ) : (
               <Link
                 className={`animated-link-underline ${tag === currentTag ? 'is-active' : ''}`}
-                to={`/tags/${tag}`}
+                to={RoutesPath.tag(tag)}
               >
                 {tag} <sup className={'absolute left-100 top-1/3'}>{count}</sup>
               </Link>

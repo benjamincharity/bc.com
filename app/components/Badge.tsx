@@ -1,21 +1,32 @@
 import { Link } from '@remix-run/react';
+import { useMemo } from 'react';
 
 interface Props {
-  tag: string;
+  color?: string;
   count: number;
   linkTo: string;
+  tag: string;
 }
 
-export const Badge = ({ tag, count, linkTo }: Props) => {
-  return (
-    <div className="not-prose">
-      <Link
-        to={linkTo}
-        className="no-underline relative inline-block text-sm font-medium text-blue-700 group"
-      >
-        <span className="absolute inset-0 transition-transform translate-x-0.5 translate-y-0.5 bg-blue-700 group-hover:translate-y-0 group-hover:translate-x-0"></span>
+export const Badge = ({ tag, count, linkTo, color = '#3B82F6' }: Props) => {
+  const { cover1, cover2 } = useMemo(() => {
+    return {
+      cover1: `absolute inset-0 w-full h-full transition duration-200 ease-out transform translate-x-1 translate-y-1 bg-[--custom-color] group-hover:-translate-x-0 group-hover:-translate-y-0`,
+      cover2: `absolute inline-block inset-0 w-full h-full bg-white border-2 border-[--custom-color] group-hover:bg-[--custom-color]`,
+    };
+  }, []);
 
-        <span className="relative block px-4 py-2 bg-white border border-current">
+  return (
+    <div className="not-prose" style={{ '--custom-color': color }}>
+      <Link
+        className="relative inline-block px-4 py-2 font-medium group"
+        to={linkTo}
+      >
+        <span className={cover1} />
+        <span className={cover2} />
+        <span
+          className={`relative text-[--custom-color] group-hover:text-white`}
+        >
           {tag} <sup>{count}</sup>
         </span>
       </Link>

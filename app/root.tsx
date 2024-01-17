@@ -8,8 +8,7 @@ import {
   ScrollRestoration,
   useLocation,
 } from '@remix-run/react';
-import { useCallback, useEffect, useState } from 'react';
-import { DynamicLinks } from './components/DynamicLinks';
+import { useCallback, useEffect } from 'react';
 import { siteMetadata } from './siteMetadata';
 import { isDarkMode } from './utils/darkMode';
 import sharedStyles from '~/styles/shared.css';
@@ -18,7 +17,6 @@ import { Header } from '~/components/Header';
 import { FancyBackground } from '~/components/FancyBackground/FancyBackground';
 import { navigationState$, state$ } from '~/store';
 import { determineIfShouldShowBackground } from '~/routes/_index/route';
-import { motion } from 'framer-motion';
 import highlightStyle from 'highlight.js/styles/github.css';
 
 export const links: LinksFunction = () => {
@@ -105,7 +103,7 @@ export default function App() {
     <html lang="en">
       <head>
         <Meta />
-        <DynamicLinks />
+        {/*<DynamicLinks />*/}
         <Links />
       </head>
 

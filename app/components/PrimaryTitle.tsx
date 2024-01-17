@@ -1,4 +1,4 @@
-export const ArticleTitle = ({
+export const PrimaryTitle = ({
   title,
   className = '',
 }: {
@@ -7,7 +7,7 @@ export const ArticleTitle = ({
 }) => {
   return (
     <h1
-      className={`text-3xl font-bold leading-tight text-gray-700 ${className}`}
+      className={`text-3xl font-sourceSerif4 font-bold leading-tight text-gray-700 ${className}`}
     >
       {title}
     </h1>

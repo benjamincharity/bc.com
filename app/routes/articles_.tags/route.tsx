@@ -2,15 +2,13 @@ import type { LoaderFunction, MetaFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import { Badge } from '~/components/Badge';
-import type { SEOHandle } from '@balavishnuvj/remix-seo';
 import { siteMetadata } from '~/siteMetadata';
-import { ArticleReference, getAllArticles } from '~/utils/articles.server';
-import { ArticleTitle } from '~/components/ArticleTitle';
-import {
-  BackToArticlesLink,
-  BackToLink,
-} from '~/routes/articles_.$id/components/BackToArticlesLink';
+import { getAllArticles } from '~/utils/articles.server';
+import { PrimaryTitle } from '~/components/PrimaryTitle';
+import { BackToLink } from '~/routes/articles_.$id/components/BackToLink';
 import { getTagsFromArticles } from '~/utils/getTagsFromArticles';
+import { RoutesPath } from '~/data/routes.data';
+import { colors } from '~/data/colors.data';
 
 export type TagPayload = [string, number];
 export type TagsPayload = Array<TagPayload>;
@@ -51,17 +49,26 @@ export default function Tags() {
   const { tags } = useLoaderData<LoaderData>();
 
   return (
-    <div className="prose-wrapper pt-8">
-      <ArticleTitle title={'Tags'} className={'mb-6 text-center'} />
+    <div className="prose-wrapper">
+      <BackToLink to={RoutesPath.articles} />
 
-      <BackToLink />
+      <PrimaryTitle title={'Tags'} className={'mb-6 text-center'} />
+
       <nav
-        className="flex justify-center gap-4 flex-wrap pt-6"
+        className="flex justify-center gap-4 flex-wrap "
         aria-label="Article tags"
       >
-        {tags.map(([tag, count]) => (
-          <Badge key={tag} tag={tag} count={count} linkTo={tag} />
-        ))}
+        {tags.map(([tag, count], i) => {
+          return (
+            <Badge
+              color={colors[i]}
+              count={count}
+              key={tag}
+              linkTo={tag}
+              tag={tag}
+            />
+          );
+        })}
       </nav>
     </div>
   );

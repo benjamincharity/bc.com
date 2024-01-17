@@ -38,10 +38,6 @@ export default {
           ...defaultTheme.fontFamily.sans,
         ],
       },
-      // fontSize: {
-      //   titleSmall: 'clamp(2rem, 23vw, 2rem)',
-      //   titleLarge: 'clamp(3rem, 23vw, 6rem)',
-      // },
       colors: {
         articleDescription: '#f0f',
         codeBackground: '#f7f7f7',
@@ -58,7 +54,6 @@ export default {
         grey: '#808080',
         loveLetter: '#f184a8',
         turkishTeal: '#8ae6df',
-        // appAccent: 'var(--app-color-accent-1)',
       },
       listStyleType: {
         square: 'square',

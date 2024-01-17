@@ -95,7 +95,7 @@ export async function getAllArticles(): Promise<ArticleReference[]> {
     withFileTypes: true,
   });
 
-  return await Promise.all(
+  const articles = await Promise.all(
     postsPath.map(async (dirent) => {
       const fPath = path.join(filePath, dirent.name);
       const [file] = await Promise.all([readFile(fPath)]);
@@ -110,4 +110,10 @@ export async function getAllArticles(): Promise<ArticleReference[]> {
       };
     }),
   );
+
+  return articles.sort((a, b) => {
+    const dateA = a.frontmatter.updatedDate || a.frontmatter.publishDate;
+    const dateB = b.frontmatter.updatedDate || b.frontmatter.publishDate;
+    return new Date(dateB).getTime() - new Date(dateA).getTime();
+  });
 }

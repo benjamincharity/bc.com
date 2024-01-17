@@ -1,5 +1,4 @@
 import { Datetime } from '~/components/Datetime';
-import { DotSpacer } from '~/components/DotSpacer';
 
 interface PublishDateProps {
   publishDate: string;
@@ -12,7 +11,7 @@ export const PublishDate = (props: PublishDateProps) => {
 
   return (
     !!publishDate && (
-      <div className={'flex gap-x-2 align-center text-gray-500'}>
+      <div className={'flex gap-x-2 align-center text-gray-500 leading-tight'}>
         {!!updatedDate && (
           <div className={`text-[10px] italic font-code ${className}`}>
             Updated: <Datetime date={updatedDate} />,
