@@ -15,6 +15,7 @@ export interface Frontmatter {
   publishDate: string;
   readingTime: number;
   slug: string;
+  url: string;
   summary: string;
   tags: string[];
   title: string;

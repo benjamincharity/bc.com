@@ -1,5 +1,5 @@
 import type { MetaFunction } from '@remix-run/node';
-import { siteMetadata } from '~/siteMetadata';
+import { siteMetadata } from '~/data/siteMetadata';
 
 export const meta: MetaFunction = () => {
   const title = `About - ${siteMetadata.author}`;

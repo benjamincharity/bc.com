@@ -9,8 +9,8 @@ import {
   useLocation,
 } from '@remix-run/react';
 import { useCallback, useEffect } from 'react';
-import { siteMetadata } from './siteMetadata';
-import { isDarkMode } from './utils/darkMode';
+import { siteMetadata } from './data/siteMetadata';
+import { isDarkMode } from './utils/isDarkMode';
 import sharedStyles from '~/styles/shared.css';
 import twStyles from './styles/tailwind.css';
 import { Header } from '~/components/Header';
@@ -18,6 +18,7 @@ import { FancyBackground } from '~/components/FancyBackground/FancyBackground';
 import { navigationState$, state$ } from '~/store';
 import { determineIfShouldShowBackground } from '~/routes/_index/route';
 import highlightStyle from 'highlight.js/styles/github.css';
+import { ExternalScripts } from 'remix-utils/external-scripts';
 
 export const links: LinksFunction = () => {
   return [
@@ -111,6 +112,7 @@ export default function App() {
             isVisible={determineIfShouldShowBackground(location.pathname)}
           />
           <Scripts />
+          <ExternalScripts />
           <LiveReload />
         </div>
         {/*deferred loading*/}

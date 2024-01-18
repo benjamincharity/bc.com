@@ -1,13 +1,10 @@
 import * as prod from 'react/jsx-runtime';
 import * as dev from 'react/jsx-dev-runtime';
-import React from 'react';
-import markdown from 'remark-parse';
 import remarkParse from 'remark-parse';
 import remarkRehype from 'remark-rehype';
 import gfm from 'remark-gfm';
 import emoji from 'remark-emoji';
 import sectionize from 'remark-sectionize';
-// import embedder from '@remark-embedder/core';
 import highlight from 'remark-highlight.js';
 import { unified } from 'unified';
 import rehypeReact from 'rehype-react';
@@ -19,12 +16,7 @@ import Codepen from '~/components/Codepen';
 import raw from 'rehype-raw';
 import { s } from 'hastscript';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
-// import html from 'remark-html';
-
-// Create a type for the configuration object of rehype-react
-// const rehypeReactOptions = {
-//   createElement: React.createElement as typeof React.createElement
-// };
+import remarkMdx from 'remark-mdx';
 
 const development = process.env.NODE_ENV === 'development';
 // @ts-expect-error: the React types are missing.
@@ -41,17 +33,6 @@ const options: Options = {
   ...prodJsx,
 };
 
-// const result = await unified()
-//   .use(remarkParse)
-//   .use(unifiedInferGitMeta)
-//   .use(remarkRehype)
-//   .use(rehypeDocument)
-//   .use(rehypeInferTitleMeta)
-//   .use(rehypeInferDescriptionMeta, { truncateSize: 64 })
-//   .use(rehypeInferReadingTimeMeta)
-//   .use(rehypeMeta, { og: true, twitter: true, copyright: true })
-//   .use(rehypeStringify)
-//   .process(fileContents);
 function link() {
   return s(
     'svg.icon',
@@ -69,48 +50,28 @@ function link() {
   );
 }
 
+// TODO: highlight code, support codepen,
 const processor = unified()
   .use(remarkParse, { fragment: true, sanitize: true })
+  .use(remarkMdx)
+  .use(sectionize) // NOTE: must be before remarkRehype
+  .use(remarkRehype)
+  .use(raw)
+  .use(rehypeInferReadingTimeMeta)
   .use(rehypeAutolinkHeadings, {
+    // not working
     behavior: 'prepend',
     content: link(),
     properties: { ariaLabel: 'Link to this section', className: ['anchor'] },
   })
-  .use(sectionize)
-  .use(remarkRehype)
-  .use(raw) // THIS is also required
-  .use(rehypeReact, options)
-  .use(rehypeInferReadingTimeMeta)
   .use(rehypeMeta, { og: true, twitter: true, copyright: true })
+  .use(rehypeReact, options)
   .use(rehypeStringify);
 // .use(gfm)
-// .use(emoji)
-// // .use(embedder, { transformers })
-// .use(sectionize)
-// .use(md2react); // Add this line to use remark-react
-// .use(html, { sanitize: false });
-// .use(sectionize)
-// .use(highlight, {
-//   include: ['js', 'ts', 'jsx', 'md', 'bash', 'diff', 'css', 'sh'],
-// })
-// .use(md2react, {
-//   sanitize: false,
-//   // eslint-disable-next-line react/display-name
-//   createElement: (type, props, children) => {
-//     if (type?.name === 'Embed') {
-//       props.key = props.src;
-//     }
-//     return React.createElement(type, props, children);
-//   },
-//   remarkReactComponents: {
-//     iframe: Embed,
-//   },
-// });
 
 export const toHTML = async (data: string) => {
   try {
     const result = await processor.process(data);
-    console.log('my log: ', result.value);
     // at this point it is markdown as a string without frontmatter:
     return result.toString('utf-8').trim() + '\n';
   } catch (error) {

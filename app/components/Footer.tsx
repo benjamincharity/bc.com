@@ -1,5 +1,5 @@
 import { Link } from '@remix-run/react';
-import { siteMetadata } from '~/siteMetadata';
+import { siteMetadata } from '~/data/siteMetadata';
 import { SocialMedia } from './SocialMedia';
 import { RoutesPath } from '~/data/routes.data';
 

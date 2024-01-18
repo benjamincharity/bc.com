@@ -1,8 +1,8 @@
-import { siteMetadata } from "~/siteMetadata";
-import githubLogo from "../assets/github.webp";
-import linkedinLogo from "../assets/linkedin.webp";
-import twitterLogo from "../assets/twitter.webp";
-import { ExternalLink } from "./ExternalLink";
+import { siteMetadata } from '~/data/siteMetadata';
+import githubLogo from '../assets/github.webp';
+import linkedinLogo from '../assets/linkedin.webp';
+import twitterLogo from '../assets/twitter.webp';
+import { ExternalLink } from './ExternalLink';
 
 export const SocialMedia = () => {
   return (

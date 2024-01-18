@@ -199,7 +199,6 @@ export const InteractiveCanvas = React.memo((props: InteractiveCanvasProps) => {
       className={'bc-canvas z-20 absolute inset-0'}
       ref={canvasRef}
       onMouseDown={() => {
-        console.log('mouse down isDisabled: ', isDisabled);
         if (!isDisabled) {
           canvasInstance?.wobbleRows(PaletteDirection.NEXT);
         }

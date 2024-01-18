@@ -3,7 +3,7 @@ import pluralize from 'pluralize';
 import { json } from '@remix-run/node';
 import { useLoaderData, useParams } from '@remix-run/react';
 import { ArticleReference, getAllArticles } from '~/utils/articles.server';
-import { siteMetadata } from '~/siteMetadata';
+import { siteMetadata } from '~/data/siteMetadata';
 import { ArticlesList } from '~/components/Articles/ArticlesList';
 import { BackToLink } from '../articles_.$id/components/BackToLink';
 import { BrowseByTags } from '~/routes/articles/components/BrowseByTags';

@@ -23,7 +23,7 @@ const LOAD_STATE = {
   loaded: '__loaded__',
 };
 
-export const Codepen: React.FC<ReactCodepenProps> = ({
+const Codepen: React.FC<ReactCodepenProps> = ({
   defaultTab = 'css,result',
   hash,
   height = 300,
