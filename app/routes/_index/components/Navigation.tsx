@@ -13,43 +13,45 @@ export const Navigation = React.memo((props: NavigationProps): ReactElement => {
   useEffect(() => {
     setCompanies(shuffle([...COMPANIES]));
   }, []);
+  const linkClasses = `squiggle-link text-3xl relative pointer-events-auto`;
 
   return (
     <div className="navigation z-30 text-center pointer-events-none">
-      <h2 className="inline-block uppercase text-3xl m-4 mt-2 font-vt323 text-white leading-none text-shadow-title text-center">
+      <h2 className="inline-block hyphens-none whitespace-nowrap uppercase text-subTitle m-4 mt-2 font-vt323 text-white leading-none text-shadow-title text-center">
         Engineering leader at high-growth
         <br />
         startups & scale-ups
       </h2>
 
       <nav className="mb-8">
-        <ul>
+        <ul
+          className={
+            'flex flex-col gap-x-3 sm:flex-row sm:gap-x-8 min-h-home:gap-x-3 min-h-home:flex-col justify-center'
+          }
+        >
           {NAVIGATION_LINKS.map((link) => {
             return (
-              <li className={'block'} key={link.display}>
+              <li key={link.display}>
                 {link.destination?.startsWith('http') ? (
                   <a
-                    className={`squiggle-link text-3xl relative pointer-events-auto`}
+                    className={linkClasses}
                     href={link.destination}
                     rel={'noreferrer'}
                     target="_blank"
                   >
                     {link.display}
                     <svg
-                      width="24"
-                      height="24"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fillRule="evenodd"
                       clipRule="evenodd"
+                      fillRule="evenodd"
+                      height="24"
+                      width="24"
+                      xmlns="http://www.w3.org/2000/svg"
                     >
                       <path d="M14 4h-13v18h20v-11h1v12h-22v-20h14v1zm10 5h-1v-6.293l-11.646 11.647-.708-.708 11.647-11.646h-6.293v-1h8v8z" />
                     </svg>
                   </a>
                 ) : (
-                  <Link
-                    className={`squiggle-link text-3xl pointer-events-auto`}
-                    to={link.destination}
-                  >
+                  <Link className={linkClasses} to={link.destination}>
                     {link.display}
                   </Link>
                 )}

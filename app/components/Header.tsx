@@ -9,8 +9,8 @@ export const Header = ({ isSmall = false }: { isSmall?: boolean }) => {
   const [localIsSmall, setLocalIsSmall] = useState(isSmall);
   const headerClasses = useMemo(() => {
     const shared = `relative text-center z-20 font-vt323 leading-none transition-all`;
-    const largeState = `${shared} pointer-events-none text-white text-8xl py-10 text-shadow-title`;
-    const smallState = `${shared} pointer-events-auto text-gray-700 text-4xl pt-6 transition-duration-200`;
+    const largeState = `${shared} pointer-events-none text-white text-title py-10 text-shadow-title`;
+    const smallState = `${shared} pointer-events-auto text-gray-700 text-titleSmall pt-6 transition-duration-200`;
     return localIsSmall ? smallState : largeState;
   }, [localIsSmall]);
 

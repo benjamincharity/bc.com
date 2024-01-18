@@ -5,7 +5,16 @@ import plugin from 'tailwindcss/plugin';
 export default {
   content: ['./app/**/*.{js,jsx,ts,tsx}'],
   theme: {
+    screens: {
+      sm: '640px',
+      md: '768px',
+      lg: '1024px',
+      xl: '1280px',
+    },
     extend: {
+      animation: {
+        'slide-bg': 'slideBackground 3s ease-in-out infinite',
+      },
       backgroundImage: {
         'sliding-gradient':
           'linear-gradient(white, white), linear-gradient(#8ae6df, #8ae6df), linear-gradient(#f184a8, #f184a8)',
@@ -14,29 +23,13 @@ export default {
         'wavyBg':
           'linear-gradient(to bottom,var(--highlight-color-1) 0,var(--highlight-color-1) 100%) repeat-x 0 100%',
       },
-      backgroundSize: {
-        'sliding-initial': '20px 18px, 100% 18px, 0 18px',
-        'sliding-hover': '20px 18px, 0 18px, 100% 18px',
-      },
       backgroundPosition: {
         'sliding-initial': 'calc(20px * -1) 100%, 100% 100%, 0 100%',
         'sliding-hover': 'calc(100% + 20px) 100%, 100% 100%, 0 100%',
       },
-      transitionProperty: {
-        'bg-size-position': 'background-size, background-position',
-      },
-      animation: {
-        'slide-bg': 'slideBackground 3s ease-in-out infinite',
-      },
-      fontFamily: {
-        vt323: ['"VT323"', ...defaultTheme.fontFamily.sans],
-        sourceSerif4: ['"Source Serif 4"', ...defaultTheme.fontFamily.sans],
-        code: [
-          'Fira Code',
-          'Consolas',
-          'Monaco',
-          ...defaultTheme.fontFamily.sans,
-        ],
+      backgroundSize: {
+        'sliding-initial': '20px 18px, 100% 18px, 0 18px',
+        'sliding-hover': '20px 18px, 0 18px, 100% 18px',
       },
       colors: {
         articleDescription: '#f0f',
@@ -55,14 +48,20 @@ export default {
         loveLetter: '#f184a8',
         turkishTeal: '#8ae6df',
       },
-      listStyleType: {
-        square: 'square',
+      fontSize: {
+        title: 'clamp(3rem, 23vw, 6rem)',
+        titleSmall: 'clamp(2rem, 23vw, 2rem)',
+        subTitle: 'clamp(16px, 6vw, 30px)',
       },
-      textShadow: {
-        sm: '0 1px 2px var(--tw-shadow-color)',
-        DEFAULT: '0 2px 4px var(--tw-shadow-color)',
-        lg: '0 8px 16px var(--tw-shadow-color)',
-        title: '2px 2px 2px rgba(0,0,0,0.4)',
+      fontFamily: {
+        vt323: ['"VT323"', ...defaultTheme.fontFamily.sans],
+        sourceSerif4: ['"Source Serif 4"', ...defaultTheme.fontFamily.sans],
+        code: [
+          'Fira Code',
+          'Consolas',
+          'Monaco',
+          ...defaultTheme.fontFamily.sans,
+        ],
       },
       height: {
         '10v': '10vh',
@@ -76,8 +75,24 @@ export default {
         '90v': '90vh',
         '100v': '100vh',
       },
+      listStyleType: {
+        square: 'square',
+      },
       maxWidth: {
         articleMaxWidth: '640px',
+      },
+      screens: {
+        'min-h-home': { raw: '(min-height: 640px)' },
+        'xs': { raw: '(min-width: 360px)' },
+      },
+      textShadow: {
+        sm: '0 1px 2px var(--tw-shadow-color)',
+        DEFAULT: '0 2px 4px var(--tw-shadow-color)',
+        lg: '0 8px 16px var(--tw-shadow-color)',
+        title: '2px 2px 2px rgba(0,0,0,0.4)',
+      },
+      transitionProperty: {
+        'bg-size-position': 'background-size, background-position',
       },
     },
   },

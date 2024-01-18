@@ -29,11 +29,6 @@ strong {
     )
     repeat-x 0 100%;
   background-size: 3px 3px;
-  /*color: var(--highlight-color-1);*/
-  /*display: inline-block;*/
-  /*line-height: 1;*/
-  /*padding: 0 0.1em;*/
-  /*text-decoration: none;*/
 }
 
 .squiggle-link:focus,
@@ -48,7 +43,7 @@ strong {
   outline: 2px dashed;
 }
 .squiggle-link svg {
-  @apply absolute top-3 scale-50 left-[104%] fill-current transition-all;
+  @apply absolute top-3 scale-50 left-full min-h-home:left-[104%] fill-current transition-all;
 }
 
 /*TRUSTED TITLE*/
