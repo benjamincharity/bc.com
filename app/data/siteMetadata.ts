@@ -1,13 +1,10 @@
-const prodDomain =
-  'https://bc-com-git-off-to-vercel-rem-4ce02d-benjamins-projects-ca576fe6.vercel.app';
-
 export const siteMetadata = {
   title: 'BenjaminCharity.com',
   description:
     'Engineering leader & team builder at high-growth startups & scale-ups.',
   domain: 'www.benjamincharity.com',
   url: 'https://www.benjamincharity.com',
-  image: `${prodDomain}/images/pwa/apple-splash-2048-1536.jpg`,
+  image: `/images/pwa/apple-splash-2732-2048.jpg`,
   author: 'Benjamin Charity',
   twitter: 'benjamincharity',
   github: 'benjamincharity',

@@ -1,12 +1,19 @@
-import { ArticleReference, getAllArticles } from '~/utils/articles.server';
+import {
+  ArticleReference,
+  Frontmatter,
+  getAllArticles,
+} from '~/utils/articles.server';
 import { ArticlesList } from '~/components/Articles/ArticlesList';
 import { useLoaderData, useSearchParams } from '@remix-run/react';
 import { getTagsFromArticles } from '~/utils/getTagsFromArticles';
-import { json, LoaderFunctionArgs } from '@remix-run/node';
+import { json, LoaderFunctionArgs, type MetaFunction } from '@remix-run/node';
 import { BrowseByTags } from '~/routes/articles/components/BrowseByTags';
 import React, { useMemo } from 'react';
 import { TagsPayload } from '~/routes/articles_.tags/route';
 import { useReducedMotion } from '@mantine/hooks';
+import { FixMeLater } from '~/types/shame';
+import { siteMetadata } from '~/data/siteMetadata';
+import { generateMetaCollection } from '~/utils/generateMetaCollection';
 
 interface LoaderData {
   articles: ArticleReference[];
@@ -22,6 +29,16 @@ export async function loader({ request }: LoaderFunctionArgs) {
     tags,
   });
 }
+
+export const meta: MetaFunction = ({ data }: FixMeLater) => {
+  return generateMetaCollection({
+    title: 'Articles',
+    summary:
+      'Explore expert articles on engineering leadership in startups and scale-ups. Discover guides on career paths, team dynamics, and innovation in tech.',
+    tags: data.tags,
+    url: `${siteMetadata.url}/articles`,
+  });
+};
 
 export default function Route() {
   const { articles, tags } = useLoaderData<LoaderData>();

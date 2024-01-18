@@ -16,6 +16,7 @@ import type { MetaFunction } from '@remix-run/node';
 import { FixMeLater } from '~/types/shame';
 import { ExternalScriptsHandle } from 'remix-utils/external-scripts';
 import { siteMetadata } from '~/data/siteMetadata';
+import { generateMetaCollection } from '~/utils/generateMetaCollection';
 
 type LoaderData = {
   allTags: TagsPayload;
@@ -53,31 +54,17 @@ export const handle: ExternalScriptsHandle = {
   ],
 };
 
-export const meta: MetaFunction = ({ data, params }: FixMeLater) => {
+export const meta: MetaFunction = ({ data }: FixMeLater) => {
   const { title, tags, summary, url } = data.frontmatter as Frontmatter;
-  const keywords = tags.join(', ');
   const imageUrl = siteMetadata.image;
 
-  return [
-    // Basic meta tags
-    { name: 'title', content: title },
-    { name: 'description', content: summary },
-    { name: 'keywords', content: keywords },
-
-    // Open Graph / Facebook (also used by LinkedIn)
-    { property: 'og:title', content: title },
-    { property: 'og:description', content: summary },
-    { property: 'og:image', content: imageUrl },
-    { property: 'og:url', content: url },
-    { property: 'og:type', content: 'website' },
-
-    // Twitter
-    { name: 'twitter:card', content: 'summary_large_image' },
-    { name: 'twitter:title', content: title },
-    { name: 'twitter:description', content: summary },
-    { name: 'twitter:image', content: imageUrl },
-    { name: 'twitter:creator', content: 'benjamincharity' },
-  ];
+  return generateMetaCollection({
+    title,
+    summary,
+    tags,
+    url,
+    imageUrl,
+  });
 };
 
 function getTagsWithCount(tags: string[], allTags: TagsPayload): TagsPayload {
