@@ -1,4 +1,4 @@
-import { LinksFunction, MetaFunction } from '@remix-run/node';
+import { json, LinksFunction, MetaFunction } from '@remix-run/node';
 import {
   Links,
   LiveReload,
@@ -6,6 +6,7 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
   useLocation,
 } from '@remix-run/react';
 import { useCallback, useEffect, useState } from 'react';
@@ -19,6 +20,11 @@ import { navigationState$, state$ } from '~/store';
 import { determineIfShouldShowBackground } from '~/routes/_index/route';
 import highlightStyle from 'highlight.js/styles/github.css';
 import { ExternalScripts } from 'remix-utils/external-scripts';
+import * as gtag from '~/utils/gtags.client';
+
+export function loader() {
+  return json({ gaTrackingId: process.env.GA_TRACKING_ID });
+}
 
 export const links: LinksFunction = () => {
   return [
@@ -71,12 +77,20 @@ export const meta: MetaFunction = ({ location }) => {
 
 export default function App() {
   const location = useLocation();
+  const { gaTrackingId } = useLoaderData<typeof loader>();
+
   const [showBg, setShowBg] = useState(false);
 
   const setVisibility = useCallback((path: string) => {
     const result = determineIfShouldShowBackground(path);
     state$.isVisible.set(result);
   }, []);
+
+  useEffect(() => {
+    if (gaTrackingId?.length) {
+      gtag.pageview(location.pathname, gaTrackingId);
+    }
+  }, [location, gaTrackingId]);
 
   useEffect(() => {
     setVisibility(location.pathname);
@@ -106,6 +120,29 @@ export default function App() {
       </head>
 
       <body>
+        {process.env.NODE_ENV === 'development' || !gaTrackingId ? null : (
+          <>
+            <script
+              async
+              src={`https://www.googletagmanager.com/gtag/js?id=${gaTrackingId}`}
+            />
+            <script
+              async
+              id="gtag-init"
+              dangerouslySetInnerHTML={{
+                __html: `
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+
+                gtag('config', '${gaTrackingId}', {
+                  page_path: window.location.pathname,
+                });
+              `,
+              }}
+            />
+          </>
+        )}
         <div className="relative text-lg h-100v">
           <Header isSmall={showBg} />
           <Outlet />
