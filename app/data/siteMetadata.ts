@@ -7,7 +7,7 @@ export const siteMetadata = {
     'Engineering leader & team builder at high-growth startups & scale-ups.',
   domain: 'www.benjamincharity.com',
   url: 'https://www.benjamincharity.com',
-  image: `${prodDomain}/images/website1.png`,
+  image: `${prodDomain}/images/pwa/apple-splash-2048-1536.jpg`,
   author: 'Benjamin Charity',
   twitter: 'benjamincharity',
   github: 'benjamincharity',
