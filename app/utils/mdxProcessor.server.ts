@@ -2,10 +2,6 @@ import * as prod from 'react/jsx-runtime';
 import * as dev from 'react/jsx-dev-runtime';
 import remarkParse from 'remark-parse';
 import remarkRehype from 'remark-rehype';
-// NOTE: I am not sure why this is failing. Namespaces were declared and the others work.
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import sectionize from 'remark-sectionize';
 import { unified } from 'unified';
 import rehypeReact from 'rehype-react';
 import type { Options } from 'rehype-react';
@@ -14,12 +10,12 @@ import rehypeMeta from 'rehype-meta';
 import rehypeInferReadingTimeMeta from 'rehype-infer-reading-time-meta';
 import Codepen from '~/components/Codepen';
 import raw from 'rehype-raw';
-import { s } from 'hastscript';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import remarkMdx from 'remark-mdx';
 import remarkGfm from 'remark-gfm';
 import { remarkTruncateLinks } from 'remark-truncate-links';
 import rehypeHighlight from 'rehype-highlight';
+import rehypeSections from './rehype-sections';
 
 const development = process.env.NODE_ENV === 'development';
 // @ts-expect-error: the React types are missing.
@@ -42,7 +38,7 @@ const processor = unified()
   .use(remarkTruncateLinks, { length: 46 })
   .use(remarkMdx)
   .use(remarkGfm)
-  .use(sectionize) // NOTE: sectionize must be before remarkRehype
+  .use(rehypeSections) // NOTE: sectionize must be before remarkRehype
   .use(remarkRehype)
   .use(raw)
   .use(rehypeAutolinkHeadings)

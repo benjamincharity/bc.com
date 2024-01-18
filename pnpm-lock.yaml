@@ -185,9 +185,6 @@ dependencies:
   remark-rehype:
     specifier: 11.1.0
     version: 11.1.0
-  remark-sectionize:
-    specifier: 2.0.0
-    version: 2.0.0
   remark-toc:
     specifier: 9.0.0
     version: 9.0.0
@@ -200,6 +197,12 @@ dependencies:
   unified:
     specifier: 11.0.4
     version: 11.0.4
+  unist-util-find-after:
+    specifier: 5.0.0
+    version: 5.0.0
+  unist-util-visit:
+    specifier: 5.0.0
+    version: 5.0.0
 
 devDependencies:
   '@babel/core':
@@ -12710,13 +12713,6 @@ packages:
       vfile: 6.0.1
     dev: false
 
-  /remark-sectionize@2.0.0:
-    resolution: {integrity: sha512-B+sCNNQroXybxX5Gwu9xbkjFIgK6vHMwbgPM/CEzQTP2ODxUiBsQRBjoSC6XR+yPOkgHvXV83HWCNA8IZuvJKg==}
-    dependencies:
-      unist-util-find-after: 4.0.1
-      unist-util-visit: 4.1.2
-    dev: false
-
   /remark-stringify@11.0.0:
     resolution: {integrity: sha512-1OSmLd3awB/t8qdoEOMazZkNsfVTeY4fTsgzcQFdXNq8ToTN4ZGwrMnlda4K6smTFKD+GRV6O48i6Z4iKgPPpw==}
     dependencies:
@@ -14070,13 +14066,6 @@ packages:
     resolution: {integrity: sha512-gnpOw7DIpCA0vpr6NqdPvTWnlPTApCTRzr+38E6hCWx3rz/cjo83SsKIlS1Z+L5ttScQ2AwutNnb8+tAvpb6qQ==}
     dependencies:
       '@types/unist': 2.0.10
-    dev: false
-
-  /unist-util-find-after@4.0.1:
-    resolution: {integrity: sha512-QO/PuPMm2ERxC6vFXEPtmAutOopy5PknD+Oq64gGwxKtk4xwo9Z97t9Av1obPmGU0IyTa6EKYUfTrK2QJS3Ozw==}
-    dependencies:
-      '@types/unist': 2.0.10
-      unist-util-is: 5.2.1
     dev: false
 
   /unist-util-find-after@5.0.0:

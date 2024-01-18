@@ -60,11 +60,12 @@
     "remark-parse": "11.0.0",
     "remark-react": "9.0.1",
     "remark-rehype": "11.1.0",
-    "remark-sectionize": "2.0.0",
     "remark-toc": "9.0.0",
     "remark-truncate-links": "1.0.3",
     "remix-utils": "7.5.0",
-    "unified": "11.0.4"
+    "unified": "11.0.4",
+    "unist-util-find-after": "5.0.0",
+    "unist-util-visit": "5.0.0"
   },
   "devDependencies": {
     "@babel/core": "7.20.2",
