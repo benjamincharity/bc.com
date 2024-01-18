@@ -26,7 +26,7 @@ export const ArticleTitleLink = React.memo(
         <span className="listing-tail inline-block ml-2 pr-10 whitespace-nowrap relative">
           {titleTail}
           <span
-            className="listing-arrow opacity-0 absolute right-0 translate-y-1 translate-x-0 group-hover:opacity-80 group-hover:translate-x-2 pl-2 transition-all group-hover:delay-300"
+            className={`listing-arrow opacity-0 absolute right-0 translate-y-1 translate-x-0 group-hover:opacity-80 group-hover:translate-x-2 pl-2 motion-safe:transition-all motion-safe:group-hover:delay-300`}
             aria-hidden="true"
           >
             &#10149;

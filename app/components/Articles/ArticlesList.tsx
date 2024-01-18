@@ -12,8 +12,8 @@ const Article = React.forwardRef<HTMLDivElement, ArticleProps>(
   ({ item }, ref) => {
     return (
       <article
-        key={item.slug}
         className="font-sourceSerif4 mb-10 group"
+        key={item.slug}
         ref={ref}
       >
         <ArticleTitleLink

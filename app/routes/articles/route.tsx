@@ -6,6 +6,7 @@ import { json, LoaderFunctionArgs } from '@remix-run/node';
 import { BrowseByTags } from '~/routes/articles/components/BrowseByTags';
 import React, { useMemo } from 'react';
 import { TagsPayload } from '~/routes/articles_.tags/route';
+import { useReducedMotion } from '@mantine/hooks';
 
 interface LoaderData {
   articles: ArticleReference[];
@@ -26,10 +27,14 @@ export default function Route() {
   const { articles, tags } = useLoaderData<LoaderData>();
   const [searchParams] = useSearchParams();
   const query = useMemo(() => searchParams.get('q'), [searchParams]);
+  const reduceMotion = useReducedMotion();
 
   const scrollToBottom = (event: React.MouseEvent) => {
     event.preventDefault();
-    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    window.scrollTo({
+      top: document.body.scrollHeight,
+      behavior: reduceMotion ? 'auto' : 'smooth',
+    });
   };
 
   return (

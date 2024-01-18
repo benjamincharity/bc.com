@@ -74,7 +74,6 @@ function determineMousePosition(
 
 export interface InteractiveCanvasProps {
   forwardedRef?: React.Ref<InteractiveCanvasRefType>;
-  shouldShow?: boolean;
   isDisabled?: boolean;
   paletteChange?: (palette: Palette) => void;
 }
@@ -90,7 +89,7 @@ const shuffled = shuffle([...PALETTES]);
 const palette = shuffled[0];
 
 export const InteractiveCanvas = React.memo((props: InteractiveCanvasProps) => {
-  const { isDisabled = false, paletteChange, shouldShow = true } = props;
+  const { isDisabled = false, paletteChange } = props;
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const localWindow = typeof window !== 'undefined' ? window : dummyWindow;
   const isPaused = state$.isPaused.get();
@@ -138,11 +137,7 @@ export const InteractiveCanvas = React.memo((props: InteractiveCanvasProps) => {
   }, [canvasInstance]);
 
   const debouncedRenderCanvas = useDebounce(renderCanvas, 300);
-  let touchStartX: number | null = null;
-
-  const handleTouchStart = (event: React.TouchEvent) => {
-    touchStartX = event.touches[0].clientX;
-  };
+  const [touchStartX, setTouchStartX] = useState<number | null>(null);
 
   const handleTouchEnd = (event: React.TouchEvent) => {
     if (touchStartX !== null) {
@@ -171,9 +166,9 @@ export const InteractiveCanvas = React.memo((props: InteractiveCanvasProps) => {
       }
 
       if (keyboardEvent.key === 'ArrowRight') {
-        canvasInstance?.wobbleRows(PaletteDirection.NEXT);
+        canvasInstance?.wobbleRows(PaletteDirection.NEXT, isDisabled);
       } else if (keyboardEvent.key === 'ArrowLeft') {
-        canvasInstance?.wobbleRows(PaletteDirection.PREV);
+        canvasInstance?.wobbleRows(PaletteDirection.PREV, isDisabled);
       }
     };
     const newTotalPoints = Math.round(
@@ -197,13 +192,14 @@ export const InteractiveCanvas = React.memo((props: InteractiveCanvasProps) => {
       localWindow.removeEventListener('resize', handleWindowResize);
       localWindow.removeEventListener('keydown', handleKeyDown);
     };
-  }, [canvasInstance, debouncedRenderCanvas, localWindow]);
+  }, [canvasInstance, debouncedRenderCanvas, isDisabled, localWindow]);
 
   return (
     <canvas
       className={'bc-canvas z-20 absolute inset-0'}
       ref={canvasRef}
       onMouseDown={() => {
+        console.log('mouse down isDisabled: ', isDisabled);
         if (!isDisabled) {
           canvasInstance?.wobbleRows(PaletteDirection.NEXT);
         }
@@ -214,8 +210,17 @@ export const InteractiveCanvas = React.memo((props: InteractiveCanvasProps) => {
       onMouseMove={(e) =>
         handleEvent(e, canvasRef.current, canvasInstance, isDisabled)
       }
-      onTouchStart={handleTouchStart}
-      onTouchEnd={handleTouchEnd}
+      onTouchStart={(e) => {
+        if (!isDisabled) {
+          setTouchStartX(e.touches[0].clientX);
+        }
+      }}
+      onTouchEnd={(e) => {
+        if (!isDisabled) {
+          handleTouchEnd(e);
+          canvasInstance?.setMousePosition(MOUSE_OFF, MOUSE_OFF);
+        }
+      }}
       onTouchMove={(e) =>
         handleEvent(e, canvasRef.current, canvasInstance, isDisabled)
       }

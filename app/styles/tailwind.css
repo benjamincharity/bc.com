@@ -14,7 +14,7 @@
   }
 
   .reading-time {
-    @apply inline-block text-sm text-gray-600 opacity-70 group-hover:opacity-100 transition-opacity;
+    @apply inline-block text-sm text-gray-600 opacity-70 group-hover:opacity-100 motion-safe:transition-opacity;
   }
   .reading-time::before {
     @apply mr-1;

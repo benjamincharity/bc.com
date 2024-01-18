@@ -1,13 +1,9 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Link, Outlet, useLocation, useNavigate } from '@remix-run/react';
-import { generateSvgSquiggle } from '~/utils/generateSvgSquiggle';
+import { Outlet, useLocation, useNavigate } from '@remix-run/react';
 import type { InteractiveCanvasRefType } from '~/components/InteractiveCanvas/InteractiveCanvas';
 import type { Palette } from '~/components/InteractiveCanvas/palettes.data';
 import { PALETTES } from '~/components/InteractiveCanvas/palettes.data';
-import { ClientOnly } from '~/components/ClientOnly';
-import { InfoBubble, InfoBubbleProps } from '~/components/InfoBubble';
 import { Navigation } from '~/routes/_index/components/Navigation';
-import { state$ } from '~/store';
 
 const DEFAULT_INFO_INTRO_DELAY = 7000;
 const DEFAULT_INFO_EXIT_DELAY = DEFAULT_INFO_INTRO_DELAY * 2;
@@ -22,11 +18,8 @@ export default function Index() {
   const location = useLocation();
   const navigate = useNavigate();
   const [currentRoute, setCurrentRoute] = useState(location.pathname);
-  const [isSubPage, setIsSubPage] = useState(true);
   const [shouldShowBackground, setShouldShowBackground] = useState(false);
   const [partyModeEnabled, setPartyModeEnabled] = useState(false);
-  const [shouldBeReducedMotion, setShouldBeReducedMotion] =
-    useState<boolean>(false);
   const [palettes] = useState<ReadonlyArray<Palette>>([...PALETTES]);
   const [partyModeInterval, setPartyModeInterval] =
     useState<NodeJS.Timeout | null>(null);
@@ -47,11 +40,6 @@ export default function Index() {
   useEffect(() => {
     setCurrentRoute(window.location.pathname);
 
-    if (typeof window !== 'undefined') {
-      setShouldBeReducedMotion(
-        window.matchMedia('(prefers-reduced-motion: reduce)').matches,
-      );
-    }
     const localDetermination = determineIfShouldShowBackground(
       window.location.pathname,
     );
@@ -128,18 +116,24 @@ export default function Index() {
   };
 
   return (
-    <div className={'bc-home relative z-20 font-vt323 pointer-events-none'}>
+    <div
+      className={
+        'bc-home text-center relative z-20 font-vt323 pointer-events-none'
+      }
+    >
       <div
-      // className={`container ${
-      //   !shouldShowBackground ? 'container--no-background' : ''
-      // } ${shouldShowBackground ? 'pointer-events-none' : ''} ${
-      //   shouldBeReducedMotion ? 'container--reduced-motion' : ''
-      // }`}
       // bcKonami
       // konami={togglePartyMode}
       >
         <main>
           <Outlet />
+
+          <h2 className="inline-block hyphens-none whitespace-nowrap uppercase text-subTitle m-4 mt-2 font-vt323 text-white leading-none text-shadow-title text-center">
+            Engineering leader at high-growth
+            <br />
+            startups & scale-ups
+          </h2>
+
           <Navigation />
         </main>
       </div>

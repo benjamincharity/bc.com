@@ -20,8 +20,7 @@ export default {
           'linear-gradient(white, white), linear-gradient(#8ae6df, #8ae6df), linear-gradient(#f184a8, #f184a8)',
         'strongBg':
           'linear-gradient(-100deg, rgba(255, 244, 0, 0.2), rgba(255, 244, 0, 0.5) 95%, rgba(255, 244, 0, 0.1))',
-        'wavyBg':
-          'linear-gradient(to bottom,var(--highlight-color-1) 0,var(--highlight-color-1) 100%) repeat-x 0 100%',
+        'wavyBg': 'var(--o-squiggle-link-backgroundImage)',
       },
       backgroundPosition: {
         'sliding-initial': 'calc(20px * -1) 100%, 100% 100%, 0 100%',

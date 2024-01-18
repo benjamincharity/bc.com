@@ -1,28 +1,19 @@
-import React, { ReactElement, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { COMPANIES } from '~/data/companies.data';
 import { shuffle } from '~/utils/shuffle';
 import { NAVIGATION_LINKS } from '~/data/navigation.data';
 import { Link } from '@remix-run/react';
 
-export interface NavigationProps {}
-
-export const Navigation = React.memo((props: NavigationProps): ReactElement => {
-  //const {} = props;
+export const Navigation = React.memo(() => {
   const [companies, setCompanies] = React.useState<string[]>([...COMPANIES]);
+  const linkClasses = `squiggle-link text-3xl relative pointer-events-auto`;
 
   useEffect(() => {
     setCompanies(shuffle([...COMPANIES]));
   }, []);
-  const linkClasses = `squiggle-link text-3xl relative pointer-events-auto`;
 
   return (
     <div className="navigation z-30 text-center pointer-events-none">
-      <h2 className="inline-block hyphens-none whitespace-nowrap uppercase text-subTitle m-4 mt-2 font-vt323 text-white leading-none text-shadow-title text-center">
-        Engineering leader at high-growth
-        <br />
-        startups & scale-ups
-      </h2>
-
       <nav className="mb-8">
         <ul
           className={

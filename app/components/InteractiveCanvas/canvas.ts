@@ -69,9 +69,11 @@ export class Canvas {
     }
   }
 
-  wobbleRows(paletteDirection?: PaletteDirection) {
-    for (let i = this.rows.length; i--; ) {
-      this.rows[i].wobble(this.dist, this.totalPoints);
+  wobbleRows(paletteDirection?: PaletteDirection, noMotion?: boolean) {
+    if (!noMotion) {
+      for (let i = this.rows.length; i--; ) {
+        this.rows[i].wobble(this.dist, this.totalPoints);
+      }
     }
     if (paletteDirection === PaletteDirection.NEXT) {
       this.nextPalette();
