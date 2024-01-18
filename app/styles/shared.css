@@ -33,9 +33,8 @@ strong {
 
 .squiggle-link:focus,
 .squiggle-link:hover {
-  @apply no-underline motion-safe:bg-wavyBg;
-  /*background-image: var(--o-squiggle-link-backgroundImage);*/
-  background-position: 0 100%;
+  @apply no-underline motion-safe:bg-wavyBg bg-left-bottom;
+  /*background-position: 0 100%;*/
   background-size: auto 6px;
   background-repeat: repeat-x;
 }
