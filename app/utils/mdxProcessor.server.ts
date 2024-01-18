@@ -2,8 +2,6 @@ import * as prod from 'react/jsx-runtime';
 import * as dev from 'react/jsx-dev-runtime';
 import remarkParse from 'remark-parse';
 import remarkRehype from 'remark-rehype';
-import gfm from 'remark-gfm';
-import emoji from 'remark-emoji';
 import sectionize from 'remark-sectionize';
 import highlight from 'remark-highlight.js';
 import { unified } from 'unified';
@@ -17,6 +15,9 @@ import raw from 'rehype-raw';
 import { s } from 'hastscript';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import remarkMdx from 'remark-mdx';
+import remarkGfm from 'remark-gfm';
+import { remarkTruncateLinks } from 'remark-truncate-links';
+import rehypeHighlight from 'rehype-highlight';
 
 const development = process.env.NODE_ENV === 'development';
 // @ts-expect-error: the React types are missing.
@@ -53,27 +54,36 @@ function link() {
 // TODO: highlight code, support codepen,
 const processor = unified()
   .use(remarkParse, { fragment: true, sanitize: true })
+  .use(remarkTruncateLinks, { length: 46 })
   .use(remarkMdx)
-  .use(sectionize) // NOTE: must be before remarkRehype
+  .use(remarkGfm)
+  .use(sectionize) // NOTE: sectionize must be before remarkRehype
   .use(remarkRehype)
   .use(raw)
+  .use(rehypeAutolinkHeadings)
+  .use(rehypeHighlight)
   .use(rehypeInferReadingTimeMeta)
-  .use(rehypeAutolinkHeadings, {
-    // not working
-    behavior: 'prepend',
-    content: link(),
-    properties: { ariaLabel: 'Link to this section', className: ['anchor'] },
-  })
   .use(rehypeMeta, { og: true, twitter: true, copyright: true })
   .use(rehypeReact, options)
   .use(rehypeStringify);
-// .use(gfm)
 
-export const toHTML = async (data: string) => {
+// Create a cache object
+const htmlCache: Record<string, string> = {};
+
+export const toHTML = async (data: string, key: string) => {
+  if (htmlCache[key]) {
+    return htmlCache[key];
+  }
+
   try {
+    console.log('PROCESSING');
     const result = await processor.process(data);
-    // at this point it is markdown as a string without frontmatter:
-    return result.toString('utf-8').trim() + '\n';
+    const html = result.toString('utf-8').trim() + '\n';
+
+    // Store the generated HTML in the cache
+    htmlCache[key] = html;
+
+    return html;
   } catch (error) {
     console.error('Error processing MDX content:', error);
     throw error;

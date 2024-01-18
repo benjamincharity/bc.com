@@ -191,6 +191,9 @@ dependencies:
   remark-toc:
     specifier: 9.0.0
     version: 9.0.0
+  remark-truncate-links:
+    specifier: 1.0.3
+    version: 1.0.3
   remix-utils:
     specifier: 7.5.0
     version: 7.5.0(@remix-run/node@2.5.0)(@remix-run/react@2.5.0)(react@18.2.0)
@@ -4763,6 +4766,12 @@ packages:
 
   /asynckit@0.4.0:
     resolution: {integrity: sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q==}
+
+  /autolinker@3.16.2:
+    resolution: {integrity: sha512-JiYl7j2Z19F9NdTmirENSUUIIL/9MytEWtmzhfmsKPCp9E+G35Y0UNCMoM9tFigxT59qSc8Ml2dlZXOCVTYwuA==}
+    dependencies:
+      tslib: 2.6.2
+    dev: false
 
   /automated-readability@1.0.5:
     resolution: {integrity: sha512-N6mr0nUS0TB+SLHCrDYzLIdJQ1wklXNhsiKYh6tcrjDMlhjfz6BFGlDvngcpcBvZpko10jVjvF5XziJOxyA9Sg==}
@@ -9929,6 +9938,10 @@ packages:
       zwitch: 2.0.4
     dev: false
 
+  /mdast-util-to-string@1.1.0:
+    resolution: {integrity: sha512-jVU0Nr2B9X3MU4tSK7JP1CMkSvOj7X5l/GboG1tKRw52lLF1x2Ju92Ms9tNetCcbfX3hzlM73zYo2NKkWSfF/A==}
+    dev: false
+
   /mdast-util-to-string@3.2.0:
     resolution: {integrity: sha512-V4Zn/ncyN1QNSqSBxTrMOLpjr+IKdHl2v3KVLoWmDPscP4r9GcCi71gjgvUV1SFSKh92AjAG4peFuBl2/YgCJg==}
     dependencies:
@@ -12719,6 +12732,14 @@ packages:
       mdast-util-toc: 7.0.0
     dev: false
 
+  /remark-truncate-links@1.0.3:
+    resolution: {integrity: sha512-NAuuzrk873yqdAQlU6k4vuJkON+dO7yxynuPfHXyjSm1jz+pbgUSifeuAjHDuK5gBy+gHyApvrcL1xE7lTb+Ow==}
+    dependencies:
+      autolinker: 3.16.2
+      mdast-util-to-string: 1.1.0
+      unist-util-visit: 2.0.3
+    dev: false
+
   /remix-utils@7.5.0(@remix-run/node@2.5.0)(@remix-run/react@2.5.0)(react@18.2.0):
     resolution: {integrity: sha512-vzjDhbdwK+3XxqL2LM7ZPzq0zyjb+77eAWbKhDqhnh0nlA11n3CmTtYzrZYpVf6h24+6m5mD6KnRfcdD3Zrl7w==}
     engines: {node: '>=18.0.0'}
@@ -13808,7 +13829,6 @@ packages:
 
   /tslib@2.6.2:
     resolution: {integrity: sha512-AEYxH93jGFPn/a2iVAwW87VuUIkR1FVUKB77NwMF7nBTDkDrrT/Hpt/IrCJ0QXhW27jTBDcf5ZY7w6RiqTMw2Q==}
-    dev: true
 
   /tsutils@3.21.0(typescript@5.1.6):
     resolution: {integrity: sha512-mHKK3iUXL+3UF6xL5k0PEhKRUBKPBCv/+RkEOpjRWxxx27KKRBmmA60A9pgOUvMi8GKhRMPEmjBRPzs2W7O1OA==}

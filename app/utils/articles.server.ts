@@ -1,7 +1,6 @@
 import parseFrontMatter from 'front-matter';
 import { readdir, readFile } from './fs.server';
 import path from 'path';
-import { bundleMDX } from 'mdx-bundler';
 import { toHTML } from '~/utils/mdxProcessor.server';
 import matter from 'gray-matter';
 
@@ -34,41 +33,8 @@ export async function getArticle(slug: string) {
   const { data: frontmatter, content } = matter(source);
 
   // this is now html
-  const html = await toHTML(content);
-  console.log('getArticle from toHTML: ', html);
-
-  // Dynamically import all the rehype/remark plugins we are using
-  // const [rehypeHighlight, remarkGfm, sectionize] = await Promise.all([
-  //   import('rehype-highlight').then((mod) => mod.default),
-  //   import('remark-gfm').then((mod) => mod.default),
-  //   import('remark-sectionize').then((mod) => mod.default),
-  // ]);
-  //
-  // const post = await bundleMDX<Frontmatter>({
-  //   source: source.toString('utf-8'),
-  //   cwd: process.cwd(),
-  //
-  //   esbuildOptions: (options) => {
-  //     // Configuration to allow image loading
-  //     // https://github.com/kentcdodds/mdx-bundler#image-bundling
-  //     options.loader = {
-  //       ...options.loader,
-  //       '.png': 'dataurl',
-  //       '.gif': 'dataurl',
-  //     };
-  //
-  //     return options;
-  //   },
-  //   mdxOptions: (options) => {
-  //     options.remarkPlugins = [...(options.remarkPlugins ?? []), remarkGfm];
-  //     options.rehypePlugins = [
-  //       ...(options.rehypePlugins ?? []),
-  //       rehypeHighlight,
-  //       sectionize,
-  //     ];
-  //     return options;
-  //   },
-  // });
+  const html = await toHTML(content, slug);
+  // console.log('getArticle from toHTML: ', html);
 
   return {
     html,

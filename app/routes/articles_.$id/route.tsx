@@ -1,7 +1,6 @@
 import { useLoaderData } from '@remix-run/react';
 import type { LoaderFunction } from '@remix-run/server-runtime';
 import { json } from '@remix-run/server-runtime';
-// import { getMDXComponent } from 'mdx-bundler/client/index.js';
 import {
   Frontmatter,
   getAllArticles,
