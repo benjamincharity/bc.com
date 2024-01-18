@@ -1,8 +1,8 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useLoaderData } from '@remix-run/react';
 import type { LoaderFunction } from '@remix-run/server-runtime';
 import { json } from '@remix-run/server-runtime';
-import { getMDXComponent } from 'mdx-bundler/client/index.js';
+// import { getMDXComponent } from 'mdx-bundler/client/index.js';
 import {
   Frontmatter,
   getAllArticles,
@@ -17,11 +17,20 @@ import { PublishDate } from '~/routes/articles_.$id/components/PublishDate';
 import { BrowseByTags } from '~/routes/articles/components/BrowseByTags';
 import type { MetaFunction } from '@remix-run/node';
 import { FixMeLater } from '~/types/shame';
+import { unified } from 'unified';
+import remarkParse from 'remark-parse';
+import remarkRehype from 'remark-rehype';
+import rehypeMeta from 'rehype-meta';
+import rehypeStringify from 'rehype-stringify';
+import { VFile } from 'remark-rehype/lib';
+import { toHTML } from '~/utils/mdxProcessor.server';
 
 type LoaderData = {
   allTags: TagsPayload;
   code: string;
   frontmatter: Frontmatter;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  html: any;
 };
 
 export const meta: MetaFunction = ({ data, params }: FixMeLater) => {
@@ -54,15 +63,13 @@ export const meta: MetaFunction = ({ data, params }: FixMeLater) => {
 
 export const loader: LoaderFunction = async ({ params, request }) => {
   const slug = params.id;
-  // console.log('slug: ', slug, params, request);
   if (!slug) throw new Response('Not found', { status: 404 });
   const articles = await getAllArticles();
   const allTags = getTagsFromArticles(articles);
 
   const post = await getArticle(slug);
   if (post) {
-    const { frontmatter, code } = post;
-    return json({ frontmatter, code, allTags });
+    return json({ ...post, allTags });
   } else {
     throw new Response('Not found', { status: 404 });
   }
@@ -73,9 +80,26 @@ function getTagsWithCount(tags: string[], allTags: TagsPayload): TagsPayload {
 }
 
 export default function Article() {
-  const { code, frontmatter, allTags } = useLoaderData<LoaderData>();
+  const { code, frontmatter, allTags, html } = useLoaderData<LoaderData>();
+  console.log('frontmatter: ', frontmatter);
+  // console.log('code: ', code);
   const localTags = getTagsWithCount(frontmatter.tags, allTags);
-  const Component = useMemo(() => getMDXComponent(code), [code]);
+  // const Component = useMemo(() => getMDXComponent(code), [code]);
+  const [content, setContent] = useState('');
+  // const [text, setText] = useState('');
+  // console.log('text: ', text);
+  const section = useRef();
+
+  // useEffect(() => {
+  //   section.current.scrollIntoView({ behavior: 'smooth' });
+  // }, [section, value]);
+
+  // useEffect(() => {
+  //   toHTML(code).then((file) => {
+  //     console.log('file from toHTML: ', file);
+  //     setText(file.toString());
+  //   });
+  // }, [code]);
 
   return (
     <main className={'prose-wrapper py-4'}>
@@ -93,7 +117,9 @@ export default function Article() {
         </p>
 
         <section className={'rendered-markdown'}>
-          <Component components={{ MarkdownCodepen: Codepen }} />
+          {/*<Component components={{ MarkdownCodepen: Codepen }} />*/}
+          <div dangerouslySetInnerHTML={{ __html: html }} />
+          {/*<MyHtml />*/}
         </section>
       </article>
 

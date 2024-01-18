@@ -2,22 +2,23 @@ import parseFrontMatter from 'front-matter';
 import { readdir, readFile } from './fs.server';
 import path from 'path';
 import { bundleMDX } from 'mdx-bundler';
+import { toHTML } from '~/utils/mdxProcessor.server';
+import matter from 'gray-matter';
 
 export interface Frontmatter {
   formattedDate: string;
   images: string[];
-  date?: string;
+  meta?: {
+    description?: string;
+    title?: string;
+  };
   publishDate: string;
+  readingTime: number;
   slug: string;
   summary: string;
   tags: string[];
   title: string;
   updatedDate: string;
-  readingTime: number;
-  meta?: {
-    title?: string;
-    description?: string;
-  };
 }
 
 /**
@@ -29,42 +30,50 @@ export async function getArticle(slug: string) {
   const filePath = path.join(process.cwd(), 'app', 'articles', slug + '.mdx');
 
   const source = await readFile(filePath, 'utf-8');
+  const { data: frontmatter, content } = matter(source);
+
+  // this is now html
+  const html = await toHTML(content);
+  console.log('getArticle from toHTML: ', html);
 
   // Dynamically import all the rehype/remark plugins we are using
-  const [rehypeHighlight, remarkGfm] = await Promise.all([
-    import('rehype-highlight').then((mod) => mod.default),
-    import('remark-gfm').then((mod) => mod.default),
-  ]);
-
-  const post = await bundleMDX<Frontmatter>({
-    source: source.toString('utf-8'),
-    cwd: process.cwd(),
-
-    esbuildOptions: (options) => {
-      // Configuration to allow image loading
-      // https://github.com/kentcdodds/mdx-bundler#image-bundling
-      options.loader = {
-        ...options.loader,
-        '.png': 'dataurl',
-        '.gif': 'dataurl',
-      };
-
-      return options;
-    },
-    mdxOptions: (options) => {
-      options.remarkPlugins = [...(options.remarkPlugins ?? []), remarkGfm];
-      options.rehypePlugins = [
-        ...(options.rehypePlugins ?? []),
-        rehypeHighlight,
-      ];
-      return options;
-    },
-  });
+  // const [rehypeHighlight, remarkGfm, sectionize] = await Promise.all([
+  //   import('rehype-highlight').then((mod) => mod.default),
+  //   import('remark-gfm').then((mod) => mod.default),
+  //   import('remark-sectionize').then((mod) => mod.default),
+  // ]);
+  //
+  // const post = await bundleMDX<Frontmatter>({
+  //   source: source.toString('utf-8'),
+  //   cwd: process.cwd(),
+  //
+  //   esbuildOptions: (options) => {
+  //     // Configuration to allow image loading
+  //     // https://github.com/kentcdodds/mdx-bundler#image-bundling
+  //     options.loader = {
+  //       ...options.loader,
+  //       '.png': 'dataurl',
+  //       '.gif': 'dataurl',
+  //     };
+  //
+  //     return options;
+  //   },
+  //   mdxOptions: (options) => {
+  //     options.remarkPlugins = [...(options.remarkPlugins ?? []), remarkGfm];
+  //     options.rehypePlugins = [
+  //       ...(options.rehypePlugins ?? []),
+  //       rehypeHighlight,
+  //       sectionize,
+  //     ];
+  //     return options;
+  //   },
+  // });
 
   return {
-    ...post,
+    html,
+    code: content,
     frontmatter: {
-      ...post.frontmatter,
+      ...frontmatter,
     },
   };
 }

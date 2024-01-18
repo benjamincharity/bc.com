@@ -50,7 +50,7 @@ button {
 
 Not too shabby. We've got a light blue background, and a nice dark text that still has a hint of blue.
 
-### Wwwwomp.
+## Wwwwomp.
 
 I immediately ran into an issue. Because we have no restrictions on the original color (`lightblue` in our case) a
 user could potentially set the base color to a dark color like black. Of course darkening our text color won't help
@@ -75,7 +75,7 @@ $lightness-bound: 70 !global;
 <small>**Note:** the `!global` declaration is new as of Sass 3.3. Simply remove this declaration if you are on an
 earlier version of Sass.</small>
 
-### Wwwwomp #2.
+## Wwwwomp #2.
 
 What if the user sets the initial color to yellow? While true yellow is below our threshold for lightness (yellow
 comes in at 50% lightness), a lighter text will still be incredibly hard to read. Yes, we all hope they don't use
