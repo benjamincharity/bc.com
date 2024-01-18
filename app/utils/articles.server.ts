@@ -1,7 +1,7 @@
 import parseFrontMatter from 'front-matter';
 import { readdir, readFile } from './fs.server';
 import path from 'path';
-import { bundleMDX } from './mdx.server';
+import { bundleMDX } from 'mdx-bundler';
 
 export interface Frontmatter {
   formattedDate: string;

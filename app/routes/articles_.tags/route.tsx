@@ -2,7 +2,6 @@ import type { LoaderFunction, MetaFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import { Badge } from '~/components/Badge';
-import { siteMetadata } from '~/siteMetadata';
 import { getAllArticles } from '~/utils/articles.server';
 import { PrimaryTitle } from '~/components/PrimaryTitle';
 import { BackToLink } from '~/routes/articles_.$id/components/BackToLink';
@@ -17,13 +16,32 @@ interface LoaderData {
   tags: TagsPayload;
 }
 
-export const meta: MetaFunction = () => {
-  const title = `Tags - ${siteMetadata.author}`;
+export const meta: MetaFunction = ({ data, params }) => {
+  // console.log('my log: ', data, params);
+  const title = `Your Page Title`;
+  const description = `Your page description`;
+  const imageUrl = `URL to your image`;
+  const pageUrl = `URL to your page`;
 
   return [
+    // Basic meta tags
     { name: 'title', content: title },
+    { name: 'description', content: description },
+    { name: 'keywords', content: 'Your, Keywords, Here' },
+
+    // Open Graph / Facebook (also used by LinkedIn)
     { property: 'og:title', content: title },
+    { property: 'og:description', content: description },
+    { property: 'og:image', content: imageUrl },
+    { property: 'og:url', content: pageUrl },
+    { property: 'og:type', content: 'website' },
+
+    // Twitter
+    { name: 'twitter:card', content: 'summary_large_image' },
     { name: 'twitter:title', content: title },
+    { name: 'twitter:description', content: description },
+    { name: 'twitter:image', content: imageUrl },
+    // Add 'twitter:creator' if you want to mention the author's Twitter handle
   ];
 };
 
@@ -34,16 +52,6 @@ export const loader: LoaderFunction = async () => {
     tags: getTagsFromArticles(articles),
   });
 };
-
-// export const handle: SEOHandle = {
-//   getSitemapEntries: async () => {
-//     const tags = ARTICLES.map((a) => a.attributes.tags).flat();
-//
-//     return Array.from(new Set(tags)).map((tag) => {
-//       return { route: `/tags/${tag}`, priority: 0.5 };
-//     });
-//   },
-// };
 
 export default function Tags() {
   const { tags } = useLoaderData<LoaderData>();

@@ -62,8 +62,8 @@ export default function Tag() {
 
   return (
     <section
-      className="max-w-articleMaxWidth pt-8 mx-auto"
       aria-labelledby="tagged-posts-header"
+      className="prose-wrapper max-w-articleMaxWidth"
     >
       <header>
         <h1

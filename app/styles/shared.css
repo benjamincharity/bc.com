@@ -90,6 +90,9 @@ strong.highlight code,
 .rendered-markdown blockquote p {
   @apply my-5 pl-3;
 }
+.rendered-markdown blockquote p strong {
+  @apply bg-none;
+}
 
 .rendered-markdown h1,
 .rendered-markdown h2,

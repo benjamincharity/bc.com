@@ -53,7 +53,7 @@ export const Navigation = React.memo(() => {
       </nav>
 
       <section className="max-w-xl mx-auto text-base leading-tight">
-        <h3 className="opacity-60 trusted-title">Trusted by</h3>
+        <h3 className="opacity-60 mb-1 trusted-title">Trusted by</h3>
         <ul className="list-none pointer-events-auto">
           {companies.map((c, i) => {
             return (
