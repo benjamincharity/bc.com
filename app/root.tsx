@@ -8,7 +8,7 @@ import {
   ScrollRestoration,
   useLocation,
 } from '@remix-run/react';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { siteMetadata } from './data/siteMetadata';
 import { isDarkMode } from './utils/isDarkMode';
 import sharedStyles from '~/styles/shared.css';
@@ -71,6 +71,7 @@ export const meta: MetaFunction = ({ location }) => {
 
 export default function App() {
   const location = useLocation();
+  const [showBg, setShowBg] = useState(false);
 
   const setVisibility = useCallback((path: string) => {
     const result = determineIfShouldShowBackground(path);
@@ -80,6 +81,7 @@ export default function App() {
   useEffect(() => {
     setVisibility(location.pathname);
     navigationState$.history.push(location.pathname);
+    setShowBg(determineIfShouldShowBackground(location.pathname));
   }, [location.pathname, setVisibility]);
 
   useEffect(() => {
@@ -94,23 +96,21 @@ export default function App() {
   }, []);
 
   return (
-    <html lang="en">
+    <html
+      lang="en"
+      className={showBg ? 'overflow-hidden h-full w-full' : 'overflow-x-hidden'}
+    >
       <head>
         <Meta />
-        {/*<DynamicLinks />*/}
         <Links />
       </head>
 
       <body>
         <div className="relative text-lg h-100v">
-          <Header
-            isSmall={determineIfShouldShowBackground(location.pathname)}
-          />
+          <Header isSmall={showBg} />
           <Outlet />
           <ScrollRestoration getKey={(location) => location.pathname} />
-          <FancyBackground
-            isVisible={determineIfShouldShowBackground(location.pathname)}
-          />
+          <FancyBackground isVisible={showBg} />
           <Scripts />
           <ExternalScripts />
           <LiveReload />

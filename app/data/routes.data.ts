@@ -1,5 +1,6 @@
 export const RoutesPath = {
   home: '/',
+  about: '/about',
   articles: '/articles',
   article: (articleId: string) => `/articles/${articleId}`,
   tags: '/articles/tags',

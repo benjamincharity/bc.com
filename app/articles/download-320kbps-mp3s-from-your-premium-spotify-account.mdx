@@ -16,14 +16,14 @@ eyes, kind of kills the primary benefit of having 'offline' tracks. This feature
 
 I ran into a few issues getting it set up, so I thought I would post the solutions in case it could help anyone else.
 
-### Prerequisites
+## Prerequisites
 
 - **Homebrew:** The [Homebrew][homebrew] package manager should be installed.
 - **Spotify App Keys:** Download your Spotify premium developer app key. Find your keys [here][spotify_keys].
 
-> **Note:** If you have not yet requested to be a Spotify developer, you will be asked to do so before your keys are made accessible.
+> Note: If you have not yet requested to be a Spotify developer, you will be asked to do so before your keys are made accessible.
 
-### Setting the groundwork
+## Setting the groundwork
 
 1. Update/upgrade Homebrew:
 
@@ -64,9 +64,9 @@ npm install
 npm install -g forever
 ```
 
-> **Note:** If you see an error on this step, you may need to install libspotify from source. More info [here][install_error].
+> Note: If you see an error on this step, you may need to install libspotify from source. More info [here][install_error].
 
-### Configuring Spotijay
+## Configuring Spotijay
 
 Next we need to configure the app with Spotify authentication. For help, run:
 
@@ -93,7 +93,7 @@ libspotify.12.dylib
 libspotify.12.1.51.dylib
 ```
 
-> **Note:** This was not my first attempt at getting libspotify installed. So I may have more files listed here than 
+> Note: This was not my first attempt at getting libspotify installed. So I may have more files listed here than
 > you are seeing in your directory. The important one is `libspotify.dylib`.
 
 Now, I'm not one to go changing file or directory names within library directories all willy-nilly, but after 
@@ -114,7 +114,7 @@ password and c) the destination folder (where the music will be saved).
 
 At this point, you should be ready to begin downloading some music!
 
-### Running Spotijay
+## Running Spotijay
 
 The Spotijay [documentation][spotijay_docs] references this command to begin:
 
@@ -140,7 +140,7 @@ also download single tracks if you so desire.
 forever start app.js track spotify:user:MY_USERNAME:track:trackURI
 ```
 
-##### Managing `Forever`
+## Managing `Forever`
 
 ```bash
 # See a list of all running forever process'
@@ -153,7 +153,7 @@ forever stop UID  # replace `UID` with the UID returned from `forever list`
 forever start app.js playlist spotify:user:MY_USERNAME:playlist:playlistURI
 ```
 
-### A few final notes
+## A few final notes
 
 - If your Spotify account is used from anywhere else, Forever's connection with Spotify will be ended. Simply kill 
   the Forever process and restart it.

@@ -17,20 +17,12 @@ export const meta: MetaFunction = () => {
 
 export default function About() {
   return (
-    <div className="flex flex-col justify-center items-center mb-auto">
-      <div className="w-48 h-48 sm:w-64 sm:h-64 not-prose sm:mb-8">
-        {/*<img*/}
-        {/*  src={avatar}*/}
-        {/*  alt="Author's avatar"*/}
-        {/*  className="rounded-[50%] my-0"*/}
-        {/*  loading="lazy"*/}
-        {/*/>*/}
-      </div>
-
-      <h2 className="text-center mt-8 lg:mt-0">{siteMetadata.author}</h2>
+    <div className="flex flex-col justify-center items-center pt-4 mb-auto">
       <span className="text-slate-500">{siteMetadata.professionalTitle}</span>
 
-      <p>{siteMetadata.aboutMe}</p>
+      <div className="prose-wrapper">
+        <p>{siteMetadata.aboutMe}</p>
+      </div>
     </div>
   );
 }

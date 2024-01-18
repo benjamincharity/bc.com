@@ -1,10 +1,6 @@
 import { Row } from '~/components/InteractiveCanvas/row';
-import {
-  Palette,
-  PALETTES,
-} from '~/components/InteractiveCanvas/palettes.data';
-import { shuffle } from '~/utils/shuffle';
-import { createSVG } from '~/components/Squiggle';
+import { Palette } from '~/components/InteractiveCanvas/palettes.data';
+import { createSquiggleSVG } from '~/utils/createSquiggleSVG';
 
 export const PaletteDirection = {
   NEXT: 'next',
@@ -114,7 +110,7 @@ export class Canvas {
   setNewPaletteColors(palette: Palette): void {
     document.documentElement.style.setProperty(
       `--o-squiggle-link-backgroundImage`,
-      `url(data:image/svg+xml;base64,${window.btoa(createSVG(palette[0]))})`,
+      `url(data:image/svg+xml;base64,${window.btoa(createSquiggleSVG(palette[0]))})`,
     );
 
     for (let i = 0; i < palette.length; i += 1) {
