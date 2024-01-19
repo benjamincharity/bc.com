@@ -25,6 +25,7 @@ import { ExternalScripts } from 'remix-utils/external-scripts';
 import * as gtag from '~/utils/gtags.client';
 import { generateMetaCollection } from '~/utils/generateMetaCollection';
 import { ModernButton } from '~/components/ModernButton';
+import { Analytics } from '@vercel/analytics/react';
 
 export function loader() {
   return json({ gaTrackingId: process.env.GA_TRACKING_ID });
@@ -147,6 +148,7 @@ export default function App() {
         </div>
 
         <link rel="stylesheet" href={highlightStyle} />
+        <Analytics />
       </body>
     </html>
   );
