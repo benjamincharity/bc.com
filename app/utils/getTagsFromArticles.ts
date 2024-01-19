@@ -1,8 +1,7 @@
 import { ArticleReference } from '~/utils/articles.server';
+import { TagsPayload } from '~/routes/articles_.tags/route';
 
-export function getTagsFromArticles(
-  articles: ArticleReference[],
-): [string, number][] {
+export function getTagsFromArticles(articles: ArticleReference[]): TagsPayload {
   const tags = new Map<string, number>();
 
   articles.forEach((a) => {

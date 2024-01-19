@@ -38,7 +38,15 @@ export const loader: LoaderFunction = async ({ params, request }) => {
     url: `${request.headers.get('host')}/articles/${slug}`,
   };
   if (post) {
-    return json({ ...post, allTags });
+    return json(
+      {
+        ...post,
+        allTags,
+      },
+      {
+        headers: { 'Cache-Control': 'private, max-age=10' },
+      },
+    );
   } else {
     throw new Response('Not found', { status: 404 });
   }
@@ -59,11 +67,11 @@ export const meta: MetaFunction = ({ data }: FixMeLater) => {
   const imageUrl = siteMetadata.image;
 
   return generateMetaCollection({
-    title,
+    imageUrl,
     summary,
     tags,
+    title,
     url,
-    imageUrl,
   });
 };
 
@@ -74,10 +82,6 @@ function getTagsWithCount(tags: string[], allTags: TagsPayload): TagsPayload {
 export default function Article() {
   const { frontmatter, allTags, html } = useLoaderData<LoaderData>();
   const localTags = getTagsWithCount(frontmatter.tags, allTags);
-
-  // useEffect(() => {
-  //   section.current.scrollIntoView({ behavior: 'smooth' });
-  // }, [section, value]);
 
   return (
     <main className={'prose-wrapper py-4'}>

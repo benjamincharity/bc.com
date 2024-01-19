@@ -1,8 +1,4 @@
-import {
-  ArticleReference,
-  Frontmatter,
-  getAllArticles,
-} from '~/utils/articles.server';
+import { ArticleReference, getAllArticles } from '~/utils/articles.server';
 import { ArticlesList } from '~/components/Articles/ArticlesList';
 import { useLoaderData, useSearchParams } from '@remix-run/react';
 import { getTagsFromArticles } from '~/utils/getTagsFromArticles';
@@ -24,10 +20,15 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const articles = await getAllArticles();
   const tags = getTagsFromArticles(articles);
 
-  return json<LoaderData>({
-    articles,
-    tags,
-  });
+  return json<LoaderData>(
+    {
+      articles,
+      tags,
+    },
+    {
+      headers: { 'Cache-Control': 'private, max-age=10' },
+    },
+  );
 }
 
 export const meta: MetaFunction = ({ data }: FixMeLater) => {

@@ -14,12 +14,12 @@ export const MOUSE_OFF = -1000;
 
 export class Canvas {
   canvas: HTMLCanvasElement;
-  rows: Row[];
-  totalPoints: number;
   dist: number;
   mouse: { x: number; y: number } = { x: MOUSE_OFF, y: MOUSE_OFF };
   palette: Palette;
+  rows: Row[];
   shuffled: Palette[];
+  totalPoints: number;
 
   constructor(
     canvas: HTMLCanvasElement,

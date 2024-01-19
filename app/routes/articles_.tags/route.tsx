@@ -8,6 +8,8 @@ import { BackToLink } from '~/routes/articles_.$id/components/BackToLink';
 import { getTagsFromArticles } from '~/utils/getTagsFromArticles';
 import { RoutesPath } from '~/data/routes.data';
 import { colors } from '~/data/colors.data';
+import { generateMetaCollection } from '~/utils/generateMetaCollection';
+import { siteMetadata } from '~/data/siteMetadata';
 
 export type TagPayload = [string, number];
 export type TagsPayload = Array<TagPayload>;
@@ -16,40 +18,25 @@ interface LoaderData {
   tags: TagsPayload;
 }
 
-export const meta: MetaFunction = ({ data, params }) => {
-  // console.log('my log: ', data, params);
-  const title = `Your Page Title`;
-  const description = `Your page description`;
-  const imageUrl = `URL to your image`;
-  const pageUrl = `URL to your page`;
-
-  return [
-    // Basic meta tags
-    { name: 'title', content: title },
-    { name: 'description', content: description },
-    { name: 'keywords', content: 'Your, Keywords, Here' },
-
-    // Open Graph / Facebook (also used by LinkedIn)
-    { property: 'og:title', content: title },
-    { property: 'og:description', content: description },
-    { property: 'og:image', content: imageUrl },
-    { property: 'og:url', content: pageUrl },
-    { property: 'og:type', content: 'website' },
-
-    // Twitter
-    { name: 'twitter:card', content: 'summary_large_image' },
-    { name: 'twitter:title', content: title },
-    { name: 'twitter:description', content: description },
-    { name: 'twitter:image', content: imageUrl },
-    // Add 'twitter:creator' if you want to mention the author's Twitter handle
-  ];
-};
-
 export const loader: LoaderFunction = async () => {
   const articles = await getAllArticles();
 
   return json({
     tags: getTagsFromArticles(articles),
+  });
+};
+
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
+  const { tags } = data as LoaderData;
+  const summaryTags = tags
+    .slice(0, 3)
+    .map(([tag]) => tag)
+    .join(', ');
+  return generateMetaCollection({
+    summary: `Explore our comprehensive list of tags to easily find the topics that interest you. From ${summaryTags[0]}, ${summaryTags[1]}, to ${summaryTags[2]}, and more – dive into a world of insightful articles tailored to your interests.`,
+    tags: tags.map(([tag]) => tag),
+    title: 'Browse articles by tags.',
+    url: `${siteMetadata.url}/articles/tags`,
   });
 };
 
@@ -63,8 +50,8 @@ export default function Tags() {
       <PrimaryTitle title={'Tags'} className={'mb-6 text-center'} />
 
       <nav
-        className="flex justify-center gap-4 flex-wrap "
         aria-label="Article tags"
+        className="flex justify-center gap-4 flex-wrap "
       >
         {tags.map(([tag, count], i) => {
           return (
