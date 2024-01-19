@@ -21,6 +21,7 @@ import { determineIfShouldShowBackground } from '~/routes/_index/route';
 import highlightStyle from 'highlight.js/styles/github.css';
 import { ExternalScripts } from 'remix-utils/external-scripts';
 import * as gtag from '~/utils/gtags.client';
+import { generateMetaCollection } from '~/utils/generateMetaCollection';
 
 export function loader() {
   return json({ gaTrackingId: process.env.GA_TRACKING_ID });
@@ -54,31 +55,23 @@ export const links: LinksFunction = () => {
   ];
 };
 
-export const meta: MetaFunction = ({ location }) => {
+export const meta: MetaFunction = () => {
   return [
     { charset: 'utf-8' },
-    { title: siteMetadata.title },
-    { name: 'description', content: siteMetadata.description },
     { name: 'viewport', content: 'width=device-width,initial-scale=1' },
     { name: 'robots', content: 'index, follow' },
-    { property: 'og:url', content: `${siteMetadata.url}${location.pathname}` },
-    { property: 'og:type', content: 'website' },
-    { property: 'og:site_name', content: siteMetadata.title },
-    { property: 'og:title', content: siteMetadata.title },
-    { property: 'og:description', content: siteMetadata.description },
-    { property: 'og:image', content: siteMetadata.image },
-    { name: 'twitter:card', content: 'summary' },
-    { name: 'twitter:site', content: `@${siteMetadata.twitter}` },
-    { name: 'twitter:title', content: siteMetadata.title },
-    { name: 'twitter:description', content: siteMetadata.description },
-    { name: 'twitter:image', content: siteMetadata.image },
+    ...generateMetaCollection({
+      title: siteMetadata.title,
+      summary: siteMetadata.description,
+      tags: [],
+      url: `${siteMetadata.url}/articles`,
+    }),
   ];
 };
 
 export default function App() {
   const location = useLocation();
   const { gaTrackingId } = useLoaderData<typeof loader>();
-
   const [showBg, setShowBg] = useState(false);
 
   const setVisibility = useCallback((path: string) => {
@@ -106,8 +99,7 @@ export default function App() {
     } else {
       document.documentElement.classList.remove('dark');
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [location.pathname, setVisibility]);
 
   return (
     <html
@@ -152,7 +144,7 @@ export default function App() {
           <ExternalScripts />
           <LiveReload />
         </div>
-        {/*deferred loading*/}
+
         <link rel="stylesheet" href={highlightStyle} />
       </body>
     </html>

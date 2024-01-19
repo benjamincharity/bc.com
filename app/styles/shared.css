@@ -9,13 +9,13 @@ strong {
     background-position:
       calc(20px * -1) 100%,
       100% 100%,
-      0 100%; /* initial position */
+      0 100%;
   }
   to {
     background-position:
       calc(100% + 20px) 100%,
       100% 100%,
-      0 100%; /* final position */
+      0 100%;
   }
 }
 
@@ -34,7 +34,6 @@ strong {
 .squiggle-link:focus,
 .squiggle-link:hover {
   @apply no-underline motion-safe:bg-wavyBg bg-left-bottom;
-  /*background-position: 0 100%;*/
   background-size: auto 6px;
   background-repeat: repeat-x;
 }
@@ -143,14 +142,8 @@ hr.fancy::before,
 .rendered-markdown kbd,
 .rendered-markdown :not(pre) > code {
   @apply bg-inlineCodeBackgroundColor rounded-sm font-semibold m-0 relative text-gray-600;
-  /*background-color: var(--color-inlineCode-backgroundColor);*/
-  /*border-radius: 4px;*/
-  /*color: var(--app-color-dark);*/
   font-size: 80%;
-  /*font-weight: bold;*/
-  /*margin: 0;*/
   padding: 0.1em 0.4em 0.2em;
-  /*position: relative;*/
   top: -1px;
 }
 
@@ -217,7 +210,6 @@ hr.fancy::before,
 }
 
 /*COMPANIES*/
-
 .company {
   display: inline-block;
   line-height: 1em;
@@ -229,5 +221,5 @@ hr.fancy::before,
 }
 .company:not(:last-of-type)::after {
   content: '•';
-  margin-left: 0.5em; /* Adjust the margin as needed for spacing */
+  margin-left: 0.5em;
 }

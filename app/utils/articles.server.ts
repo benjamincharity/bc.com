@@ -14,11 +14,11 @@ export interface Frontmatter {
   publishDate: string;
   readingTime: number;
   slug: string;
-  url: string;
   summary: string;
   tags: string[];
   title: string;
   updatedDate: string;
+  url: string;
 }
 
 /**
@@ -28,13 +28,9 @@ export interface Frontmatter {
  */
 export async function getArticle(slug: string) {
   const filePath = path.join(process.cwd(), 'app', 'articles', slug + '.mdx');
-
   const source = await readFile(filePath, 'utf-8');
   const { data: frontmatter, content } = matter(source);
-
-  // this is now html
   const html = await toHTML(content, slug);
-  // console.log('getArticle from toHTML: ', html);
 
   return {
     html,

@@ -48,7 +48,6 @@ const processor = unified()
   .use(rehypeReact, options)
   .use(rehypeStringify);
 
-// Create a cache object
 const htmlCache: Record<string, string> = {};
 
 export const toHTML = async (data: string, key: string) => {
@@ -59,8 +58,6 @@ export const toHTML = async (data: string, key: string) => {
   try {
     const result = await processor.process(data);
     const html = result.toString('utf-8').trim() + '\n';
-
-    // Store the generated HTML in the cache
     htmlCache[key] = html;
 
     return html;

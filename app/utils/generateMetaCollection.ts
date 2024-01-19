@@ -7,13 +7,14 @@ interface GenerateMetaCollectionProps {
   title: string;
   url?: string;
 }
+
 export function generateMetaCollection(props: GenerateMetaCollectionProps) {
   const {
-    title,
-    tags = [],
-    summary,
-    url = siteMetadata.url,
     imageUrl = siteMetadata.image,
+    summary,
+    tags = [],
+    title,
+    url = siteMetadata.url,
   } = props;
   const keywords = tags.join(', ');
   const finalImageUrl = imageUrl ?? siteMetadata.image;
