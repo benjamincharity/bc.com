@@ -61,8 +61,6 @@ export const links: LinksFunction = () => {
 export const meta: MetaFunction = () => {
   return [
     { charset: 'utf-8' },
-    { name: 'viewport', content: 'width=device-width,initial-scale=1' },
-    { name: 'robots', content: 'index, follow' },
     ...generateMetaCollection({
       title: siteMetadata.title,
       summary: siteMetadata.description,

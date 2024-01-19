@@ -20,6 +20,9 @@ export function generateMetaCollection(props: GenerateMetaCollectionProps) {
   const finalImageUrl = imageUrl ?? siteMetadata.image;
 
   return [
+    { name: 'viewport', content: 'width=device-width,initial-scale=1' },
+    { name: 'robots', content: 'index, follow' },
+
     // Basic meta tags
     { name: 'title', content: title },
     { name: 'description', content: summary },
