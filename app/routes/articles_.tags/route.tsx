@@ -51,7 +51,7 @@ export default function Tags() {
 
       <nav
         aria-label="Article tags"
-        className="flex justify-center gap-4 flex-wrap "
+        className="flex justify-center gap-8 flex-wrap text-base"
       >
         {tags.map(([tag, count], i) => {
           return (

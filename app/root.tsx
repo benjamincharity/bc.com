@@ -1,5 +1,6 @@
 import { json, LinksFunction, MetaFunction } from '@remix-run/node';
 import {
+  isRouteErrorResponse,
   Links,
   LiveReload,
   Meta,
@@ -8,6 +9,7 @@ import {
   ScrollRestoration,
   useLoaderData,
   useLocation,
+  useRouteError,
 } from '@remix-run/react';
 import { useCallback, useEffect, useState } from 'react';
 import { siteMetadata } from './data/siteMetadata';
@@ -22,6 +24,7 @@ import highlightStyle from 'highlight.js/styles/github.css';
 import { ExternalScripts } from 'remix-utils/external-scripts';
 import * as gtag from '~/utils/gtags.client';
 import { generateMetaCollection } from '~/utils/generateMetaCollection';
+import { ModernButton } from '~/components/ModernButton';
 
 export function loader() {
   return json({ gaTrackingId: process.env.GA_TRACKING_ID });
@@ -146,6 +149,49 @@ export default function App() {
         </div>
 
         <link rel="stylesheet" href={highlightStyle} />
+      </body>
+    </html>
+  );
+}
+
+export function ErrorBoundary() {
+  const error = useRouteError();
+  return (
+    <html lang="en" className={'overflow-hidden h-full w-full'}>
+      <head>
+        <title>Error</title>
+        <Meta />
+        <Links />
+      </head>
+      <body>
+        <Header isSmall={false} />
+        <main className="relative z-20 text-center prose-wrapper">
+          <h2
+            className={'font-vt323 mb-10 text-shadow-title text-white text-5xl'}
+          >
+            error
+          </h2>
+          <p className={'mb-10 text-xl quote'}>
+            {isRouteErrorResponse(error)
+              ? `${error.status} ${error.statusText}`
+              : error instanceof Error
+                ? error.message
+                : 'Unknown Error'}
+          </p>
+
+          <div>
+            <ModernButton
+              onClick={() => {
+                window.location.reload();
+              }}
+            >
+              Reload
+            </ModernButton>
+          </div>
+        </main>
+        <FancyBackground isVisible={true} />
+        <Scripts />
+        <ExternalScripts />
       </body>
     </html>
   );

@@ -9,5 +9,5 @@ export function getTagsFromArticles(articles: ArticleReference[]): TagsPayload {
       tags.set(tag, (tags.get(tag) || 0) + 1);
     });
   });
-  return Array.from(tags.entries()).sort((a, b) => b[1] - a[1]);
+  return Array.from(tags.entries()).sort((a, b) => a[0].localeCompare(b[0])); // sort alphabetically
 }

@@ -10,6 +10,8 @@ import { useReducedMotion } from '@mantine/hooks';
 import { FixMeLater } from '~/types/shame';
 import { siteMetadata } from '~/data/siteMetadata';
 import { generateMetaCollection } from '~/utils/generateMetaCollection';
+import { BackToLink } from '~/routes/articles_.$id/components/BackToLink';
+import { RoutesPath } from '~/data/routes.data';
 
 interface LoaderData {
   articles: ArticleReference[];
@@ -54,12 +56,22 @@ export default function Route() {
       behavior: reduceMotion ? 'auto' : 'smooth',
     });
   };
+  const scrollToTop = (event: React.MouseEvent) => {
+    event.preventDefault();
+    window.scrollTo({
+      top: 0,
+      behavior: reduceMotion ? 'auto' : 'smooth',
+    });
+  };
 
   return (
     <section className={'prose-wrapper pb-6'}>
-      <div className={'text-right'}>
+      <div className="flex justify-between align-middle">
+        <BackToLink to={RoutesPath.home}>Home</BackToLink>
         <button
-          className={'animated-link-underline font-normal text-sm mb-4'}
+          className={
+            'animated-link-underline font-normal text-sm mb-4 relative -top-1'
+          }
           onClick={scrollToBottom}
         >
           Jump to tags &darr;
@@ -67,6 +79,17 @@ export default function Route() {
       </div>
 
       <ArticlesList articles={articles} />
+
+      <div className={'text-right'}>
+        <button
+          className={
+            'animated-link-underline font-normal text-sm mb-4 leading-6'
+          }
+          onClick={scrollToTop}
+        >
+          Back to top &uarr;
+        </button>
+      </div>
 
       <hr className={'fancy'} />
 
