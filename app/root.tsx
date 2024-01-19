@@ -27,8 +27,12 @@ import { generateMetaCollection } from '~/utils/generateMetaCollection';
 import { ModernButton } from '~/components/ModernButton';
 import { Analytics } from '@vercel/analytics/react';
 
-export function loader() {
-  return json({ gaTrackingId: process.env.GA_TRACKING_ID });
+export function loader({ request }: { request: Request }) {
+  const url = new URL(request.url);
+  return json({
+    gaTrackingId: process.env.GA_TRACKING_ID,
+    showBgOnLoad: determineIfShouldShowBackground(url.pathname),
+  });
 }
 
 export const links: LinksFunction = () => {
@@ -61,7 +65,6 @@ export const links: LinksFunction = () => {
 
 export const meta: MetaFunction = () => {
   return [
-    { charset: 'utf-8' },
     ...generateMetaCollection({
       title: siteMetadata.title,
       summary: siteMetadata.description,
@@ -73,12 +76,13 @@ export const meta: MetaFunction = () => {
 
 export default function App() {
   const location = useLocation();
-  const { gaTrackingId } = useLoaderData<typeof loader>();
-  const [showBg, setShowBg] = useState(false);
+  const { gaTrackingId, showBgOnLoad } = useLoaderData<typeof loader>();
+  const [showBg, setShowBg] = useState(showBgOnLoad);
 
   const setVisibility = useCallback((path: string) => {
-    const result = determineIfShouldShowBackground(path);
-    state$.isVisible.set(result);
+    const local = determineIfShouldShowBackground(path);
+    state$.isVisible.set(local);
+    setShowBg(local);
   }, []);
 
   useEffect(() => {
@@ -89,12 +93,11 @@ export default function App() {
 
   useEffect(() => {
     setVisibility(location.pathname);
-    navigationState$.history.push(location.pathname);
-    setShowBg(determineIfShouldShowBackground(location.pathname));
   }, [location.pathname, setVisibility]);
 
   useEffect(() => {
     setVisibility(location.pathname);
+    navigationState$.history.push(location.pathname);
 
     if (isDarkMode()) {
       document.documentElement.classList.add('dark');
@@ -109,6 +112,7 @@ export default function App() {
       className={showBg ? 'overflow-hidden h-full w-full' : 'overflow-x-hidden'}
     >
       <head>
+        {/*<title>{siteMetadata.title}</title>*/}
         <Meta />
         <Links />
       </head>

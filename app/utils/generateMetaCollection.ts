@@ -13,13 +13,15 @@ export function generateMetaCollection(props: GenerateMetaCollectionProps) {
     imageUrl = siteMetadata.image,
     summary,
     tags = [],
-    title,
+    title = siteMetadata.title,
     url = siteMetadata.url,
   } = props;
   const keywords = tags.join(', ');
   const finalImageUrl = imageUrl ?? siteMetadata.image;
 
   return [
+    { title: title },
+    { charset: 'utf-8' },
     { name: 'viewport', content: 'width=device-width,initial-scale=1' },
     { name: 'robots', content: 'index, follow' },
 

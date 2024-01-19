@@ -7,12 +7,14 @@ import { RoutesPath } from '~/data/routes.data';
 export const Header = ({ isSmall = false }: { isSmall?: boolean }) => {
   const location = useLocation();
   const [localIsSmall, setLocalIsSmall] = useState(isSmall);
+  const [allowTransition, setAllowTransition] = useState(false);
   const headerClasses = useMemo(() => {
-    const shared = `relative text-center z-20 font-vt323 leading-none motion-safe:transition-all`;
+    const transitionClasses = allowTransition ? '' : '';
+    const shared = `relative text-center z-20 font-vt323 leading-none ${transitionClasses}`;
     const largeState = `${shared} pointer-events-none text-white text-title py-10 text-shadow-title`;
     const smallState = `${shared} pointer-events-auto text-gray-700 text-titleSmall pt-6 transition-duration-200`;
     return localIsSmall ? smallState : largeState;
-  }, [localIsSmall]);
+  }, [allowTransition, localIsSmall]);
 
   useEffect(() => {
     const localDetermination = determineIfShouldShowBackground(
@@ -21,6 +23,12 @@ export const Header = ({ isSmall = false }: { isSmall?: boolean }) => {
     state$.isVisible.set(localDetermination);
     setLocalIsSmall(!localDetermination);
   }, [location.pathname]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setAllowTransition(true);
+    }, 1000);
+  }, []);
 
   return (
     <header className={headerClasses}>

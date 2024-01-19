@@ -1,36 +1,40 @@
 import { getAllArticles } from '~/utils/articles.server';
 import { siteMetadata } from '~/data/siteMetadata';
 
+function escapeXml(unsafeString: string): string {
+  return unsafeString
+    .replace(/&/g, '&amp;') // Replace & with &amp;
+    .replace(/</g, '&lt;') // Replace < with &lt;
+    .replace(/>/g, '&gt;') // Replace > with &gt;
+    .replace(/"/g, '&quot;') // Replace " with &quot;
+    .replace(/'/g, '&apos;'); // Replace ' with &apos;
+}
+
 export async function loader() {
   const articles = await getAllArticles();
 
   const feed = `<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
-        <title>${siteMetadata.title}</title>
+        <title>${escapeXml(siteMetadata.title)}</title>
         <link>${siteMetadata.url}</link>
-        <description>${siteMetadata.description}</description>
         <language>en-us</language>
-        <managingEditor>${siteMetadata.email} (${
-          siteMetadata.author
-        })</managingEditor>
-        <webMaster>${siteMetadata.email} (${siteMetadata.author})</webMaster>
+        <managingEditor>${escapeXml(siteMetadata.email)} (${escapeXml(siteMetadata.author)})</managingEditor>
+        <webMaster>${escapeXml(siteMetadata.email)} (${escapeXml(siteMetadata.author)})</webMaster>
         <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
-        <atom:link href="${
-          siteMetadata.url
-        }/feed.xml" rel="self" type="application/rss+xml"/>
+        <atom:link href="${siteMetadata.url}/feed.xml" rel="self" type="application/rss+xml"/>
         ${articles
           .map(
             (a) =>
               `<item>
                 <guid>${siteMetadata.url}/articles/${a.slug}</guid>
-                <title>${a.frontmatter.title}</title>
+                <title>${escapeXml(a.frontmatter.title)}</title>
                 <link>${siteMetadata.url}/articles/${a.slug}</link>
-                <description>${a.frontmatter.summary}</description>
+                <description>${escapeXml(a.frontmatter.summary)}</description>
                 <pubDate>${new Date(
                   a.frontmatter.publishDate ?? new Date(),
                 ).toUTCString()}</pubDate>
-                <author>${siteMetadata.email} (${siteMetadata.author})</author>
-                ${a.frontmatter.tags.map((tag) => `<category>${tag}</category>`).join('')}
+                <author>${escapeXml(siteMetadata.email)} (${escapeXml(siteMetadata.author)})</author>
+                ${a.frontmatter.tags.map((tag) => `<category>${escapeXml(tag)}</category>`).join('')}
             </item>
             `,
           )
