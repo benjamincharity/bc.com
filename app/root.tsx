@@ -45,8 +45,17 @@ export const links: LinksFunction = () => {
     },
     {
       rel: 'preload',
-      href: 'https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600;700&family=VT323&display=swap',
+      href: 'https://fonts.googleapis.com/css2?family=VT323&display=swap',
       as: 'style',
+    },
+    {
+      rel: 'preload',
+      href: 'https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600;700&display=swap',
+      as: 'style',
+    },
+    {
+      rel: 'stylesheet',
+      href: 'https://fonts.googleapis.com/css2?family=VT323&display=swap',
     },
     {
       rel: 'stylesheet',

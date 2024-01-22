@@ -2,7 +2,12 @@ import { ArticleReference, getAllArticles } from '~/utils/articles.server';
 import { ArticlesList } from '~/components/Articles/ArticlesList';
 import { useLoaderData, useSearchParams } from '@remix-run/react';
 import { getTagsFromArticles } from '~/utils/getTagsFromArticles';
-import { json, LoaderFunctionArgs, type MetaFunction } from '@remix-run/node';
+import {
+  json,
+  LinksFunction,
+  LoaderFunctionArgs,
+  type MetaFunction,
+} from '@remix-run/node';
 import { BrowseByTags } from '~/routes/articles/components/BrowseByTags';
 import React, { useMemo } from 'react';
 import { TagsPayload } from '~/routes/articles_.tags/route';
@@ -12,6 +17,7 @@ import { siteMetadata } from '~/data/siteMetadata';
 import { generateMetaCollection } from '~/utils/generateMetaCollection';
 import { BackToLink } from '~/routes/articles_.$id/components/BackToLink';
 import { RoutesPath } from '~/data/routes.data';
+import sharedStyles from '~/styles/shared.css';
 
 interface LoaderData {
   articles: ArticleReference[];
@@ -32,6 +38,15 @@ export async function loader({ request }: LoaderFunctionArgs) {
     },
   );
 }
+
+export const links: LinksFunction = () => {
+  return [
+    {
+      rel: 'stylesheet',
+      href: 'https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600;700&display=swap',
+    },
+  ];
+};
 
 export const meta: MetaFunction = ({ data }: FixMeLater) => {
   return generateMetaCollection({
