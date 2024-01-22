@@ -50,6 +50,6 @@ export function generateMetaCollection(props: GenerateMetaCollectionProps) {
     { name: 'twitter:site', content: '@[your Twitter handle]' }, // Added Twitter site handle
 
     // Additional tags
-    { rel: 'canonical', href: url },
+    { tag: 'link', rel: 'canonical', href: url },
   ];
 }

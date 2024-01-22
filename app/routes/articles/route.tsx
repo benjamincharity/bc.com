@@ -34,14 +34,13 @@ export async function loader({ request }: LoaderFunctionArgs) {
 }
 
 export const meta: MetaFunction = ({ data }: FixMeLater) => {
-  const foo = generateMetaCollection({
+  return generateMetaCollection({
     title: 'Articles',
     summary:
       'Explore expert articles on engineering leadership in startups and scale-ups. Discover guides on career paths, team dynamics, and innovation in tech.',
     tags: data.tags,
     url: `${siteMetadata.url}/articles`,
   });
-  return foo;
 };
 
 export default function Route() {

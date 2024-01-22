@@ -14,13 +14,15 @@ export const BrowseByTags = ({
   id?: string;
 }) => {
   return (
-    <nav
-      id={id}
+    <aside
       className={'text-center text-base font-bold font-sourceSerif4'}
+      id={id}
     >
-      {!!heading && <h5 className={'text-gray-600 mb-2'}>{heading}</h5>}
-      <Tags tags={tags} currentTag={currentTag} />
-    </nav>
+      {!!heading && <div className={'text-gray-600 mb-2'}>{heading}</div>}
+      <nav>
+        <Tags tags={tags} currentTag={currentTag} />
+      </nav>
+    </aside>
   );
 };
 

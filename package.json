@@ -3,6 +3,7 @@
     "@balavishnuvj/remix-seo": "1.0.2",
     "@legendapp/state": "2.1.4",
     "@mantine/hooks": "7.4.2",
+    "@mdx-js/mdx": "3.0.0",
     "@remix-run/css-bundle": "2.5.0",
     "@remix-run/node": "2.5.0",
     "@remix-run/react": "2.5.0",

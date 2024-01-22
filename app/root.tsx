@@ -98,13 +98,14 @@ export default function App() {
     }
   }, [location.pathname]);
 
+  // NOTE: The title tag and all other elements will be injected.
+  // noinspection HtmlRequiredTitleElement
   return (
     <html
       lang="en"
       className={showBg ? 'overflow-hidden h-full w-full' : 'overflow-x-hidden'}
     >
       <head>
-        <title>{siteMetadata.title}</title>
         <Meta />
         <Links />
       </head>
@@ -127,7 +128,6 @@ export default function App() {
               src={`https://www.googletagmanager.com/gtag/js?id=${gaTrackingId}`}
             />
             <script
-              async
               id="gtag-init"
               dangerouslySetInnerHTML={{
                 __html: `
@@ -189,6 +189,10 @@ export function ErrorBoundary() {
         <FancyBackground isVisible={true} />
         <Scripts />
         <ExternalScripts />
+        <script
+          async
+          src="https://cpwebassets.codepen.io/assets/embed/ei.js"
+        ></script>
       </body>
     </html>
   );

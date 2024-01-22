@@ -1,26 +1,45 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as prod from 'react/jsx-runtime';
 import * as dev from 'react/jsx-dev-runtime';
 import remarkParse from 'remark-parse';
 import remarkRehype from 'remark-rehype';
 import { unified } from 'unified';
-import rehypeReact, { Components } from 'rehype-react';
+import rehypeReact from 'rehype-react';
 import type { Options } from 'rehype-react';
 import rehypeStringify from 'rehype-stringify';
 import rehypeMeta from 'rehype-meta';
 import rehypeInferReadingTimeMeta from 'rehype-infer-reading-time-meta';
 import Codepen from '~/components/Codepen';
-import raw from 'rehype-raw';
+import rehypeRaw from 'rehype-raw';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
-import remarkMdx from 'remark-mdx';
 import remarkGfm from 'remark-gfm';
 import { remarkTruncateLinks } from 'remark-truncate-links';
 import rehypeHighlight from 'rehype-highlight';
 import rehypeSections from './rehype-sections';
 import rehypeSlug from 'rehype-slug';
 import { s } from 'hastscript';
+import React, { DetailedReactHTMLElement, InputHTMLAttributes } from 'react';
 
-interface CustomComponents extends Components {
-  Codepen: typeof Codepen;
+interface CustomComponents {
+  [key: string]: React.ComponentType<any>;
+}
+
+const customComponents: CustomComponents = {
+  // TODO: At some points this has worked but it isn't consistent.
+  Codepen: Codepen,
+};
+
+interface CustomRehypeReactOptions {
+  components?: Record<string, React.ComponentType>;
+  createElement?: (
+    type: any,
+    props: any,
+    children: any,
+  ) => DetailedReactHTMLElement<
+    InputHTMLAttributes<HTMLInputElement>,
+    HTMLInputElement
+  >;
+  development?: boolean;
 }
 
 const development = process.env.NODE_ENV === 'development';
@@ -28,15 +47,14 @@ const development = process.env.NODE_ENV === 'development';
 const prodJsx = { Fragment: prod.Fragment, jsx: prod.jsx, jsxs: prod.jsxs };
 // @ts-expect-error: the React types are missing.
 const devJsx = { jsxDEV: dev.jsxDEV };
-const options: Options = {
-  components: {
-    Codepen,
-  } as CustomComponents,
+const rehypeReactOptions: CustomRehypeReactOptions = {
+  components: customComponents,
+  createElement: (type, props, children) =>
+    React.createElement(type, props, children),
   development,
   ...devJsx,
   ...prodJsx,
 };
-
 function link() {
   return s(
     'svg.icon',
@@ -55,13 +73,12 @@ function link() {
 }
 
 const processor = unified()
-  .use(remarkParse, { fragment: true, sanitize: true })
+  .use(remarkParse, { fragment: true })
   .use(remarkTruncateLinks, { length: 46 })
-  .use(remarkMdx)
-  .use(remarkGfm)
   .use(rehypeSections) // NOTE: sectionize must be before remarkRehype
-  .use(remarkRehype)
-  .use(raw)
+  .use(remarkRehype, { allowDangerousHtml: true })
+  .use(remarkGfm)
+  .use(rehypeRaw)
   .use(rehypeSlug)
   .use(rehypeAutolinkHeadings, {
     behavior: 'prepend',
@@ -71,7 +88,7 @@ const processor = unified()
   .use(rehypeHighlight)
   .use(rehypeInferReadingTimeMeta)
   .use(rehypeMeta, { og: true, twitter: true, copyright: true })
-  .use(rehypeReact, options)
+  .use(rehypeReact, rehypeReactOptions as Options)
   .use(rehypeStringify);
 
 const htmlCache: Record<string, string> = {};
