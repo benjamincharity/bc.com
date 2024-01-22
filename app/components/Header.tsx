@@ -2,30 +2,35 @@ import { Link } from '@remix-run/react';
 import { useEffect, useMemo, useState } from 'react';
 import { RoutesPath } from '~/data/routes.data';
 
-const shared = `relative text-center z-20 font-vt323 leading-none transition-all duration-200`;
+const shared = `relative text-center z-20 font-vt323 leading-none`;
 const largeState = `${shared} pointer-events-none text-white text-title py-10 text-shadow-title`;
 const smallState = `${shared} h-[84px] pointer-events-auto text-gray-700 text-titleSmall pt-6 transition-duration-200`;
+const transition = `transition-all duration-200`;
 
 export const Header = ({
   backgroundIsVisible = false,
 }: {
   backgroundIsVisible?: boolean;
 }) => {
-  const [shouldRender, setShouldRender] = useState(false);
+  const [isAnimationEnabled, setIsAnimationEnabled] = useState(false);
   const [isSmall, setIsSmall] = useState(!backgroundIsVisible);
+  const transitionClasses = useMemo(() => {
+    return isAnimationEnabled ? transition : '';
+  }, [isAnimationEnabled]);
   const headerClasses = useMemo(() => {
-    if (!shouldRender) {
-      return smallState;
-    }
-    return isSmall ? smallState : largeState;
-  }, [isSmall, shouldRender]);
+    return isSmall
+      ? `${smallState} ${transitionClasses}`
+      : `${largeState} ${transitionClasses}`;
+  }, [isSmall, transitionClasses]);
 
   useEffect(() => {
     setIsSmall(!backgroundIsVisible);
   }, [backgroundIsVisible]);
 
   useEffect(() => {
-    setShouldRender(true);
+    setTimeout(() => {
+      setIsAnimationEnabled(true);
+    }, 100);
   }, []);
 
   return (
