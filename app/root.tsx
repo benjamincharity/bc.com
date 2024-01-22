@@ -1,4 +1,7 @@
 import { json, LinksFunction, MetaFunction } from '@remix-run/node';
+import highlightStyle from 'highlight.js/styles/github.css';
+import { ExternalScripts } from 'remix-utils/external-scripts';
+import { Analytics } from '@vercel/analytics/react';
 import {
   isRouteErrorResponse,
   Links,
@@ -15,17 +18,13 @@ import { useEffect, useState } from 'react';
 import { siteMetadata } from './data/siteMetadata';
 import { isDarkMode } from './utils/isDarkMode';
 import sharedStyles from '~/styles/shared.css';
-import twStyles from './styles/tailwind.css';
 import { Header } from '~/components/Header';
 import { FancyBackground } from '~/components/FancyBackground/FancyBackground';
 import { navigationState$, state$ } from '~/store';
 import { determineIfShouldShowBackground } from '~/routes/_index/route';
-import highlightStyle from 'highlight.js/styles/github.css';
-import { ExternalScripts } from 'remix-utils/external-scripts';
 import * as gtag from '~/utils/gtags.client';
 import { generateMetaCollection } from '~/utils/generateMetaCollection';
 import { ModernButton } from '~/components/ModernButton';
-import { Analytics } from '@vercel/analytics/react';
 
 export function loader({ request }: { request: Request }) {
   const url = new URL(request.url);
@@ -45,16 +44,13 @@ export const links: LinksFunction = () => {
       crossOrigin: 'anonymous',
     },
     {
-      rel: 'stylesheet',
+      rel: 'preload',
       href: 'https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600;700&family=VT323&display=swap',
+      as: 'style',
     },
     {
       rel: 'stylesheet',
       href: sharedStyles,
-    },
-    {
-      rel: 'stylesheet',
-      href: twStyles,
     },
     {
       rel: 'icon',
@@ -72,6 +68,7 @@ export const meta: MetaFunction = () => {
       tags: [],
       url: `${siteMetadata.url}/articles`,
     }),
+    { rel: 'manifest', href: '/manifest.json' },
   ];
 };
 
