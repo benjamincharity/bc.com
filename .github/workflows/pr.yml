@@ -11,8 +11,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: 'Skip Duplicate Actions'
-        uses: fkirc/skip-duplicate-actions@v3.4.0
+      - name: Skip Duplicate Actions
+        uses: fkirc/skip-duplicate-actions@v5.3.1
 
       - name: 'Checkout Code'
         uses: actions/checkout@v2
@@ -30,31 +30,27 @@ jobs:
       - name: 'Set up Node'
         uses: actions/setup-node@v1
         with:
-          node-version: 12.x
+          node-version: 20.x
         if: env.SHOULD_RUN == 'true'
 
-      - name: 'Restore workspace cache'
+      - name: Cache pnpm modules
         uses: actions/cache@v2
-        id: workspace-cache
         with:
-          path: node_modules
-          key: ${{ runner.os }}-${{ matrix.node-version }}-workspace-001-${{ hashFiles('**/yarn.lock') }}
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
-            ${{ runner.os }}-${{ matrix.node-version }}-workspace-001-
-        if: env.SHOULD_RUN == 'true'
+            ${{ runner.os }}-pnpm-
 
-      - name: 'Install Dependencies'
-        run: yarn install --frozen-lockfile --non-interactive
-        if: env.SHOULD_RUN == 'true'
+      - name: Install pnpm
+        run: npm install -g pnpm
+
+      - name: Install dependencies
+        run: pnpm i
 
       - name: 'Lint'
-        run: yarn nx lint web
-        if: env.SHOULD_RUN == 'true'
-
-      - name: 'Test'
-        run: yarn nx test web
+        run: pnpm lint --quiet
         if: env.SHOULD_RUN == 'true'
 
       - name: 'Build'
-        run: yarn nx build web --prod
+        run: pnpm build
         if: env.SHOULD_RUN == 'true'

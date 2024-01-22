@@ -1,0 +1,278 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply overflow-x-hidden font-sourceSerif4;
+  }
+}
+
+@layer utility {
+  .prose-wrapper {
+    @apply max-w-articleMaxWidth px-4 m-auto pt-12 relative z-20;
+  }
+
+  .quote {
+    position: relative;
+  }
+  .quote::before {
+    content: open-quote;
+  }
+  .quote::after {
+    content: close-quote;
+  }
+
+  .reading-time {
+    @apply inline-block text-sm text-gray-600;
+  }
+  .reading-time::before {
+    @apply mr-1;
+    content: '⌚';
+  }
+}
+
+/*noinspection CssNoGenericFontName*/
+@supports not (font-family: 'VT323') {
+  .font-vt323 {
+    font-weight: bold; /* Bold Courier New to approximate VT323's appearance */
+  }
+}
+
+/*GLOBAL*/
+strong {
+  @apply font-semibold;
+}
+
+/*SLIDING LINK*/
+@keyframes slideBackground {
+  from {
+    background-position:
+      calc(20px * -1) 100%,
+      100% 100%,
+      0 100%;
+  }
+  to {
+    background-position:
+      calc(100% + 20px) 100%,
+      100% 100%,
+      0 100%;
+  }
+}
+
+/*SQUIGGLE LINK*/
+.squiggle-link {
+  @apply text-shadow-title pt-1 pb-2 text-[--highlight-color-1] relative leading-none inline-block no-underline;
+  background: linear-gradient(
+      to bottom,
+      var(--highlight-color-1) 0%,
+      var(--highlight-color-1) 100%
+    )
+    repeat-x 0 100%;
+  background-size: 3px 3px;
+}
+
+.squiggle-link:focus,
+.squiggle-link:hover {
+  @apply no-underline motion-safe:bg-wavyBg bg-left-bottom;
+  background-size: auto 6px;
+  background-repeat: repeat-x;
+}
+.squiggle-link:focus {
+  outline: 2px dashed;
+}
+.squiggle-link svg {
+  @apply absolute top-3 scale-50 left-full min-h-home:left-[104%] fill-current transition-all;
+}
+
+/*TRUSTED TITLE*/
+.trusted-title {
+  text-decoration-color: inherit;
+  text-decoration-thickness: 2px;
+  text-decoration: underline;
+  text-transform: uppercase;
+  text-underline-offset: 4px;
+}
+
+/*ARTICLE CONTENT*/
+.rendered-markdown {
+  @apply text-lg mb-10;
+}
+.rendered-markdown p {
+  @apply my-5;
+}
+strong.highlight,
+.rendered-markdown strong:not(li strong) {
+  @apply bg-strongBg rounded-tl-2xl rounded-br-2xl font-semibold;
+}
+strong.highlight code,
+.rendered-markdown strong code {
+  @apply bg-mark;
+}
+
+.rendered-markdown pre {
+  @apply bg-codeBackground
+      box-border
+      border
+      border-codeBoxShadow
+      rounded
+      font-code
+      text-xs;
+}
+
+.rendered-markdown pre code {
+  @apply rounded font-code;
+}
+
+.rendered-markdown blockquote {
+  @apply italic border-l-4 ml-5 border-drakenhofNightshade;
+}
+.rendered-markdown blockquote p {
+  @apply my-5 pl-3;
+}
+.rendered-markdown blockquote p strong {
+  @apply bg-none;
+}
+
+.rendered-markdown h1,
+.rendered-markdown h2,
+.rendered-markdown h3,
+.rendered-markdown h4,
+.rendered-markdown h5,
+.rendered-markdown h6 {
+  @apply font-bold text-gray-700 relative;
+}
+.rendered-markdown h1:hover .anchor,
+.rendered-markdown h2:hover .anchor,
+.rendered-markdown h3:hover .anchor,
+.rendered-markdown h4:hover .anchor,
+.rendered-markdown h5:hover .anchor,
+.rendered-markdown h6:hover .anchor {
+  @apply opacity-80 scale-100;
+}
+
+.rendered-markdown h2 {
+  @apply mt-8 mb-4 text-2xl;
+}
+
+.rendered-markdown h3 {
+  @apply mt-5 mb-2 text-xl;
+}
+
+.rendered-markdown abbr {
+  @apply cursor-help;
+  text-underline-offset: 2px;
+}
+
+hr.fancy,
+.rendered-markdown hr {
+  @apply bg-drakenhofNightshade;
+  border: 0;
+  height: 1px;
+  margin: 30px auto;
+  overflow: visible;
+  position: relative;
+  width: 16vw;
+}
+hr.fancy::before,
+.rendered-markdown hr::before {
+  @apply bg-drakenhofNightshade border-2 border-solid border-drakenhofNightshade;
+  content: '';
+  display: inline-block;
+  height: 9px;
+  left: 50%;
+  margin: 0 0 0 -3px;
+  position: absolute;
+  top: -4px;
+  transform: rotate(45deg);
+  width: 9px;
+}
+
+.rendered-markdown kbd,
+.rendered-markdown :not(pre) > code {
+  @apply bg-inlineCodeBackgroundColor rounded-sm font-semibold m-0 relative text-gray-600;
+  font-size: 80%;
+  padding: 0.1em 0.4em 0.2em;
+  top: -1px;
+}
+
+.rendered-markdown img {
+  @apply inline-block max-w-full outline-imageOutline;
+}
+
+.animated-link-underline,
+.rendered-markdown a:not(.anchor) {
+  @apply text-drakenhofNightshade;
+  font-weight: bold;
+  position: relative;
+  text-decoration: none;
+}
+.animated-link-underline::before,
+.rendered-markdown a:not(.anchor)::before {
+  @apply bg-drakenhofNightshade;
+  bottom: 0;
+  content: '';
+  height: 1px;
+  left: 0;
+  opacity: 0;
+  position: absolute;
+  transform: scaleX(0);
+  transition:
+    opacity 200ms ease-out,
+    transform 200ms ease-out;
+  width: 100%;
+}
+.animated-link-underline:focus-visible,
+.animated-link-underline:focus,
+.rendered-markdown a:not(.anchor):focus-visible,
+.rendered-markdown a:not(.anchor):focus {
+  @apply outline-drakenhofNightshade outline-2 outline-dashed outline-offset-2;
+}
+.animated-link-underline:hover,
+.rendered-markdown a:not(.anchor):hover {
+  transition-duration: 150ms;
+}
+.animated-link-underline:hover::before,
+.rendered-markdown a:not(.anchor):hover::before {
+  opacity: 1;
+  transform: scaleX(1);
+}
+.animated-link-underline:hover .arrow {
+  transform: scaleX(1.5);
+}
+
+.rendered-markdown ul {
+  @apply list-square list-outside ml-5 leading-normal;
+}
+.rendered-markdown ul li::marker {
+  @apply rotate-45;
+}
+
+.rendered-markdown iframe {
+  @apply mt-5;
+}
+
+.rendered-markdown .anchor {
+  @apply absolute left-[-1.25rem] w-[18px] h-[18px] text-drakenhofNightshade block top-1/2 -translate-y-[9px] opacity-30 group-hover:opacity-100 transition scale-90;
+}
+
+/*TAGS*/
+.pseudo-bullet {
+  @apply relative inline-block whitespace-nowrap;
+  padding: 0.1em 0.6em 0.1em 0.2em;
+}
+
+/*COMPANIES*/
+.company {
+  display: inline-block;
+  line-height: 1em;
+  margin-right: 0.6em;
+  padding: 0.1em 0.6em 0.1em 0.2em;
+  pointer-events: auto;
+  position: relative;
+  white-space: nowrap;
+}
+.company:not(:last-of-type)::after {
+  content: '•';
+  margin-left: 0.5em;
+}
