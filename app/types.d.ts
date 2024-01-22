@@ -8,3 +8,4 @@ declare module 'react' {
 
 declare module 'remark-sectionize' {}
 declare module 'rehypeReact' {}
+declare module 'remark-mdx-jsx' {}

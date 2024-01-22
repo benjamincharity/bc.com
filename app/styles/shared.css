@@ -55,7 +55,7 @@ strong {
 
 /*ARTICLE CONTENT*/
 .rendered-markdown {
-  @apply text-lg overflow-x-hidden mb-10;
+  @apply text-lg mb-10;
 }
 .rendered-markdown p {
   @apply my-5;
@@ -99,7 +99,15 @@ strong.highlight code,
 .rendered-markdown h4,
 .rendered-markdown h5,
 .rendered-markdown h6 {
-  @apply font-bold text-gray-700;
+  @apply font-bold text-gray-700 relative;
+}
+.rendered-markdown h1:hover .anchor,
+.rendered-markdown h2:hover .anchor,
+.rendered-markdown h3:hover .anchor,
+.rendered-markdown h4:hover .anchor,
+.rendered-markdown h5:hover .anchor,
+.rendered-markdown h6:hover .anchor {
+  @apply opacity-80 scale-100;
 }
 
 .rendered-markdown h2 {
@@ -152,14 +160,14 @@ hr.fancy::before,
 }
 
 .animated-link-underline,
-.rendered-markdown a {
+.rendered-markdown a:not(.anchor) {
   @apply text-drakenhofNightshade;
   font-weight: bold;
   position: relative;
   text-decoration: none;
 }
 .animated-link-underline::before,
-.rendered-markdown a::before {
+.rendered-markdown a:not(.anchor)::before {
   @apply bg-drakenhofNightshade;
   bottom: 0;
   content: '';
@@ -175,16 +183,16 @@ hr.fancy::before,
 }
 .animated-link-underline:focus-visible,
 .animated-link-underline:focus,
-.rendered-markdown a:focus-visible,
-.rendered-markdown a:focus {
+.rendered-markdown a:not(.anchor):focus-visible,
+.rendered-markdown a:not(.anchor):focus {
   @apply outline-drakenhofNightshade outline-2 outline-dashed outline-offset-2;
 }
 .animated-link-underline:hover,
-.rendered-markdown a:hover {
+.rendered-markdown a:not(.anchor):hover {
   transition-duration: 150ms;
 }
 .animated-link-underline:hover::before,
-.rendered-markdown a:hover::before {
+.rendered-markdown a:not(.anchor):hover::before {
   opacity: 1;
   transform: scaleX(1);
 }
@@ -201,6 +209,10 @@ hr.fancy::before,
 
 .rendered-markdown iframe {
   @apply mt-5;
+}
+
+.rendered-markdown .anchor {
+  @apply absolute left-[-1.25rem] w-[18px] h-[18px] text-drakenhofNightshade block top-1/2 -translate-y-[9px] opacity-30 group-hover:opacity-100 transition scale-90;
 }
 
 /*TAGS*/

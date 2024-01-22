@@ -40,6 +40,7 @@ const Codepen: React.FC<ReactCodepenProps> = ({
   const _isMounted = useRef(false);
 
   const loadScript = () => {
+    console.log('_____________loadScript_________');
     // load the codepen embed script
     const script = document.createElement('script');
     script.src = SCRIPT_URL;
