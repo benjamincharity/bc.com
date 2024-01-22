@@ -53,7 +53,7 @@ export default {
         subTitle: 'clamp(16px, 6vw, 30px)',
       },
       fontFamily: {
-        vt323: ['"VT323"', ...defaultTheme.fontFamily.sans],
+        vt323: ['"VT323"', 'Courier New', ...defaultTheme.fontFamily.mono],
         sourceSerif4: ['"Source Serif 4"', ...defaultTheme.fontFamily.sans],
         code: [
           'Fira Code',
