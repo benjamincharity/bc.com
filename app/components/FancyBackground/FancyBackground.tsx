@@ -3,11 +3,7 @@ import { ClientOnly } from '~/components/ClientOnly';
 import { InteractiveCanvas } from '~/components/InteractiveCanvas/InteractiveCanvas';
 import { state$ } from '~/store';
 
-import styles from './FancyBackground.css';
-import { LinksFunction } from '@remix-run/node';
 import { useReducedMotion } from '@mantine/hooks';
-
-export const links: LinksFunction = () => [{ rel: 'stylesheet', href: styles }];
 
 export const FancyBackground = React.memo(
   ({ isVisible = true }: { isVisible?: boolean }) => {

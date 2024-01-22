@@ -6,6 +6,7 @@ interface GenerateMetaCollectionProps {
   tags: string[];
   title: string;
   url?: string;
+  disableScale?: boolean;
 }
 
 export function generateMetaCollection(props: GenerateMetaCollectionProps) {
@@ -15,14 +16,16 @@ export function generateMetaCollection(props: GenerateMetaCollectionProps) {
     tags = [],
     title = siteMetadata.title,
     url = siteMetadata.url,
+    disableScale = false,
   } = props;
   const keywords = tags.join(', ');
   const finalImageUrl = imageUrl ?? siteMetadata.image;
+  const viewportContent = `width=device-width,initial-scale=1${disableScale ? ',user-scalable=no' : ''}`;
 
   return [
     { title: title },
     { charset: 'utf-8' },
-    { name: 'viewport', content: 'width=device-width,initial-scale=1' },
+    { name: 'viewport', content: viewportContent },
     { name: 'robots', content: 'index, follow' },
 
     // Basic meta tags

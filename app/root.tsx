@@ -101,9 +101,7 @@ export default function App() {
   return (
     <html
       lang="en"
-      className={
-        showBackground ? 'overflow-hidden h-full w-full' : 'overflow-x-hidden'
-      }
+      className={showBg ? 'overflow-hidden h-full w-full' : 'overflow-x-hidden'}
     >
       <head>
         <title>{siteMetadata.title}</title>
@@ -112,6 +110,16 @@ export default function App() {
       </head>
 
       <body>
+        <div className="relative text-lg h-100v">
+          <Header backgroundIsVisible={showBg} />
+          <Outlet />
+          <ScrollRestoration getKey={(location) => location.pathname} />
+          <FancyBackground isVisible={showBg} />
+          <Scripts />
+          <ExternalScripts />
+          <LiveReload />
+        </div>
+
         {process.env.NODE_ENV === 'development' || !gaTrackingId ? null : (
           <>
             <script
@@ -135,16 +143,6 @@ export default function App() {
             />
           </>
         )}
-        <div className="relative text-lg h-100v">
-          <Header backgroundIsVisible={showBg} />
-          <Outlet />
-          <ScrollRestoration getKey={(location) => location.pathname} />
-          <FancyBackground isVisible={showBg} />
-          <Scripts />
-          <ExternalScripts />
-          <LiveReload />
-        </div>
-
         <link rel="stylesheet" href={highlightStyle} />
         <Analytics />
       </body>
@@ -154,6 +152,7 @@ export default function App() {
 
 export function ErrorBoundary() {
   const error = useRouteError();
+
   return (
     <html lang="en" className={'overflow-hidden h-full w-full'}>
       <head>

@@ -15,7 +15,8 @@ export const siteMetadata = {
   professionalTitle:
     'Engineering leader & team builder at high-growth startups & scale-ups.',
   professionalTitleSplit: [
-    'Engineering leader & team builder at high-growth',
+    'Engineering leader &',
+    'team builder at high-growth',
     'startups & scale-ups.',
   ],
   aboutMe:
