@@ -30,7 +30,7 @@ export const Header = ({
   useEffect(() => {
     setTimeout(() => {
       setIsAnimationEnabled(true);
-    }, 100);
+    }, 10);
   }, []);
 
   return (
