@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ClientOnly } from '~/components/ClientOnly';
 import { InteractiveCanvas } from '~/components/InteractiveCanvas/InteractiveCanvas';
 import { state$ } from '~/store';
@@ -12,7 +12,7 @@ export const links: LinksFunction = () => [{ rel: 'stylesheet', href: styles }];
 export const FancyBackground = React.memo(
   ({ isVisible = true }: { isVisible?: boolean }) => {
     const isPartyModeEnabled = state$.isPartyModeEnabled.get();
-    const [localIsVisible, setLocalIsVisible] = React.useState(isVisible);
+    const [localIsVisible, setLocalIsVisible] = useState(() => isVisible);
     const reduceMotion = useReducedMotion();
 
     useEffect(() => {

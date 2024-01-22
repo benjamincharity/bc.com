@@ -41,7 +41,6 @@ export const meta: MetaFunction = ({ data }: FixMeLater) => {
     tags: data.tags,
     url: `${siteMetadata.url}/articles`,
   });
-  console.log('my log: ', foo);
   return foo;
 };
 

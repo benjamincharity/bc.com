@@ -1,39 +1,37 @@
-import { Link, useLocation } from '@remix-run/react';
+import { Link } from '@remix-run/react';
 import { useEffect, useMemo, useState } from 'react';
-import { determineIfShouldShowBackground } from '~/routes/_index/route';
-import { state$ } from '~/store';
 import { RoutesPath } from '~/data/routes.data';
 
-export const Header = ({ isSmall = false }: { isSmall?: boolean }) => {
-  const location = useLocation();
-  const [localIsSmall, setLocalIsSmall] = useState(isSmall);
-  const [allowTransition, setAllowTransition] = useState(false);
+const shared = `relative text-center z-20 font-vt323 leading-none transition-all duration-200`;
+const largeState = `${shared} pointer-events-none text-white text-title py-10 text-shadow-title`;
+const smallState = `${shared} h-[84px] pointer-events-auto text-gray-700 text-titleSmall pt-6 transition-duration-200`;
+
+export const Header = ({
+  backgroundIsVisible = false,
+}: {
+  backgroundIsVisible?: boolean;
+}) => {
+  const [shouldRender, setShouldRender] = useState(false);
+  const [isSmall, setIsSmall] = useState(!backgroundIsVisible);
   const headerClasses = useMemo(() => {
-    const transitionClasses = allowTransition ? '' : '';
-    const shared = `relative text-center z-20 font-vt323 leading-none ${transitionClasses}`;
-    const largeState = `${shared} pointer-events-none text-white text-title py-10 text-shadow-title`;
-    const smallState = `${shared} pointer-events-auto text-gray-700 text-titleSmall pt-6 transition-duration-200`;
-    return localIsSmall ? smallState : largeState;
-  }, [allowTransition, localIsSmall]);
+    if (!shouldRender) {
+      return smallState;
+    }
+    return isSmall ? smallState : largeState;
+  }, [isSmall, shouldRender]);
 
   useEffect(() => {
-    const localDetermination = determineIfShouldShowBackground(
-      location.pathname,
-    );
-    state$.isVisible.set(localDetermination);
-    setLocalIsSmall(!localDetermination);
-  }, [location.pathname]);
+    setIsSmall(!backgroundIsVisible);
+  }, [backgroundIsVisible]);
 
   useEffect(() => {
-    setTimeout(() => {
-      setAllowTransition(true);
-    }, 1000);
+    setShouldRender(true);
   }, []);
 
   return (
     <header className={headerClasses}>
       <h1 className={`inline-block uppercase leading-[.9em]`}>
-        {localIsSmall ? (
+        {isSmall ? (
           <Link
             className="o-sliding-background-link font-bold"
             to={RoutesPath.home}

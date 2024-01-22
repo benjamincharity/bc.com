@@ -11,7 +11,7 @@ import {
   useLocation,
   useRouteError,
 } from '@remix-run/react';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { siteMetadata } from './data/siteMetadata';
 import { isDarkMode } from './utils/isDarkMode';
 import sharedStyles from '~/styles/shared.css';
@@ -29,9 +29,10 @@ import { Analytics } from '@vercel/analytics/react';
 
 export function loader({ request }: { request: Request }) {
   const url = new URL(request.url);
+  const local = determineIfShouldShowBackground(url.pathname);
   return json({
     gaTrackingId: process.env.GA_TRACKING_ID,
-    showBgOnLoad: determineIfShouldShowBackground(url.pathname),
+    showBackground: local,
   });
 }
 
@@ -76,14 +77,8 @@ export const meta: MetaFunction = () => {
 
 export default function App() {
   const location = useLocation();
-  const { gaTrackingId, showBgOnLoad } = useLoaderData<typeof loader>();
-  const [showBg, setShowBg] = useState(showBgOnLoad);
-
-  const setVisibility = useCallback((path: string) => {
-    const local = determineIfShouldShowBackground(path);
-    state$.isVisible.set(local);
-    setShowBg(local);
-  }, []);
+  const { gaTrackingId, showBackground } = useLoaderData<typeof loader>();
+  const [showBg, setShowBg] = useState(showBackground);
 
   useEffect(() => {
     if (gaTrackingId?.length) {
@@ -92,11 +87,8 @@ export default function App() {
   }, [location, gaTrackingId]);
 
   useEffect(() => {
-    setVisibility(location.pathname);
-  }, [location.pathname, setVisibility]);
-
-  useEffect(() => {
-    setVisibility(location.pathname);
+    state$.isVisible.set(determineIfShouldShowBackground(location.pathname));
+    setShowBg(determineIfShouldShowBackground(location.pathname));
     navigationState$.history.push(location.pathname);
 
     if (isDarkMode()) {
@@ -104,15 +96,17 @@ export default function App() {
     } else {
       document.documentElement.classList.remove('dark');
     }
-  }, [location.pathname, setVisibility]);
+  }, [location.pathname]);
 
   return (
     <html
       lang="en"
-      className={showBg ? 'overflow-hidden h-full w-full' : 'overflow-x-hidden'}
+      className={
+        showBackground ? 'overflow-hidden h-full w-full' : 'overflow-x-hidden'
+      }
     >
       <head>
-        {/*<title>{siteMetadata.title}</title>*/}
+        <title>{siteMetadata.title}</title>
         <Meta />
         <Links />
       </head>
@@ -142,7 +136,7 @@ export default function App() {
           </>
         )}
         <div className="relative text-lg h-100v">
-          <Header isSmall={showBg} />
+          <Header backgroundIsVisible={showBg} />
           <Outlet />
           <ScrollRestoration getKey={(location) => location.pathname} />
           <FancyBackground isVisible={showBg} />
@@ -168,7 +162,7 @@ export function ErrorBoundary() {
         <Links />
       </head>
       <body>
-        <Header isSmall={false} />
+        <Header backgroundIsVisible={false} />
         <main className="relative z-20 text-center prose-wrapper">
           <h2
             className={'font-vt323 mb-10 text-shadow-title text-white text-5xl'}
