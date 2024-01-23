@@ -12,7 +12,7 @@ import { getTagsFromArticles } from '~/utils/getTagsFromArticles';
 import { TagsPayload } from '~/routes/articles_.tags/route';
 import { PublishDate } from '~/routes/articles_.$id/components/PublishDate';
 import { BrowseByTags } from '~/routes/articles/components/BrowseByTags';
-import type { MetaFunction } from '@remix-run/node';
+import { LinksFunction, MetaFunction } from '@remix-run/node';
 import { FixMeLater } from '~/types/shame';
 import { ExternalScriptsHandle } from 'remix-utils/external-scripts';
 import { siteMetadata } from '~/data/siteMetadata';
@@ -60,6 +60,15 @@ export const handle: ExternalScriptsHandle = {
       preload: true,
     },
   ],
+};
+
+export const links: LinksFunction = () => {
+  return [
+    {
+      rel: 'stylesheet',
+      href: 'https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600;700&display=swap',
+    },
+  ];
 };
 
 export const meta: MetaFunction = ({ data }: FixMeLater) => {
