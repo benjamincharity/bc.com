@@ -38,6 +38,8 @@ export function loader({ request }: { request: Request }) {
 export const links: LinksFunction = () => {
   return [
     { rel: 'preconnect', href: 'https://fonts.gstatic.com' },
+    { rel: 'preconnect', href: 'https://www.googletagmanager.com' },
+    { rel: 'preconnect', href: 'https://www.google-analytics.com' },
     {
       rel: 'preconnect',
       href: 'https://fonts.gstatic.com',
