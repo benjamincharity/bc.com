@@ -1,60 +1,106 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import * as prod from 'react/jsx-runtime';
-import * as dev from 'react/jsx-dev-runtime';
 import remarkParse from 'remark-parse';
 import remarkRehype from 'remark-rehype';
 import { unified } from 'unified';
-import rehypeReact from 'rehype-react';
-import type { Options } from 'rehype-react';
 import rehypeStringify from 'rehype-stringify';
 import rehypeMeta from 'rehype-meta';
 import rehypeInferReadingTimeMeta from 'rehype-infer-reading-time-meta';
-import Codepen from '~/components/Codepen';
 import rehypeRaw from 'rehype-raw';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import remarkGfm from 'remark-gfm';
 import { remarkTruncateLinks } from 'remark-truncate-links';
+import rehypeSlug from 'rehype-slug';
+import { h, s } from 'hastscript';
+import rehypeRewrite, { RehypeRewriteOptions } from 'rehype-rewrite';
 import rehypeHighlight from 'rehype-highlight';
 import rehypeSections from './rehype-sections';
-import rehypeSlug from 'rehype-slug';
-import { s } from 'hastscript';
-import React, { DetailedReactHTMLElement, InputHTMLAttributes } from 'react';
+import rehypeFigure from '@microflash/rehype-figure';
 
-interface CustomComponents {
-  [key: string]: React.ComponentType<any>;
+function getURLParams(src: string): Record<string, string> {
+  const queryString = src.split('?')[1];
+  if (!queryString) {
+    return {};
+  }
+
+  // Use URLSearchParams to parse the query string
+  const params = new URLSearchParams(queryString);
+  const paramsObj: Record<string, string> = {};
+  for (const [key, value] of params.entries()) {
+    paramsObj[key] = value;
+  }
+  return paramsObj;
 }
 
-const customComponents: CustomComponents = {
-  // TODO: At some points this has worked but it isn't consistent.
-  Codepen: Codepen,
-};
-
-interface CustomRehypeReactOptions {
-  components?: Record<string, React.ComponentType>;
-  createElement?: (
-    type: any,
-    props: any,
-    children: any,
-  ) => DetailedReactHTMLElement<
-    InputHTMLAttributes<HTMLInputElement>,
-    HTMLInputElement
-  >;
-  development?: boolean;
+const ACCOUNT_NAME = 'da2exoho7';
+const imageBreakpoints = [320, 480, 640, 800];
+function generateSizes(breakpoints: number[]): string {
+  return breakpoints
+    .reverse()
+    .map((bp, index, arr) => {
+      // For the last breakpoint, we don't need a min-width condition
+      if (index === arr.length - 1) {
+        return `${bp}px`;
+      }
+      return `(min-width: ${bp}px) ${bp}px`;
+    })
+    .join(', ');
 }
 
-const development = process.env.NODE_ENV === 'development';
-// @ts-expect-error: the React types are missing.
-const prodJsx = { Fragment: prod.Fragment, jsx: prod.jsx, jsxs: prod.jsxs };
-// @ts-expect-error: the React types are missing.
-const devJsx = { jsxDEV: dev.jsxDEV };
-const rehypeReactOptions: CustomRehypeReactOptions = {
-  components: customComponents,
-  createElement: (type, props, children) =>
-    React.createElement(type, props, children),
-  development,
-  ...devJsx,
-  ...prodJsx,
+function generateSrcset(
+  src: string,
+  isHighRes?: boolean,
+  height?: number,
+  width?: number,
+): string {
+  const breakpoints = isHighRes ? [640, 800, 960, 1200] : imageBreakpoints;
+  const hString = height ? `h_${height},` : '';
+  return breakpoints
+    .map(
+      (size) =>
+        `https://res.cloudinary.com/${ACCOUNT_NAME}/image/upload/c_scale,${hString}w_${width ?? size}/f_auto/article-content/${src} ${size}w`,
+    )
+    .join(', ');
+}
+
+const rehypeRewriteOptions: RehypeRewriteOptions = {
+  rewrite: (node) => {
+    if (node.type === 'element' && node.tagName === 'img') {
+      const src = node.properties?.src as string;
+      const alt = node.properties?.alt || '';
+
+      if (src) {
+        let customHeight: number | undefined = undefined;
+        let customWidth: number | undefined = undefined;
+        let isHighRes = false;
+        const result = getURLParams(src);
+
+        if (result.height) customHeight = Number(result.height);
+        if (result.width) customWidth = Number(result.width);
+        if (result.isHighRes) isHighRes = Boolean(result.isHighRes);
+
+        const srcset = generateSrcset(
+          src,
+          isHighRes,
+          customHeight,
+          customWidth,
+        );
+        const hString = customHeight ? `h_${customHeight},` : '';
+        const finalSrc = `https://res.cloudinary.com/${ACCOUNT_NAME}/image/upload/c_scale,${hString}w_${customWidth ?? imageBreakpoints[imageBreakpoints.length - 1]}/f_auto/article-content/${src}`;
+        const sizes = generateSizes(
+          isHighRes ? [640, 800, 960, 1200] : imageBreakpoints,
+        );
+
+        node.properties = {
+          ...node.properties,
+          srcset,
+          sizes,
+          src: finalSrc,
+          alt,
+        };
+      }
+    }
+  },
 };
+
 function link() {
   return s(
     'svg.icon',
@@ -77,6 +123,7 @@ const processor = unified()
   .use(remarkTruncateLinks, { length: 46 })
   .use(rehypeSections) // NOTE: sectionize must be before remarkRehype
   .use(remarkRehype, { allowDangerousHtml: true })
+  .use(rehypeRewrite, rehypeRewriteOptions)
   .use(remarkGfm)
   .use(rehypeRaw)
   .use(rehypeSlug)
@@ -88,8 +135,8 @@ const processor = unified()
   .use(rehypeHighlight)
   .use(rehypeInferReadingTimeMeta)
   .use(rehypeMeta, { og: true, twitter: true, copyright: true })
-  .use(rehypeReact, rehypeReactOptions as Options)
-  .use(rehypeStringify);
+  .use(rehypeFigure)
+  .use(rehypeStringify, { allowDangerousHtml: true });
 
 const htmlCache: Record<string, string> = {};
 
