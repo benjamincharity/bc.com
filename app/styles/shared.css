@@ -38,33 +38,6 @@
     @apply bg-mark;
   }
 
-  /*SQUIGGLE LINK*/
-  .squiggle-link {
-    @apply text-shadow-title pt-1 pb-2 text-[--highlight-color-1] relative leading-none inline-block no-underline;
-    background: linear-gradient(
-        to bottom,
-        var(--highlight-color-1) 0%,
-        var(--highlight-color-1) 100%
-      )
-      repeat-x 0 100%;
-    background-size: 3px 3px;
-  }
-
-  .squiggle-link:focus,
-  .squiggle-link:hover {
-    @apply no-underline motion-safe:bg-wavyBg bg-left-bottom;
-    background-size: auto 6px;
-    background-repeat: repeat-x;
-  }
-
-  .squiggle-link:focus {
-    outline: 2px dashed;
-  }
-
-  .squiggle-link svg {
-    @apply absolute top-3 scale-50 left-full min-h-home:left-[104%] fill-current transition-all;
-  }
-
   /*TRUSTED TITLE*/
   .trusted-title {
     text-decoration-color: inherit;
@@ -128,6 +101,33 @@ strong {
   width: 9px;
 }
 
+/*SQUIGGLE LINK*/
+.squiggle-link {
+  @apply text-shadow-title pt-1 pb-2 text-[--highlight-color-1] relative leading-none inline-block no-underline;
+  background: linear-gradient(
+      to bottom,
+      var(--highlight-color-1) 0%,
+      var(--highlight-color-1) 100%
+    )
+    repeat-x 0 100%;
+  background-size: 3px 3px;
+}
+
+.squiggle-link:focus,
+.squiggle-link:hover {
+  @apply no-underline motion-safe:bg-wavyBg bg-left-bottom;
+  background-size: auto 6px;
+  background-repeat: repeat-x;
+}
+
+.squiggle-link:focus {
+  outline: 2px dashed;
+}
+
+.squiggle-link > svg {
+  @apply absolute top-3 scale-50 left-full min-h-home:left-[104%] fill-current transition-all;
+}
+
 /*ARTICLE CONTENT*/
 .rendered-markdown {
   @apply text-lg mb-10;
@@ -186,7 +186,7 @@ strong {
   @apply highlight;
 }
 .rendered-markdown figure {
-  @apply bg-gray-200 p-1 rounded transition;
+  @apply bg-gray-200 mt-2 p-1 rounded transition;
 }
 .rendered-markdown figcaption {
   @apply leading-tight text-gray-500 text-sm transition-colors pt-1;
@@ -227,7 +227,7 @@ strong {
   top: -1px;
 }
 .rendered-markdown .anchor {
-  @apply absolute left-[-1.25rem] w-[18px] h-[18px] text-drakenhofNightshade block top-1/2 -translate-y-[9px] opacity-30 group-hover:opacity-100 transition scale-90;
+  @apply absolute left-[-1.25rem] w-[18px] h-[18px] text-drakenhofNightshade block top-2 opacity-30 group-hover:opacity-100 transition scale-90;
 }
 
 .animated-link-underline,
