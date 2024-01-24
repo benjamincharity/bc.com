@@ -32,7 +32,6 @@ export default function Index() {
             {siteMetadata.professionalTitleSplit[2]}
           </span>
         </h2>
-
         <Navigation />
       </main>
 
