@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import 'react';
+import 'react'
 
 declare module 'react' {
-  interface CSSProperties {
-    '--custom-color'?: string;
-  }
+    interface CSSProperties {
+        '--custom-color'?: string
+    }
 }
 
 declare module 'remark-sectionize' {}

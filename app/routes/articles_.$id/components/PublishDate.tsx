@@ -1,27 +1,33 @@
-import { Datetime } from '~/components/Datetime';
+import { Datetime } from '~/components/Datetime'
 
 interface PublishDateProps {
-  publishDate: string;
-  updatedDate?: string;
-  className?: string;
+    publishDate: string
+    updatedDate?: string
+    className?: string
 }
 
 export const PublishDate = (props: PublishDateProps) => {
-  const { publishDate, updatedDate, className = '' } = props;
+    const { publishDate, updatedDate, className = '' } = props
 
-  return (
-    !!publishDate && (
-      <div className={'flex gap-x-2 align-center text-gray-600 leading-tight'}>
-        {!!updatedDate && (
-          <div className={`text-[10px] italic font-code ${className}`}>
-            Updated: <Datetime date={updatedDate} />,
-          </div>
-        )}
+    return (
+        !!publishDate && (
+            <div
+                className={
+                    'align-center flex gap-x-2 leading-tight text-gray-600'
+                }
+            >
+                {!!updatedDate && (
+                    <div
+                        className={`font-code text-[10px] italic ${className}`}
+                    >
+                        Updated: <Datetime date={updatedDate} />,
+                    </div>
+                )}
 
-        <div className={`text-[10px] italic font-code ${className}`}>
-          Published: <Datetime date={publishDate} />
-        </div>
-      </div>
+                <div className={`font-code text-[10px] italic ${className}`}>
+                    Published: <Datetime date={publishDate} />
+                </div>
+            </div>
+        )
     )
-  );
-};
+}

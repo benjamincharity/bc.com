@@ -1,2 +1,2 @@
-export { readFile, stat, readdir } from 'fs/promises';
-export { resolve } from 'path';
+export { readFile, stat, readdir } from 'fs/promises'
+export { resolve } from 'path'

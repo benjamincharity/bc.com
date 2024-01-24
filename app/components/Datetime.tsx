@@ -1,14 +1,14 @@
-import { formatDate } from '~/utils/date';
+import { formatDate } from '~/utils/date'
 
 export const Datetime = ({ date }: { date: string }) => {
-  if (!date) {
-    return null;
-  }
-  const { short, full } = formatDate(date);
+    if (!date) {
+        return null
+    }
+    const { short, full } = formatDate(date)
 
-  return (
-    <time title={full} dateTime={date}>
-      {short}
-    </time>
-  );
-};
+    return (
+        <time title={full} dateTime={date}>
+            {short}
+        </time>
+    )
+}

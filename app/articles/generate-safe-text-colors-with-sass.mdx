@@ -2,9 +2,9 @@
 title: Generate Safe Text Colors with Sass
 summary: Learn how to dynamically generate a safe text color based on the background color with Sass.
 tags:
-  - sass
-  - css
-  - color
+    - sass
+    - css
+    - color
 published: true
 publishDate: 2014-01-21
 updatedDate: 2014-01-21
@@ -29,9 +29,7 @@ $secondary: #fafafa;
 $accent: blue;
 ```
 
-<small>
-**Note:** I will be using Sass throughout this article.
-</small>
+<small>**Note:** I will be using Sass throughout this article.</small>
 
 The first case I decided to tackle was our buttons. I needed to make sure that the button text was always easily
 readable over the button's background color.
@@ -43,8 +41,8 @@ Using the `darken()` function I could create a text color that is, say, 40 % dar
 $color: lightblue;
 
 button {
-  background-color: $color;
-  color: darken($color, 60%);
+    background-color: $color;
+    color: darken($color, 60%);
 }
 ```
 
@@ -64,16 +62,18 @@ darken our text color depending on that value.
 $lightness-bound: 70 !global;
 
 @function checkLightness($color) {
-  @if (lightness($color) > $lightness-bound) {
-    @return darken($color, 60);
-  } @else {
-    @return lighten($color, 60);
-  }
+    @if (lightness($color) > $lightness-bound) {
+        @return darken($color, 60);
+    } @else {
+        @return lighten($color, 60);
+    }
 }
 ```
 
-<small>**Note:** the `!global` declaration is new as of Sass 3.3. Simply remove this declaration if you are on an
-earlier version of Sass.</small>
+<small>
+    **Note:** the `!global` declaration is new as of Sass 3.3. Simply remove
+    this declaration if you are on an earlier version of Sass.
+</small>
 
 ## The second issue
 
@@ -98,14 +98,14 @@ $hue-bound-bottom: 40 !global;
 $hue-bound-top: 200 !global;
 
 @function checkDangerZone($color) {
-  @if (
-    (lightness($color) > $lightness-bound) or
-      (hue($color) > $hue-bound-bottom and hue($color) < $hue-bound-top)
-  ) {
-    @return darken(desaturate($color, 70), 60);
-  } @else {
-    @return lighten(desaturate($color, 50), 60);
-  }
+    @if (
+        (lightness($color) > $lightness-bound) or
+            (hue($color) > $hue-bound-bottom and hue($color) < $hue-bound-top)
+    ) {
+        @return darken(desaturate($color, 70), 60);
+    } @else {
+        @return lighten(desaturate($color, 50), 60);
+    }
 }
 ```
 
