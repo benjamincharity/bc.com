@@ -16,65 +16,65 @@ export type TagPayload = [string, number]
 export type TagsPayload = Array<TagPayload>
 
 interface LoaderData {
-    tags: TagsPayload
+  tags: TagsPayload
 }
 
 export const loader: LoaderFunction = async () => {
-    const articles = await getAllArticles()
+  const articles = await getAllArticles()
 
-    return json({
-        tags: getTagsFromArticles(articles),
-    })
+  return json({
+    tags: getTagsFromArticles(articles),
+  })
 }
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
-    const { tags } = data as LoaderData
-    const summaryTags = tags
-        .slice(0, 3)
-        .map(([tag]) => tag)
-        .join(', ')
-    return generateMetaCollection({
-        summary: `Explore our comprehensive list of tags to easily find the topics that interest you. From ${summaryTags[0]}, ${summaryTags[1]}, to ${summaryTags[2]}, and more – dive into a world of insightful articles tailored to your interests.`,
-        tags: tags.map(([tag]) => tag),
-        title: 'Browse articles by tags.',
-        url: `${siteMetadata.url}/articles/tags`,
-    })
+  const { tags } = data as LoaderData
+  const summaryTags = tags
+    .slice(0, 3)
+    .map(([tag]) => tag)
+    .join(', ')
+  return generateMetaCollection({
+    summary: `Explore our comprehensive list of tags to easily find the topics that interest you. From ${summaryTags[0]}, ${summaryTags[1]}, to ${summaryTags[2]}, and more – dive into a world of insightful articles tailored to your interests.`,
+    tags: tags.map(([tag]) => tag),
+    title: 'Browse articles by tags.',
+    url: `${siteMetadata.url}/articles/tags`,
+  })
 }
 
 export const links: LinksFunction = () => {
-    return [
-        {
-            rel: 'stylesheet',
-            href: 'https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600;700&display=swap',
-        },
-    ]
+  return [
+    {
+      rel: 'stylesheet',
+      href: 'https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600;700&display=swap',
+    },
+  ]
 }
 
 export default function Tags() {
-    const { tags } = useLoaderData<LoaderData>()
+  const { tags } = useLoaderData<LoaderData>()
 
-    return (
-        <div className="prose-wrapper">
-            <BackToLink to={RoutesPath.articles} />
+  return (
+    <div className="prose-wrapper">
+      <BackToLink to={RoutesPath.articles} />
 
-            <PrimaryTitle title={'Tags'} className={'mb-6 text-center'} />
+      <PrimaryTitle title={'Tags'} className={'mb-6 text-center'} />
 
-            <nav
-                aria-label="Article tags"
-                className="flex flex-wrap justify-center gap-8 text-base"
-            >
-                {tags.map(([tag, count], i) => {
-                    return (
-                        <Badge
-                            color={colors[i]}
-                            count={count}
-                            key={tag}
-                            linkTo={tag}
-                            tag={tag}
-                        />
-                    )
-                })}
-            </nav>
-        </div>
-    )
+      <nav
+        aria-label="Article tags"
+        className="flex flex-wrap justify-center gap-8 text-base"
+      >
+        {tags.map(([tag, count], i) => {
+          return (
+            <Badge
+              color={colors[i]}
+              count={count}
+              key={tag}
+              linkTo={tag}
+              tag={tag}
+            />
+          )
+        })}
+      </nav>
+    </div>
+  )
 }

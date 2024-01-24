@@ -2,7 +2,7 @@
 title: Download 320kbps MP3s From Your Premium Spotify Account
 summary: Learn how to store a local copy of your premium Spotify music using open-source software.
 tags:
-    - music
+  - music
 published: true
 publishDate: 2015-01-27
 previousUrl: https://blog.benjamincharity.com/download-320kbps-mp3s-from-your-premium-spotify-account/
@@ -18,8 +18,8 @@ I ran into a few issues getting it set up, so I thought I would post the solutio
 
 ## Prerequisites
 
--   **Homebrew:** The [Homebrew][homebrew] package manager should be installed.
--   **Spotify App Keys:** Download your Spotify premium developer app key. Find your keys [here][spotify_keys].
+- **Homebrew:** The [Homebrew][homebrew] package manager should be installed.
+- **Spotify App Keys:** Download your Spotify premium developer app key. Find your keys [here][spotify_keys].
 
 > Note: If you have not yet requested to be a Spotify developer, you will be asked to do so before your keys are made accessible.
 
@@ -155,11 +155,11 @@ forever start app.js playlist spotify:user:MY_USERNAME:playlist:playlistURI
 
 ## A few final notes
 
--   If your Spotify account is used from anywhere else, Forever's connection with Spotify will be ended. Simply kill
-    the Forever process and restart it.
--   Spotijay will only download files that are not found in the directory. So no worries about duplicates when
-    restarting process'.
--   When waking your computer from sleep, Forever will pick right back up where it left off; no restart necessary.
+- If your Spotify account is used from anywhere else, Forever's connection with Spotify will be ended. Simply kill
+  the Forever process and restart it.
+- Spotijay will only download files that are not found in the directory. So no worries about duplicates when
+  restarting process'.
+- When waking your computer from sleep, Forever will pick right back up where it left off; no restart necessary.
 
 The only other thing that I wish Spotijay did out of the box was support different directories per playlist call.
 I'm sure it would not be hard to extend the script (it's fairly small). Maybe I'll get around to that..someday.

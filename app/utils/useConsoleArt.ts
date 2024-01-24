@@ -32,10 +32,10 @@ const scissors = `
 const hands = [rock, paper, scissors]
 
 export function useConsoleArt(): void {
-    const result = Math.floor(Math.random() * 3)
+  const result = Math.floor(Math.random() * 3)
 
-    useEffect(() => {
-        console.log(`
+  useEffect(() => {
+    console.log(`
 Welcome! 👋🏼
 
 Think you can outsmart me?
@@ -44,6 +44,6 @@ ${hands[result]}
 
 Refresh to play again!
     `)
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 }

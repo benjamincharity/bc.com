@@ -1,19 +1,19 @@
 {
-    "importOrder": [
-        "^@core/(.*)$",
-        "^@server/(.*)$",
-        "^@ui/(.*)$",
-        "^~/(.*)$",
-        "^[./]"
-    ],
-    "importOrderSeparation": true,
-    "importOrderSortSpecifiers": true,
-    "plugins": [
-        "@trivago/prettier-plugin-sort-imports",
-        "prettier-plugin-tailwindcss"
-    ],
-    "semi": false,
-    "singleQuote": true,
-    "tabWidth": 4,
-    "trailingComma": "es5"
+  "importOrder": [
+    "^@core/(.*)$",
+    "^@server/(.*)$",
+    "^@ui/(.*)$",
+    "^~/(.*)$",
+    "^[./]"
+  ],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true,
+  "plugins": [
+    "@trivago/prettier-plugin-sort-imports",
+    "prettier-plugin-tailwindcss"
+  ],
+  "semi": false,
+  "singleQuote": true,
+  "tabWidth": 2,
+  "trailingComma": "es5"
 }

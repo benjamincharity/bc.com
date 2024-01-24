@@ -32,1956 +32,6 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
 ));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
-// node_modules/.pnpm/base64-js@1.5.1/node_modules/base64-js/index.js
-var require_base64_js = __commonJS({
-  "node_modules/.pnpm/base64-js@1.5.1/node_modules/base64-js/index.js"(exports) {
-    "use strict";
-    exports.byteLength = byteLength;
-    exports.toByteArray = toByteArray;
-    exports.fromByteArray = fromByteArray;
-    var lookup = [];
-    var revLookup = [];
-    var Arr = typeof Uint8Array !== "undefined" ? Uint8Array : Array;
-    var code = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-    for (i = 0, len = code.length; i < len; ++i) {
-      lookup[i] = code[i];
-      revLookup[code.charCodeAt(i)] = i;
-    }
-    var i;
-    var len;
-    revLookup["-".charCodeAt(0)] = 62;
-    revLookup["_".charCodeAt(0)] = 63;
-    function getLens(b64) {
-      var len2 = b64.length;
-      if (len2 % 4 > 0) {
-        throw new Error("Invalid string. Length must be a multiple of 4");
-      }
-      var validLen = b64.indexOf("=");
-      if (validLen === -1)
-        validLen = len2;
-      var placeHoldersLen = validLen === len2 ? 0 : 4 - validLen % 4;
-      return [validLen, placeHoldersLen];
-    }
-    function byteLength(b64) {
-      var lens = getLens(b64);
-      var validLen = lens[0];
-      var placeHoldersLen = lens[1];
-      return (validLen + placeHoldersLen) * 3 / 4 - placeHoldersLen;
-    }
-    function _byteLength(b64, validLen, placeHoldersLen) {
-      return (validLen + placeHoldersLen) * 3 / 4 - placeHoldersLen;
-    }
-    function toByteArray(b64) {
-      var tmp;
-      var lens = getLens(b64);
-      var validLen = lens[0];
-      var placeHoldersLen = lens[1];
-      var arr = new Arr(_byteLength(b64, validLen, placeHoldersLen));
-      var curByte = 0;
-      var len2 = placeHoldersLen > 0 ? validLen - 4 : validLen;
-      var i2;
-      for (i2 = 0; i2 < len2; i2 += 4) {
-        tmp = revLookup[b64.charCodeAt(i2)] << 18 | revLookup[b64.charCodeAt(i2 + 1)] << 12 | revLookup[b64.charCodeAt(i2 + 2)] << 6 | revLookup[b64.charCodeAt(i2 + 3)];
-        arr[curByte++] = tmp >> 16 & 255;
-        arr[curByte++] = tmp >> 8 & 255;
-        arr[curByte++] = tmp & 255;
-      }
-      if (placeHoldersLen === 2) {
-        tmp = revLookup[b64.charCodeAt(i2)] << 2 | revLookup[b64.charCodeAt(i2 + 1)] >> 4;
-        arr[curByte++] = tmp & 255;
-      }
-      if (placeHoldersLen === 1) {
-        tmp = revLookup[b64.charCodeAt(i2)] << 10 | revLookup[b64.charCodeAt(i2 + 1)] << 4 | revLookup[b64.charCodeAt(i2 + 2)] >> 2;
-        arr[curByte++] = tmp >> 8 & 255;
-        arr[curByte++] = tmp & 255;
-      }
-      return arr;
-    }
-    function tripletToBase64(num) {
-      return lookup[num >> 18 & 63] + lookup[num >> 12 & 63] + lookup[num >> 6 & 63] + lookup[num & 63];
-    }
-    function encodeChunk(uint8, start, end) {
-      var tmp;
-      var output = [];
-      for (var i2 = start; i2 < end; i2 += 3) {
-        tmp = (uint8[i2] << 16 & 16711680) + (uint8[i2 + 1] << 8 & 65280) + (uint8[i2 + 2] & 255);
-        output.push(tripletToBase64(tmp));
-      }
-      return output.join("");
-    }
-    function fromByteArray(uint8) {
-      var tmp;
-      var len2 = uint8.length;
-      var extraBytes = len2 % 3;
-      var parts = [];
-      var maxChunkLength = 16383;
-      for (var i2 = 0, len22 = len2 - extraBytes; i2 < len22; i2 += maxChunkLength) {
-        parts.push(encodeChunk(uint8, i2, i2 + maxChunkLength > len22 ? len22 : i2 + maxChunkLength));
-      }
-      if (extraBytes === 1) {
-        tmp = uint8[len2 - 1];
-        parts.push(
-          lookup[tmp >> 2] + lookup[tmp << 4 & 63] + "=="
-        );
-      } else if (extraBytes === 2) {
-        tmp = (uint8[len2 - 2] << 8) + uint8[len2 - 1];
-        parts.push(
-          lookup[tmp >> 10] + lookup[tmp >> 4 & 63] + lookup[tmp << 2 & 63] + "="
-        );
-      }
-      return parts.join("");
-    }
-  }
-});
-
-// node_modules/.pnpm/ieee754@1.2.1/node_modules/ieee754/index.js
-var require_ieee754 = __commonJS({
-  "node_modules/.pnpm/ieee754@1.2.1/node_modules/ieee754/index.js"(exports) {
-    exports.read = function(buffer, offset, isLE, mLen, nBytes) {
-      var e, m;
-      var eLen = nBytes * 8 - mLen - 1;
-      var eMax = (1 << eLen) - 1;
-      var eBias = eMax >> 1;
-      var nBits = -7;
-      var i = isLE ? nBytes - 1 : 0;
-      var d = isLE ? -1 : 1;
-      var s = buffer[offset + i];
-      i += d;
-      e = s & (1 << -nBits) - 1;
-      s >>= -nBits;
-      nBits += eLen;
-      for (; nBits > 0; e = e * 256 + buffer[offset + i], i += d, nBits -= 8) {
-      }
-      m = e & (1 << -nBits) - 1;
-      e >>= -nBits;
-      nBits += mLen;
-      for (; nBits > 0; m = m * 256 + buffer[offset + i], i += d, nBits -= 8) {
-      }
-      if (e === 0) {
-        e = 1 - eBias;
-      } else if (e === eMax) {
-        return m ? NaN : (s ? -1 : 1) * Infinity;
-      } else {
-        m = m + Math.pow(2, mLen);
-        e = e - eBias;
-      }
-      return (s ? -1 : 1) * m * Math.pow(2, e - mLen);
-    };
-    exports.write = function(buffer, value, offset, isLE, mLen, nBytes) {
-      var e, m, c;
-      var eLen = nBytes * 8 - mLen - 1;
-      var eMax = (1 << eLen) - 1;
-      var eBias = eMax >> 1;
-      var rt = mLen === 23 ? Math.pow(2, -24) - Math.pow(2, -77) : 0;
-      var i = isLE ? 0 : nBytes - 1;
-      var d = isLE ? 1 : -1;
-      var s = value < 0 || value === 0 && 1 / value < 0 ? 1 : 0;
-      value = Math.abs(value);
-      if (isNaN(value) || value === Infinity) {
-        m = isNaN(value) ? 1 : 0;
-        e = eMax;
-      } else {
-        e = Math.floor(Math.log(value) / Math.LN2);
-        if (value * (c = Math.pow(2, -e)) < 1) {
-          e--;
-          c *= 2;
-        }
-        if (e + eBias >= 1) {
-          value += rt / c;
-        } else {
-          value += rt * Math.pow(2, 1 - eBias);
-        }
-        if (value * c >= 2) {
-          e++;
-          c /= 2;
-        }
-        if (e + eBias >= eMax) {
-          m = 0;
-          e = eMax;
-        } else if (e + eBias >= 1) {
-          m = (value * c - 1) * Math.pow(2, mLen);
-          e = e + eBias;
-        } else {
-          m = value * Math.pow(2, eBias - 1) * Math.pow(2, mLen);
-          e = 0;
-        }
-      }
-      for (; mLen >= 8; buffer[offset + i] = m & 255, i += d, m /= 256, mLen -= 8) {
-      }
-      e = e << mLen | m;
-      eLen += mLen;
-      for (; eLen > 0; buffer[offset + i] = e & 255, i += d, e /= 256, eLen -= 8) {
-      }
-      buffer[offset + i - d] |= s * 128;
-    };
-  }
-});
-
-// node_modules/.pnpm/buffer@6.0.3/node_modules/buffer/index.js
-var require_buffer = __commonJS({
-  "node_modules/.pnpm/buffer@6.0.3/node_modules/buffer/index.js"(exports) {
-    "use strict";
-    var base64 = require_base64_js();
-    var ieee754 = require_ieee754();
-    var customInspectSymbol = typeof Symbol === "function" && typeof Symbol["for"] === "function" ? Symbol["for"]("nodejs.util.inspect.custom") : null;
-    exports.Buffer = Buffer3;
-    exports.SlowBuffer = SlowBuffer;
-    exports.INSPECT_MAX_BYTES = 50;
-    var K_MAX_LENGTH = 2147483647;
-    exports.kMaxLength = K_MAX_LENGTH;
-    Buffer3.TYPED_ARRAY_SUPPORT = typedArraySupport();
-    if (!Buffer3.TYPED_ARRAY_SUPPORT && typeof console !== "undefined" && typeof console.error === "function") {
-      console.error(
-        "This browser lacks typed array (Uint8Array) support which is required by `buffer` v5.x. Use `buffer` v4.x if you require old browser support."
-      );
-    }
-    function typedArraySupport() {
-      try {
-        const arr = new Uint8Array(1);
-        const proto = { foo: function() {
-          return 42;
-        } };
-        Object.setPrototypeOf(proto, Uint8Array.prototype);
-        Object.setPrototypeOf(arr, proto);
-        return arr.foo() === 42;
-      } catch (e) {
-        return false;
-      }
-    }
-    Object.defineProperty(Buffer3.prototype, "parent", {
-      enumerable: true,
-      get: function() {
-        if (!Buffer3.isBuffer(this))
-          return void 0;
-        return this.buffer;
-      }
-    });
-    Object.defineProperty(Buffer3.prototype, "offset", {
-      enumerable: true,
-      get: function() {
-        if (!Buffer3.isBuffer(this))
-          return void 0;
-        return this.byteOffset;
-      }
-    });
-    function createBuffer(length) {
-      if (length > K_MAX_LENGTH) {
-        throw new RangeError('The value "' + length + '" is invalid for option "size"');
-      }
-      const buf = new Uint8Array(length);
-      Object.setPrototypeOf(buf, Buffer3.prototype);
-      return buf;
-    }
-    function Buffer3(arg, encodingOrOffset, length) {
-      if (typeof arg === "number") {
-        if (typeof encodingOrOffset === "string") {
-          throw new TypeError(
-            'The "string" argument must be of type string. Received type number'
-          );
-        }
-        return allocUnsafe(arg);
-      }
-      return from(arg, encodingOrOffset, length);
-    }
-    Buffer3.poolSize = 8192;
-    function from(value, encodingOrOffset, length) {
-      if (typeof value === "string") {
-        return fromString(value, encodingOrOffset);
-      }
-      if (ArrayBuffer.isView(value)) {
-        return fromArrayView(value);
-      }
-      if (value == null) {
-        throw new TypeError(
-          "The first argument must be one of type string, Buffer, ArrayBuffer, Array, or Array-like Object. Received type " + typeof value
-        );
-      }
-      if (isInstance(value, ArrayBuffer) || value && isInstance(value.buffer, ArrayBuffer)) {
-        return fromArrayBuffer(value, encodingOrOffset, length);
-      }
-      if (typeof SharedArrayBuffer !== "undefined" && (isInstance(value, SharedArrayBuffer) || value && isInstance(value.buffer, SharedArrayBuffer))) {
-        return fromArrayBuffer(value, encodingOrOffset, length);
-      }
-      if (typeof value === "number") {
-        throw new TypeError(
-          'The "value" argument must not be of type number. Received type number'
-        );
-      }
-      const valueOf = value.valueOf && value.valueOf();
-      if (valueOf != null && valueOf !== value) {
-        return Buffer3.from(valueOf, encodingOrOffset, length);
-      }
-      const b2 = fromObject(value);
-      if (b2)
-        return b2;
-      if (typeof Symbol !== "undefined" && Symbol.toPrimitive != null && typeof value[Symbol.toPrimitive] === "function") {
-        return Buffer3.from(value[Symbol.toPrimitive]("string"), encodingOrOffset, length);
-      }
-      throw new TypeError(
-        "The first argument must be one of type string, Buffer, ArrayBuffer, Array, or Array-like Object. Received type " + typeof value
-      );
-    }
-    Buffer3.from = function(value, encodingOrOffset, length) {
-      return from(value, encodingOrOffset, length);
-    };
-    Object.setPrototypeOf(Buffer3.prototype, Uint8Array.prototype);
-    Object.setPrototypeOf(Buffer3, Uint8Array);
-    function assertSize(size) {
-      if (typeof size !== "number") {
-        throw new TypeError('"size" argument must be of type number');
-      } else if (size < 0) {
-        throw new RangeError('The value "' + size + '" is invalid for option "size"');
-      }
-    }
-    function alloc(size, fill, encoding) {
-      assertSize(size);
-      if (size <= 0) {
-        return createBuffer(size);
-      }
-      if (fill !== void 0) {
-        return typeof encoding === "string" ? createBuffer(size).fill(fill, encoding) : createBuffer(size).fill(fill);
-      }
-      return createBuffer(size);
-    }
-    Buffer3.alloc = function(size, fill, encoding) {
-      return alloc(size, fill, encoding);
-    };
-    function allocUnsafe(size) {
-      assertSize(size);
-      return createBuffer(size < 0 ? 0 : checked(size) | 0);
-    }
-    Buffer3.allocUnsafe = function(size) {
-      return allocUnsafe(size);
-    };
-    Buffer3.allocUnsafeSlow = function(size) {
-      return allocUnsafe(size);
-    };
-    function fromString(string, encoding) {
-      if (typeof encoding !== "string" || encoding === "") {
-        encoding = "utf8";
-      }
-      if (!Buffer3.isEncoding(encoding)) {
-        throw new TypeError("Unknown encoding: " + encoding);
-      }
-      const length = byteLength(string, encoding) | 0;
-      let buf = createBuffer(length);
-      const actual = buf.write(string, encoding);
-      if (actual !== length) {
-        buf = buf.slice(0, actual);
-      }
-      return buf;
-    }
-    function fromArrayLike(array) {
-      const length = array.length < 0 ? 0 : checked(array.length) | 0;
-      const buf = createBuffer(length);
-      for (let i = 0; i < length; i += 1) {
-        buf[i] = array[i] & 255;
-      }
-      return buf;
-    }
-    function fromArrayView(arrayView) {
-      if (isInstance(arrayView, Uint8Array)) {
-        const copy = new Uint8Array(arrayView);
-        return fromArrayBuffer(copy.buffer, copy.byteOffset, copy.byteLength);
-      }
-      return fromArrayLike(arrayView);
-    }
-    function fromArrayBuffer(array, byteOffset, length) {
-      if (byteOffset < 0 || array.byteLength < byteOffset) {
-        throw new RangeError('"offset" is outside of buffer bounds');
-      }
-      if (array.byteLength < byteOffset + (length || 0)) {
-        throw new RangeError('"length" is outside of buffer bounds');
-      }
-      let buf;
-      if (byteOffset === void 0 && length === void 0) {
-        buf = new Uint8Array(array);
-      } else if (length === void 0) {
-        buf = new Uint8Array(array, byteOffset);
-      } else {
-        buf = new Uint8Array(array, byteOffset, length);
-      }
-      Object.setPrototypeOf(buf, Buffer3.prototype);
-      return buf;
-    }
-    function fromObject(obj) {
-      if (Buffer3.isBuffer(obj)) {
-        const len = checked(obj.length) | 0;
-        const buf = createBuffer(len);
-        if (buf.length === 0) {
-          return buf;
-        }
-        obj.copy(buf, 0, 0, len);
-        return buf;
-      }
-      if (obj.length !== void 0) {
-        if (typeof obj.length !== "number" || numberIsNaN(obj.length)) {
-          return createBuffer(0);
-        }
-        return fromArrayLike(obj);
-      }
-      if (obj.type === "Buffer" && Array.isArray(obj.data)) {
-        return fromArrayLike(obj.data);
-      }
-    }
-    function checked(length) {
-      if (length >= K_MAX_LENGTH) {
-        throw new RangeError("Attempt to allocate Buffer larger than maximum size: 0x" + K_MAX_LENGTH.toString(16) + " bytes");
-      }
-      return length | 0;
-    }
-    function SlowBuffer(length) {
-      if (+length != length) {
-        length = 0;
-      }
-      return Buffer3.alloc(+length);
-    }
-    Buffer3.isBuffer = function isBuffer(b2) {
-      return b2 != null && b2._isBuffer === true && b2 !== Buffer3.prototype;
-    };
-    Buffer3.compare = function compare(a, b2) {
-      if (isInstance(a, Uint8Array))
-        a = Buffer3.from(a, a.offset, a.byteLength);
-      if (isInstance(b2, Uint8Array))
-        b2 = Buffer3.from(b2, b2.offset, b2.byteLength);
-      if (!Buffer3.isBuffer(a) || !Buffer3.isBuffer(b2)) {
-        throw new TypeError(
-          'The "buf1", "buf2" arguments must be one of type Buffer or Uint8Array'
-        );
-      }
-      if (a === b2)
-        return 0;
-      let x = a.length;
-      let y2 = b2.length;
-      for (let i = 0, len = Math.min(x, y2); i < len; ++i) {
-        if (a[i] !== b2[i]) {
-          x = a[i];
-          y2 = b2[i];
-          break;
-        }
-      }
-      if (x < y2)
-        return -1;
-      if (y2 < x)
-        return 1;
-      return 0;
-    };
-    Buffer3.isEncoding = function isEncoding(encoding) {
-      switch (String(encoding).toLowerCase()) {
-        case "hex":
-        case "utf8":
-        case "utf-8":
-        case "ascii":
-        case "latin1":
-        case "binary":
-        case "base64":
-        case "ucs2":
-        case "ucs-2":
-        case "utf16le":
-        case "utf-16le":
-          return true;
-        default:
-          return false;
-      }
-    };
-    Buffer3.concat = function concat(list, length) {
-      if (!Array.isArray(list)) {
-        throw new TypeError('"list" argument must be an Array of Buffers');
-      }
-      if (list.length === 0) {
-        return Buffer3.alloc(0);
-      }
-      let i;
-      if (length === void 0) {
-        length = 0;
-        for (i = 0; i < list.length; ++i) {
-          length += list[i].length;
-        }
-      }
-      const buffer = Buffer3.allocUnsafe(length);
-      let pos = 0;
-      for (i = 0; i < list.length; ++i) {
-        let buf = list[i];
-        if (isInstance(buf, Uint8Array)) {
-          if (pos + buf.length > buffer.length) {
-            if (!Buffer3.isBuffer(buf))
-              buf = Buffer3.from(buf);
-            buf.copy(buffer, pos);
-          } else {
-            Uint8Array.prototype.set.call(
-              buffer,
-              buf,
-              pos
-            );
-          }
-        } else if (!Buffer3.isBuffer(buf)) {
-          throw new TypeError('"list" argument must be an Array of Buffers');
-        } else {
-          buf.copy(buffer, pos);
-        }
-        pos += buf.length;
-      }
-      return buffer;
-    };
-    function byteLength(string, encoding) {
-      if (Buffer3.isBuffer(string)) {
-        return string.length;
-      }
-      if (ArrayBuffer.isView(string) || isInstance(string, ArrayBuffer)) {
-        return string.byteLength;
-      }
-      if (typeof string !== "string") {
-        throw new TypeError(
-          'The "string" argument must be one of type string, Buffer, or ArrayBuffer. Received type ' + typeof string
-        );
-      }
-      const len = string.length;
-      const mustMatch = arguments.length > 2 && arguments[2] === true;
-      if (!mustMatch && len === 0)
-        return 0;
-      let loweredCase = false;
-      for (; ; ) {
-        switch (encoding) {
-          case "ascii":
-          case "latin1":
-          case "binary":
-            return len;
-          case "utf8":
-          case "utf-8":
-            return utf8ToBytes(string).length;
-          case "ucs2":
-          case "ucs-2":
-          case "utf16le":
-          case "utf-16le":
-            return len * 2;
-          case "hex":
-            return len >>> 1;
-          case "base64":
-            return base64ToBytes(string).length;
-          default:
-            if (loweredCase) {
-              return mustMatch ? -1 : utf8ToBytes(string).length;
-            }
-            encoding = ("" + encoding).toLowerCase();
-            loweredCase = true;
-        }
-      }
-    }
-    Buffer3.byteLength = byteLength;
-    function slowToString(encoding, start, end) {
-      let loweredCase = false;
-      if (start === void 0 || start < 0) {
-        start = 0;
-      }
-      if (start > this.length) {
-        return "";
-      }
-      if (end === void 0 || end > this.length) {
-        end = this.length;
-      }
-      if (end <= 0) {
-        return "";
-      }
-      end >>>= 0;
-      start >>>= 0;
-      if (end <= start) {
-        return "";
-      }
-      if (!encoding)
-        encoding = "utf8";
-      while (true) {
-        switch (encoding) {
-          case "hex":
-            return hexSlice(this, start, end);
-          case "utf8":
-          case "utf-8":
-            return utf8Slice(this, start, end);
-          case "ascii":
-            return asciiSlice(this, start, end);
-          case "latin1":
-          case "binary":
-            return latin1Slice(this, start, end);
-          case "base64":
-            return base64Slice(this, start, end);
-          case "ucs2":
-          case "ucs-2":
-          case "utf16le":
-          case "utf-16le":
-            return utf16leSlice(this, start, end);
-          default:
-            if (loweredCase)
-              throw new TypeError("Unknown encoding: " + encoding);
-            encoding = (encoding + "").toLowerCase();
-            loweredCase = true;
-        }
-      }
-    }
-    Buffer3.prototype._isBuffer = true;
-    function swap(b2, n, m) {
-      const i = b2[n];
-      b2[n] = b2[m];
-      b2[m] = i;
-    }
-    Buffer3.prototype.swap16 = function swap16() {
-      const len = this.length;
-      if (len % 2 !== 0) {
-        throw new RangeError("Buffer size must be a multiple of 16-bits");
-      }
-      for (let i = 0; i < len; i += 2) {
-        swap(this, i, i + 1);
-      }
-      return this;
-    };
-    Buffer3.prototype.swap32 = function swap32() {
-      const len = this.length;
-      if (len % 4 !== 0) {
-        throw new RangeError("Buffer size must be a multiple of 32-bits");
-      }
-      for (let i = 0; i < len; i += 4) {
-        swap(this, i, i + 3);
-        swap(this, i + 1, i + 2);
-      }
-      return this;
-    };
-    Buffer3.prototype.swap64 = function swap64() {
-      const len = this.length;
-      if (len % 8 !== 0) {
-        throw new RangeError("Buffer size must be a multiple of 64-bits");
-      }
-      for (let i = 0; i < len; i += 8) {
-        swap(this, i, i + 7);
-        swap(this, i + 1, i + 6);
-        swap(this, i + 2, i + 5);
-        swap(this, i + 3, i + 4);
-      }
-      return this;
-    };
-    Buffer3.prototype.toString = function toString() {
-      const length = this.length;
-      if (length === 0)
-        return "";
-      if (arguments.length === 0)
-        return utf8Slice(this, 0, length);
-      return slowToString.apply(this, arguments);
-    };
-    Buffer3.prototype.toLocaleString = Buffer3.prototype.toString;
-    Buffer3.prototype.equals = function equals(b2) {
-      if (!Buffer3.isBuffer(b2))
-        throw new TypeError("Argument must be a Buffer");
-      if (this === b2)
-        return true;
-      return Buffer3.compare(this, b2) === 0;
-    };
-    Buffer3.prototype.inspect = function inspect() {
-      let str = "";
-      const max = exports.INSPECT_MAX_BYTES;
-      str = this.toString("hex", 0, max).replace(/(.{2})/g, "$1 ").trim();
-      if (this.length > max)
-        str += " ... ";
-      return "<Buffer " + str + ">";
-    };
-    if (customInspectSymbol) {
-      Buffer3.prototype[customInspectSymbol] = Buffer3.prototype.inspect;
-    }
-    Buffer3.prototype.compare = function compare(target, start, end, thisStart, thisEnd) {
-      if (isInstance(target, Uint8Array)) {
-        target = Buffer3.from(target, target.offset, target.byteLength);
-      }
-      if (!Buffer3.isBuffer(target)) {
-        throw new TypeError(
-          'The "target" argument must be one of type Buffer or Uint8Array. Received type ' + typeof target
-        );
-      }
-      if (start === void 0) {
-        start = 0;
-      }
-      if (end === void 0) {
-        end = target ? target.length : 0;
-      }
-      if (thisStart === void 0) {
-        thisStart = 0;
-      }
-      if (thisEnd === void 0) {
-        thisEnd = this.length;
-      }
-      if (start < 0 || end > target.length || thisStart < 0 || thisEnd > this.length) {
-        throw new RangeError("out of range index");
-      }
-      if (thisStart >= thisEnd && start >= end) {
-        return 0;
-      }
-      if (thisStart >= thisEnd) {
-        return -1;
-      }
-      if (start >= end) {
-        return 1;
-      }
-      start >>>= 0;
-      end >>>= 0;
-      thisStart >>>= 0;
-      thisEnd >>>= 0;
-      if (this === target)
-        return 0;
-      let x = thisEnd - thisStart;
-      let y2 = end - start;
-      const len = Math.min(x, y2);
-      const thisCopy = this.slice(thisStart, thisEnd);
-      const targetCopy = target.slice(start, end);
-      for (let i = 0; i < len; ++i) {
-        if (thisCopy[i] !== targetCopy[i]) {
-          x = thisCopy[i];
-          y2 = targetCopy[i];
-          break;
-        }
-      }
-      if (x < y2)
-        return -1;
-      if (y2 < x)
-        return 1;
-      return 0;
-    };
-    function bidirectionalIndexOf(buffer, val, byteOffset, encoding, dir) {
-      if (buffer.length === 0)
-        return -1;
-      if (typeof byteOffset === "string") {
-        encoding = byteOffset;
-        byteOffset = 0;
-      } else if (byteOffset > 2147483647) {
-        byteOffset = 2147483647;
-      } else if (byteOffset < -2147483648) {
-        byteOffset = -2147483648;
-      }
-      byteOffset = +byteOffset;
-      if (numberIsNaN(byteOffset)) {
-        byteOffset = dir ? 0 : buffer.length - 1;
-      }
-      if (byteOffset < 0)
-        byteOffset = buffer.length + byteOffset;
-      if (byteOffset >= buffer.length) {
-        if (dir)
-          return -1;
-        else
-          byteOffset = buffer.length - 1;
-      } else if (byteOffset < 0) {
-        if (dir)
-          byteOffset = 0;
-        else
-          return -1;
-      }
-      if (typeof val === "string") {
-        val = Buffer3.from(val, encoding);
-      }
-      if (Buffer3.isBuffer(val)) {
-        if (val.length === 0) {
-          return -1;
-        }
-        return arrayIndexOf(buffer, val, byteOffset, encoding, dir);
-      } else if (typeof val === "number") {
-        val = val & 255;
-        if (typeof Uint8Array.prototype.indexOf === "function") {
-          if (dir) {
-            return Uint8Array.prototype.indexOf.call(buffer, val, byteOffset);
-          } else {
-            return Uint8Array.prototype.lastIndexOf.call(buffer, val, byteOffset);
-          }
-        }
-        return arrayIndexOf(buffer, [val], byteOffset, encoding, dir);
-      }
-      throw new TypeError("val must be string, number or Buffer");
-    }
-    function arrayIndexOf(arr, val, byteOffset, encoding, dir) {
-      let indexSize = 1;
-      let arrLength = arr.length;
-      let valLength = val.length;
-      if (encoding !== void 0) {
-        encoding = String(encoding).toLowerCase();
-        if (encoding === "ucs2" || encoding === "ucs-2" || encoding === "utf16le" || encoding === "utf-16le") {
-          if (arr.length < 2 || val.length < 2) {
-            return -1;
-          }
-          indexSize = 2;
-          arrLength /= 2;
-          valLength /= 2;
-          byteOffset /= 2;
-        }
-      }
-      function read(buf, i2) {
-        if (indexSize === 1) {
-          return buf[i2];
-        } else {
-          return buf.readUInt16BE(i2 * indexSize);
-        }
-      }
-      let i;
-      if (dir) {
-        let foundIndex = -1;
-        for (i = byteOffset; i < arrLength; i++) {
-          if (read(arr, i) === read(val, foundIndex === -1 ? 0 : i - foundIndex)) {
-            if (foundIndex === -1)
-              foundIndex = i;
-            if (i - foundIndex + 1 === valLength)
-              return foundIndex * indexSize;
-          } else {
-            if (foundIndex !== -1)
-              i -= i - foundIndex;
-            foundIndex = -1;
-          }
-        }
-      } else {
-        if (byteOffset + valLength > arrLength)
-          byteOffset = arrLength - valLength;
-        for (i = byteOffset; i >= 0; i--) {
-          let found = true;
-          for (let j = 0; j < valLength; j++) {
-            if (read(arr, i + j) !== read(val, j)) {
-              found = false;
-              break;
-            }
-          }
-          if (found)
-            return i;
-        }
-      }
-      return -1;
-    }
-    Buffer3.prototype.includes = function includes(val, byteOffset, encoding) {
-      return this.indexOf(val, byteOffset, encoding) !== -1;
-    };
-    Buffer3.prototype.indexOf = function indexOf(val, byteOffset, encoding) {
-      return bidirectionalIndexOf(this, val, byteOffset, encoding, true);
-    };
-    Buffer3.prototype.lastIndexOf = function lastIndexOf(val, byteOffset, encoding) {
-      return bidirectionalIndexOf(this, val, byteOffset, encoding, false);
-    };
-    function hexWrite(buf, string, offset, length) {
-      offset = Number(offset) || 0;
-      const remaining = buf.length - offset;
-      if (!length) {
-        length = remaining;
-      } else {
-        length = Number(length);
-        if (length > remaining) {
-          length = remaining;
-        }
-      }
-      const strLen = string.length;
-      if (length > strLen / 2) {
-        length = strLen / 2;
-      }
-      let i;
-      for (i = 0; i < length; ++i) {
-        const parsed = parseInt(string.substr(i * 2, 2), 16);
-        if (numberIsNaN(parsed))
-          return i;
-        buf[offset + i] = parsed;
-      }
-      return i;
-    }
-    function utf8Write(buf, string, offset, length) {
-      return blitBuffer(utf8ToBytes(string, buf.length - offset), buf, offset, length);
-    }
-    function asciiWrite(buf, string, offset, length) {
-      return blitBuffer(asciiToBytes(string), buf, offset, length);
-    }
-    function base64Write(buf, string, offset, length) {
-      return blitBuffer(base64ToBytes(string), buf, offset, length);
-    }
-    function ucs2Write(buf, string, offset, length) {
-      return blitBuffer(utf16leToBytes(string, buf.length - offset), buf, offset, length);
-    }
-    Buffer3.prototype.write = function write(string, offset, length, encoding) {
-      if (offset === void 0) {
-        encoding = "utf8";
-        length = this.length;
-        offset = 0;
-      } else if (length === void 0 && typeof offset === "string") {
-        encoding = offset;
-        length = this.length;
-        offset = 0;
-      } else if (isFinite(offset)) {
-        offset = offset >>> 0;
-        if (isFinite(length)) {
-          length = length >>> 0;
-          if (encoding === void 0)
-            encoding = "utf8";
-        } else {
-          encoding = length;
-          length = void 0;
-        }
-      } else {
-        throw new Error(
-          "Buffer.write(string, encoding, offset[, length]) is no longer supported"
-        );
-      }
-      const remaining = this.length - offset;
-      if (length === void 0 || length > remaining)
-        length = remaining;
-      if (string.length > 0 && (length < 0 || offset < 0) || offset > this.length) {
-        throw new RangeError("Attempt to write outside buffer bounds");
-      }
-      if (!encoding)
-        encoding = "utf8";
-      let loweredCase = false;
-      for (; ; ) {
-        switch (encoding) {
-          case "hex":
-            return hexWrite(this, string, offset, length);
-          case "utf8":
-          case "utf-8":
-            return utf8Write(this, string, offset, length);
-          case "ascii":
-          case "latin1":
-          case "binary":
-            return asciiWrite(this, string, offset, length);
-          case "base64":
-            return base64Write(this, string, offset, length);
-          case "ucs2":
-          case "ucs-2":
-          case "utf16le":
-          case "utf-16le":
-            return ucs2Write(this, string, offset, length);
-          default:
-            if (loweredCase)
-              throw new TypeError("Unknown encoding: " + encoding);
-            encoding = ("" + encoding).toLowerCase();
-            loweredCase = true;
-        }
-      }
-    };
-    Buffer3.prototype.toJSON = function toJSON2() {
-      return {
-        type: "Buffer",
-        data: Array.prototype.slice.call(this._arr || this, 0)
-      };
-    };
-    function base64Slice(buf, start, end) {
-      if (start === 0 && end === buf.length) {
-        return base64.fromByteArray(buf);
-      } else {
-        return base64.fromByteArray(buf.slice(start, end));
-      }
-    }
-    function utf8Slice(buf, start, end) {
-      end = Math.min(buf.length, end);
-      const res = [];
-      let i = start;
-      while (i < end) {
-        const firstByte = buf[i];
-        let codePoint = null;
-        let bytesPerSequence = firstByte > 239 ? 4 : firstByte > 223 ? 3 : firstByte > 191 ? 2 : 1;
-        if (i + bytesPerSequence <= end) {
-          let secondByte, thirdByte, fourthByte, tempCodePoint;
-          switch (bytesPerSequence) {
-            case 1:
-              if (firstByte < 128) {
-                codePoint = firstByte;
-              }
-              break;
-            case 2:
-              secondByte = buf[i + 1];
-              if ((secondByte & 192) === 128) {
-                tempCodePoint = (firstByte & 31) << 6 | secondByte & 63;
-                if (tempCodePoint > 127) {
-                  codePoint = tempCodePoint;
-                }
-              }
-              break;
-            case 3:
-              secondByte = buf[i + 1];
-              thirdByte = buf[i + 2];
-              if ((secondByte & 192) === 128 && (thirdByte & 192) === 128) {
-                tempCodePoint = (firstByte & 15) << 12 | (secondByte & 63) << 6 | thirdByte & 63;
-                if (tempCodePoint > 2047 && (tempCodePoint < 55296 || tempCodePoint > 57343)) {
-                  codePoint = tempCodePoint;
-                }
-              }
-              break;
-            case 4:
-              secondByte = buf[i + 1];
-              thirdByte = buf[i + 2];
-              fourthByte = buf[i + 3];
-              if ((secondByte & 192) === 128 && (thirdByte & 192) === 128 && (fourthByte & 192) === 128) {
-                tempCodePoint = (firstByte & 15) << 18 | (secondByte & 63) << 12 | (thirdByte & 63) << 6 | fourthByte & 63;
-                if (tempCodePoint > 65535 && tempCodePoint < 1114112) {
-                  codePoint = tempCodePoint;
-                }
-              }
-          }
-        }
-        if (codePoint === null) {
-          codePoint = 65533;
-          bytesPerSequence = 1;
-        } else if (codePoint > 65535) {
-          codePoint -= 65536;
-          res.push(codePoint >>> 10 & 1023 | 55296);
-          codePoint = 56320 | codePoint & 1023;
-        }
-        res.push(codePoint);
-        i += bytesPerSequence;
-      }
-      return decodeCodePointsArray(res);
-    }
-    var MAX_ARGUMENTS_LENGTH = 4096;
-    function decodeCodePointsArray(codePoints) {
-      const len = codePoints.length;
-      if (len <= MAX_ARGUMENTS_LENGTH) {
-        return String.fromCharCode.apply(String, codePoints);
-      }
-      let res = "";
-      let i = 0;
-      while (i < len) {
-        res += String.fromCharCode.apply(
-          String,
-          codePoints.slice(i, i += MAX_ARGUMENTS_LENGTH)
-        );
-      }
-      return res;
-    }
-    function asciiSlice(buf, start, end) {
-      let ret = "";
-      end = Math.min(buf.length, end);
-      for (let i = start; i < end; ++i) {
-        ret += String.fromCharCode(buf[i] & 127);
-      }
-      return ret;
-    }
-    function latin1Slice(buf, start, end) {
-      let ret = "";
-      end = Math.min(buf.length, end);
-      for (let i = start; i < end; ++i) {
-        ret += String.fromCharCode(buf[i]);
-      }
-      return ret;
-    }
-    function hexSlice(buf, start, end) {
-      const len = buf.length;
-      if (!start || start < 0)
-        start = 0;
-      if (!end || end < 0 || end > len)
-        end = len;
-      let out = "";
-      for (let i = start; i < end; ++i) {
-        out += hexSliceLookupTable[buf[i]];
-      }
-      return out;
-    }
-    function utf16leSlice(buf, start, end) {
-      const bytes = buf.slice(start, end);
-      let res = "";
-      for (let i = 0; i < bytes.length - 1; i += 2) {
-        res += String.fromCharCode(bytes[i] + bytes[i + 1] * 256);
-      }
-      return res;
-    }
-    Buffer3.prototype.slice = function slice(start, end) {
-      const len = this.length;
-      start = ~~start;
-      end = end === void 0 ? len : ~~end;
-      if (start < 0) {
-        start += len;
-        if (start < 0)
-          start = 0;
-      } else if (start > len) {
-        start = len;
-      }
-      if (end < 0) {
-        end += len;
-        if (end < 0)
-          end = 0;
-      } else if (end > len) {
-        end = len;
-      }
-      if (end < start)
-        end = start;
-      const newBuf = this.subarray(start, end);
-      Object.setPrototypeOf(newBuf, Buffer3.prototype);
-      return newBuf;
-    };
-    function checkOffset(offset, ext, length) {
-      if (offset % 1 !== 0 || offset < 0)
-        throw new RangeError("offset is not uint");
-      if (offset + ext > length)
-        throw new RangeError("Trying to access beyond buffer length");
-    }
-    Buffer3.prototype.readUintLE = Buffer3.prototype.readUIntLE = function readUIntLE(offset, byteLength2, noAssert) {
-      offset = offset >>> 0;
-      byteLength2 = byteLength2 >>> 0;
-      if (!noAssert)
-        checkOffset(offset, byteLength2, this.length);
-      let val = this[offset];
-      let mul = 1;
-      let i = 0;
-      while (++i < byteLength2 && (mul *= 256)) {
-        val += this[offset + i] * mul;
-      }
-      return val;
-    };
-    Buffer3.prototype.readUintBE = Buffer3.prototype.readUIntBE = function readUIntBE(offset, byteLength2, noAssert) {
-      offset = offset >>> 0;
-      byteLength2 = byteLength2 >>> 0;
-      if (!noAssert) {
-        checkOffset(offset, byteLength2, this.length);
-      }
-      let val = this[offset + --byteLength2];
-      let mul = 1;
-      while (byteLength2 > 0 && (mul *= 256)) {
-        val += this[offset + --byteLength2] * mul;
-      }
-      return val;
-    };
-    Buffer3.prototype.readUint8 = Buffer3.prototype.readUInt8 = function readUInt8(offset, noAssert) {
-      offset = offset >>> 0;
-      if (!noAssert)
-        checkOffset(offset, 1, this.length);
-      return this[offset];
-    };
-    Buffer3.prototype.readUint16LE = Buffer3.prototype.readUInt16LE = function readUInt16LE(offset, noAssert) {
-      offset = offset >>> 0;
-      if (!noAssert)
-        checkOffset(offset, 2, this.length);
-      return this[offset] | this[offset + 1] << 8;
-    };
-    Buffer3.prototype.readUint16BE = Buffer3.prototype.readUInt16BE = function readUInt16BE(offset, noAssert) {
-      offset = offset >>> 0;
-      if (!noAssert)
-        checkOffset(offset, 2, this.length);
-      return this[offset] << 8 | this[offset + 1];
-    };
-    Buffer3.prototype.readUint32LE = Buffer3.prototype.readUInt32LE = function readUInt32LE(offset, noAssert) {
-      offset = offset >>> 0;
-      if (!noAssert)
-        checkOffset(offset, 4, this.length);
-      return (this[offset] | this[offset + 1] << 8 | this[offset + 2] << 16) + this[offset + 3] * 16777216;
-    };
-    Buffer3.prototype.readUint32BE = Buffer3.prototype.readUInt32BE = function readUInt32BE(offset, noAssert) {
-      offset = offset >>> 0;
-      if (!noAssert)
-        checkOffset(offset, 4, this.length);
-      return this[offset] * 16777216 + (this[offset + 1] << 16 | this[offset + 2] << 8 | this[offset + 3]);
-    };
-    Buffer3.prototype.readBigUInt64LE = defineBigIntMethod(function readBigUInt64LE(offset) {
-      offset = offset >>> 0;
-      validateNumber(offset, "offset");
-      const first = this[offset];
-      const last = this[offset + 7];
-      if (first === void 0 || last === void 0) {
-        boundsError(offset, this.length - 8);
-      }
-      const lo = first + this[++offset] * 2 ** 8 + this[++offset] * 2 ** 16 + this[++offset] * 2 ** 24;
-      const hi = this[++offset] + this[++offset] * 2 ** 8 + this[++offset] * 2 ** 16 + last * 2 ** 24;
-      return BigInt(lo) + (BigInt(hi) << BigInt(32));
-    });
-    Buffer3.prototype.readBigUInt64BE = defineBigIntMethod(function readBigUInt64BE(offset) {
-      offset = offset >>> 0;
-      validateNumber(offset, "offset");
-      const first = this[offset];
-      const last = this[offset + 7];
-      if (first === void 0 || last === void 0) {
-        boundsError(offset, this.length - 8);
-      }
-      const hi = first * 2 ** 24 + this[++offset] * 2 ** 16 + this[++offset] * 2 ** 8 + this[++offset];
-      const lo = this[++offset] * 2 ** 24 + this[++offset] * 2 ** 16 + this[++offset] * 2 ** 8 + last;
-      return (BigInt(hi) << BigInt(32)) + BigInt(lo);
-    });
-    Buffer3.prototype.readIntLE = function readIntLE(offset, byteLength2, noAssert) {
-      offset = offset >>> 0;
-      byteLength2 = byteLength2 >>> 0;
-      if (!noAssert)
-        checkOffset(offset, byteLength2, this.length);
-      let val = this[offset];
-      let mul = 1;
-      let i = 0;
-      while (++i < byteLength2 && (mul *= 256)) {
-        val += this[offset + i] * mul;
-      }
-      mul *= 128;
-      if (val >= mul)
-        val -= Math.pow(2, 8 * byteLength2);
-      return val;
-    };
-    Buffer3.prototype.readIntBE = function readIntBE(offset, byteLength2, noAssert) {
-      offset = offset >>> 0;
-      byteLength2 = byteLength2 >>> 0;
-      if (!noAssert)
-        checkOffset(offset, byteLength2, this.length);
-      let i = byteLength2;
-      let mul = 1;
-      let val = this[offset + --i];
-      while (i > 0 && (mul *= 256)) {
-        val += this[offset + --i] * mul;
-      }
-      mul *= 128;
-      if (val >= mul)
-        val -= Math.pow(2, 8 * byteLength2);
-      return val;
-    };
-    Buffer3.prototype.readInt8 = function readInt8(offset, noAssert) {
-      offset = offset >>> 0;
-      if (!noAssert)
-        checkOffset(offset, 1, this.length);
-      if (!(this[offset] & 128))
-        return this[offset];
-      return (255 - this[offset] + 1) * -1;
-    };
-    Buffer3.prototype.readInt16LE = function readInt16LE(offset, noAssert) {
-      offset = offset >>> 0;
-      if (!noAssert)
-        checkOffset(offset, 2, this.length);
-      const val = this[offset] | this[offset + 1] << 8;
-      return val & 32768 ? val | 4294901760 : val;
-    };
-    Buffer3.prototype.readInt16BE = function readInt16BE(offset, noAssert) {
-      offset = offset >>> 0;
-      if (!noAssert)
-        checkOffset(offset, 2, this.length);
-      const val = this[offset + 1] | this[offset] << 8;
-      return val & 32768 ? val | 4294901760 : val;
-    };
-    Buffer3.prototype.readInt32LE = function readInt32LE(offset, noAssert) {
-      offset = offset >>> 0;
-      if (!noAssert)
-        checkOffset(offset, 4, this.length);
-      return this[offset] | this[offset + 1] << 8 | this[offset + 2] << 16 | this[offset + 3] << 24;
-    };
-    Buffer3.prototype.readInt32BE = function readInt32BE(offset, noAssert) {
-      offset = offset >>> 0;
-      if (!noAssert)
-        checkOffset(offset, 4, this.length);
-      return this[offset] << 24 | this[offset + 1] << 16 | this[offset + 2] << 8 | this[offset + 3];
-    };
-    Buffer3.prototype.readBigInt64LE = defineBigIntMethod(function readBigInt64LE(offset) {
-      offset = offset >>> 0;
-      validateNumber(offset, "offset");
-      const first = this[offset];
-      const last = this[offset + 7];
-      if (first === void 0 || last === void 0) {
-        boundsError(offset, this.length - 8);
-      }
-      const val = this[offset + 4] + this[offset + 5] * 2 ** 8 + this[offset + 6] * 2 ** 16 + (last << 24);
-      return (BigInt(val) << BigInt(32)) + BigInt(first + this[++offset] * 2 ** 8 + this[++offset] * 2 ** 16 + this[++offset] * 2 ** 24);
-    });
-    Buffer3.prototype.readBigInt64BE = defineBigIntMethod(function readBigInt64BE(offset) {
-      offset = offset >>> 0;
-      validateNumber(offset, "offset");
-      const first = this[offset];
-      const last = this[offset + 7];
-      if (first === void 0 || last === void 0) {
-        boundsError(offset, this.length - 8);
-      }
-      const val = (first << 24) + // Overflow
-      this[++offset] * 2 ** 16 + this[++offset] * 2 ** 8 + this[++offset];
-      return (BigInt(val) << BigInt(32)) + BigInt(this[++offset] * 2 ** 24 + this[++offset] * 2 ** 16 + this[++offset] * 2 ** 8 + last);
-    });
-    Buffer3.prototype.readFloatLE = function readFloatLE(offset, noAssert) {
-      offset = offset >>> 0;
-      if (!noAssert)
-        checkOffset(offset, 4, this.length);
-      return ieee754.read(this, offset, true, 23, 4);
-    };
-    Buffer3.prototype.readFloatBE = function readFloatBE(offset, noAssert) {
-      offset = offset >>> 0;
-      if (!noAssert)
-        checkOffset(offset, 4, this.length);
-      return ieee754.read(this, offset, false, 23, 4);
-    };
-    Buffer3.prototype.readDoubleLE = function readDoubleLE(offset, noAssert) {
-      offset = offset >>> 0;
-      if (!noAssert)
-        checkOffset(offset, 8, this.length);
-      return ieee754.read(this, offset, true, 52, 8);
-    };
-    Buffer3.prototype.readDoubleBE = function readDoubleBE(offset, noAssert) {
-      offset = offset >>> 0;
-      if (!noAssert)
-        checkOffset(offset, 8, this.length);
-      return ieee754.read(this, offset, false, 52, 8);
-    };
-    function checkInt(buf, value, offset, ext, max, min) {
-      if (!Buffer3.isBuffer(buf))
-        throw new TypeError('"buffer" argument must be a Buffer instance');
-      if (value > max || value < min)
-        throw new RangeError('"value" argument is out of bounds');
-      if (offset + ext > buf.length)
-        throw new RangeError("Index out of range");
-    }
-    Buffer3.prototype.writeUintLE = Buffer3.prototype.writeUIntLE = function writeUIntLE(value, offset, byteLength2, noAssert) {
-      value = +value;
-      offset = offset >>> 0;
-      byteLength2 = byteLength2 >>> 0;
-      if (!noAssert) {
-        const maxBytes = Math.pow(2, 8 * byteLength2) - 1;
-        checkInt(this, value, offset, byteLength2, maxBytes, 0);
-      }
-      let mul = 1;
-      let i = 0;
-      this[offset] = value & 255;
-      while (++i < byteLength2 && (mul *= 256)) {
-        this[offset + i] = value / mul & 255;
-      }
-      return offset + byteLength2;
-    };
-    Buffer3.prototype.writeUintBE = Buffer3.prototype.writeUIntBE = function writeUIntBE(value, offset, byteLength2, noAssert) {
-      value = +value;
-      offset = offset >>> 0;
-      byteLength2 = byteLength2 >>> 0;
-      if (!noAssert) {
-        const maxBytes = Math.pow(2, 8 * byteLength2) - 1;
-        checkInt(this, value, offset, byteLength2, maxBytes, 0);
-      }
-      let i = byteLength2 - 1;
-      let mul = 1;
-      this[offset + i] = value & 255;
-      while (--i >= 0 && (mul *= 256)) {
-        this[offset + i] = value / mul & 255;
-      }
-      return offset + byteLength2;
-    };
-    Buffer3.prototype.writeUint8 = Buffer3.prototype.writeUInt8 = function writeUInt8(value, offset, noAssert) {
-      value = +value;
-      offset = offset >>> 0;
-      if (!noAssert)
-        checkInt(this, value, offset, 1, 255, 0);
-      this[offset] = value & 255;
-      return offset + 1;
-    };
-    Buffer3.prototype.writeUint16LE = Buffer3.prototype.writeUInt16LE = function writeUInt16LE(value, offset, noAssert) {
-      value = +value;
-      offset = offset >>> 0;
-      if (!noAssert)
-        checkInt(this, value, offset, 2, 65535, 0);
-      this[offset] = value & 255;
-      this[offset + 1] = value >>> 8;
-      return offset + 2;
-    };
-    Buffer3.prototype.writeUint16BE = Buffer3.prototype.writeUInt16BE = function writeUInt16BE(value, offset, noAssert) {
-      value = +value;
-      offset = offset >>> 0;
-      if (!noAssert)
-        checkInt(this, value, offset, 2, 65535, 0);
-      this[offset] = value >>> 8;
-      this[offset + 1] = value & 255;
-      return offset + 2;
-    };
-    Buffer3.prototype.writeUint32LE = Buffer3.prototype.writeUInt32LE = function writeUInt32LE(value, offset, noAssert) {
-      value = +value;
-      offset = offset >>> 0;
-      if (!noAssert)
-        checkInt(this, value, offset, 4, 4294967295, 0);
-      this[offset + 3] = value >>> 24;
-      this[offset + 2] = value >>> 16;
-      this[offset + 1] = value >>> 8;
-      this[offset] = value & 255;
-      return offset + 4;
-    };
-    Buffer3.prototype.writeUint32BE = Buffer3.prototype.writeUInt32BE = function writeUInt32BE(value, offset, noAssert) {
-      value = +value;
-      offset = offset >>> 0;
-      if (!noAssert)
-        checkInt(this, value, offset, 4, 4294967295, 0);
-      this[offset] = value >>> 24;
-      this[offset + 1] = value >>> 16;
-      this[offset + 2] = value >>> 8;
-      this[offset + 3] = value & 255;
-      return offset + 4;
-    };
-    function wrtBigUInt64LE(buf, value, offset, min, max) {
-      checkIntBI(value, min, max, buf, offset, 7);
-      let lo = Number(value & BigInt(4294967295));
-      buf[offset++] = lo;
-      lo = lo >> 8;
-      buf[offset++] = lo;
-      lo = lo >> 8;
-      buf[offset++] = lo;
-      lo = lo >> 8;
-      buf[offset++] = lo;
-      let hi = Number(value >> BigInt(32) & BigInt(4294967295));
-      buf[offset++] = hi;
-      hi = hi >> 8;
-      buf[offset++] = hi;
-      hi = hi >> 8;
-      buf[offset++] = hi;
-      hi = hi >> 8;
-      buf[offset++] = hi;
-      return offset;
-    }
-    function wrtBigUInt64BE(buf, value, offset, min, max) {
-      checkIntBI(value, min, max, buf, offset, 7);
-      let lo = Number(value & BigInt(4294967295));
-      buf[offset + 7] = lo;
-      lo = lo >> 8;
-      buf[offset + 6] = lo;
-      lo = lo >> 8;
-      buf[offset + 5] = lo;
-      lo = lo >> 8;
-      buf[offset + 4] = lo;
-      let hi = Number(value >> BigInt(32) & BigInt(4294967295));
-      buf[offset + 3] = hi;
-      hi = hi >> 8;
-      buf[offset + 2] = hi;
-      hi = hi >> 8;
-      buf[offset + 1] = hi;
-      hi = hi >> 8;
-      buf[offset] = hi;
-      return offset + 8;
-    }
-    Buffer3.prototype.writeBigUInt64LE = defineBigIntMethod(function writeBigUInt64LE(value, offset = 0) {
-      return wrtBigUInt64LE(this, value, offset, BigInt(0), BigInt("0xffffffffffffffff"));
-    });
-    Buffer3.prototype.writeBigUInt64BE = defineBigIntMethod(function writeBigUInt64BE(value, offset = 0) {
-      return wrtBigUInt64BE(this, value, offset, BigInt(0), BigInt("0xffffffffffffffff"));
-    });
-    Buffer3.prototype.writeIntLE = function writeIntLE(value, offset, byteLength2, noAssert) {
-      value = +value;
-      offset = offset >>> 0;
-      if (!noAssert) {
-        const limit = Math.pow(2, 8 * byteLength2 - 1);
-        checkInt(this, value, offset, byteLength2, limit - 1, -limit);
-      }
-      let i = 0;
-      let mul = 1;
-      let sub = 0;
-      this[offset] = value & 255;
-      while (++i < byteLength2 && (mul *= 256)) {
-        if (value < 0 && sub === 0 && this[offset + i - 1] !== 0) {
-          sub = 1;
-        }
-        this[offset + i] = (value / mul >> 0) - sub & 255;
-      }
-      return offset + byteLength2;
-    };
-    Buffer3.prototype.writeIntBE = function writeIntBE(value, offset, byteLength2, noAssert) {
-      value = +value;
-      offset = offset >>> 0;
-      if (!noAssert) {
-        const limit = Math.pow(2, 8 * byteLength2 - 1);
-        checkInt(this, value, offset, byteLength2, limit - 1, -limit);
-      }
-      let i = byteLength2 - 1;
-      let mul = 1;
-      let sub = 0;
-      this[offset + i] = value & 255;
-      while (--i >= 0 && (mul *= 256)) {
-        if (value < 0 && sub === 0 && this[offset + i + 1] !== 0) {
-          sub = 1;
-        }
-        this[offset + i] = (value / mul >> 0) - sub & 255;
-      }
-      return offset + byteLength2;
-    };
-    Buffer3.prototype.writeInt8 = function writeInt8(value, offset, noAssert) {
-      value = +value;
-      offset = offset >>> 0;
-      if (!noAssert)
-        checkInt(this, value, offset, 1, 127, -128);
-      if (value < 0)
-        value = 255 + value + 1;
-      this[offset] = value & 255;
-      return offset + 1;
-    };
-    Buffer3.prototype.writeInt16LE = function writeInt16LE(value, offset, noAssert) {
-      value = +value;
-      offset = offset >>> 0;
-      if (!noAssert)
-        checkInt(this, value, offset, 2, 32767, -32768);
-      this[offset] = value & 255;
-      this[offset + 1] = value >>> 8;
-      return offset + 2;
-    };
-    Buffer3.prototype.writeInt16BE = function writeInt16BE(value, offset, noAssert) {
-      value = +value;
-      offset = offset >>> 0;
-      if (!noAssert)
-        checkInt(this, value, offset, 2, 32767, -32768);
-      this[offset] = value >>> 8;
-      this[offset + 1] = value & 255;
-      return offset + 2;
-    };
-    Buffer3.prototype.writeInt32LE = function writeInt32LE(value, offset, noAssert) {
-      value = +value;
-      offset = offset >>> 0;
-      if (!noAssert)
-        checkInt(this, value, offset, 4, 2147483647, -2147483648);
-      this[offset] = value & 255;
-      this[offset + 1] = value >>> 8;
-      this[offset + 2] = value >>> 16;
-      this[offset + 3] = value >>> 24;
-      return offset + 4;
-    };
-    Buffer3.prototype.writeInt32BE = function writeInt32BE(value, offset, noAssert) {
-      value = +value;
-      offset = offset >>> 0;
-      if (!noAssert)
-        checkInt(this, value, offset, 4, 2147483647, -2147483648);
-      if (value < 0)
-        value = 4294967295 + value + 1;
-      this[offset] = value >>> 24;
-      this[offset + 1] = value >>> 16;
-      this[offset + 2] = value >>> 8;
-      this[offset + 3] = value & 255;
-      return offset + 4;
-    };
-    Buffer3.prototype.writeBigInt64LE = defineBigIntMethod(function writeBigInt64LE(value, offset = 0) {
-      return wrtBigUInt64LE(this, value, offset, -BigInt("0x8000000000000000"), BigInt("0x7fffffffffffffff"));
-    });
-    Buffer3.prototype.writeBigInt64BE = defineBigIntMethod(function writeBigInt64BE(value, offset = 0) {
-      return wrtBigUInt64BE(this, value, offset, -BigInt("0x8000000000000000"), BigInt("0x7fffffffffffffff"));
-    });
-    function checkIEEE754(buf, value, offset, ext, max, min) {
-      if (offset + ext > buf.length)
-        throw new RangeError("Index out of range");
-      if (offset < 0)
-        throw new RangeError("Index out of range");
-    }
-    function writeFloat(buf, value, offset, littleEndian, noAssert) {
-      value = +value;
-      offset = offset >>> 0;
-      if (!noAssert) {
-        checkIEEE754(buf, value, offset, 4, 34028234663852886e22, -34028234663852886e22);
-      }
-      ieee754.write(buf, value, offset, littleEndian, 23, 4);
-      return offset + 4;
-    }
-    Buffer3.prototype.writeFloatLE = function writeFloatLE(value, offset, noAssert) {
-      return writeFloat(this, value, offset, true, noAssert);
-    };
-    Buffer3.prototype.writeFloatBE = function writeFloatBE(value, offset, noAssert) {
-      return writeFloat(this, value, offset, false, noAssert);
-    };
-    function writeDouble(buf, value, offset, littleEndian, noAssert) {
-      value = +value;
-      offset = offset >>> 0;
-      if (!noAssert) {
-        checkIEEE754(buf, value, offset, 8, 17976931348623157e292, -17976931348623157e292);
-      }
-      ieee754.write(buf, value, offset, littleEndian, 52, 8);
-      return offset + 8;
-    }
-    Buffer3.prototype.writeDoubleLE = function writeDoubleLE(value, offset, noAssert) {
-      return writeDouble(this, value, offset, true, noAssert);
-    };
-    Buffer3.prototype.writeDoubleBE = function writeDoubleBE(value, offset, noAssert) {
-      return writeDouble(this, value, offset, false, noAssert);
-    };
-    Buffer3.prototype.copy = function copy(target, targetStart, start, end) {
-      if (!Buffer3.isBuffer(target))
-        throw new TypeError("argument should be a Buffer");
-      if (!start)
-        start = 0;
-      if (!end && end !== 0)
-        end = this.length;
-      if (targetStart >= target.length)
-        targetStart = target.length;
-      if (!targetStart)
-        targetStart = 0;
-      if (end > 0 && end < start)
-        end = start;
-      if (end === start)
-        return 0;
-      if (target.length === 0 || this.length === 0)
-        return 0;
-      if (targetStart < 0) {
-        throw new RangeError("targetStart out of bounds");
-      }
-      if (start < 0 || start >= this.length)
-        throw new RangeError("Index out of range");
-      if (end < 0)
-        throw new RangeError("sourceEnd out of bounds");
-      if (end > this.length)
-        end = this.length;
-      if (target.length - targetStart < end - start) {
-        end = target.length - targetStart + start;
-      }
-      const len = end - start;
-      if (this === target && typeof Uint8Array.prototype.copyWithin === "function") {
-        this.copyWithin(targetStart, start, end);
-      } else {
-        Uint8Array.prototype.set.call(
-          target,
-          this.subarray(start, end),
-          targetStart
-        );
-      }
-      return len;
-    };
-    Buffer3.prototype.fill = function fill(val, start, end, encoding) {
-      if (typeof val === "string") {
-        if (typeof start === "string") {
-          encoding = start;
-          start = 0;
-          end = this.length;
-        } else if (typeof end === "string") {
-          encoding = end;
-          end = this.length;
-        }
-        if (encoding !== void 0 && typeof encoding !== "string") {
-          throw new TypeError("encoding must be a string");
-        }
-        if (typeof encoding === "string" && !Buffer3.isEncoding(encoding)) {
-          throw new TypeError("Unknown encoding: " + encoding);
-        }
-        if (val.length === 1) {
-          const code = val.charCodeAt(0);
-          if (encoding === "utf8" && code < 128 || encoding === "latin1") {
-            val = code;
-          }
-        }
-      } else if (typeof val === "number") {
-        val = val & 255;
-      } else if (typeof val === "boolean") {
-        val = Number(val);
-      }
-      if (start < 0 || this.length < start || this.length < end) {
-        throw new RangeError("Out of range index");
-      }
-      if (end <= start) {
-        return this;
-      }
-      start = start >>> 0;
-      end = end === void 0 ? this.length : end >>> 0;
-      if (!val)
-        val = 0;
-      let i;
-      if (typeof val === "number") {
-        for (i = start; i < end; ++i) {
-          this[i] = val;
-        }
-      } else {
-        const bytes = Buffer3.isBuffer(val) ? val : Buffer3.from(val, encoding);
-        const len = bytes.length;
-        if (len === 0) {
-          throw new TypeError('The value "' + val + '" is invalid for argument "value"');
-        }
-        for (i = 0; i < end - start; ++i) {
-          this[i + start] = bytes[i % len];
-        }
-      }
-      return this;
-    };
-    var errors = {};
-    function E(sym, getMessage, Base) {
-      errors[sym] = class NodeError extends Base {
-        constructor() {
-          super();
-          Object.defineProperty(this, "message", {
-            value: getMessage.apply(this, arguments),
-            writable: true,
-            configurable: true
-          });
-          this.name = `${this.name} [${sym}]`;
-          this.stack;
-          delete this.name;
-        }
-        get code() {
-          return sym;
-        }
-        set code(value) {
-          Object.defineProperty(this, "code", {
-            configurable: true,
-            enumerable: true,
-            value,
-            writable: true
-          });
-        }
-        toString() {
-          return `${this.name} [${sym}]: ${this.message}`;
-        }
-      };
-    }
-    E(
-      "ERR_BUFFER_OUT_OF_BOUNDS",
-      function(name) {
-        if (name) {
-          return `${name} is outside of buffer bounds`;
-        }
-        return "Attempt to access memory outside buffer bounds";
-      },
-      RangeError
-    );
-    E(
-      "ERR_INVALID_ARG_TYPE",
-      function(name, actual) {
-        return `The "${name}" argument must be of type number. Received type ${typeof actual}`;
-      },
-      TypeError
-    );
-    E(
-      "ERR_OUT_OF_RANGE",
-      function(str, range, input) {
-        let msg = `The value of "${str}" is out of range.`;
-        let received = input;
-        if (Number.isInteger(input) && Math.abs(input) > 2 ** 32) {
-          received = addNumericalSeparator(String(input));
-        } else if (typeof input === "bigint") {
-          received = String(input);
-          if (input > BigInt(2) ** BigInt(32) || input < -(BigInt(2) ** BigInt(32))) {
-            received = addNumericalSeparator(received);
-          }
-          received += "n";
-        }
-        msg += ` It must be ${range}. Received ${received}`;
-        return msg;
-      },
-      RangeError
-    );
-    function addNumericalSeparator(val) {
-      let res = "";
-      let i = val.length;
-      const start = val[0] === "-" ? 1 : 0;
-      for (; i >= start + 4; i -= 3) {
-        res = `_${val.slice(i - 3, i)}${res}`;
-      }
-      return `${val.slice(0, i)}${res}`;
-    }
-    function checkBounds(buf, offset, byteLength2) {
-      validateNumber(offset, "offset");
-      if (buf[offset] === void 0 || buf[offset + byteLength2] === void 0) {
-        boundsError(offset, buf.length - (byteLength2 + 1));
-      }
-    }
-    function checkIntBI(value, min, max, buf, offset, byteLength2) {
-      if (value > max || value < min) {
-        const n = typeof min === "bigint" ? "n" : "";
-        let range;
-        if (byteLength2 > 3) {
-          if (min === 0 || min === BigInt(0)) {
-            range = `>= 0${n} and < 2${n} ** ${(byteLength2 + 1) * 8}${n}`;
-          } else {
-            range = `>= -(2${n} ** ${(byteLength2 + 1) * 8 - 1}${n}) and < 2 ** ${(byteLength2 + 1) * 8 - 1}${n}`;
-          }
-        } else {
-          range = `>= ${min}${n} and <= ${max}${n}`;
-        }
-        throw new errors.ERR_OUT_OF_RANGE("value", range, value);
-      }
-      checkBounds(buf, offset, byteLength2);
-    }
-    function validateNumber(value, name) {
-      if (typeof value !== "number") {
-        throw new errors.ERR_INVALID_ARG_TYPE(name, "number", value);
-      }
-    }
-    function boundsError(value, length, type) {
-      if (Math.floor(value) !== value) {
-        validateNumber(value, type);
-        throw new errors.ERR_OUT_OF_RANGE(type || "offset", "an integer", value);
-      }
-      if (length < 0) {
-        throw new errors.ERR_BUFFER_OUT_OF_BOUNDS();
-      }
-      throw new errors.ERR_OUT_OF_RANGE(
-        type || "offset",
-        `>= ${type ? 1 : 0} and <= ${length}`,
-        value
-      );
-    }
-    var INVALID_BASE64_RE = /[^+/0-9A-Za-z-_]/g;
-    function base64clean(str) {
-      str = str.split("=")[0];
-      str = str.trim().replace(INVALID_BASE64_RE, "");
-      if (str.length < 2)
-        return "";
-      while (str.length % 4 !== 0) {
-        str = str + "=";
-      }
-      return str;
-    }
-    function utf8ToBytes(string, units) {
-      units = units || Infinity;
-      let codePoint;
-      const length = string.length;
-      let leadSurrogate = null;
-      const bytes = [];
-      for (let i = 0; i < length; ++i) {
-        codePoint = string.charCodeAt(i);
-        if (codePoint > 55295 && codePoint < 57344) {
-          if (!leadSurrogate) {
-            if (codePoint > 56319) {
-              if ((units -= 3) > -1)
-                bytes.push(239, 191, 189);
-              continue;
-            } else if (i + 1 === length) {
-              if ((units -= 3) > -1)
-                bytes.push(239, 191, 189);
-              continue;
-            }
-            leadSurrogate = codePoint;
-            continue;
-          }
-          if (codePoint < 56320) {
-            if ((units -= 3) > -1)
-              bytes.push(239, 191, 189);
-            leadSurrogate = codePoint;
-            continue;
-          }
-          codePoint = (leadSurrogate - 55296 << 10 | codePoint - 56320) + 65536;
-        } else if (leadSurrogate) {
-          if ((units -= 3) > -1)
-            bytes.push(239, 191, 189);
-        }
-        leadSurrogate = null;
-        if (codePoint < 128) {
-          if ((units -= 1) < 0)
-            break;
-          bytes.push(codePoint);
-        } else if (codePoint < 2048) {
-          if ((units -= 2) < 0)
-            break;
-          bytes.push(
-            codePoint >> 6 | 192,
-            codePoint & 63 | 128
-          );
-        } else if (codePoint < 65536) {
-          if ((units -= 3) < 0)
-            break;
-          bytes.push(
-            codePoint >> 12 | 224,
-            codePoint >> 6 & 63 | 128,
-            codePoint & 63 | 128
-          );
-        } else if (codePoint < 1114112) {
-          if ((units -= 4) < 0)
-            break;
-          bytes.push(
-            codePoint >> 18 | 240,
-            codePoint >> 12 & 63 | 128,
-            codePoint >> 6 & 63 | 128,
-            codePoint & 63 | 128
-          );
-        } else {
-          throw new Error("Invalid code point");
-        }
-      }
-      return bytes;
-    }
-    function asciiToBytes(str) {
-      const byteArray = [];
-      for (let i = 0; i < str.length; ++i) {
-        byteArray.push(str.charCodeAt(i) & 255);
-      }
-      return byteArray;
-    }
-    function utf16leToBytes(str, units) {
-      let c, hi, lo;
-      const byteArray = [];
-      for (let i = 0; i < str.length; ++i) {
-        if ((units -= 2) < 0)
-          break;
-        c = str.charCodeAt(i);
-        hi = c >> 8;
-        lo = c % 256;
-        byteArray.push(lo);
-        byteArray.push(hi);
-      }
-      return byteArray;
-    }
-    function base64ToBytes(str) {
-      return base64.toByteArray(base64clean(str));
-    }
-    function blitBuffer(src, dst, offset, length) {
-      let i;
-      for (i = 0; i < length; ++i) {
-        if (i + offset >= dst.length || i >= src.length)
-          break;
-        dst[i + offset] = src[i];
-      }
-      return i;
-    }
-    function isInstance(obj, type) {
-      return obj instanceof type || obj != null && obj.constructor != null && obj.constructor.name != null && obj.constructor.name === type.name;
-    }
-    function numberIsNaN(obj) {
-      return obj !== obj;
-    }
-    var hexSliceLookupTable = function() {
-      const alphabet = "0123456789abcdef";
-      const table = new Array(256);
-      for (let i = 0; i < 16; ++i) {
-        const i16 = i * 16;
-        for (let j = 0; j < 16; ++j) {
-          table[i16 + j] = alphabet[i] + alphabet[j];
-        }
-      }
-      return table;
-    }();
-    function defineBigIntMethod(fn) {
-      return typeof BigInt === "undefined" ? BufferBigIntNotDefined : fn;
-    }
-    function BufferBigIntNotDefined() {
-      throw new Error("BigInt not supported");
-    }
-  }
-});
-
-// routes-module:root.tsx?worker
-var require_root = __commonJS({
-  "routes-module:root.tsx?worker"(exports, module) {
-    module.exports = {};
-  }
-});
-
-// routes-module:routes/manifest[.]webmanifest.ts?worker
-var require_manifest_webmanifest = __commonJS({
-  "routes-module:routes/manifest[.]webmanifest.ts?worker"(exports, module) {
-    module.exports = {};
-  }
-});
-
-// routes-module:routes/articles_.tags_.$tag/route.tsx?worker
-var require_route = __commonJS({
-  "routes-module:routes/articles_.tags_.$tag/route.tsx?worker"(exports, module) {
-    module.exports = {};
-  }
-});
-
-// routes-module:routes/articles_.tags/route.tsx?worker
-var require_route2 = __commonJS({
-  "routes-module:routes/articles_.tags/route.tsx?worker"(exports, module) {
-    module.exports = {};
-  }
-});
-
-// routes-module:routes/articles_.$id/route.tsx?worker
-var require_route3 = __commonJS({
-  "routes-module:routes/articles_.$id/route.tsx?worker"(exports, module) {
-    module.exports = {};
-  }
-});
-
-// routes-module:routes/feed[.xml].ts?worker
-var require_feed_xml = __commonJS({
-  "routes-module:routes/feed[.xml].ts?worker"(exports, module) {
-    module.exports = {};
-  }
-});
-
-// routes-module:routes/articles/route.tsx?worker
-var require_route4 = __commonJS({
-  "routes-module:routes/articles/route.tsx?worker"(exports, module) {
-    module.exports = {};
-  }
-});
-
-// routes-module:routes/_index/route.tsx?worker
-var require_route5 = __commonJS({
-  "routes-module:routes/_index/route.tsx?worker"(exports, module) {
-    module.exports = {};
-  }
-});
-
-// routes-module:routes/about.tsx?worker
-var require_about = __commonJS({
-  "routes-module:routes/about.tsx?worker"(exports, module) {
-    module.exports = {};
-  }
-});
-
-// routes-module:routes/$.tsx?worker
-var require__ = __commonJS({
-  "routes-module:routes/$.tsx?worker"(exports, module) {
-    module.exports = {};
-  }
-});
-
 // node_modules/.pnpm/@remix-run+router@1.14.2/node_modules/@remix-run/router/dist/router.js
 var router_exports = {};
 __export(router_exports, {
@@ -2545,7 +595,7 @@ function explodeOptionalSegments(path) {
   return result.map((exploded) => path.startsWith("/") && exploded === "" ? "/" : exploded);
 }
 function rankRouteBranches(branches) {
-  branches.sort((a, b2) => a.score !== b2.score ? b2.score - a.score : compareIndexes(a.routesMeta.map((meta) => meta.childrenIndex), b2.routesMeta.map((meta) => meta.childrenIndex)));
+  branches.sort((a, b) => a.score !== b.score ? b.score - a.score : compareIndexes(a.routesMeta.map((meta) => meta.childrenIndex), b.routesMeta.map((meta) => meta.childrenIndex)));
 }
 function computeScore(path, index) {
   let segments = path.split("/");
@@ -2558,14 +608,14 @@ function computeScore(path, index) {
   }
   return segments.filter((s) => !isSplat(s)).reduce((score, segment) => score + (paramRe.test(segment) ? dynamicSegmentValue : segment === "" ? emptySegmentValue : staticSegmentValue), initialScore);
 }
-function compareIndexes(a, b2) {
-  let siblings = a.length === b2.length && a.slice(0, -1).every((n, i) => n === b2[i]);
+function compareIndexes(a, b) {
+  let siblings = a.length === b.length && a.slice(0, -1).every((n, i) => n === b[i]);
   return siblings ? (
     // If two routes are siblings, we should try to match the earlier sibling
     // first. This allows people to have fine-grained control over the matching
     // behavior by simply putting routes with identical paths in the order they
     // want them tried.
-    a[a.length - 1] - b2[b2.length - 1]
+    a[a.length - 1] - b[b.length - 1]
   ) : (
     // Otherwise, it doesn't really make sense to rank non-siblings by index,
     // so they sort equally.
@@ -3052,7 +1102,7 @@ function createRouter(init) {
     let blockers = state.blockers;
     if (blockers.size > 0) {
       blockers = new Map(blockers);
-      blockers.forEach((_, k2) => blockers.set(k2, IDLE_BLOCKER));
+      blockers.forEach((_, k) => blockers.set(k, IDLE_BLOCKER));
     }
     let preventScrollReset = pendingPreventScrollReset === true || state.navigation.formMethod != null && isMutationMethod(state.navigation.formMethod) && ((_location$state2 = location.state) == null ? void 0 : _location$state2._isRedirect) !== true;
     if (inFlightDataRoutes) {
@@ -3403,7 +1453,7 @@ function createRouter(init) {
         fetchControllers.set(rf.key, rf.controller);
       }
     });
-    let abortPendingFetchRevalidations = () => revalidatingFetchers.forEach((f2) => abortFetcher(f2.key));
+    let abortPendingFetchRevalidations = () => revalidatingFetchers.forEach((f) => abortFetcher(f.key));
     if (pendingNavigationController) {
       pendingNavigationController.signal.addEventListener("abort", abortPendingFetchRevalidations);
     }
@@ -3421,13 +1471,13 @@ function createRouter(init) {
       pendingNavigationController.signal.removeEventListener("abort", abortPendingFetchRevalidations);
     }
     revalidatingFetchers.forEach((rf) => fetchControllers.delete(rf.key));
-    let redirect4 = findRedirect(results);
-    if (redirect4) {
-      if (redirect4.idx >= matchesToLoad.length) {
-        let fetcherKey = revalidatingFetchers[redirect4.idx - matchesToLoad.length].key;
+    let redirect5 = findRedirect(results);
+    if (redirect5) {
+      if (redirect5.idx >= matchesToLoad.length) {
+        let fetcherKey = revalidatingFetchers[redirect5.idx - matchesToLoad.length].key;
         fetchRedirectIds.add(fetcherKey);
       }
-      await startRedirectNavigation(state, redirect4.result, {
+      await startRedirectNavigation(state, redirect5.result, {
         replace
       });
       return {
@@ -3613,13 +1663,13 @@ function createRouter(init) {
     fetchReloadIds.delete(key);
     fetchControllers.delete(key);
     revalidatingFetchers.forEach((r) => fetchControllers.delete(r.key));
-    let redirect4 = findRedirect(results);
-    if (redirect4) {
-      if (redirect4.idx >= matchesToLoad.length) {
-        let fetcherKey = revalidatingFetchers[redirect4.idx - matchesToLoad.length].key;
+    let redirect5 = findRedirect(results);
+    if (redirect5) {
+      if (redirect5.idx >= matchesToLoad.length) {
+        let fetcherKey = revalidatingFetchers[redirect5.idx - matchesToLoad.length].key;
         fetchRedirectIds.add(fetcherKey);
       }
-      return startRedirectNavigation(state, redirect4.result);
+      return startRedirectNavigation(state, redirect5.result);
     }
     let {
       loaderData,
@@ -3688,34 +1738,34 @@ function createRouter(init) {
     invariant(!isDeferredResult(result), "Unhandled fetcher deferred data");
     updateFetcherState(key, getDoneFetcher(result.data));
   }
-  async function startRedirectNavigation(state2, redirect4, _temp2) {
+  async function startRedirectNavigation(state2, redirect5, _temp2) {
     let {
       submission,
       fetcherSubmission,
       replace
     } = _temp2 === void 0 ? {} : _temp2;
-    if (redirect4.revalidate) {
+    if (redirect5.revalidate) {
       isRevalidationRequired = true;
     }
-    let redirectLocation = createLocation(state2.location, redirect4.location, {
+    let redirectLocation = createLocation(state2.location, redirect5.location, {
       _isRedirect: true
     });
     invariant(redirectLocation, "Expected a location on the redirect navigation");
     if (isBrowser) {
       let isDocumentReload = false;
-      if (redirect4.reloadDocument) {
+      if (redirect5.reloadDocument) {
         isDocumentReload = true;
-      } else if (ABSOLUTE_URL_REGEX.test(redirect4.location)) {
-        const url = init.history.createURL(redirect4.location);
+      } else if (ABSOLUTE_URL_REGEX.test(redirect5.location)) {
+        const url = init.history.createURL(redirect5.location);
         isDocumentReload = // Hard reload if it's an absolute URL to a new origin
         url.origin !== routerWindow.location.origin || // Hard reload if it's an absolute URL that does not match our basename
         stripBasename(url.pathname, basename) == null;
       }
       if (isDocumentReload) {
         if (replace) {
-          routerWindow.location.replace(redirect4.location);
+          routerWindow.location.replace(redirect5.location);
         } else {
-          routerWindow.location.assign(redirect4.location);
+          routerWindow.location.assign(redirect5.location);
         }
         return;
       }
@@ -3731,10 +1781,10 @@ function createRouter(init) {
       submission = getSubmissionFromNavigation(state2.navigation);
     }
     let activeSubmission = submission || fetcherSubmission;
-    if (redirectPreserveMethodStatusCodes.has(redirect4.status) && activeSubmission && isMutationMethod(activeSubmission.formMethod)) {
+    if (redirectPreserveMethodStatusCodes.has(redirect5.status) && activeSubmission && isMutationMethod(activeSubmission.formMethod)) {
       await startNavigation(redirectHistoryAction, redirectLocation, {
         submission: _extends({}, activeSubmission, {
-          formAction: redirect4.location
+          formAction: redirect5.location
         }),
         // Preserve this flag across redirects
         preventScrollReset: pendingPreventScrollReset
@@ -3751,14 +1801,14 @@ function createRouter(init) {
     }
   }
   async function callLoadersAndMaybeResolveData(currentMatches, matches, matchesToLoad, fetchersToLoad, request) {
-    let results = await Promise.all([...matchesToLoad.map((match) => callLoaderOrAction("loader", request, match, matches, manifest, mapRouteProperties, basename, future.v7_relativeSplatPath)), ...fetchersToLoad.map((f2) => {
-      if (f2.matches && f2.match && f2.controller) {
-        return callLoaderOrAction("loader", createClientSideRequest(init.history, f2.path, f2.controller.signal), f2.match, f2.matches, manifest, mapRouteProperties, basename, future.v7_relativeSplatPath);
+    let results = await Promise.all([...matchesToLoad.map((match) => callLoaderOrAction("loader", request, match, matches, manifest, mapRouteProperties, basename, future.v7_relativeSplatPath)), ...fetchersToLoad.map((f) => {
+      if (f.matches && f.match && f.controller) {
+        return callLoaderOrAction("loader", createClientSideRequest(init.history, f.path, f.controller.signal), f.match, f.matches, manifest, mapRouteProperties, basename, future.v7_relativeSplatPath);
       } else {
         let error = {
           type: ResultType.error,
           error: getInternalRouterError(404, {
-            pathname: f2.path
+            pathname: f.path
           })
         };
         return error;
@@ -3766,7 +1816,7 @@ function createRouter(init) {
     })]);
     let loaderResults = results.slice(0, matchesToLoad.length);
     let fetcherResults = results.slice(matchesToLoad.length);
-    await Promise.all([resolveDeferredResults(currentMatches, matchesToLoad, loaderResults, loaderResults.map(() => request.signal), false, state.loaderData), resolveDeferredResults(currentMatches, fetchersToLoad.map((f2) => f2.match), fetcherResults, fetchersToLoad.map((f2) => f2.controller ? f2.controller.signal : null), true)]);
+    await Promise.all([resolveDeferredResults(currentMatches, matchesToLoad, loaderResults, loaderResults.map(() => request.signal), false, state.loaderData), resolveDeferredResults(currentMatches, fetchersToLoad.map((f) => f.match), fetcherResults, fetchersToLoad.map((f) => f.controller ? f.controller.signal : null), true)]);
     return {
       results,
       loaderResults,
@@ -3952,10 +2002,10 @@ function createRouter(init) {
     getScrollRestorationKey = getKey || null;
     if (!initialScrollRestored && state.navigation === IDLE_NAVIGATION) {
       initialScrollRestored = true;
-      let y2 = getSavedScrollPosition(state.location, state.matches);
-      if (y2 != null) {
+      let y = getSavedScrollPosition(state.location, state.matches);
+      if (y != null) {
         updateState({
-          restoreScrollPosition: y2
+          restoreScrollPosition: y
         });
       }
     }
@@ -3981,9 +2031,9 @@ function createRouter(init) {
   function getSavedScrollPosition(location, matches) {
     if (savedScrollPositions) {
       let key = getScrollKey(location, matches);
-      let y2 = savedScrollPositions[key];
-      if (typeof y2 === "number") {
-        return y2;
+      let y = savedScrollPositions[key];
+      if (typeof y === "number") {
+        return y;
       }
     }
     return null;
@@ -4426,7 +2476,7 @@ function normalizeNavigateOptions(normalizeFormMethod, isFetcher, path, opts) {
         return getInvalidBodyError();
       }
       try {
-        let json5 = typeof opts.body === "string" ? JSON.parse(opts.body) : opts.body;
+        let json6 = typeof opts.body === "string" ? JSON.parse(opts.body) : opts.body;
         return {
           path,
           submission: {
@@ -4434,7 +2484,7 @@ function normalizeNavigateOptions(normalizeFormMethod, isFetcher, path, opts) {
             formAction,
             formEncType: opts.formEncType,
             formData: void 0,
-            json: json5,
+            json: json6,
             text: void 0
           }
         };
@@ -4544,16 +2594,16 @@ function getMatchesToLoad(history, state, matches, submission, location, isIniti
     }));
   });
   let revalidatingFetchers = [];
-  fetchLoadMatches.forEach((f2, key) => {
-    if (isInitialLoad || !matches.some((m) => m.route.id === f2.routeId) || deletedFetchers.has(key)) {
+  fetchLoadMatches.forEach((f, key) => {
+    if (isInitialLoad || !matches.some((m) => m.route.id === f.routeId) || deletedFetchers.has(key)) {
       return;
     }
-    let fetcherMatches = matchRoutes(routesToUse, f2.path, basename);
+    let fetcherMatches = matchRoutes(routesToUse, f.path, basename);
     if (!fetcherMatches) {
       revalidatingFetchers.push({
         key,
-        routeId: f2.routeId,
-        path: f2.path,
+        routeId: f.routeId,
+        path: f.path,
         matches: null,
         match: null,
         controller: null
@@ -4561,7 +2611,7 @@ function getMatchesToLoad(history, state, matches, submission, location, isIniti
       return;
     }
     let fetcher = state.fetchers.get(key);
-    let fetcherMatch = getTargetMatch(fetcherMatches, f2.path);
+    let fetcherMatch = getTargetMatch(fetcherMatches, f.path);
     let shouldRevalidate = false;
     if (fetchRedirectIds.has(key)) {
       shouldRevalidate = false;
@@ -4583,8 +2633,8 @@ function getMatchesToLoad(history, state, matches, submission, location, isIniti
     if (shouldRevalidate) {
       revalidatingFetchers.push({
         key,
-        routeId: f2.routeId,
-        path: f2.path,
+        routeId: f.routeId,
+        path: f.path,
         matches: fetcherMatches,
         match: fetcherMatch,
         controller: new AbortController()
@@ -4653,27 +2703,27 @@ async function callLoaderOrAction(type, request, match, matches, manifest, mapRo
   let resultType;
   let result;
   let onReject;
-  let runHandler = (handler2) => {
+  let runHandler = (handler) => {
     let reject;
     let abortPromise = new Promise((_, r) => reject = r);
     onReject = () => reject();
     request.signal.addEventListener("abort", onReject);
-    return Promise.race([handler2({
+    return Promise.race([handler({
       request,
       params: match.params,
       context: opts.requestContext
     }), abortPromise]);
   };
   try {
-    let handler2 = match.route[type];
+    let handler = match.route[type];
     if (match.route.lazy) {
-      if (handler2) {
+      if (handler) {
         let handlerError;
         let values = await Promise.all([
           // If the handler throws, don't let it immediately bubble out,
           // since we need to let the lazy() execution finish so we know if this
           // route has a boundary that can handle the error
-          runHandler(handler2).catch((e) => {
+          runHandler(handler).catch((e) => {
             handlerError = e;
           }),
           loadLazyRouteModule(match.route, mapRouteProperties, manifest)
@@ -4684,9 +2734,9 @@ async function callLoaderOrAction(type, request, match, matches, manifest, mapRo
         result = values[0];
       } else {
         await loadLazyRouteModule(match.route, mapRouteProperties, manifest);
-        handler2 = match.route[type];
-        if (handler2) {
-          result = await runHandler(handler2);
+        handler = match.route[type];
+        if (handler) {
+          result = await runHandler(handler);
         } else if (type === "action") {
           let url = new URL(request.url);
           let pathname = url.pathname + url.search;
@@ -4702,14 +2752,14 @@ async function callLoaderOrAction(type, request, match, matches, manifest, mapRo
           };
         }
       }
-    } else if (!handler2) {
+    } else if (!handler) {
       let url = new URL(request.url);
       let pathname = url.pathname + url.search;
       throw getInternalRouterError(404, {
         pathname
       });
     } else {
-      result = await runHandler(handler2);
+      result = await runHandler(handler);
     }
     invariant(result !== void 0, "You defined " + (type === "action" ? "an action" : "a loader") + " for route " + ('"' + match.route.id + "\" but didn't return anything from your `" + type + "` ") + "function. Please return a value or `null`.");
   } catch (e) {
@@ -5023,15 +3073,15 @@ function stripHashFromPath(path) {
     hash: ""
   }));
 }
-function isHashChangeOnly(a, b2) {
-  if (a.pathname !== b2.pathname || a.search !== b2.search) {
+function isHashChangeOnly(a, b) {
+  if (a.pathname !== b.pathname || a.search !== b.search) {
     return false;
   }
   if (a.hash === "") {
-    return b2.hash !== "";
-  } else if (a.hash === b2.hash) {
+    return b.hash !== "";
+  } else if (a.hash === b.hash) {
     return true;
-  } else if (b2.hash !== "") {
+  } else if (b.hash !== "") {
     return true;
   }
   return false;
@@ -5133,7 +3183,7 @@ function getSubmissionFromNavigation(navigation) {
     formEncType,
     text,
     formData,
-    json: json5
+    json: json6
   } = navigation;
   if (!formMethod || !formAction || !formEncType) {
     return;
@@ -5156,13 +3206,13 @@ function getSubmissionFromNavigation(navigation) {
       json: void 0,
       text: void 0
     };
-  } else if (json5 !== void 0) {
+  } else if (json6 !== void 0) {
     return {
       formMethod,
       formAction,
       formEncType,
       formData: void 0,
-      json: json5,
+      json: json6,
       text: void 0
     };
   }
@@ -5264,10 +3314,10 @@ function restoreAppliedTransitions(_window, transitions) {
   try {
     let sessionPositions = _window.sessionStorage.getItem(TRANSITIONS_STORAGE_KEY);
     if (sessionPositions) {
-      let json5 = JSON.parse(sessionPositions);
-      for (let [k2, v] of Object.entries(json5 || {})) {
+      let json6 = JSON.parse(sessionPositions);
+      for (let [k, v] of Object.entries(json6 || {})) {
         if (v && Array.isArray(v)) {
-          transitions.set(k2, new Set(v || []));
+          transitions.set(k, new Set(v || []));
         }
       }
     }
@@ -5276,12 +3326,12 @@ function restoreAppliedTransitions(_window, transitions) {
 }
 function persistAppliedTransitions(_window, transitions) {
   if (transitions.size > 0) {
-    let json5 = {};
-    for (let [k2, v] of transitions) {
-      json5[k2] = [...v];
+    let json6 = {};
+    for (let [k, v] of transitions) {
+      json6[k] = [...v];
     }
     try {
-      _window.sessionStorage.setItem(TRANSITIONS_STORAGE_KEY, JSON.stringify(json5));
+      _window.sessionStorage.setItem(TRANSITIONS_STORAGE_KEY, JSON.stringify(json6));
     } catch (error) {
       warning(false, "Failed to save applied view transitions in sessionStorage (" + error + ").");
     }
@@ -5410,7 +3460,7 @@ var init_router = __esm({
       }
       cancel() {
         this.controller.abort();
-        this.pendingKeysSet.forEach((v, k2) => this.pendingKeysSet.delete(k2));
+        this.pendingKeysSet.forEach((v, k) => this.pendingKeysSet.delete(k));
         this.emit(true);
       }
       async resolveData(signal) {
@@ -5534,6 +3584,76 @@ var init_router = __esm({
   }
 });
 
+// routes-module:root.tsx?worker
+var require_root = __commonJS({
+  "routes-module:root.tsx?worker"(exports, module) {
+    module.exports = {};
+  }
+});
+
+// routes-module:routes/manifest[.]webmanifest.ts?worker
+var require_manifest_webmanifest = __commonJS({
+  "routes-module:routes/manifest[.]webmanifest.ts?worker"(exports, module) {
+    module.exports = {};
+  }
+});
+
+// routes-module:routes/articles_.tags_.$tag/route.tsx?worker
+var require_route = __commonJS({
+  "routes-module:routes/articles_.tags_.$tag/route.tsx?worker"(exports, module) {
+    module.exports = {};
+  }
+});
+
+// routes-module:routes/articles_.tags/route.tsx?worker
+var require_route2 = __commonJS({
+  "routes-module:routes/articles_.tags/route.tsx?worker"(exports, module) {
+    module.exports = {};
+  }
+});
+
+// routes-module:routes/articles_.$id/route.tsx?worker
+var require_route3 = __commonJS({
+  "routes-module:routes/articles_.$id/route.tsx?worker"(exports, module) {
+    module.exports = {};
+  }
+});
+
+// routes-module:routes/feed[.xml].ts?worker
+var require_feed_xml = __commonJS({
+  "routes-module:routes/feed[.xml].ts?worker"(exports, module) {
+    module.exports = {};
+  }
+});
+
+// routes-module:routes/articles/route.tsx?worker
+var require_route4 = __commonJS({
+  "routes-module:routes/articles/route.tsx?worker"(exports, module) {
+    module.exports = {};
+  }
+});
+
+// routes-module:routes/_index/route.tsx?worker
+var require_route5 = __commonJS({
+  "routes-module:routes/_index/route.tsx?worker"(exports, module) {
+    module.exports = {};
+  }
+});
+
+// routes-module:routes/about.tsx?worker
+var require_about = __commonJS({
+  "routes-module:routes/about.tsx?worker"(exports, module) {
+    module.exports = {};
+  }
+});
+
+// routes-module:routes/$.tsx?worker
+var require__ = __commonJS({
+  "routes-module:routes/$.tsx?worker"(exports, module) {
+    module.exports = {};
+  }
+});
+
 // node_modules/.pnpm/@remix-run+server-runtime@2.5.0_typescript@5.1.6/node_modules/@remix-run/server-runtime/dist/mode.js
 var require_mode = __commonJS({
   "node_modules/.pnpm/@remix-run+server-runtime@2.5.0_typescript@5.1.6/node_modules/@remix-run/server-runtime/dist/mode.js"(exports) {
@@ -5627,16 +3747,16 @@ var require_responses = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     var router = (init_router(), __toCommonJS(router_exports));
     var errors = require_errors();
-    var json5 = (data, init = {}) => {
+    var json6 = (data, init = {}) => {
       return router.json(data, init);
     };
-    var defer3 = (data, init = {}) => {
+    var defer4 = (data, init = {}) => {
       return router.defer(data, init);
     };
-    var redirect4 = (url, init = 302) => {
+    var redirect5 = (url, init = 302) => {
       return router.redirect(url, init);
     };
-    var redirectDocument2 = (url, init = 302) => {
+    var redirectDocument3 = (url, init = 302) => {
       return router.redirectDocument(url, init);
     };
     function isDeferredData3(value) {
@@ -5701,946 +3821,196 @@ var require_responses = __commonJS({
       }
     }
     exports.createDeferredReadableStream = createDeferredReadableStream2;
-    exports.defer = defer3;
+    exports.defer = defer4;
     exports.isDeferredData = isDeferredData3;
     exports.isRedirectResponse = isRedirectResponse3;
     exports.isRedirectStatusCode = isRedirectStatusCode2;
     exports.isResponse = isResponse3;
-    exports.json = json5;
-    exports.redirect = redirect4;
-    exports.redirectDocument = redirectDocument2;
+    exports.json = json6;
+    exports.redirect = redirect5;
+    exports.redirectDocument = redirectDocument3;
   }
 });
 
 // app/entry.worker.ts
 var entry_worker_exports = {};
-__export(entry_worker_exports, {
-  defaultFetchHandler: () => defaultFetchHandler
-});
 
-// node_modules/.pnpm/cachified@3.5.4/node_modules/cachified/dist/index.mjs
-var k = Symbol();
-var w = Symbol();
-var f = Symbol();
+// node_modules/.pnpm/@remix-run+server-runtime@2.5.0_typescript@5.1.6/node_modules/@remix-run/server-runtime/dist/esm/responses.js
+init_router();
+var json3 = (data, init = {}) => {
+  return json(data, init);
+};
 
-// node_modules/.pnpm/@remix-pwa+cache@2.0.12/node_modules/@remix-pwa/cache/dist/src/cache.js
-var B = __toESM(require_buffer(), 1);
-
-// node_modules/.pnpm/@remix-pwa+cache@2.0.12/node_modules/@remix-pwa/cache/dist/src/utils.js
-function mergeHeaders(...headers) {
-  const merged = new Headers();
-  for (const header of headers) {
-    if (!header)
-      continue;
-    for (const [key, value] of new Headers(header).entries()) {
-      merged.set(key, value);
-    }
+// app/entry.worker.ts
+var STATIC_ASSETS = ["/build/", "/icons/"];
+var ASSET_CACHE = "asset-cache";
+var DATA_CACHE = "data-cache";
+var DOCUMENT_CACHE = "document-cache";
+function debug(...messages) {
+  if (true) {
+    console.debug(...messages);
   }
-  return merged;
 }
-function omit(key, obj) {
-  const { [key]: omitted, ...rest } = obj;
-  return rest;
+async function handleInstall(event) {
+  debug("Service worker installed");
 }
-
-// node_modules/.pnpm/@remix-pwa+cache@2.0.12/node_modules/@remix-pwa/cache/dist/src/cache.js
-var Strategy;
-(function(Strategy2) {
-  Strategy2["CacheFirst"] = "cache-first";
-  Strategy2["NetworkFirst"] = "network-first";
-  Strategy2["CacheOnly"] = "cache-only";
-  Strategy2["NetworkOnly"] = "network-only";
-  Strategy2["StaleWhileRevalidate"] = "stale-while-revalidate";
-})(Strategy || (Strategy = {}));
-var RemixCache = class {
-  /**
-   * Create a new `RemixCache` instance. Don't invoke this directly! Use `RemixCacheStorage.open()` instead.
-   * @constructor
-   * @param {object} options - Options for the RemixCache instance.
-   */
-  constructor(options) {
-    this._ttl = Infinity;
-    this._strategy = Strategy.NetworkFirst;
-    this._maxItems = 100;
-    this.set = false;
-    this.name = options.name;
-    this._maxItems = options.maxItems || 100;
-    this._strategy = options.strategy || Strategy.NetworkFirst;
-    this._ttl = options.ttl || Infinity;
-    if (this._strategy === Strategy.NetworkOnly) {
-      this._ttl = -1;
+async function handleActivate(event) {
+  debug("Service worker activated");
+}
+async function handleMessage(event) {
+  const cachePromises = /* @__PURE__ */ new Map();
+  if (event.data.type === "REMIX_NAVIGATION") {
+    const { isMount, location, matches, manifest } = event.data;
+    const documentUrl = location.pathname + location.search + location.hash;
+    const [dataCache, documentCache, existingDocument] = await Promise.all([
+      caches.open(DATA_CACHE),
+      caches.open(DOCUMENT_CACHE),
+      caches.match(documentUrl)
+    ]);
+    if (!existingDocument || !isMount) {
+      debug("Caching document for", documentUrl);
+      cachePromises.set(
+        documentUrl,
+        documentCache.add(documentUrl).catch((error) => {
+          debug(`Failed to cache document for ${documentUrl}:`, error);
+        })
+      );
     }
-    if (options.maxItems || options.ttl || options.strategy) {
-      this.set = true;
-    } else {
-      this.set = false;
-    }
-  }
-  async _openCache() {
-    return await caches.open(`rp-${this.name}`);
-  }
-  async _getOrDeleteIfExpired(key, metadata) {
-    if (metadata.expiresAt === "Infinity") {
-      return false;
-    }
-    if (Number(metadata.expiresAt) <= Date.now()) {
-      return await this.delete(key);
-    }
-    return false;
-  }
-  async _lruCleanup() {
-    const isOverflowing = await this.length() >= this._maxItems;
-    if (isOverflowing) {
-      const cache = await this._openCache();
-      const keys = await cache.keys();
-      const values = await Promise.all(keys.map((key) => cache.match(key)));
-      const keyVal = keys.map((key, i) => ({ key, val: values[i] }));
-      const comparableArrayPromise = keyVal.map(async (val) => {
-        const { metadata } = await val.val.clone().json();
-        return {
-          metadata,
-          url: val.key.url
-        };
-      });
-      const comparableArray = await Promise.all(comparableArrayPromise);
-      const sortedArr = comparableArray.sort((a, b2) => {
-        return Number(a.metadata.accessedAt) - Number(b2.metadata.accessedAt);
-      });
-      const toBeDeletdItems = sortedArr.slice(0, sortedArr.length - this._maxItems + 1);
-      for (const deleted of toBeDeletdItems) {
-        await this.delete(deleted.url);
+    if (isMount) {
+      for (const match of matches) {
+        if (manifest.routes[match.id].hasLoader) {
+          const params = new URLSearchParams(location.search);
+          params.set("_data", match.id);
+          let search = params.toString();
+          search = search ? `?${search}` : "";
+          const url = location.pathname + search + location.hash;
+          if (!cachePromises.has(url)) {
+            debug("Caching data for", url);
+            cachePromises.set(
+              url,
+              dataCache.add(url).catch((error) => {
+                debug(`Failed to cache data for ${url}:`, error);
+              })
+            );
+          }
+        }
       }
     }
   }
-  async _getResponseValue(request, response) {
-    const { metadata, value } = await response.clone().json();
-    const deleted = await this._getOrDeleteIfExpired(request, metadata);
-    const headers = new Headers(response.clone().headers);
-    if (!this.set) {
-      this.set = true;
-      this._ttl = metadata.cacheTtl;
-      this._maxItems = metadata.cacheMaxItems;
-      this._strategy = metadata.cacheStrategy;
-    }
-    const newHeader = new Headers(headers);
-    newHeader.set("X-Remix-PWA-TTL", metadata.expiresAt.toString());
-    newHeader.set("X-Remix-PWA-AccessTime", Date.now().toString());
-    newHeader.set("Content-Type", headers.get("X-Remix-PWA-Original-Content-Type") || "application/json");
-    const contentType = headers.get("X-Remix-PWA-Original-Content-Type") ?? "";
-    newHeader.delete("X-Remix-PWA-Original-Content-Type");
-    const responseOptions = {
-      status: response.status,
-      statusText: response.statusText,
-      headers: newHeader,
-      body: "null"
-    };
-    if (contentType.includes("application/json")) {
-      responseOptions.body = JSON.stringify(value);
-    } else if (contentType.includes("text")) {
-      responseOptions.body = value;
-    } else {
-      const buffer = B.Buffer.from(value, "base64");
-      responseOptions.body = new Uint8Array(buffer);
-    }
-    if (!deleted) {
-      const res = new Response(responseOptions.body, omit("body", responseOptions));
-      await this.put(request, res.clone(), void 0);
-      return res;
-    }
-    return void 0;
-  }
-  /**
-   * Delete an entry from the cache.
-   * Takes in the same parameters as `Cache.delete`.
-   * @param {RequestInfo | URL} request - The request to delete.
-   * @param {CacheQueryOptions} [options] - Options for the delete operation.
-   * @returns {Promise<boolean>} Returns `true` if an entry was deleted, otherwise `false`.
-   *
-   * @example
-   * ```js
-   * const cache = await initCache({ name: 'my-cache' });
-   *
-   * await cache.put('/hello-world', new Response('Hello World!'));
-   * await cache.delete('/hello-world');
-   * ```
-   *
-   * @see https://developer.mozilla.org/en-US/docs/Web/API/Cache/delete
-   */
-  async delete(request, options) {
-    return this._openCache().then((cache) => cache.delete(request, options));
-  }
-  /**
-   * Returns a Promise that resolves to the length of the Cache object.
-   *
-   * @returns {Promise<number>} The number of entries in the cache.
-   */
-  async length() {
-    const keys = await this.keys();
-    return keys.length;
-  }
-  /**
-   * Returns a `Promise` that resolves to an array of Cache keys.
-   *
-   * @returns {Promise<readonly Request[]>} An array of Cache keys.
-   */
-  async keys() {
-    const cache = await this._openCache();
-    return await cache.keys();
-  }
-  /**
-   * Return a `Promise` that resolves to an entry in the cache object. Accepts the
-   * same parameters as `Cache.match`.
-   *
-   * @param {RequestInfo | URL} request - The request to match.
-   * @param {CacheQueryOptions} [options] - Options for the match operation.
-   *
-   * @returns {Promise<Response | undefined>} A `Promise` that resolves to the response, or `undefined` if not found.
-   */
-  async match(request, options) {
-    const cache = await this._openCache();
-    if (request instanceof URL || typeof request === "string") {
-      request = new Request(request);
-    }
-    const response = await cache.match(request.clone(), options);
-    if (!response) {
-      return void 0;
-    }
-    return await this._getResponseValue(request, response.clone());
-  }
-  /**
-   * Add an entry to the cache.
-   * Takes in the same parameters as `Cache.put`.
-   *
-   * @param {RequestInfo | URL} request - The request to add.
-   * @param {Response} response - The response to add.
-   * @param {number | undefined} ttl - The time-to-live of the cache entry in ms. Defaults to cache ttl.
-   * @returns {Promise<void>} A `Promise` that resolves when the entry is added to the cache.
-   *
-   * @example
-   * ```js
-   * const cache = await initCache({ name: 'my-cache' });
-   *
-   * await cache.put('/hello-world', new Response('Hello World!'));
-   * ```
-   *
-   * @see https://developer.mozilla.org/en-US/docs/Web/API/Cache/put
-   */
-  async put(request, response, ttl = void 0) {
-    const cache = await this._openCache();
-    if (request instanceof URL || typeof request === "string") {
-      request = new Request(request);
-    }
-    if (this._ttl <= 0 || ttl && ttl <= 0)
-      return;
-    if (response === null || response.status === 204 || response.statusText.toLowerCase() === "no content") {
-      await this.delete(request);
-      return;
-    }
-    const contentType = response.headers.get("Content-Type");
-    let data;
-    if (contentType && contentType.includes("application/json")) {
-      data = await response.clone().json();
-    } else if (contentType && contentType.includes("text")) {
-      data = await response.clone().text();
-    } else {
-      const buffer = await response.clone().arrayBuffer();
-      data = B.Buffer.from(buffer).toString("base64");
-    }
-    if (!this.set) {
-      this.set = true;
-      const keys = await cache.keys();
-      const firstVal = await cache.match(keys[0]);
-      if (firstVal) {
-        const { metadata } = await firstVal.clone().json();
-        this._ttl = metadata.cacheTtl;
-        this._maxItems = metadata.cacheMaxItems;
-        this._strategy = metadata.cacheStrategy;
-      } else {
-        this._ttl = Infinity;
-        this._maxItems = 100;
-        this._strategy = Strategy.NetworkFirst;
-      }
-    }
-    const resHeaders = response.headers;
-    const expiresAt = resHeaders.get("X-Remix-PWA-TTL") || Date.now() + (ttl ?? this._ttl);
-    const accessedAt = resHeaders.get("X-Remix-PWA-AccessTime") || Date.now().toString();
-    const newHeaders = new Headers();
-    newHeaders.set("Content-Type", "application/json");
-    newHeaders.set("X-Remix-PWA-AccessTime", accessedAt);
-    newHeaders.set("X-Remix-PWA-Original-Content-Type", contentType || "text/plain");
-    newHeaders.set("X-Remix-PWA-TTL", expiresAt.toString());
-    const toBeCachedRes = new Response(JSON.stringify({
-      metadata: {
-        accessedAt,
-        // JSON can't store `Infinity`, so we store it as a string
-        expiresAt: expiresAt.toString(),
-        cacheTtl: this._ttl.toString(),
-        cacheMaxItems: this._maxItems,
-        cacheStrategy: this._strategy
-      },
-      value: data
-    }), {
-      status: response.status,
-      statusText: response.statusText,
-      headers: mergeHeaders(resHeaders, newHeaders)
+  await Promise.all(cachePromises.values());
+}
+async function handleFetch(event) {
+  const url = new URL(event.request.url);
+  if (isAssetRequest(event.request)) {
+    const cached = await caches.match(event.request, {
+      cacheName: ASSET_CACHE,
+      ignoreVary: true,
+      ignoreSearch: true
     });
-    Object.defineProperty(toBeCachedRes, "url", { value: response.url });
-    Object.defineProperty(toBeCachedRes, "type", { value: response.type });
-    Object.defineProperty(toBeCachedRes, "ok", { value: response.ok });
-    Object.defineProperty(toBeCachedRes, "redirected", { value: response.redirected });
-    try {
-      await this._lruCleanup();
-      return await cache.put(request, toBeCachedRes.clone());
-    } catch (error) {
-      if (true)
-        console.error("Failed to put to cache:", error);
+    if (cached) {
+      debug("Serving asset from cache", url.pathname);
+      return cached;
     }
-  }
-  async add(request) {
-    return (
-      /* await - should this be awaited? */
-      fetch(request).then((res) => {
-        if (!res.ok) {
-          throw new Error("Failed to fetch");
-        }
-        return this.put(request, res.clone());
-      })
-    );
-  }
-  get ttl() {
-    return this._ttl;
-  }
-  get strategy() {
-    return this._strategy;
-  }
-};
-
-// node_modules/.pnpm/@remix-pwa+cache@2.0.12/node_modules/@remix-pwa/cache/dist/src/storage.js
-var RemixCacheStorage = class {
-  // eslint-disable-next-line no-useless-constructor
-  constructor() {
-  }
-  /**
-   * Initialize the Remix PWA Cache Storage. This will create a special cache for each
-   * existing cache in the browser or create a new map if none exist.
-   *
-   * Use in your service worker installation script. Make sure to call this before
-   * initializing any `RemixCache` instance.
-   *
-   * @example
-   * ```js
-   * import { RemixCacheStorage } from '@remix-run/cache';
-   *
-   * self.addEventListener('install', (event) => {
-   *  event.waitUntil(Promise.all[
-   *   RemixCacheStorage.init(),
-   *   // other stuff
-   *  ]);
-   * });
-   * ```
-   */
-  // static async init() {
-  //   if (typeof caches === 'undefined') {
-  //     throw new Error('Cache API is not available in this environment.');
-  //   }
-  //   if (this._instances.size > 0) {
-  //     return;
-  //   }
-  //   const cachesNames = await caches.keys();
-  //   for (const name of cachesNames) {
-  //     if (name.startsWith('rp-')) {
-  //       this._instances.set(name, new RemixCache({ name }));
-  //     }
-  //   }
-  // }
-  /**
-   * Create a custom cache that you can use across your application.
-   * Use this instead of initialising `RemixCache` directly.
-   */
-  static createCache(opts) {
-    const { name } = opts;
-    if (this._instances.has(name)) {
-      return this._instances.get(name);
-    }
-    const newCache = new RemixCache(opts);
-    this._instances.set(`${name}`, newCache);
-    caches.open(`rp-${name}`);
-    return newCache;
-  }
-  /**
-   * Check wether a cache with the given name exists.
-   *
-   * @param name
-   */
-  static has(name) {
-    return this._instances.has(name);
-  }
-  static async _get(name) {
-    const cache = this._instances.get(name);
-    if (!cache && await caches.has(`rp-${name}`)) {
-      this._instances.set(name, new RemixCache({ name }));
-      await this._instances.get(name)?.keys().then((keys) => {
-        if (keys.length > 0) {
-          caches.match(keys[0]);
-        }
-      });
-    }
-    return this._instances.get(name);
-  }
-  /**
-   * Get a cache by name. Returns `undefined` if no cache with the given name exists.
-   * Use `has` to check if a cache exists. Or `open` to create one automatically if non exists.
-   *
-   * @param name
-   * @returns {RemixCache | undefined}
-   *
-   * @example
-   * ```js
-   * import { Storage } from '@remix-run/cache';
-   *
-   * const cache = Storage.get('my-cache');
-   * ```
-   */
-  static async get(name) {
-    return await this._get(name);
-  }
-  /**
-   * Get a cache by name. If no cache with the given name exists, create one.
-   *
-   * @param name Name of the cache - **must be unique**
-   * @param opts Options to pass to the `RemixCache` constructor if the cache is getting created
-   * @returns {RemixCache}
-   *
-   * @example
-   * ```js
-   * import { Storage } from '@remix-run/cache';
-   *
-   * const cache = Storage.open('my-cache');
-   * ```
-   */
-  static open(name, opts) {
-    const cache = this._instances.get(name);
-    if (!cache) {
-      return this.createCache({ name, ...opts });
-    }
-    return cache;
-  }
-  /**
-   * Delete a cache by name.
-   *
-   * @param name
-   */
-  static delete(name) {
-    const cache = this._instances.get(name);
-    if (cache) {
-      caches.delete(`rp-${name}`);
-      this._instances.delete(name);
-    }
-  }
-  /**
-   * Delete all caches.
-   */
-  static clear() {
-    caches.keys().then((keys) => keys.forEach((key) => key.startsWith("rp-") ? caches.delete(key) : null));
-    this._instances = /* @__PURE__ */ new Map();
-  }
-  /**
-   * Get all caches. **Don't use this except you know what you are doing!**
-   *
-   * Which, frankly speaking, you probably don't. So shoo away!
-   */
-  static get instances() {
-    return this._instances;
-  }
-  /**
-   * Get the number of caches.
-   *
-   * Return the length of the `RemixCacheStorage` store.
-   */
-  static get _length() {
-    return this._instances.size;
-  }
-  /**
-   * Check if a request is stored as the key of a response in all caches.
-   *
-   * Experimental. Use at your own risk!
-   *
-   * @param {RequestInfo | URL} request The request to check.
-   * @param {CacheQueryOptions} [options] Options to pass to the `Cache.match` method.
-   * @returns {Promise<Response | undefined>} A promise that resolves to the response if found, otherwise `undefined`.
-   */
-  static _match(request, options) {
-    return caches.match(request, options);
-  }
-};
-RemixCacheStorage._instances = /* @__PURE__ */ new Map();
-var Storage = RemixCacheStorage;
-
-// node_modules/.pnpm/@remix-pwa+strategy@2.1.9_@remix-pwa+cache@2.0.12/node_modules/@remix-pwa/strategy/dist/src/utils.js
-var isHttpRequest = (request) => {
-  if (request instanceof Request) {
-    return request.url.startsWith("http");
-  }
-  return request.toString().startsWith("http");
-};
-
-// node_modules/.pnpm/@remix-pwa+strategy@2.1.9_@remix-pwa+cache@2.0.12/node_modules/@remix-pwa/strategy/dist/src/cacheFirst.js
-var cacheFirst = ({ cache: cacheName, cacheOptions, cacheQueryOptions, fetchDidFail = void 0 }) => {
-  return async (request) => {
-    if (!isHttpRequest(request)) {
-      return new Response("Not a HTTP request", { status: 403 });
-    }
-    let remixCache;
-    if (typeof cacheName === "string") {
-      remixCache = Storage.open(cacheName, cacheOptions);
-    } else {
-      remixCache = cacheName;
-    }
-    const response = await remixCache.match(request, cacheQueryOptions);
-    if (!response) {
-      try {
-        const networkResponse = await fetch(request);
-        remixCache.put(request, networkResponse.clone());
-        return networkResponse;
-      } catch (err) {
-        if (fetchDidFail) {
-          await Promise.all(fetchDidFail.map((cb) => cb()));
-        }
-        throw err;
-      }
+    debug("Serving asset from network", url.pathname);
+    const response = await fetch(event.request);
+    if (response.status === 200) {
+      const cache = await caches.open(ASSET_CACHE);
+      await cache.put(event.request, response.clone());
     }
     return response;
-  };
-};
-
-// node_modules/.pnpm/@remix-pwa+strategy@2.1.9_@remix-pwa+cache@2.0.12/node_modules/@remix-pwa/strategy/dist/src/networkFirst.js
-var networkFirst = ({ cache: cacheName, cacheOptions, cacheQueryOptions, fetchDidFail = void 0, fetchDidSucceed = void 0, networkTimeoutSeconds = 10 }) => {
-  return async (request) => {
-    if (!isHttpRequest(request)) {
-      return new Response("Not a HTTP request", { status: 403 });
-    }
-    let remixCache;
-    if (typeof cacheName === "string") {
-      remixCache = Storage.open(cacheName, cacheOptions);
-    } else {
-      remixCache = cacheName;
-    }
+  }
+  if (isLoaderRequest(event.request)) {
     try {
-      const timeoutPromise = networkTimeoutSeconds !== Infinity ? new Promise((_resolve, reject) => {
-        setTimeout(() => {
-          reject(new Error(`Network timed out after ${networkTimeoutSeconds} seconds`));
-        }, networkTimeoutSeconds * 1e3);
-      }) : null;
-      const response = timeoutPromise ? await Promise.race([fetch(request), timeoutPromise]) : await fetch(request);
-      if (response) {
-        if (fetchDidSucceed) {
-          await Promise.all(fetchDidSucceed.map((cb) => cb()));
-        }
-        await remixCache.put(request, response.clone());
-        return response.clone();
-      }
+      debug("Serving data from network", url.pathname + url.search);
+      const response = await fetch(event.request.clone());
+      const cache = await caches.open(DATA_CACHE);
+      await cache.put(event.request, response.clone());
+      return response;
     } catch (error) {
-      if (fetchDidFail) {
-        await Promise.all(fetchDidFail.map((cb) => cb()));
+      debug(
+        "Serving data from network failed, falling back to cache",
+        url.pathname + url.search
+      );
+      const response = await caches.match(event.request);
+      if (response) {
+        response.headers.set("X-Remix-Worker", "yes");
+        return response;
       }
-      const cachedResponse = await remixCache.match(request, cacheQueryOptions);
-      if (cachedResponse) {
-        return cachedResponse.clone();
-      }
-      return new Response(JSON.stringify({ message: "Network Error" }), {
-        status: 500
-      });
+      return json3(
+        { message: "Network Error" },
+        {
+          status: 500,
+          headers: { "X-Remix-Catch": "yes", "X-Remix-Worker": "yes" }
+        }
+      );
     }
-    throw new Error("Failed to fetch. Network timed out.");
-  };
-};
-
-// node_modules/.pnpm/@remix-pwa+sw@2.1.12_@remix-pwa+cache@2.0.12_@remix-run+dev@2.5.0_@remix-run+react@2.5.0_reac_5n7isixezl4kpfgicdkdtgf6ty/node_modules/@remix-pwa/sw/dist/src/private/logger.js
-var methodToColorMap = {
-  debug: `#7f8c8d`,
-  log: `#2ecc71`,
-  info: `#3498db`,
-  warn: `#f39c12`,
-  error: `#c0392b`,
-  groupCollapsed: `#3498db`,
-  groupEnd: null
-  // No colored prefix on groupEnd
-};
-var logger = false ? (() => {
-  const api = {};
-  const loggerMethods = Object.keys(methodToColorMap);
-  for (const key of loggerMethods) {
-    const method = key;
-    api[method] = () => {
-    };
   }
-  return api;
-})() : (() => {
-  let inGroup = false;
-  const print = function(method, args) {
-    if (self.__DISABLE_PWA_DEV_LOGS) {
-      return;
-    }
-    if (method === "debug" && self.__DISABLE_PWA_DEBUG_LOGS) {
-      return;
-    }
-    if (method === "info" && self.__DISABLE_PWA_INFO_LOGS) {
-      return;
-    }
-    if (method === "warn" && self.__DISABLE_PWA_WARN_LOGS) {
-      return;
-    }
-    if (method === "error" && self.__DISABLE_PWA_ERROR_LOGS) {
-      return;
-    }
-    if (method === "groupCollapsed") {
-      if (/^((?!chrome|android).)*safari/i.test(navigator.userAgent)) {
-        console[method](...args);
-        return;
+  if (isDocumentGetRequest(event.request)) {
+    try {
+      debug("Serving document from network", url.pathname);
+      const response = await fetch(event.request);
+      const cache = await caches.open(DOCUMENT_CACHE);
+      await cache.put(event.request, response.clone());
+      return response;
+    } catch (error) {
+      debug(
+        "Serving document from network failed, falling back to cache",
+        url.pathname
+      );
+      const response = await caches.match(event.request);
+      if (response) {
+        return response;
       }
+      throw error;
     }
-    const styles = [
-      `background: ${methodToColorMap[method]}`,
-      `border-radius: 0.5em`,
-      `color: white`,
-      `font-weight: bold`,
-      `padding: 2px 0.5em`
-    ];
-    const logPrefix = inGroup ? [] : ["%cremix-pwa", styles.join(";")];
-    console[method](...logPrefix, ...args);
-    if (method === "groupCollapsed") {
-      inGroup = true;
-    }
-    if (method === "groupEnd") {
-      inGroup = false;
-    }
-  };
-  const api = {};
-  const loggerMethods = Object.keys(methodToColorMap);
-  for (const key of loggerMethods) {
-    const method = key;
-    api[method] = (...args) => {
-      print(method, args);
-    };
   }
-  return api;
-})();
-
-// node_modules/.pnpm/@remix-pwa+sw@2.1.12_@remix-pwa+cache@2.0.12_@remix-run+dev@2.5.0_@remix-run+react@2.5.0_reac_5n7isixezl4kpfgicdkdtgf6ty/node_modules/@remix-pwa/sw/dist/src/utils/worker.js
+  return fetch(event.request.clone());
+}
 function isMethod(request, methods) {
   return methods.includes(request.method.toLowerCase());
 }
-function isAssetRequest(request, assetUrls = ["/build/", "/icons"]) {
-  return isMethod(request, ["get"]) && assetUrls.some((publicPath) => request.url.includes(publicPath));
+function isAssetRequest(request) {
+  return isMethod(request, ["get"]) && STATIC_ASSETS.some((publicPath) => request.url.startsWith(publicPath));
 }
 function isLoaderRequest(request) {
   const url = new URL(request.url);
   return isMethod(request, ["get"]) && url.searchParams.get("_data");
 }
-var matchRequest = (request, assetUrls = ["/build/", "/icons"]) => {
-  if (isAssetRequest(request, assetUrls)) {
-    return "asset";
-  } else if (isLoaderRequest(request)) {
-    return "loader";
-  } else {
-    return null;
-  }
-};
-
-// node_modules/.pnpm/@remix-pwa+sw@2.1.12_@remix-pwa+cache@2.0.12_@remix-run+dev@2.5.0_@remix-run+react@2.5.0_reac_5n7isixezl4kpfgicdkdtgf6ty/node_modules/@remix-pwa/sw/dist/src/message/message.js
-var MessageHandler = class {
-  /**
-   * The plugins array is used to run plugins before and after the message handler.
-   * They are passed in when the handler is initialised.
-   */
-  plugins;
-  /**
-   * The state object is used to pass data between plugins.
-   */
-  state;
-  constructor({ plugins, state } = {}) {
-    this.plugins = plugins || [];
-    this.state = state || {};
-  }
-  /**
-   * The method that handles the message event.
-   *
-   * Takes in the MessageEvent as a mandatory argument as well as an optional
-   * object that can be used to pass further information/data.
-   */
-  async handle(event, state = {}) {
-    await this._handleMessage(event, state);
-  }
-  /**
-   * Runs the plugins that are passed in when the handler is initialised.
-   */
-  async runPlugins(hook, env) {
-    for (const plugin of this.plugins) {
-      if (plugin[hook]) {
-        plugin[hook](env);
-      }
-    }
-  }
-};
-
-// node_modules/.pnpm/@remix-pwa+sw@2.1.12_@remix-pwa+cache@2.0.12_@remix-run+dev@2.5.0_@remix-run+react@2.5.0_reac_5n7isixezl4kpfgicdkdtgf6ty/node_modules/@remix-pwa/sw/dist/src/message/precacheHandler.js
-var PrecacheHandler = class extends MessageHandler {
-  dataCacheName;
-  documentCacheName;
-  assetCacheName;
-  _ignoredFiles = null;
-  // private _whiteListRoutes: PrecacheHandlerState['whiteListRoutes'] = null;
-  // private _staticAssets: PrecacheHandlerState['staticAssets'] = [];
-  constructor({ assetCache: assetCache2, dataCache: dataCache2, documentCache: documentCache2, plugins, state }) {
-    super({ plugins, state: {} });
-    this.dataCacheName = dataCache2;
-    this.documentCacheName = documentCache2;
-    this.assetCacheName = assetCache2;
-    this._handleMessage = this._handleMessage.bind(this);
-    this._ignoredFiles = state?.ignoredRoutes || null;
-  }
-  async _handleMessage(event) {
-    const { data } = event;
-    let dataCache2, documentCache2, assetCache2;
-    dataCache2 = this.dataCacheName;
-    documentCache2 = this.documentCacheName;
-    if (data.type !== "REMIX_NAVIGATION" || !data.isMount)
-      return;
-    this.runPlugins("messageDidReceive", {
-      event
-    });
-    const cachePromises = /* @__PURE__ */ new Map();
-    if (typeof dataCache2 === "string") {
-      dataCache2 = Storage.open(dataCache2);
-    }
-    if (typeof documentCache2 === "string") {
-      documentCache2 = Storage.open(documentCache2);
-    }
-    if (typeof this.assetCacheName === "string") {
-      assetCache2 = Storage.open(assetCache2);
-    }
-    const manifest = data.manifest;
-    const routes2 = Object.values(manifest?.routes || {});
-    for (const route of routes2) {
-      if (route.id.includes("$")) {
-        if (true)
-          logger.info("Skipping parametrized route:", route.id);
-        continue;
-      }
-      if (Array.isArray(this._ignoredFiles)) {
-        if (typeof this._ignoredFiles[0] === "string") {
-          if (this._ignoredFiles.includes("*")) {
-            break;
-          }
-          const map = this._ignoredFiles.map((ignoredRoute) => {
-            ignoredRoute = ignoredRoute;
-            ignoredRoute = ignoredRoute.charAt(0) === "/" ? ignoredRoute : ignoredRoute = "/" + ignoredRoute;
-            if (getPathname(route) === ignoredRoute) {
-              return true;
-            } else {
-              return false;
-            }
-          });
-          if (map.includes(true))
-            continue;
-        } else if (typeof this._ignoredFiles[0] === "function") {
-          const map = this._ignoredFiles.map((ignoredRoute) => {
-            ignoredRoute = ignoredRoute;
-            if (ignoredRoute(route)) {
-              return true;
-            } else {
-              return false;
-            }
-          });
-          if (map.includes(true))
-            continue;
-        } else if (this._ignoredFiles[0] instanceof RegExp) {
-          const map = this._ignoredFiles.map((ignoredRoute) => {
-            ignoredRoute = ignoredRoute;
-            if (ignoredRoute.test(getPathname(route))) {
-              return true;
-            } else {
-              return false;
-            }
-          });
-          if (map.includes(true))
-            continue;
-        } else {
-          if (true)
-            logger.error("Invalid ignoredRoutes type:", this._ignoredFiles);
-        }
-      } else if (typeof this._ignoredFiles === "function") {
-        if (this._ignoredFiles(route)) {
-          continue;
-        }
-      }
-      cacheRoute(route);
-    }
-    await Promise.all(cachePromises.values());
-    async function cacheRoute(route) {
-      const pathname = getPathname(route);
-      if (route.hasLoader) {
-        await cacheLoaderData(route);
-      }
-      if (route.module) {
-        cachePromises.set(route.module, cacheAsset(route.module));
-      }
-      if (route.imports) {
-        for (const assetUrl of route.imports) {
-          if (true) {
-            logger.groupCollapsed("Caching asset: ", assetUrl);
-            logger.log("Is index:", route.index || false);
-            logger.log("Parent ID:", route.parentId);
-            logger.log("Imports:", route.imports);
-            logger.log("Module:", route.module);
-            logger.groupEnd();
-          }
-          if (cachePromises.has(assetUrl)) {
-            continue;
-          }
-          cachePromises.set(assetUrl, cacheAsset(assetUrl));
-        }
-      }
-      if (true)
-        logger.info("Caching document:", pathname);
-      const response = await fetch(pathname);
-      cachePromises.set(
-        pathname,
-        // @ts-expect-error
-        documentCache2.put(pathname, response).catch((error) => {
-          if (error instanceof TypeError) {
-            if (true)
-              logger.error(`TypeError when caching document ${pathname}:`, error.message);
-          } else if (error instanceof DOMException) {
-            if (true)
-              logger.error(`DOMException when caching document ${pathname}:`, error.message);
-          } else {
-            if (true)
-              logger.error(`Failed to cache document ${pathname}:`, error);
-          }
-        })
-      );
-    }
-    async function cacheLoaderData(route) {
-      const pathname = getPathname(route);
-      const params = new URLSearchParams({ _data: route.id });
-      const search = `?${params.toString()}`;
-      const url = pathname + search;
-      if (!cachePromises.has(url)) {
-        const data2 = await fetch(url);
-        cachePromises.set(
-          url,
-          // @ts-expect-error
-          dataCache2.put(url, data2).catch((error) => {
-            if (error instanceof TypeError) {
-              if (true)
-                logger.error(`TypeError when caching data ${pathname}:`, error.message);
-            } else if (error instanceof DOMException) {
-              if (true)
-                logger.error(`DOMException when caching data ${pathname}:`, error.message);
-            } else {
-              if (true)
-                logger.error(`Failed to cache data ${pathname}:`, error);
-            }
-          })
-        );
-      }
-    }
-    async function cacheAsset(assetUrl) {
-      if (await assetCache2.match(assetUrl, {
-        ignoreSearch: true,
-        ignoreVary: true
-      })) {
-        return;
-      }
-      const response = await fetch(assetUrl);
-      return assetCache2.put(assetUrl, response).catch((error) => {
-        if (error instanceof TypeError) {
-          if (true)
-            logger.error(`TypeError when caching asset ${assetUrl}:`, error.message);
-        } else if (error instanceof DOMException) {
-          if (true)
-            logger.error(`DOMException when caching asset ${assetUrl}:`, error.message);
-        } else {
-          if (true)
-            logger.error(`Failed to cache asset ${assetUrl}:`, error);
-        }
-      });
-    }
-    function getPathname(route) {
-      if (route.index && route.parentId === "root")
-        return "/";
-      let pathname = "";
-      if (route.path && route.path.length > 0) {
-        pathname = "/" + route.path;
-      }
-      if (route.parentId) {
-        const parentPath = getPathname(manifest.routes[route.parentId]);
-        if (parentPath) {
-          pathname = parentPath + pathname;
-        }
-      }
-      return pathname;
-    }
-  }
-};
-
-// app/entry.worker.ts
-var PAGES = "page-cache";
-var DATA = "data-cache";
-var ASSETS = "assets-cache";
-var dataCache = Storage.open(DATA, {
-  ttl: 60 * 60 * 24 * 7 * 1e3
-  // 7 days
-});
-var documentCache = Storage.open(PAGES);
-var assetCache = Storage.open(ASSETS);
+function isDocumentGetRequest(request) {
+  return isMethod(request, ["get"]) && request.mode === "navigate";
+}
 self.addEventListener("install", (event) => {
-  logger.log("Service worker installed");
-  event.waitUntil(self.skipWaiting());
+  event.waitUntil(handleInstall(event).then(() => self.skipWaiting()));
 });
 self.addEventListener("activate", (event) => {
-  logger.log("Service worker activated");
-  event.waitUntil(self.clients.claim());
-});
-var dataHandler = networkFirst({
-  cache: dataCache
-});
-var assetsHandler = cacheFirst({
-  cache: assetCache,
-  cacheQueryOptions: {
-    ignoreSearch: true,
-    ignoreVary: true
-  }
-});
-var defaultFetchHandler = ({
-  context,
-  request
-}) => {
-  const type = matchRequest(request);
-  if (type === "asset") {
-    return assetsHandler(context.event.request);
-  }
-  if (type === "loader") {
-    return dataHandler(context.event.request);
-  }
-  return context.fetchFromServer();
-};
-var handler = new PrecacheHandler({
-  dataCache,
-  documentCache,
-  assetCache,
-  state: {
-    // A list of routes to ignore when precaching.
-    // Make sure to edit this list to match your app's routes.
-    // Alternatively, use ['*'] to ignore all routes.
-    // Or delete this option to precache all routes.
-    ignoredRoutes: (route) => route.id.includes("dashboard")
-  }
+  event.waitUntil(handleActivate(event).then(() => self.clients.claim()));
 });
 self.addEventListener("message", (event) => {
-  event.waitUntil(handler.handle(event));
+  event.waitUntil(handleMessage(event));
 });
+self.addEventListener("fetch", (event) => {
+  event.respondWith(
+    (async () => {
+      const result = {};
+      try {
+        result.response = await handleFetch(event);
+      } catch (error) {
+        result.error = error;
+      }
+      return appHandleFetch(event, result);
+    })()
+  );
+});
+async function appHandleFetch(event, {
+  error,
+  response
+}) {
+  if (response) {
+    return response;
+  } else {
+    return new Response("Error: " + error, { status: 500 });
+  }
+}
 
 // entry-module:@remix-pwa/build/magic
 var route0 = __toESM(require_root());
@@ -6655,7 +4025,7 @@ var route8 = __toESM(require_about());
 var route9 = __toESM(require__());
 
 // assets-module:@remix-pwa/dev?assets
-var assets = ["/build/root-QDFCOH46.js", "/build/manifest-B4148DFB.js", "/build/entry.client-TFK3ECOE.js", "/build/_assets/shared-BRBHLVQQ.css", "/build/_assets/github-AMHUECNQ.css", "/build/_shared/chunk-Z6NWNCZH.js", "/build/_shared/chunk-O6RR3CE5.js", "/build/_shared/chunk-JFSFZTVG.js", "/build/_shared/chunk-IRXSDJB4.js", "/build/_shared/chunk-IRWARBGZ.js", "/build/_shared/chunk-EIGOJF2K.js", "/build/_shared/chunk-EBFVTHUJ.js", "/build/_shared/chunk-CS5G4MP4.js", "/build/_shared/chunk-CMCTUQAB.js", "/build/_shared/chunk-5VJRENMX.js", "/build/_shared/chunk-4VWKRTCW.js", "/build/_shared/chunk-47YSXWI6.js", "/build/_shared/chunk-32XUHVRK.js", "/build/_shared/chunk-2QEWK57A.js", "/build/routes/manifest[.]webmanifest-N2HHPAYW.js", "/build/routes/feed[.xml]-5V5OPLXB.js", "/build/routes/articles_.tags_.$tag-SRKITVLV.js", "/build/routes/articles_.tags-VHMROXOB.js", "/build/routes/articles_.$id-2GAARVWD.js", "/build/routes/articles-YORYTBD5.js", "/build/routes/about-GJWRKRE3.js", "/build/routes/_index-5RGFUA67.js", "/build/routes/$-DQ45M4BY.js"];
+var assets = ["/build/root-JEV6UWWH.js", "/build/manifest-06B63A96.js", "/build/entry.client-IDQY3ULJ.js", "/build/__remix_entry_dev-OM2GXQIN.js", "/build/routes/manifest[.]webmanifest-5TSLQ42N.js", "/build/routes/feed[.xml]-T2YVFDI4.js", "/build/routes/articles_.tags_.$tag-IKKMKUD6.js", "/build/routes/articles_.tags-IUF7HUV4.js", "/build/routes/articles_.$id-6KQA3BUE.js", "/build/routes/articles-K3GBLRZ3.js", "/build/routes/about-MAFPHESA.js", "/build/routes/_index-HYEK6RE7.js", "/build/routes/$-TILFHGVP.js", "/build/_shared/runtime-QWW6WTEI.js", "/build/_shared/remix_hmr-MGNVQLUG.js", "/build/_shared/react-dom-DWCEFP2Q.js", "/build/_shared/react-JAEBBV56.js", "/build/_shared/jsx-runtime-QA7ESHHU.js", "/build/_shared/jsx-dev-runtime-J42BF2ES.js", "/build/_shared/esm-SA4IEJMN.js", "/build/_shared/client-JOU4YHLF.js", "/build/_shared/chunk-VB2FVQ2R.js", "/build/_shared/chunk-V7DDNAOQ.js", "/build/_shared/chunk-S2VO2VHD.js", "/build/_shared/chunk-RQ4XFMUJ.js", "/build/_shared/chunk-PZDJHGND.js", "/build/_shared/chunk-OW5FL5CY.js", "/build/_shared/chunk-NQPDFHR5.js", "/build/_shared/chunk-NBEH4DGX.js", "/build/_shared/chunk-N227UA7U.js", "/build/_shared/chunk-L3AF6RVZ.js", "/build/_shared/chunk-KZLVTLD7.js", "/build/_shared/chunk-KQPEM4XG.js", "/build/_shared/chunk-KQKFLMCB.js", "/build/_shared/chunk-KGLT7VYR.js", "/build/_shared/chunk-IC77GIV6.js", "/build/_shared/chunk-GZYRKJXK.js", "/build/_shared/chunk-FOFT36CU.js", "/build/_shared/chunk-BNPGTLDH.js", "/build/_shared/chunk-5K2LYSY5.js", "/build/_assets/shared-P7P5ZTKU.css", "/build/_assets/github-BSSX6CBR.css"];
 
 // entry-module:@remix-pwa/build/magic
 var routes = {
@@ -6745,7 +4115,7 @@ var entry = { module: entry_worker_exports };
 // node_modules/.pnpm/@remix-pwa+worker-runtime@2.0.8_@remix-run+server-runtime@2.5.0/node_modules/@remix-pwa/worker-runtime/dist/src/utils/handle-request.js
 init_router();
 var import_mode = __toESM(require_mode(), 1);
-var import_responses2 = __toESM(require_responses(), 1);
+var import_responses3 = __toESM(require_responses(), 1);
 
 // node_modules/.pnpm/@remix-pwa+worker-runtime@2.0.8_@remix-run+server-runtime@2.5.0/node_modules/@remix-pwa/worker-runtime/dist/src/utils/request.js
 init_router();
@@ -6806,9 +4176,9 @@ function isLoaderRequest2(request) {
 }
 
 // node_modules/.pnpm/@remix-pwa+worker-runtime@2.0.8_@remix-run+server-runtime@2.5.0/node_modules/@remix-pwa/worker-runtime/dist/src/utils/response.js
-var import_responses = __toESM(require_responses(), 1);
+var import_responses2 = __toESM(require_responses(), 1);
 function errorResponseToJson(errorResponse) {
-  return (0, import_responses.json)(errorResponse.error || { message: "Unexpected Server Error" }, {
+  return (0, import_responses2.json)(errorResponse.error || { message: "Unexpected Server Error" }, {
     status: errorResponse.status,
     statusText: errorResponse.statusText,
     headers: {
@@ -6850,8 +4220,8 @@ async function handleRequest({ defaultHandler: defaultHandler2, errorHandler, ev
       }).then(responseHandler);
     }
   } catch (error) {
-    const handler2 = (error2) => errorHandler(error2, _arguments);
-    return _errorHandler({ error, handler: handler2 });
+    const handler = (error2) => errorHandler(error2, _arguments);
+    return _errorHandler({ error, handler });
   }
   return defaultHandler2(_arguments);
 }
@@ -6861,18 +4231,18 @@ async function handleLoader({ event, loadContext, loader, routeId, routePath }) 
   if (result === void 0) {
     throw new Error(`You defined a loader for route "${routeId}" but didn't return anything from your \`worker loader\` function. Please return a value or \`null\`.`);
   }
-  if ((0, import_responses2.isDeferredData)(result)) {
-    if (result.init && (0, import_responses2.isRedirectStatusCode)(result.init.status || 200)) {
-      return (0, import_responses2.redirect)(new Headers(result.init.headers).get("Location"), result.init);
+  if ((0, import_responses3.isDeferredData)(result)) {
+    if (result.init && (0, import_responses3.isRedirectStatusCode)(result.init.status || 200)) {
+      return (0, import_responses3.redirect)(new Headers(result.init.headers).get("Location"), result.init);
     }
-    const body = (0, import_responses2.createDeferredReadableStream)(result, event.request.signal, import_mode.ServerMode.Production);
+    const body = (0, import_responses3.createDeferredReadableStream)(result, event.request.signal, import_mode.ServerMode.Production);
     const init = result.init || {};
     const headers = new Headers(init.headers);
     headers.set("Content-Type", "text/remix-deferred");
     init.headers = headers;
     return new Response(body, init);
   }
-  return (0, import_responses2.isResponse)(result) ? result : (0, import_responses2.json)(result);
+  return (0, import_responses3.isResponse)(result) ? result : (0, import_responses3.json)(result);
 }
 async function handleAction({ action, event, loadContext, routeId, routePath }) {
   const _arguments = createArgumentsFrom({ event, loadContext, path: routePath });
@@ -6880,10 +4250,10 @@ async function handleAction({ action, event, loadContext, routeId, routePath }) 
   if (result === void 0) {
     throw new Error(`You defined an action for route "${routeId}" but didn't return anything from your \`worker action\` function. Please return a value or \`null\`.`);
   }
-  return (0, import_responses2.isResponse)(result) ? result : (0, import_responses2.json)(result);
+  return (0, import_responses3.isResponse)(result) ? result : (0, import_responses3.json)(result);
 }
 function _errorHandler({ error, handler: handleError }) {
-  if ((0, import_responses2.isResponse)(error)) {
+  if ((0, import_responses3.isResponse)(error)) {
     error.headers.set("X-Remix-Catch", "yes");
     return error;
   }
@@ -6893,7 +4263,7 @@ function _errorHandler({ error, handler: handleError }) {
   }
   const errorInstance = error instanceof Error ? error : new Error("Unexpected Server Error");
   handleError(errorInstance);
-  return (0, import_responses2.json)({ message: errorInstance.message }, {
+  return (0, import_responses3.json)({ message: errorInstance.message }, {
     status: 500,
     headers: {
       "X-Remix-Error": "yes"
@@ -6901,7 +4271,7 @@ function _errorHandler({ error, handler: handleError }) {
   });
 }
 function responseHandler(response) {
-  if ((0, import_responses2.isRedirectResponse)(response)) {
+  if ((0, import_responses3.isRedirectResponse)(response)) {
     const headers = new Headers(response.headers);
     headers.set("X-Remix-Redirect", headers.get("Location"));
     headers.set("X-Remix-Status", String(response.status));
@@ -6957,17 +4327,6 @@ _self.addEventListener(
 );
 /*! Bundled license information:
 
-ieee754/index.js:
-  (*! ieee754. BSD-3-Clause License. Feross Aboukhadijeh <https://feross.org/opensource> *)
-
-buffer/index.js:
-  (*!
-   * The buffer module from node.js, for the browser.
-   *
-   * @author   Feross Aboukhadijeh <https://feross.org>
-   * @license  MIT
-   *)
-
 @remix-run/router/dist/router.js:
   (**
    * @remix-run/router v1.14.2
@@ -7005,6 +4364,30 @@ buffer/index.js:
    *)
 
 @remix-run/server-runtime/dist/responses.js:
+  (**
+   * @remix-run/server-runtime v2.5.0
+   *
+   * Copyright (c) Remix Software Inc.
+   *
+   * This source code is licensed under the MIT license found in the
+   * LICENSE.md file in the root directory of this source tree.
+   *
+   * @license MIT
+   *)
+
+@remix-run/server-runtime/dist/esm/responses.js:
+  (**
+   * @remix-run/server-runtime v2.5.0
+   *
+   * Copyright (c) Remix Software Inc.
+   *
+   * This source code is licensed under the MIT license found in the
+   * LICENSE.md file in the root directory of this source tree.
+   *
+   * @license MIT
+   *)
+
+@remix-run/server-runtime/dist/esm/index.js:
   (**
    * @remix-run/server-runtime v2.5.0
    *

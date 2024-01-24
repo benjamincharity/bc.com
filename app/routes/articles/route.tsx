@@ -15,100 +15,100 @@ import { generateMetaCollection } from '~/utils/generateMetaCollection'
 import { getTagsFromArticles } from '~/utils/getTagsFromArticles'
 
 interface LoaderData {
-    articles: ArticleReference[]
-    tags: TagsPayload
+  articles: ArticleReference[]
+  tags: TagsPayload
 }
 
 export async function loader() {
-    const articles = await getAllArticles()
-    const tags = getTagsFromArticles(articles)
+  const articles = await getAllArticles()
+  const tags = getTagsFromArticles(articles)
 
-    return json<LoaderData>(
-        {
-            articles,
-            tags,
-        },
-        {
-            headers: { 'Cache-Control': 'private, max-age=10' },
-        }
-    )
+  return json<LoaderData>(
+    {
+      articles,
+      tags,
+    },
+    {
+      headers: { 'Cache-Control': 'private, max-age=10' },
+    }
+  )
 }
 
 export const links: LinksFunction = () => {
-    return [
-        {
-            rel: 'stylesheet',
-            href: 'https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600;700&display=swap',
-        },
-    ]
+  return [
+    {
+      rel: 'stylesheet',
+      href: 'https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600;700&display=swap',
+    },
+  ]
 }
 
 export const meta: MetaFunction = ({ data }: FixMeLater) => {
-    return generateMetaCollection({
-        title: 'Articles',
-        summary:
-            'Explore expert articles on engineering leadership in startups and scale-ups. Discover guides on career paths, team dynamics, and innovation in tech.',
-        tags: data.tags,
-        url: `${siteMetadata.url}/articles`,
-    })
+  return generateMetaCollection({
+    title: 'Articles',
+    summary:
+      'Explore expert articles on engineering leadership in startups and scale-ups. Discover guides on career paths, team dynamics, and innovation in tech.',
+    tags: data.tags,
+    url: `${siteMetadata.url}/articles`,
+  })
 }
 
 export default function Route() {
-    const { articles, tags } = useLoaderData<LoaderData>()
-    const [searchParams] = useSearchParams()
-    const query = useMemo(() => searchParams.get('q'), [searchParams])
-    const reduceMotion = useReducedMotion()
+  const { articles, tags } = useLoaderData<LoaderData>()
+  const [searchParams] = useSearchParams()
+  const query = useMemo(() => searchParams.get('q'), [searchParams])
+  const reduceMotion = useReducedMotion()
 
-    const scrollToBottom = (event: React.MouseEvent) => {
-        event.preventDefault()
-        window.scrollTo({
-            top: document.body.scrollHeight,
-            behavior: reduceMotion ? 'auto' : 'smooth',
-        })
-    }
-    const scrollToTop = (event: React.MouseEvent) => {
-        event.preventDefault()
-        window.scrollTo({
-            top: 0,
-            behavior: reduceMotion ? 'auto' : 'smooth',
-        })
-    }
+  const scrollToBottom = (event: React.MouseEvent) => {
+    event.preventDefault()
+    window.scrollTo({
+      top: document.body.scrollHeight,
+      behavior: reduceMotion ? 'auto' : 'smooth',
+    })
+  }
+  const scrollToTop = (event: React.MouseEvent) => {
+    event.preventDefault()
+    window.scrollTo({
+      top: 0,
+      behavior: reduceMotion ? 'auto' : 'smooth',
+    })
+  }
 
-    return (
-        <section className={'prose-wrapper pb-6'}>
-            <div className="flex justify-between align-middle">
-                <BackToLink to={RoutesPath.home}>Home</BackToLink>
-                <button
-                    className={
-                        'animated-link-underline relative -top-1 mb-4 text-sm font-normal'
-                    }
-                    onClick={scrollToBottom}
-                >
-                    Jump to tags &darr;
-                </button>
-            </div>
+  return (
+    <section className={'prose-wrapper pb-6'}>
+      <div className="flex justify-between align-middle">
+        <BackToLink to={RoutesPath.home}>Home</BackToLink>
+        <button
+          className={
+            'animated-link-underline relative -top-1 mb-4 text-sm font-normal'
+          }
+          onClick={scrollToBottom}
+        >
+          Jump to tags &darr;
+        </button>
+      </div>
 
-            <ArticlesList articles={articles} />
+      <ArticlesList articles={articles} />
 
-            <div className={'text-right'}>
-                <button
-                    className={
-                        'animated-link-underline mb-4 text-sm font-normal leading-6'
-                    }
-                    onClick={scrollToTop}
-                >
-                    Back to top &uarr;
-                </button>
-            </div>
+      <div className={'text-right'}>
+        <button
+          className={
+            'animated-link-underline mb-4 text-sm font-normal leading-6'
+          }
+          onClick={scrollToTop}
+        >
+          Back to top &uarr;
+        </button>
+      </div>
 
-            <hr className={'fancy'} />
+      <hr className={'fancy'} />
 
-            <BrowseByTags
-                currentTag={query ?? ''}
-                heading={'Browse by tags:'}
-                id="tags-section"
-                tags={tags}
-            />
-        </section>
-    )
+      <BrowseByTags
+        currentTag={query ?? ''}
+        heading={'Browse by tags:'}
+        id="tags-section"
+        tags={tags}
+      />
+    </section>
+  )
 }
