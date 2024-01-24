@@ -6,11 +6,11 @@ declare module 'remark-emoji' {}
 declare module 'remark-html' {}
 declare module 'md2react' {}
 declare module 'rehypeReact' {
-    createElement: React.createElement
+  createElement: React.createElement
 }
 
 // rehype-figure.d.ts
 declare module '@microflash/rehype-figure' {
-    // Define the module's exports here
-    export default function rehypeFigure(options?: any): any
+  // Define the module's exports here
+  export default function rehypeFigure(options?: any): any
 }
