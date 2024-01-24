@@ -6,7 +6,6 @@ import { SpeedInsights } from '@vercel/speed-insights/remix';
 import {
   isRouteErrorResponse,
   Links,
-  LiveReload,
   Meta,
   Outlet,
   Scripts,
@@ -26,6 +25,7 @@ import { determineIfShouldShowBackground } from '~/routes/_index/route';
 import * as gtag from '~/utils/gtags.client';
 import { generateMetaCollection } from '~/utils/generateMetaCollection';
 import { ModernButton } from '~/components/ModernButton';
+import { LiveReload, useSWEffect } from '@remix-pwa/sw';
 
 export function loader({ request }: { request: Request }) {
   const url = new URL(request.url);
@@ -38,14 +38,15 @@ export function loader({ request }: { request: Request }) {
 
 export const links: LinksFunction = () => {
   return [
-    { rel: 'preconnect', href: 'https://fonts.gstatic.com' },
     { rel: 'preconnect', href: 'https://www.googletagmanager.com' },
     { rel: 'preconnect', href: 'https://www.google-analytics.com' },
+    { rel: 'preconnect', href: 'https://fonts.gstatic.com' },
     {
       rel: 'preconnect',
       href: 'https://fonts.gstatic.com',
       crossOrigin: 'anonymous',
     },
+    { rel: 'preconnect', href: 'https://res.cloudinary.com' },
     {
       rel: 'preload',
       href: 'https://fonts.googleapis.com/css2?family=VT323&display=swap',
@@ -67,27 +68,21 @@ export const links: LinksFunction = () => {
     {
       rel: 'icon',
       type: 'image/png',
-      href: '/favicons/favicon-32x32.png',
+      href: '/images/pwa/favicon-32x32.png',
     },
   ];
 };
 
 export const meta: MetaFunction = () => {
-  return [
-    ...generateMetaCollection({
-      title: siteMetadata.title,
-      summary: siteMetadata.description,
-      tags: [],
-      url: `${siteMetadata.url}/articles`,
-    }),
-    { rel: 'manifest', href: '/manifest.json' },
-  ];
+  return [...generateMetaCollection()];
 };
 
 export default function App() {
   const location = useLocation();
   const { gaTrackingId, showBackground } = useLoaderData<typeof loader>();
   const [showBg, setShowBg] = useState(showBackground);
+
+  useSWEffect();
 
   useEffect(() => {
     if (gaTrackingId?.length) {
@@ -116,6 +111,7 @@ export default function App() {
     >
       <head>
         <Meta />
+        <link rel="manifest" href="/manifest.webmanifest" />
         <Links />
       </head>
 

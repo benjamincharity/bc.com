@@ -4,6 +4,7 @@ export const loader = async () => {
   return json(
     {
       short_name: 'BC',
+      lang: 'en-US',
       name: 'Benjamin Charity',
       start_url: '/',
       display: 'standalone',
@@ -158,7 +159,7 @@ export const loader = async () => {
     },
     {
       headers: {
-        'Cache-Control': 'public, max-age=600',
+        'Cache-Control': `public, max-age=600`,
         'Content-Type': 'application/manifest+json',
       },
     },
