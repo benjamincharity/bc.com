@@ -1,11 +1,11 @@
 ---
 title: 'Questions to ask when building a data-table'
-summary: "This list of 196 questions can assist with the initial discovery phase and align the expectations of all stakeholders when building a data-table."
+summary: 'This list of 196 questions can assist with the initial discovery phase and align the expectations of all stakeholders when building a data-table.'
 tags:
-  - ux
-  - ui
-  - design
-  - planning
+    - ux
+    - ui
+    - design
+    - planning
 published: true
 publishDate: 2021-06-17
 readingTime: 10
@@ -18,202 +18,202 @@ Data tables are certainly one of the most complex UI features to implement. **Be
 
 Jump to section:
 
-- [Data](#data)
-- [Rows](#rows)
-- [Columns](#columns)
-- [Cells](#cells)
-- [General](#general)
+-   [Data](#data)
+-   [Rows](#rows)
+-   [Columns](#columns)
+-   [Cells](#cells)
+-   [General](#general)
 
 ## Data
 
-- How should large datasets be handled?
-  - Pagination
-    - What type of controls should be supported?
-      - Back, next, select page, go to first or last, jump to page menu, page buttons…
-    - Should the user be able to define how many records are shown per page?
-      - Should this setting be restored when the application is reloaded?
-      - Should this be a view-level setting or an application-level setting?
-  - Virtual scroll (data is dynamically loaded and removed as the user scrolls through the content)
-  - Infinite scroll or lazy loading (more data is loaded as the user reaches the bottom)
-  - Showing dynamic messaging to encourage the user to filter the data more aggressively.
-- How should empty states be handled?
-  - Should the display be different based on the reason there is no data?
-    - No data has ever existed
-    - No data exists currently
-    - No data was returned with the current filter(s) or search
-    - No data was returned due to an error
-- Should the display of data change for specific users or roles?
-  - e.g., An admin role may have different graphs or summaries compared to a basic user.
-- Should the table allow filtering the data?
-  - Is the filter column-specific or applied to the entire table?
-  - Should all columns be filterable?
-  - Can more than one column be filtered at the same time?
-  - Are there any possible data points that the user _cannot_ filter by?
-  - Can the table be filtered on a global level as well?
-  - How should the search be executed?
-    - Explicit match
-    - Fuzzy match
-    - Do any phrases or terms get extra weight? (industry terms, trends, location..)
-    - How should typos be handled?
-    - How should synonyms be handled?
-    - Should search operators be supported? (`this +that -notThis`…)
-    - Should wildcards be supported?
-    - Should regex be supported?
-    - Is the search executed in real time or should the user be required to submit the query?
-  - Should multi-level filters be supported? (i.e. 'rule-builder')
-  - Should query results highlighted?
-    - Should it be highlighted at the row level, cell level or both?
-- Can the user search for specific data?
-  - Note: We consider it a 'search' when the query requests data from the server and a 'filter' when the query
-    narrows a data-set.
-  - Note: See the section above 'Should the table allow filtering the data?' as most of the questions also apply here.
-- How should the data initially be sorted when the table first loads?
-- If data is updated while the user is viewing the table, how should the user be alerted?
+-   How should large datasets be handled?
+    -   Pagination
+        -   What type of controls should be supported?
+            -   Back, next, select page, go to first or last, jump to page menu, page buttons…
+        -   Should the user be able to define how many records are shown per page?
+            -   Should this setting be restored when the application is reloaded?
+            -   Should this be a view-level setting or an application-level setting?
+    -   Virtual scroll (data is dynamically loaded and removed as the user scrolls through the content)
+    -   Infinite scroll or lazy loading (more data is loaded as the user reaches the bottom)
+    -   Showing dynamic messaging to encourage the user to filter the data more aggressively.
+-   How should empty states be handled?
+    -   Should the display be different based on the reason there is no data?
+        -   No data has ever existed
+        -   No data exists currently
+        -   No data was returned with the current filter(s) or search
+        -   No data was returned due to an error
+-   Should the display of data change for specific users or roles?
+    -   e.g., An admin role may have different graphs or summaries compared to a basic user.
+-   Should the table allow filtering the data?
+    -   Is the filter column-specific or applied to the entire table?
+    -   Should all columns be filterable?
+    -   Can more than one column be filtered at the same time?
+    -   Are there any possible data points that the user _cannot_ filter by?
+    -   Can the table be filtered on a global level as well?
+    -   How should the search be executed?
+        -   Explicit match
+        -   Fuzzy match
+        -   Do any phrases or terms get extra weight? (industry terms, trends, location..)
+        -   How should typos be handled?
+        -   How should synonyms be handled?
+        -   Should search operators be supported? (`this +that -notThis`…)
+        -   Should wildcards be supported?
+        -   Should regex be supported?
+        -   Is the search executed in real time or should the user be required to submit the query?
+    -   Should multi-level filters be supported? (i.e. 'rule-builder')
+    -   Should query results highlighted?
+        -   Should it be highlighted at the row level, cell level or both?
+-   Can the user search for specific data?
+    -   Note: We consider it a 'search' when the query requests data from the server and a 'filter' when the query
+        narrows a data-set.
+    -   Note: See the section above 'Should the table allow filtering the data?' as most of the questions also apply here.
+-   How should the data initially be sorted when the table first loads?
+-   If data is updated while the user is viewing the table, how should the user be alerted?
 
 ## Rows
 
-- Should rows support custom styles?
-  - Status, validity, selection, highlight…
-- Should rows support pinning?
-  - Where can they be pinned?
-    - Top, content, bottom
-  - How many rows can be pinned at once?
-    - A single top, content or bottom
-    - A single top and a single footer
-    - Multiple top and/or multiple bottom
-    - Multiple top, content or bottom
-- Should the header row be fixed or scroll out of view?
-- Can rows be grouped?
-- Should rows support varying heights?
-  - How should row content be vertically aligned?
-- Should rows support custom templates?
-- Should rows support dynamic height changes?
-  - Expansion panel, progressive enhancement..
-- Can a row be in a selected state?
-  - Do any data types have restrictions on when a user may or may not select or unselect a row?
-  - Are selections removed or preserved when the user paginates after selecting one or more rows?
-  - How should the selected state be visually represented?
-- Will any views need a summary row?
-  - Will there be a need for more than one summary row?
-  - Will any of the summary rows require data not included in the tables primary data set?
-- Should the table support a common set of actions for a row? (delete, duplicate..)
-  - Should these actions always be visible?
-    - Always visible
-    - Shown on hover or focus
-    - Table enters 'edit' mode
-- Should rows support a disabled or read-only state?
-- Is there a need to highlight certain rows?
-  - Is there a single highlight style or multiple types?
-  - Can multiple rows be highlighted at the same time?
-- Should users be able to quickly view more detail?
-  - Popover, modal, drawer, expansion panel, split view..
-  - Can multiple quick-views be open at the same time?
-  - Do certain columns need to remain visible when the quick-view is open?
-- Can data be edited at the row level?
-- Should the table support zebra striped rows?
-- Should a user be able to manually sort rows via drag and drop?
+-   Should rows support custom styles?
+    -   Status, validity, selection, highlight…
+-   Should rows support pinning?
+    -   Where can they be pinned?
+        -   Top, content, bottom
+    -   How many rows can be pinned at once?
+        -   A single top, content or bottom
+        -   A single top and a single footer
+        -   Multiple top and/or multiple bottom
+        -   Multiple top, content or bottom
+-   Should the header row be fixed or scroll out of view?
+-   Can rows be grouped?
+-   Should rows support varying heights?
+    -   How should row content be vertically aligned?
+-   Should rows support custom templates?
+-   Should rows support dynamic height changes?
+    -   Expansion panel, progressive enhancement..
+-   Can a row be in a selected state?
+    -   Do any data types have restrictions on when a user may or may not select or unselect a row?
+    -   Are selections removed or preserved when the user paginates after selecting one or more rows?
+    -   How should the selected state be visually represented?
+-   Will any views need a summary row?
+    -   Will there be a need for more than one summary row?
+    -   Will any of the summary rows require data not included in the tables primary data set?
+-   Should the table support a common set of actions for a row? (delete, duplicate..)
+    -   Should these actions always be visible?
+        -   Always visible
+        -   Shown on hover or focus
+        -   Table enters 'edit' mode
+-   Should rows support a disabled or read-only state?
+-   Is there a need to highlight certain rows?
+    -   Is there a single highlight style or multiple types?
+    -   Can multiple rows be highlighted at the same time?
+-   Should users be able to quickly view more detail?
+    -   Popover, modal, drawer, expansion panel, split view..
+    -   Can multiple quick-views be open at the same time?
+    -   Do certain columns need to remain visible when the quick-view is open?
+-   Can data be edited at the row level?
+-   Should the table support zebra striped rows?
+-   Should a user be able to manually sort rows via drag and drop?
 
 ## Columns
 
-- Can columns be added or removed from the table?
-  - How is the initial visibility determined for each column?
-- Should columns support pinning?
-  - Where can they be pinned?
-    - Start, current location or end
-  - How many can be pinned at once?
-    - Only one start, content or end
-    - One start and one end
-    - Multiple start or multiple end
-    - Multiple start, content or end
-- Should columns support reordering?
-  - Can column reordering be disabled for one or many columns?
-- Can data be ordered by column data (sorting)?
-  - Can a sorted column be 'unsorted'?
-  - On the first sort, does the column sort ascending or descending?
-    - Are there any data types that might require the opposite initial sort?
-  - What visuals should be used to indicate the current order?
-  - Can data be sorted by multiple columns at once?
-    - How should column priority be indicated?
-- Can columns be grouped?
-- Can text alignment be customized for specific columns?
-- How are columns initially sized?
-  - Equal distribution (percentage)
-  - Based on column contents (dynamic)
-  - View level setting (fixed)
-  - Weighted (a combination of percentage and dynamic)
-  - How should sizing be affected when the data is wider than the viewport?
-  - How should sizing be affected when the data is less than the width of the viewport?
-- Should users be able to resize columns?
-  - Should resizing be disabled for certain columns or views?
-- Can a column be in a selected state?
-  - Can multiple columns be selected?
-    - Do the columns need to be contiguous?
-- Should a column be able to span multiple columns?
+-   Can columns be added or removed from the table?
+    -   How is the initial visibility determined for each column?
+-   Should columns support pinning?
+    -   Where can they be pinned?
+        -   Start, current location or end
+    -   How many can be pinned at once?
+        -   Only one start, content or end
+        -   One start and one end
+        -   Multiple start or multiple end
+        -   Multiple start, content or end
+-   Should columns support reordering?
+    -   Can column reordering be disabled for one or many columns?
+-   Can data be ordered by column data (sorting)?
+    -   Can a sorted column be 'unsorted'?
+    -   On the first sort, does the column sort ascending or descending?
+        -   Are there any data types that might require the opposite initial sort?
+    -   What visuals should be used to indicate the current order?
+    -   Can data be sorted by multiple columns at once?
+        -   How should column priority be indicated?
+-   Can columns be grouped?
+-   Can text alignment be customized for specific columns?
+-   How are columns initially sized?
+    -   Equal distribution (percentage)
+    -   Based on column contents (dynamic)
+    -   View level setting (fixed)
+    -   Weighted (a combination of percentage and dynamic)
+    -   How should sizing be affected when the data is wider than the viewport?
+    -   How should sizing be affected when the data is less than the width of the viewport?
+-   Should users be able to resize columns?
+    -   Should resizing be disabled for certain columns or views?
+-   Can a column be in a selected state?
+    -   Can multiple columns be selected?
+        -   Do the columns need to be contiguous?
+-   Should a column be able to span multiple columns?
 
 ## Cells
 
-- Should text wrap or be truncated when it is wider than the cell?
-  - If truncated, how will users be able to see the full text?
-    - Where should the text be truncated? (beginning, middle, end)
-- Should cells support custom styles?
-  - Background, typography treatment..
-- Should cells support custom formatters?
-- Should cells support full custom templates?
-  - Content cells, header cells, footer cells or all cells?
-- Should cells support inline editing?
-  - How should the editor be presented?
-    - Contenteditable, switch to input, popover, modal
-  - How should the user determine when editing is possible?
-  - How should state changes be represented? (i.e., updated, saved…)
-  - What should happen if an edit fails?
-    - Should the data revert to its previous state?
-    - Should the field be marked as errored?
-    - How should the user be alerted to the failure?
-  - Should the user be able to undo or redo changes?
-- Can a cell be in a selected state?
-  - Can multiple cells be selected at once?
-    - Do the cells need to be contiguous?
-  - How is the selected state visually represented?
-- Can a cell be in a disabled or read-only state?
-- Is there a need to highlight certain cells?
-  - Is there a single highlight style or multiple types? (e.g., positive, negative…)
-  - Is there a need for multiple cells be highlighted at once?
-- Should cells support any form of progressive disclosure?
-  - Popover, modal, tooltip..
-- What type of content should be supported?
-  - Text, image, code, button, link, icon, number, data visualization, map, embed, dropdown, date-picker..
+-   Should text wrap or be truncated when it is wider than the cell?
+    -   If truncated, how will users be able to see the full text?
+        -   Where should the text be truncated? (beginning, middle, end)
+-   Should cells support custom styles?
+    -   Background, typography treatment..
+-   Should cells support custom formatters?
+-   Should cells support full custom templates?
+    -   Content cells, header cells, footer cells or all cells?
+-   Should cells support inline editing?
+    -   How should the editor be presented?
+        -   Contenteditable, switch to input, popover, modal
+    -   How should the user determine when editing is possible?
+    -   How should state changes be represented? (i.e., updated, saved…)
+    -   What should happen if an edit fails?
+        -   Should the data revert to its previous state?
+        -   Should the field be marked as errored?
+        -   How should the user be alerted to the failure?
+    -   Should the user be able to undo or redo changes?
+-   Can a cell be in a selected state?
+    -   Can multiple cells be selected at once?
+        -   Do the cells need to be contiguous?
+    -   How is the selected state visually represented?
+-   Can a cell be in a disabled or read-only state?
+-   Is there a need to highlight certain cells?
+    -   Is there a single highlight style or multiple types? (e.g., positive, negative…)
+    -   Is there a need for multiple cells be highlighted at once?
+-   Should cells support any form of progressive disclosure?
+    -   Popover, modal, tooltip..
+-   What type of content should be supported?
+    -   Text, image, code, button, link, icon, number, data visualization, map, embed, dropdown, date-picker..
 
 ## General
 
-- Should the current state be restored if the page is refreshed?
-  - State refers to sort, filter, column visibility, column order, column and row pinning, row selection, cell
-    selection…
-- Should the table support sharing or bookmarking a URL to a specific filtered or sorted state?
-- Should the table support multiple display densities?
-  - Is this setting per-view or application wide?
-- What type of keyboard support should be supported?
-  - This could range from simple arrow key support to full Excel-like keyboard controls.
-- Should the table highlight the currently hovered row and/or column? (crosshair)
-- Should the table support a custom context (right-click) menu?
-- Should the table be responsive?
-  - How should the table be displayed and function on small screens?
-- Should touch devices be supported?
-  - How should keyboard shortcuts be translated to touch devices?
-  - How should batch selection work?
-- Should the table support bulk actions?
-- Should the table support a visual summary?
-  - Which visualizations should be provided?
-  - Can visualizations be customized?
-    - Per view? Per user?
-- Should the user be able to export the data?
-  - What formats should be supported? CSV, PDF, Excel, clipboard..
-  - What data should be exported?
-    - The visible data.
-    - All data in the current set regardless of current visibility.
-- Should tables support nesting inside another table?
-  - How many levels of nesting is needed?
-- Should the table support a printer friendly view?
-- Should the table support a high-contrast mode?
+-   Should the current state be restored if the page is refreshed?
+    -   State refers to sort, filter, column visibility, column order, column and row pinning, row selection, cell
+        selection…
+-   Should the table support sharing or bookmarking a URL to a specific filtered or sorted state?
+-   Should the table support multiple display densities?
+    -   Is this setting per-view or application wide?
+-   What type of keyboard support should be supported?
+    -   This could range from simple arrow key support to full Excel-like keyboard controls.
+-   Should the table highlight the currently hovered row and/or column? (crosshair)
+-   Should the table support a custom context (right-click) menu?
+-   Should the table be responsive?
+    -   How should the table be displayed and function on small screens?
+-   Should touch devices be supported?
+    -   How should keyboard shortcuts be translated to touch devices?
+    -   How should batch selection work?
+-   Should the table support bulk actions?
+-   Should the table support a visual summary?
+    -   Which visualizations should be provided?
+    -   Can visualizations be customized?
+        -   Per view? Per user?
+-   Should the user be able to export the data?
+    -   What formats should be supported? CSV, PDF, Excel, clipboard..
+    -   What data should be exported?
+        -   The visible data.
+        -   All data in the current set regardless of current visibility.
+-   Should tables support nesting inside another table?
+    -   How many levels of nesting is needed?
+-   Should the table support a printer friendly view?
+-   Should the table support a high-contrast mode?
 
 ---
 
@@ -224,7 +224,7 @@ to reference, and I hope it can help others as well!
 
 ## Further reading
 
-- https://uxdesign.cc/designing-smarter-data-tables-8cb15b5371a8
-- https://medium.com/nextux/design-better-data-tables-4ecc99d23356
-- https://uxdesign.cc/designing-better-tables-for-enterprise-applications-f9ef545e9fbd
-- https://medium.muz.li/complex-tables-356826d11861
+-   https://uxdesign.cc/designing-smarter-data-tables-8cb15b5371a8
+-   https://medium.com/nextux/design-better-data-tables-4ecc99d23356
+-   https://uxdesign.cc/designing-better-tables-for-enterprise-applications-f9ef545e9fbd
+-   https://medium.muz.li/complex-tables-356826d11861

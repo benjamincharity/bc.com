@@ -1,10 +1,10 @@
 ---
 title: 'Mastering Color in Data Visualization: A Guide to Creating a Custom Color Interpolator'
-summary: "Learn how to create a custom color interpolator for more control and precision in your visualizations. Ideal for developers and data scientists seeking to enhance their projects."
+summary: 'Learn how to create a custom color interpolator for more control and precision in your visualizations. Ideal for developers and data scientists seeking to enhance their projects.'
 tags:
-  - 'color'
-  - 'data-viz'
-  - 'javascript'
+    - 'color'
+    - 'data-viz'
+    - 'javascript'
 published: true
 publishDate: 2024-01-12
 readingTime: 2
@@ -20,9 +20,9 @@ While experimenting with generated color palettes for a data visualization proje
 
 The color interpolator generates intermediate colors from two input colors. This process involves:
 
-- Defining a starting and an ending color in RGB format.
-- Specifying the number of steps or intermediate colors required.
-- Utilizing an interpolation function to blend the colors.
+-   Defining a starting and an ending color in RGB format.
+-   Specifying the number of steps or intermediate colors required.
+-   Utilizing an interpolation function to blend the colors.
 
 ### Implementation
 
@@ -38,18 +38,18 @@ The implementation involves two primary functions: `interpolateColor` and `inter
  * @returns The interpolated color
  */
 function interpolateColor(
-  color1: number[],
-  color2: number[],
-  factor: number = 0.5,
+    color1: number[],
+    color2: number[],
+    factor: number = 0.5
 ): number[] {
-  if (color1.length !== color2.length) {
-    throw new Error('Color arrays must have the same length');
-  }
+    if (color1.length !== color2.length) {
+        throw new Error('Color arrays must have the same length')
+    }
 
-  return color1.map((value, index) => {
-    const diff = color2[index] - value;
-    return Math.round(value + factor * diff);
-  });
+    return color1.map((value, index) => {
+        const diff = color2[index] - value
+        return Math.round(value + factor * diff)
+    })
 }
 
 /**
@@ -61,18 +61,18 @@ function interpolateColor(
  * @returns The array of interpolated color values
  */
 function interpolateColors(color1, color2, steps) {
-  const [r1, g1, b1] = color1.match(/\d+/g).map(Number);
-  const [r2, g2, b2] = color2.match(/\d+/g).map(Number);
+    const [r1, g1, b1] = color1.match(/\d+/g).map(Number)
+    const [r2, g2, b2] = color2.match(/\d+/g).map(Number)
 
-  const interpolatedColorArray = [];
+    const interpolatedColorArray = []
 
-  for (let i = 0; i < steps; i++) {
-    const factor = i / (steps - 1);
-    const [r, g, b] = interpolateColor([r1, g1, b1], [r2, g2, b2], factor);
-    interpolatedColorArray.push(`rgb(${r}, ${g}, ${b})`);
-  }
+    for (let i = 0; i < steps; i++) {
+        const factor = i / (steps - 1)
+        const [r, g, b] = interpolateColor([r1, g1, b1], [r2, g2, b2], factor)
+        interpolatedColorArray.push(`rgb(${r}, ${g}, ${b})`)
+    }
 
-  return interpolatedColorArray;
+    return interpolatedColorArray
 }
 ```
 
@@ -80,14 +80,27 @@ function interpolateColors(color1, color2, steps) {
 
 The usage involves:
 
-- Defining the start and end colors (`COLOR_ONE` and `COLOR_TWO`).
-- Setting the number of desired color steps (`STEPS`).
-- Applying the generated colors to HTML elements, in this case, divs within a wrapper.
+-   Defining the start and end colors (`COLOR_ONE` and `COLOR_TWO`).
+-   Setting the number of desired color steps (`STEPS`).
+-   Applying the generated colors to HTML elements, in this case, divs within a wrapper.
 
-<p className="codepen" data-height="300" data-default-tab="js,result" data-slug-hash="rvMYMX" data-user="benjamincharity" style="{{height: 300px, box-sizing: border-box, display: flex, align-items: center, justify-content: center, border: 2px solid, margin: 1em 0, padding: 1em}}">
-  <span>See the Pen <a href="https://codepen.io/benjamincharity/pen/rvMYMX">
-  Interpolate colors</a> by Benjamin Charity (<a href="https://codepen.io/benjamincharity">@benjamincharity</a>)
-  on <a href="https://codepen.io">CodePen</a>.</span>
+<p
+    className="codepen"
+    data-height="300"
+    data-default-tab="js,result"
+    data-slug-hash="rvMYMX"
+    data-user="benjamincharity"
+    style="{{height: 300px, box-sizing: border-box, display: flex, align-items: center, justify-content: center, border: 2px solid, margin: 1em 0, padding: 1em}}"
+>
+    <span>
+        See the Pen{' '}
+        <a href="https://codepen.io/benjamincharity/pen/rvMYMX">
+            Interpolate colors
+        </a>{' '}
+        by Benjamin Charity (
+        <a href="https://codepen.io/benjamincharity">@benjamincharity</a>) on{' '}
+        <a href="https://codepen.io">CodePen</a>.
+    </span>
 </p>
 
 ---
