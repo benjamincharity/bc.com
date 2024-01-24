@@ -2,6 +2,7 @@ import { json, LinksFunction, MetaFunction } from '@remix-run/node';
 import highlightStyle from 'highlight.js/styles/github.css';
 import { ExternalScripts } from 'remix-utils/external-scripts';
 import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/remix';
 import {
   isRouteErrorResponse,
   Links,
@@ -197,6 +198,7 @@ export function ErrorBoundary() {
         <FancyBackground isVisible={true} />
         <Scripts />
         <ExternalScripts />
+        <SpeedInsights />
         <script
           async
           src="https://cpwebassets.codepen.io/assets/embed/ei.js"
