@@ -84,17 +84,18 @@ const rehypeRewriteOptions: RehypeRewriteOptions = {
           customWidth,
         );
         const hString = customHeight ? `h_${customHeight},` : '';
-        const finalSrc = `https://res.cloudinary.com/${ACCOUNT_NAME}/image/upload/c_scale,${hString}w_${customWidth ?? imageBreakpoints[imageBreakpoints.length - 1]}/f_auto/article-content/${src}`;
+        const w = customWidth ?? imageBreakpoints[imageBreakpoints.length - 1];
+        const finalSrc = `https://res.cloudinary.com/${ACCOUNT_NAME}/image/upload/c_scale,${hString}w_${w}/f_auto/article-content/${src}`;
         const sizes = generateSizes(
           isHighRes ? [640, 800, 960, 1200] : imageBreakpoints,
         );
 
         node.properties = {
           ...node.properties,
-          srcset,
+          alt,
           sizes,
           src: finalSrc,
-          alt,
+          srcset,
         };
       }
     }
