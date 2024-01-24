@@ -21,6 +21,7 @@ export const siteMetadata = {
   ],
   aboutMe:
     'My focus is on creating and refining systems that not only deliver a cohesive user experience and improved accessibility but also significantly boost the return on investment for business units focused on developing feature-rich solutions and addressing user needs.',
+  name: 'Benjamin Charity',
   logo: '/images/pwa/manifest-icon-512.png',
   logo_dark_mode: '/images/pwa/manifest-icon-512.png',
 };

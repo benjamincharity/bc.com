@@ -15,7 +15,4 @@ Credit for many of the color palettes: https://coolors.co/
 /* SITE */
 
 Last update: @@LastUpdated
-Components: Angular, SCSS, NX, NodeJS, Jest, Scully, Netlify
-Software: Webstorm, iTerm2, BraveBrowser
-
-
+Components: RemixJS, TypeScript, Vercel, CSS, GitHub

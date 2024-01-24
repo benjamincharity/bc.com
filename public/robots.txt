@@ -16,4 +16,4 @@ Disallow: /*.js$
 Disallow: /*.css$
 
 # Sitemap location
-Sitemap: https://www.yourdomain.com/sitemap.xml
+# Sitemap: https://www.benjamincharity.com/sitemap.xml

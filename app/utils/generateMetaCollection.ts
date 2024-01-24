@@ -9,10 +9,12 @@ interface GenerateMetaCollectionProps {
   disableScale?: boolean;
 }
 
-export function generateMetaCollection(props: GenerateMetaCollectionProps) {
+export function generateMetaCollection(
+  props: GenerateMetaCollectionProps = {} as GenerateMetaCollectionProps,
+) {
   const {
     imageUrl = siteMetadata.image,
-    summary,
+    summary = siteMetadata.description,
     tags = [],
     title = siteMetadata.title,
     url = siteMetadata.url,
@@ -32,7 +34,7 @@ export function generateMetaCollection(props: GenerateMetaCollectionProps) {
     { name: 'title', content: title },
     { name: 'description', content: summary },
     { name: 'keywords', content: keywords },
-    { name: 'author', content: 'Benjamin Charity' },
+    { name: 'author', content: siteMetadata.name },
 
     // Open Graph / Facebook / LinkedIn
     { property: 'og:title', content: title },
@@ -46,10 +48,38 @@ export function generateMetaCollection(props: GenerateMetaCollectionProps) {
     { name: 'twitter:title', content: title },
     { name: 'twitter:description', content: summary },
     { name: 'twitter:image', content: finalImageUrl },
-    { name: 'twitter:creator', content: 'benjamincharity' },
-    { name: 'twitter:site', content: '@[your Twitter handle]' }, // Added Twitter site handle
+    { name: 'twitter:creator', content: siteMetadata.twitter },
+    { name: 'twitter:site', content: `@${siteMetadata.twitter}` },
 
     // Additional tags
+    {
+      tag: 'link',
+      rel: 'apple-touch-icon',
+      sizes: '180x180',
+      href: '/images/pwa/apple-touch-icon.png',
+    },
+    {
+      tag: 'link',
+      rel: 'icon',
+      type: 'image/png',
+      sizes: '32x32',
+      href: '/images/pwa/favicon-32x32.png',
+    },
+    {
+      tag: 'link',
+      rel: 'icon',
+      type: 'image/png',
+      sizes: '16x16',
+      href: '/images/pwa/favicon-16x16.png',
+    },
+    {
+      tag: 'link',
+      rel: 'mask-icon',
+      href: '/images/pwa//safari-pinned-tab.svg',
+      color: '#3874ce',
+    },
+    { name: 'msapplication-TileColor', content: '#3874ce' },
+    { name: 'theme-color', content: '#3874ce' },
     { tag: 'link', rel: 'canonical', href: url },
   ];
 }
