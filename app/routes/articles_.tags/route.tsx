@@ -1,8 +1,11 @@
 import { LinksFunction, LoaderFunction, MetaFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
+import React from 'react';
 
+import { BackToTop } from '~/components/BackToTop';
 import { Badge } from '~/components/Badge';
+import { Footer } from '~/components/Footer';
 import { PrimaryTitle } from '~/components/PrimaryTitle';
 import { colors } from '~/data/colors.data';
 import { RoutesPath } from '~/data/routes.data';
@@ -54,7 +57,7 @@ export default function Tags() {
   const { tags } = useLoaderData<LoaderData>();
 
   return (
-    <div className="prose-wrapper">
+    <main className="prose-wrapper">
       <BackToLink to={RoutesPath.articles} />
 
       <PrimaryTitle title={'Tags'} className={'mb-6 text-center'} />
@@ -75,6 +78,9 @@ export default function Tags() {
           );
         })}
       </nav>
-    </div>
+      <BackToTop wrapperProps={{ className: 'mt-8' }} />
+
+      <Footer />
+    </main>
   );
 }

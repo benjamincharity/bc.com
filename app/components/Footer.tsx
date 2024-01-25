@@ -1,6 +1,6 @@
 export function Footer() {
   return (
-    <footer className={'group pt-4'}>
+    <footer className={'group pb-2 pt-4'}>
       <p className={'text-center'}>
         <abbr
           className={
