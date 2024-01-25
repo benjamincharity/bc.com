@@ -41,8 +41,6 @@ export function loader({ request }: { request: Request }) {
 
 export const links: LinksFunction = () => {
   return [
-    { rel: 'preconnect', href: 'https://www.googletagmanager.com' },
-    { rel: 'preconnect', href: 'https://www.google-analytics.com' },
     { rel: 'preconnect', href: 'https://fonts.gstatic.com' },
     {
       rel: 'preconnect',
@@ -64,15 +62,10 @@ export const links: LinksFunction = () => {
       rel: 'stylesheet',
       href: 'https://fonts.googleapis.com/css2?family=VT323&display=swap',
     },
-    {
-      rel: 'stylesheet',
-      href: sharedStyles,
-    },
-    {
-      rel: 'icon',
-      type: 'image/png',
-      href: '/images/pwa/favicon-32x32.png',
-    },
+    // {
+    //   rel: 'stylesheet',
+    //   href: sharedStyles,
+    // },
   ];
 };
 
@@ -130,28 +123,7 @@ export default function App() {
           <LiveReload />
         </div>
 
-        {process.env.NODE_ENV === 'development' || !gaTrackingId ? null : (
-          <>
-            <script
-              async
-              src={`https://www.googletagmanager.com/gtag/js?id=${gaTrackingId}`}
-            />
-            <script
-              id="gtag-init"
-              dangerouslySetInnerHTML={{
-                __html: `
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){dataLayer.push(arguments);}
-                gtag('js', new Date());
-
-                gtag('config', '${gaTrackingId}', {
-                  page_path: window.location.pathname,
-                });
-              `,
-              }}
-            />
-          </>
-        )}
+        <link rel="stylesheet" href={sharedStyles} />
         <link rel="stylesheet" href={highlightStyle} />
         <Analytics />
       </body>

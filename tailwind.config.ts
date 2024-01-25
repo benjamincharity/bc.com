@@ -55,12 +55,7 @@ export default {
       fontFamily: {
         vt323: ['"VT323"', 'Courier New', ...defaultTheme.fontFamily.mono],
         sourceSerif4: ['"Source Serif 4"', ...defaultTheme.fontFamily.sans],
-        code: [
-          'Fira Code',
-          'Consolas',
-          'Monaco',
-          ...defaultTheme.fontFamily.sans,
-        ],
+        code: ['Fira Code', ...defaultTheme.fontFamily.mono],
       },
       height: {
         '10v': '10vh',
