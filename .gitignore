@@ -8,7 +8,7 @@ node_modules
 /dist/
 /build/
 /public/build
-/public/sw.js
+public/sw.js
 /api/index.js
 /api/index.js.map
 /api/_assets
