@@ -1,10 +1,10 @@
-import { findAfter } from 'unist-util-find-after'
-import { visit } from 'unist-util-visit'
+import { findAfter } from 'unist-util-find-after';
+import { visit } from 'unist-util-visit';
 
-const MAX_HEADING_DEPTH = 6
+const MAX_HEADING_DEPTH = 6;
 
 function plugin() {
-  return transform
+  return transform;
 }
 
 function transform(tree) {
@@ -13,24 +13,24 @@ function transform(tree) {
       tree,
       (node) => node.type === 'heading' && node.depth === depth,
       update
-    )
+    );
   }
 }
 
 function update(node, index, parent) {
-  const start = node
-  const startIndex = index
-  const depth = start.depth
+  const start = node;
+  const startIndex = index;
+  const depth = start.depth;
 
   const isEnd = (node) =>
-    (node.type === 'heading' && node.depth <= depth) || node.type === 'export'
-  const end = findAfter(parent, start, isEnd)
-  const endIndex = parent.children.indexOf(end)
+    (node.type === 'heading' && node.depth <= depth) || node.type === 'export';
+  const end = findAfter(parent, start, isEnd);
+  const endIndex = parent.children.indexOf(end);
 
   const between = parent.children.slice(
     startIndex,
     endIndex > 0 ? endIndex : undefined
-  )
+  );
 
   const section = {
     type: 'section',
@@ -42,9 +42,9 @@ function update(node, index, parent) {
         className: `md-section md-section--depth-${depth}`,
       },
     },
-  }
+  };
 
-  parent.children.splice(startIndex, section.children.length, section)
+  parent.children.splice(startIndex, section.children.length, section);
 }
 
-export default plugin
+export default plugin;

@@ -40,4 +40,4 @@ export const colors = [
   '#22c55e',
   '#6366f1',
   '#da3a7a',
-]
+];

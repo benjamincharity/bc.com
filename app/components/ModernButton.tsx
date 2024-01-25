@@ -1,7 +1,7 @@
-import { ButtonHTMLAttributes } from 'react'
+import { ButtonHTMLAttributes } from 'react';
 
 export function ModernButton(props: ButtonHTMLAttributes<HTMLButtonElement>) {
-  const { children, color = '--highlight-color-5', ...rest } = props
+  const { children, color = '--highlight-color-5', ...rest } = props;
 
   return (
     <button className="group relative px-6 py-3 font-bold text-black" {...rest}>
@@ -11,5 +11,5 @@ export function ModernButton(props: ButtonHTMLAttributes<HTMLButtonElement>) {
       <span className="absolute inset-0 h-full w-full border-4 border-black" />
       <span className="relative">{children}</span>
     </button>
-  )
+  );
 }

@@ -2,8 +2,8 @@ export const PrimaryTitle = ({
   title,
   className = '',
 }: {
-  title: string
-  className?: string
+  title: string;
+  className?: string;
 }) => {
   return (
     <h1
@@ -11,5 +11,5 @@ export const PrimaryTitle = ({
     >
       {title}
     </h1>
-  )
-}
+  );
+};

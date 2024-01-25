@@ -1,10 +1,16 @@
+export const CLOUDINARY_ACCOUNT = 'da2exoho7';
+
 export const siteMetadata = {
   title: 'BenjaminCharity.com',
   description:
     'Engineering leader & team builder at high-growth startups & scale-ups.',
   domain: 'www.benjamincharity.com',
-  url: 'https://www.benjamincharity.com',
+  url:
+    process.env.NODE_ENV === 'production'
+      ? 'https://www.benjamincharity.com'
+      : 'http://localhost:3000',
   image: `/images/pwa/apple-splash-2732-2048.jpg`,
+  articleImagePath: `https://res.cloudinary.com/${CLOUDINARY_ACCOUNT}/image/upload/c_scale/f_auto/article-content/`,
   twitterImage: `/images/social.Twitter.png`,
   linkedInImage: `/images/social.LinkedIn.png`,
   author: 'Benjamin Charity',
@@ -24,4 +30,4 @@ export const siteMetadata = {
   name: 'Benjamin Charity',
   logo: '/images/pwa/manifest-icon-512.png',
   logo_dark_mode: '/images/pwa/manifest-icon-512.png',
-}
+};

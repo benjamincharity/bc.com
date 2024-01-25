@@ -1,6 +1,6 @@
 export interface Link {
-  destination: string
-  display: string
+  destination: string;
+  display: string;
 }
 
 export const NAVIGATION_LINKS = [
@@ -21,4 +21,4 @@ export const NAVIGATION_LINKS = [
     display: 'GitHub',
     destination: 'https://github.com/benjamincharity/',
   },
-]
+];

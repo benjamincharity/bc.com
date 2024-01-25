@@ -1,26 +1,27 @@
-import parseFrontMatter from 'front-matter'
-import matter from 'gray-matter'
-import path from 'path'
+import parseFrontMatter from 'front-matter';
+import matter from 'gray-matter';
+import path from 'path';
 
-import { toHTML } from '~/utils/mdxProcessor.server'
+import { toHTML } from '~/utils/mdxProcessor.server';
 
-import { readFile, readdir } from './fs.server'
+import { readFile, readdir } from './fs.server';
 
 export interface Frontmatter {
-  formattedDate: string
-  images: string[]
+  draft?: boolean;
+  formattedDate: string;
+  images: string[];
   meta?: {
-    description?: string
-    title?: string
-  }
-  publishDate: string
-  readingTime: number
-  slug: string
-  summary: string
-  tags: string[]
-  title: string
-  updatedDate: string
-  url: string
+    description?: string;
+    title?: string;
+  };
+  publishDate: string;
+  readingTime: number;
+  slug: string;
+  summary: string;
+  tags: string[];
+  title: string;
+  updatedDate: string;
+  url: string;
 }
 
 /**
@@ -29,10 +30,10 @@ export interface Frontmatter {
  * @returns
  */
 export async function getArticle(slug: string) {
-  const filePath = path.join(process.cwd(), 'app', 'articles', slug + '.mdx')
-  const source = await readFile(filePath, 'utf-8')
-  const { data: frontmatter, content } = matter(source)
-  const html = await toHTML(content, slug)
+  const filePath = path.join(process.cwd(), 'app', 'articles', slug + '.mdx');
+  const source = await readFile(filePath, 'utf-8');
+  const { data: frontmatter, content } = matter(source);
+  const html = await toHTML(content, slug);
 
   return {
     html,
@@ -40,12 +41,12 @@ export async function getArticle(slug: string) {
     frontmatter: {
       ...frontmatter,
     },
-  }
+  };
 }
 
 export interface ArticleReference {
-  frontmatter: Frontmatter
-  slug: string
+  frontmatter: Frontmatter;
+  slug: string;
 }
 
 /**
@@ -53,31 +54,35 @@ export interface ArticleReference {
  * @returns
  */
 export async function getAllArticles(): Promise<ArticleReference[]> {
-  const filePath = path.join(process.cwd(), 'app', 'articles')
+  const filePath = path.join(process.cwd(), 'app', 'articles');
 
   const postsPath = await readdir(filePath, {
     withFileTypes: true,
-  })
+  });
 
-  const articles = await Promise.all(
+  let articles = await Promise.all(
     postsPath.map(async (dirent) => {
-      const fPath = path.join(filePath, dirent.name)
-      const [file] = await Promise.all([readFile(fPath)])
-      const frontmatter = parseFrontMatter(file.toString())
-      const attributes = frontmatter.attributes as Frontmatter
+      const fPath = path.join(filePath, dirent.name);
+      const [file] = await Promise.all([readFile(fPath)]);
+      const frontmatter = parseFrontMatter(file.toString());
+      const attributes = frontmatter.attributes as Frontmatter;
 
       return {
         slug: dirent.name.replace(/\.mdx/, ''),
         frontmatter: {
           ...attributes,
         },
-      }
+      };
     })
-  )
+  );
+
+  if (process.env.NODE_ENV !== 'production') {
+    articles = articles.filter((article) => !article.frontmatter.draft);
+  }
 
   return articles.sort((a, b) => {
-    const dateA = a.frontmatter.updatedDate || a.frontmatter.publishDate
-    const dateB = b.frontmatter.updatedDate || b.frontmatter.publishDate
-    return new Date(dateB).getTime() - new Date(dateA).getTime()
-  })
+    const dateA = a.frontmatter.updatedDate || a.frontmatter.publishDate;
+    const dateB = b.frontmatter.updatedDate || b.frontmatter.publishDate;
+    return new Date(dateB).getTime() - new Date(dateA).getTime();
+  });
 }

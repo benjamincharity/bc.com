@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect } from 'react';
 
 const rock = `
     _______
@@ -8,7 +8,7 @@ const rock = `
       (____)
 ---.__(___)
 (rock)
-`
+`;
 
 const paper = `
     _______
@@ -18,7 +18,7 @@ const paper = `
          _______)
 ---.__________)
 (paper)
-`
+`;
 
 const scissors = `
     _______
@@ -28,11 +28,11 @@ const scissors = `
       (____)
 ---.__(___)
 (scissors)
-`
-const hands = [rock, paper, scissors]
+`;
+const hands = [rock, paper, scissors];
 
 export function useConsoleArt(): void {
-  const result = Math.floor(Math.random() * 3)
+  const result = Math.floor(Math.random() * 3);
 
   useEffect(() => {
     console.log(`
@@ -43,7 +43,7 @@ Think you can outsmart me?
 ${hands[result]}
 
 Refresh to play again!
-    `)
+    `);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, []);
 }

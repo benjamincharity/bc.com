@@ -1,12 +1,12 @@
-import React from 'react'
+import React from 'react';
 
-import { RoutesPath } from '~/data/routes.data'
-import { ArticleTitleLink } from '~/routes/articles/components/ArticleTitleLink'
-import { PublishDate } from '~/routes/articles_.$id/components/PublishDate'
-import { ArticleReference } from '~/utils/articles.server'
+import { RoutesPath } from '~/data/routes.data';
+import { ArticleTitleLink } from '~/routes/articles/components/ArticleTitleLink';
+import { PublishDate } from '~/routes/articles_.$id/components/PublishDate';
+import { ArticleReference } from '~/utils/articles.server';
 
 interface ArticleProps {
-  item: ArticleReference
+  item: ArticleReference;
 }
 
 const Article = React.forwardRef<HTMLDivElement, ArticleProps>(
@@ -40,23 +40,23 @@ const Article = React.forwardRef<HTMLDivElement, ArticleProps>(
 
         <PublishDate publishDate={item.frontmatter.publishDate} />
       </article>
-    )
+    );
   }
-)
-Article.displayName = 'Article'
+);
+Article.displayName = 'Article';
 
 export function ArticlesList({
   articles = [],
   className = '',
 }: {
-  articles: ArticleReference[]
-  className?: string
+  articles: ArticleReference[];
+  className?: string;
 }) {
   return (
     <section className={className}>
       {articles?.map((item) => {
-        return <Article key={item.slug} item={item} />
+        return <Article key={item.slug} item={item} />;
       })}
     </section>
-  )
+  );
 }

@@ -1,25 +1,25 @@
-import { Palette } from '~/components/InteractiveCanvas/palettes.data'
-import { Row } from '~/components/InteractiveCanvas/row'
-import { createSquiggleSVG } from '~/utils/createSquiggleSVG'
+import { Palette } from '~/components/InteractiveCanvas/palettes.data';
+import { Row } from '~/components/InteractiveCanvas/row';
+import { createSquiggleSVG } from '~/utils/createSquiggleSVG';
 
 export const PaletteDirection = {
   NEXT: 'next',
   PREV: 'prev',
-} as const
+} as const;
 
 export type PaletteDirection =
-  (typeof PaletteDirection)[keyof typeof PaletteDirection]
+  (typeof PaletteDirection)[keyof typeof PaletteDirection];
 
-export const MOUSE_OFF = -1000
+export const MOUSE_OFF = -1000;
 
 export class Canvas {
-  canvas: HTMLCanvasElement
-  dist: number
-  mouse: { x: number; y: number } = { x: MOUSE_OFF, y: MOUSE_OFF }
-  palette: Palette
-  rows: Row[]
-  shuffled: Palette[]
-  totalPoints: number
+  canvas: HTMLCanvasElement;
+  dist: number;
+  mouse: { x: number; y: number } = { x: MOUSE_OFF, y: MOUSE_OFF };
+  palette: Palette;
+  rows: Row[];
+  shuffled: Palette[];
+  totalPoints: number;
 
   constructor(
     canvas: HTMLCanvasElement,
@@ -28,94 +28,94 @@ export class Canvas {
     dist: number,
     palettes: Palette[]
   ) {
-    this.canvas = canvas
-    this.rows = rows
-    this.totalPoints = totalPoints
-    this.dist = dist
-    this.shuffled = palettes
-    this.palette = palettes[0]
-    this.setNewPaletteColors(this.palette)
+    this.canvas = canvas;
+    this.rows = rows;
+    this.totalPoints = totalPoints;
+    this.dist = dist;
+    this.shuffled = palettes;
+    this.palette = palettes[0];
+    this.setNewPaletteColors(this.palette);
   }
 
   updateCanvasSizeAndRows() {
-    this.canvas.width = window.innerWidth
-    this.canvas.height = window.innerHeight
-    this.canvas.style.width = `${window.innerWidth}px`
-    this.canvas.style.height = `${window.innerHeight}px`
+    this.canvas.width = window.innerWidth;
+    this.canvas.height = window.innerHeight;
+    this.canvas.style.width = `${window.innerWidth}px`;
+    this.canvas.style.height = `${window.innerHeight}px`;
 
     for (let i = this.rows.length; i--; ) {
-      this.rows[i].resize(this.totalPoints)
+      this.rows[i].resize(this.totalPoints);
     }
   }
 
   drawRows() {
-    const context = this.canvas.getContext('2d')
+    const context = this.canvas.getContext('2d');
     if (
       !this.totalPoints ||
       !context ||
       !this.canvas.offsetWidth ||
       !this.canvas.offsetHeight
     ) {
-      return
+      return;
     }
 
-    context.clearRect(0, 0, this.canvas.width, this.canvas.height)
+    context.clearRect(0, 0, this.canvas.width, this.canvas.height);
     for (let i = this.rows.length; i--; ) {
-      this.rows[i].draw(this.canvas, this.dist, this.mouse.x, this.mouse.y)
+      this.rows[i].draw(this.canvas, this.dist, this.mouse.x, this.mouse.y);
     }
   }
 
   wobbleRows(paletteDirection?: PaletteDirection, noMotion?: boolean) {
     if (!noMotion) {
       for (let i = this.rows.length; i--; ) {
-        this.rows[i].wobble(this.dist, this.totalPoints)
+        this.rows[i].wobble(this.dist, this.totalPoints);
       }
     }
     if (paletteDirection === PaletteDirection.NEXT) {
-      this.nextPalette()
+      this.nextPalette();
     } else if (paletteDirection === PaletteDirection.PREV) {
-      this.previousPalette()
+      this.previousPalette();
     }
   }
 
   setMousePosition(x: number, y: number) {
-    this.mouse.x = x
-    this.mouse.y = y
+    this.mouse.x = x;
+    this.mouse.y = y;
   }
 
   setPalette(newPalette: Palette) {
-    this.palette = newPalette
+    this.palette = newPalette;
     // Update the colors of the rows based on the new palette
     for (let i = this.rows.length; i--; ) {
-      this.rows[i].color = this.palette[this.palette.length - i - 1]
+      this.rows[i].color = this.palette[this.palette.length - i - 1];
     }
-    this.setNewPaletteColors(newPalette)
+    this.setNewPaletteColors(newPalette);
   }
 
   nextPalette() {
-    const currentIndex = this.shuffled.indexOf(this.palette)
-    const nextIndex = (currentIndex + 1) % this.shuffled.length
-    this.setPalette(this.shuffled[nextIndex])
-    this.setNewPaletteColors(this.palette)
+    const currentIndex = this.shuffled.indexOf(this.palette);
+    const nextIndex = (currentIndex + 1) % this.shuffled.length;
+    this.setPalette(this.shuffled[nextIndex]);
+    this.setNewPaletteColors(this.palette);
   }
 
   previousPalette() {
-    const currentIndex = this.shuffled.indexOf(this.palette)
+    const currentIndex = this.shuffled.indexOf(this.palette);
     const prevIndex =
-      (currentIndex - 1 + this.shuffled.length) % this.shuffled.length
-    this.setPalette(this.shuffled[prevIndex])
-    this.setNewPaletteColors(this.palette)
+      (currentIndex - 1 + this.shuffled.length) % this.shuffled.length;
+    this.setPalette(this.shuffled[prevIndex]);
+    this.setNewPaletteColors(this.palette);
   }
 
   setNewPaletteColors(palette: Palette): void {
     document.documentElement.style.setProperty(
       `--o-squiggle-link-backgroundImage`,
       `url(data:image/svg+xml;base64,${window.btoa(createSquiggleSVG(palette[0]))})`
-    )
+    );
 
     for (let i = 0; i < palette.length; i += 1) {
-      const cssVar = `--highlight-color-${i + 1}`
-      document.documentElement.style.setProperty(cssVar, `${palette[i]}`)
+      const cssVar = `--highlight-color-${i + 1}`;
+      document.documentElement.style.setProperty(cssVar, `${palette[i]}`);
     }
   }
 }

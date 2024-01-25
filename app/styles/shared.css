@@ -207,20 +207,27 @@ strong {
   content: ' (Image did not load)';
   display: block;
 }
-.rendered-markdown ul {
-  @apply ml-5 list-outside list-square leading-normal;
+.rendered-markdown ol {
+  @apply list-decimal pl-8;
 }
 .rendered-markdown ul li::marker {
   @apply rotate-45;
 }
 .rendered-markdown iframe {
-  @apply mt-5;
+  @apply mt-5 w-full;
+  height: 600px;
 }
 .rendered-markdown hr {
   @apply fancy;
 }
 .rendered-markdown kbd,
 .rendered-markdown:not(pre) > code {
+  @apply relative m-0 rounded-sm bg-inlineCodeBackgroundColor font-semibold text-gray-600;
+  font-size: 80%;
+  padding: 0.1em 0.4em 0.2em;
+  top: -1px;
+}
+.rendered-markdown code {
   @apply relative m-0 rounded-sm bg-inlineCodeBackgroundColor font-semibold text-gray-600;
   font-size: 80%;
   padding: 0.1em 0.4em 0.2em;

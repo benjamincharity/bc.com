@@ -1,21 +1,21 @@
-import React, { ReactElement } from 'react'
+import React, { ReactElement } from 'react';
 
-import SlidingLink from '~/components/SlidingLink'
+import SlidingLink from '~/components/SlidingLink';
 
 export interface ArticleTitleProps {
-  className?: string
-  level?: 1 | 2 | 3 | 4 | 5 | 6
-  title: string
-  to: string
+  className?: string;
+  level?: 1 | 2 | 3 | 4 | 5 | 6;
+  title: string;
+  to: string;
 }
 
 export const ArticleTitleLink = React.memo(
   (props: ArticleTitleProps): ReactElement => {
-    const { className = '', title, level = 2, to } = props
-    const titleTrimmed = title?.substring(0, title.lastIndexOf(' ')).trim()
+    const { className = '', title, level = 2, to } = props;
+    const titleTrimmed = title?.substring(0, title.lastIndexOf(' ')).trim();
     const titleTail = title
       ?.substring(title.lastIndexOf(' '), title?.length)
-      .trim()
+      .trim();
 
     return React.createElement(
       `h${level}`,
@@ -34,8 +34,8 @@ export const ArticleTitleLink = React.memo(
           </span>
         </span>
       </SlidingLink>
-    )
+    );
   }
-)
+);
 
-ArticleTitleLink.displayName = 'ArticleTitle'
+ArticleTitleLink.displayName = 'ArticleTitle';

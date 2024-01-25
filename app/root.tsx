@@ -1,5 +1,5 @@
-import { LiveReload, useSWEffect } from '@remix-pwa/sw'
-import { LinksFunction, MetaFunction, json } from '@remix-run/node'
+import { LiveReload, useSWEffect } from '@remix-pwa/sw';
+import { LinksFunction, MetaFunction, json } from '@remix-run/node';
 import {
   Links,
   Meta,
@@ -10,32 +10,33 @@ import {
   useLoaderData,
   useLocation,
   useRouteError,
-} from '@remix-run/react'
-import { Analytics } from '@vercel/analytics/react'
-import { SpeedInsights } from '@vercel/speed-insights/remix'
-import highlightStyle from 'highlight.js/styles/github.css'
-import { useEffect, useState } from 'react'
-import { ExternalScripts } from 'remix-utils/external-scripts'
+} from '@remix-run/react';
+import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/remix';
+import highlightStyle from 'highlight.js/styles/github.css';
+import { useEffect, useState } from 'react';
+import { ExternalScripts } from 'remix-utils/external-scripts';
 
-import { FancyBackground } from '~/components/FancyBackground/FancyBackground'
-import { Header } from '~/components/Header'
-import { ModernButton } from '~/components/ModernButton'
-import { determineIfShouldShowBackground } from '~/routes/_index/route'
-import { navigationState$, state$ } from '~/store'
-import sharedStyles from '~/styles/shared.css'
-import { generateMetaCollection } from '~/utils/generateMetaCollection'
-import * as gtag from '~/utils/gtags.client'
-import { useConsoleArt } from '~/utils/useConsoleArt'
+import { FancyBackground } from '~/components/FancyBackground/FancyBackground';
+import { Header } from '~/components/Header';
+import { ModernButton } from '~/components/ModernButton';
+import { siteMetadata } from '~/data/siteMetadata';
+import { determineIfShouldShowBackground } from '~/routes/_index/route';
+import { navigationState$, state$ } from '~/store';
+import sharedStyles from '~/styles/shared.css';
+import { generateMetaCollection } from '~/utils/generateMetaCollection';
+import * as gtag from '~/utils/gtags.client';
+import { useConsoleArt } from '~/utils/useConsoleArt';
 
-import { isDarkMode } from './utils/isDarkMode'
+import { isDarkMode } from './utils/isDarkMode';
 
 export function loader({ request }: { request: Request }) {
-  const url = new URL(request.url)
-  const local = determineIfShouldShowBackground(url.pathname)
+  const url = new URL(request.url);
+  const local = determineIfShouldShowBackground(url.pathname);
   return json({
     gaTrackingId: process.env.GA_TRACKING_ID,
     showBackground: local,
-  })
+  });
 }
 
 export const links: LinksFunction = () => {
@@ -72,38 +73,38 @@ export const links: LinksFunction = () => {
       type: 'image/png',
       href: '/images/pwa/favicon-32x32.png',
     },
-  ]
-}
+  ];
+};
 
 export const meta: MetaFunction = () => {
-  return [...generateMetaCollection()]
-}
+  return [...generateMetaCollection()];
+};
 
 export default function App() {
-  const location = useLocation()
-  const { gaTrackingId, showBackground } = useLoaderData<typeof loader>()
-  const [showBg, setShowBg] = useState(showBackground)
+  const location = useLocation();
+  const { gaTrackingId, showBackground } = useLoaderData<typeof loader>();
+  const [showBg, setShowBg] = useState(showBackground);
 
-  useConsoleArt()
-  useSWEffect()
+  useConsoleArt();
+  useSWEffect();
 
   useEffect(() => {
     if (gaTrackingId?.length) {
-      gtag.pageview(location.pathname, gaTrackingId)
+      gtag.pageview(location.pathname, gaTrackingId);
     }
-  }, [location, gaTrackingId])
+  }, [location, gaTrackingId]);
 
   useEffect(() => {
-    state$.isVisible.set(determineIfShouldShowBackground(location.pathname))
-    setShowBg(determineIfShouldShowBackground(location.pathname))
-    navigationState$.history.push(location.pathname)
+    state$.isVisible.set(determineIfShouldShowBackground(location.pathname));
+    setShowBg(determineIfShouldShowBackground(location.pathname));
+    navigationState$.history.push(location.pathname);
 
     if (isDarkMode()) {
-      document.documentElement.classList.add('dark')
+      document.documentElement.classList.add('dark');
     } else {
-      document.documentElement.classList.remove('dark')
+      document.documentElement.classList.remove('dark');
     }
-  }, [location.pathname])
+  }, [location.pathname]);
 
   // NOTE: The title tag and all other elements will be injected.
   // noinspection HtmlRequiredTitleElement
@@ -155,11 +156,11 @@ export default function App() {
         <Analytics />
       </body>
     </html>
-  )
+  );
 }
 
 export function ErrorBoundary() {
-  const error = useRouteError()
+  const error = useRouteError();
 
   return (
     <html lang="en" className={'h-full w-full overflow-hidden'}>
@@ -187,7 +188,7 @@ export function ErrorBoundary() {
           <div>
             <ModernButton
               onClick={() => {
-                window.location.reload()
+                window.location.href = siteMetadata.url;
               }}
             >
               Reload
@@ -204,5 +205,5 @@ export function ErrorBoundary() {
         ></script>
       </body>
     </html>
-  )
+  );
 }

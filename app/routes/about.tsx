@@ -1,10 +1,10 @@
-import type { MetaFunction } from '@remix-run/node'
+import type { MetaFunction } from '@remix-run/node';
 
-import { siteMetadata } from '~/data/siteMetadata'
+import { siteMetadata } from '~/data/siteMetadata';
 
 export const meta: MetaFunction = () => {
-  const title = `About - ${siteMetadata.author}`
-  const summary = `About me - ${siteMetadata.author}`
+  const title = `About - ${siteMetadata.author}`;
+  const summary = `About me - ${siteMetadata.author}`;
 
   return [
     { name: 'title', content: title },
@@ -13,8 +13,8 @@ export const meta: MetaFunction = () => {
     { property: 'og:description', content: summary },
     { name: 'twitter:title', content: title },
     { name: 'twitter:description', content: summary },
-  ]
-}
+  ];
+};
 
 export default function About() {
   return (
@@ -25,5 +25,5 @@ export default function About() {
         <p>{siteMetadata.aboutMe}</p>
       </div>
     </div>
-  )
+  );
 }

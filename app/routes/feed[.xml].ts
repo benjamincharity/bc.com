@@ -1,5 +1,5 @@
-import { siteMetadata } from '~/data/siteMetadata'
-import { getAllArticles } from '~/utils/articles.server'
+import { siteMetadata } from '~/data/siteMetadata';
+import { getAllArticles } from '~/utils/articles.server';
 
 function escapeXml(unsafeString: string): string {
   return unsafeString
@@ -7,11 +7,11 @@ function escapeXml(unsafeString: string): string {
     .replace(/</g, '&lt;') // Replace < with &lt;
     .replace(/>/g, '&gt;') // Replace > with &gt;
     .replace(/"/g, '&quot;') // Replace " with &quot;
-    .replace(/'/g, '&apos;') // Replace ' with &apos;
+    .replace(/'/g, '&apos;'); // Replace ' with &apos;
 }
 
 export async function loader() {
-  const articles = await getAllArticles()
+  const articles = await getAllArticles();
 
   const feed = `<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
@@ -40,12 +40,12 @@ export async function loader() {
           )
           .join('')}
     </channel>
-  </rss>`
+  </rss>`;
 
   return new Response(feed, {
     status: 200,
     headers: {
       'Content-Type': 'application/xml',
     },
-  })
+  });
 }

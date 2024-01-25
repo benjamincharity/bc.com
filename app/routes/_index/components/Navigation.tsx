@@ -1,17 +1,17 @@
-import { Link } from '@remix-run/react'
-import React, { useEffect } from 'react'
+import { Link } from '@remix-run/react';
+import React, { useEffect } from 'react';
 
-import { COMPANIES } from '~/data/companies.data'
-import { NAVIGATION_LINKS } from '~/data/navigation.data'
-import { shuffle } from '~/utils/shuffle'
+import { COMPANIES } from '~/data/companies.data';
+import { NAVIGATION_LINKS } from '~/data/navigation.data';
+import { shuffle } from '~/utils/shuffle';
 
 export const Navigation = React.memo(() => {
-  const [companies, setCompanies] = React.useState<string[]>([...COMPANIES])
-  const linkClasses = `squiggle-link text-3xl relative pointer-events-auto`
+  const [companies, setCompanies] = React.useState<string[]>([...COMPANIES]);
+  const linkClasses = `squiggle-link text-3xl relative pointer-events-auto`;
 
   useEffect(() => {
-    setCompanies(shuffle([...COMPANIES]))
-  }, [])
+    setCompanies(shuffle([...COMPANIES]));
+  }, []);
 
   return (
     <div className="navigation pointer-events-none z-30 text-center">
@@ -48,7 +48,7 @@ export const Navigation = React.memo(() => {
                   </Link>
                 )}
               </li>
-            )
+            );
           })}
         </ul>
       </nav>
@@ -64,12 +64,12 @@ export const Navigation = React.memo(() => {
               >
                 {c}
               </li>
-            )
+            );
           })}
         </ul>
       </section>
     </div>
-  )
-})
+  );
+});
 
-Navigation.displayName = 'Navigation'
+Navigation.displayName = 'Navigation';

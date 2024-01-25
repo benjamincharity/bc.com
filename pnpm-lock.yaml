@@ -199,6 +199,9 @@ devDependencies:
   '@types/jest':
     specifier: 29.2.2
     version: 29.2.2
+  '@types/node':
+    specifier: 20.11.6
+    version: 20.11.6
   '@types/pluralize':
     specifier: 0.0.33
     version: 0.0.33
@@ -4344,7 +4347,7 @@ packages:
         integrity: sha512-ETTL1mOEdq/sxUtgtOhKjyB2Irra4cjxksvcMUR5Zr4n+PxVhsCD9WS46oPbHL3et9Zde7CNRr+WUNlcHvsX+w==,
       }
     dependencies:
-      '@types/node': 14.18.33
+      '@types/node': 20.11.6
       form-data: 3.0.1
     dev: false
 
