@@ -125,7 +125,7 @@ strong {
 }
 
 .squiggle-link > svg {
-  @apply absolute left-full top-3 scale-50 fill-current transition-all min-h-home:left-[104%];
+  @apply absolute left-full top-[1.05rem] scale-50 fill-current transition-all min-h-home:left-[104%];
 }
 
 /*ARTICLE CONTENT*/
