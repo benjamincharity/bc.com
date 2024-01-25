@@ -45,7 +45,9 @@ export const loader: LoaderFunction = async ({ params, request }) => {
   };
 
   if (post.frontmatter.draft && isProd) {
-    console.warn('This post is a draft and cannot be viewed in production.');
+    console.warn(
+      '⚠️ This post is a draft and cannot be viewed in production. ⚠️'
+    );
     const newUrl = new URL(RoutesPath.notFound, siteMetadata.url);
     newUrl.searchParams.append(
       'message',

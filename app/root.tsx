@@ -25,7 +25,6 @@ import { determineIfShouldShowBackground } from '~/routes/_index/route';
 import { navigationState$, state$ } from '~/store';
 import sharedStyles from '~/styles/shared.css';
 import { generateMetaCollection } from '~/utils/generateMetaCollection';
-import * as gtag from '~/utils/gtags.client';
 import { useConsoleArt } from '~/utils/useConsoleArt';
 
 import { isDarkMode } from './utils/isDarkMode';
@@ -34,7 +33,6 @@ export function loader({ request }: { request: Request }) {
   const url = new URL(request.url);
   const local = determineIfShouldShowBackground(url.pathname);
   return json({
-    gaTrackingId: process.env.GA_TRACKING_ID,
     showBackground: local,
   });
 }
@@ -75,17 +73,11 @@ export const meta: MetaFunction = () => {
 
 export default function App() {
   const location = useLocation();
-  const { gaTrackingId, showBackground } = useLoaderData<typeof loader>();
+  const { showBackground } = useLoaderData<typeof loader>();
   const [showBg, setShowBg] = useState(showBackground);
 
   useConsoleArt();
   useSWEffect();
-
-  useEffect(() => {
-    if (gaTrackingId?.length) {
-      gtag.pageview(location.pathname, gaTrackingId);
-    }
-  }, [location, gaTrackingId]);
 
   useEffect(() => {
     state$.isVisible.set(determineIfShouldShowBackground(location.pathname));
