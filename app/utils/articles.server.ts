@@ -76,7 +76,7 @@ export async function getAllArticles(): Promise<ArticleReference[]> {
     })
   );
 
-  if (process.env.NODE_ENV !== 'production') {
+  if (process.env.NODE_ENV === 'production') {
     articles = articles.filter((article) => !article.frontmatter.draft);
   }
 
