@@ -103,7 +103,7 @@ strong {
 
 /*SQUIGGLE LINK*/
 .squiggle-link {
-  @apply relative inline-block pb-2 pt-2 leading-none text-[--highlight-color-1] no-underline text-shadow-title;
+  @apply relative inline-block pb-2 pt-2 leading-tight text-[--highlight-color-1] no-underline text-shadow-title;
   background: linear-gradient(
       to bottom,
       var(--highlight-color-1) 0%,
