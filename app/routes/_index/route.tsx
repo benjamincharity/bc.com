@@ -1,13 +1,13 @@
-import { Outlet } from '@remix-run/react'
+import { Outlet } from '@remix-run/react';
 
-import { siteMetadata } from '~/data/siteMetadata'
+import { siteMetadata } from '~/data/siteMetadata';
 
-import { Navigation } from './components/Navigation'
+import { Navigation } from './components/Navigation';
 
-const pagesWithBackground = ['', '404']
+const pagesWithBackground = ['', '404'];
 
 export function determineIfShouldShowBackground(url: string): boolean {
-  return pagesWithBackground.includes(url.replace(/\//, ''))
+  return pagesWithBackground.includes(url.replace(/\//, ''));
 }
 
 export default function Index() {
@@ -40,5 +40,5 @@ export default function Index() {
       {/*TODO: Need to finish this page*/}
       {/*<AboutLink />*/}
     </div>
-  )
+  );
 }

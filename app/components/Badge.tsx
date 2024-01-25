@@ -1,10 +1,10 @@
-import { Link } from '@remix-run/react'
+import { Link } from '@remix-run/react';
 
 interface Props {
-  color?: string
-  count: number
-  linkTo: string
-  tag: string
+  color?: string;
+  count: number;
+  linkTo: string;
+  tag: string;
 }
 
 export const Badge = ({ tag, count, linkTo, color = '#3B82F6' }: Props) => {
@@ -23,5 +23,5 @@ export const Badge = ({ tag, count, linkTo, color = '#3B82F6' }: Props) => {
         </span>
       </Link>
     </div>
-  )
-}
+  );
+};

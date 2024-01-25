@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import 'react'
+import 'react';
 
 declare module 'react' {
   interface CSSProperties {
-    '--custom-color'?: string
+    '--custom-color'?: string;
   }
 }
 

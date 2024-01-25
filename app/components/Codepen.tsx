@@ -1,27 +1,27 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react';
 
 interface ReactCodepenProps {
-  defaultTab?: string
-  hash: string
-  height?: number
+  defaultTab?: string;
+  hash: string;
+  height?: number;
   loader?:
     | React.ElementType
-    | ((props: { isLoading: boolean; error?: string }) => React.ReactNode)
-  preview?: boolean
-  editable?: boolean
-  title?: string
-  themeId?: string | number
-  user: string
-  version?: number
+    | ((props: { isLoading: boolean; error?: string }) => React.ReactNode);
+  preview?: boolean;
+  editable?: boolean;
+  title?: string;
+  themeId?: string | number;
+  user: string;
+  version?: number;
 }
 
-const SCRIPT_URL = 'https://cpwebassets.codepen.io/assets/embed/ei.js'
+const SCRIPT_URL = 'https://cpwebassets.codepen.io/assets/embed/ei.js';
 const LOAD_STATE = {
   booting: '__booting__',
   error: '__error__',
   loading: '__loading__',
   loaded: '__loaded__',
-}
+};
 
 const Codepen: React.FC<ReactCodepenProps> = ({
   defaultTab = 'css,result',
@@ -35,45 +35,45 @@ const Codepen: React.FC<ReactCodepenProps> = ({
   user,
   version = 2,
 }) => {
-  const [loadState, setLoadState] = useState(LOAD_STATE.booting)
-  const [error, setError] = useState<string>()
-  const _isMounted = useRef(false)
+  const [loadState, setLoadState] = useState(LOAD_STATE.booting);
+  const [error, setError] = useState<string>();
+  const _isMounted = useRef(false);
 
   const loadScript = () => {
     // load the codepen embed script
-    const script = document.createElement('script')
-    script.src = SCRIPT_URL
-    script.async = true
+    const script = document.createElement('script');
+    script.src = SCRIPT_URL;
+    script.async = true;
     script.onload = () => {
       // do not do anything if the component is already unmounted.
-      if (!_isMounted.current) return
-      setLoadState(LOAD_STATE.loaded)
-    }
+      if (!_isMounted.current) return;
+      setLoadState(LOAD_STATE.loaded);
+    };
     script.onerror = () => {
-      if (!_isMounted.current) return
-      setLoadState(LOAD_STATE.error)
-      setError('Failed to load the pen')
-    }
+      if (!_isMounted.current) return;
+      setLoadState(LOAD_STATE.error);
+      setError('Failed to load the pen');
+    };
 
-    setLoadState(LOAD_STATE.loading)
-    document.body.appendChild(script)
-  }
+    setLoadState(LOAD_STATE.loading);
+    document.body.appendChild(script);
+  };
 
   useEffect(() => {
-    if (!_isMounted.current) _isMounted.current = true
+    if (!_isMounted.current) _isMounted.current = true;
 
-    loadScript()
+    loadScript();
 
     return () => {
-      _isMounted.current = false
-    }
-  }, [])
+      _isMounted.current = false;
+    };
+  }, []);
 
-  const showLoader = loadState === LOAD_STATE.loading && loader !== undefined
-  const penLink = `https://codepen.io/${user}/pen/${hash}/`
-  const userProfileLink = `https://codepen.io/${user}`
+  const showLoader = loadState === LOAD_STATE.loading && loader !== undefined;
+  const penLink = `https://codepen.io/${user}/pen/${hash}/`;
+  const userProfileLink = `https://codepen.io/${user}`;
   const visibilityClass =
-    loadState === LOAD_STATE.loaded ? 'visible' : 'invisible'
+    loadState === LOAD_STATE.loaded ? 'visible' : 'invisible';
 
   return (
     <React.Fragment>
@@ -100,7 +100,7 @@ const Codepen: React.FC<ReactCodepenProps> = ({
         <a href="https://codepen.io">CodePen</a>.
       </p>
     </React.Fragment>
-  )
-}
+  );
+};
 
-export default Codepen
+export default Codepen;

@@ -1,16 +1,22 @@
-import { useDebounce } from '@uidotdev/usehooks'
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useDebounce } from '@uidotdev/usehooks';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 
 import {
   Canvas,
   MOUSE_OFF,
   PaletteDirection,
-} from '~/components/InteractiveCanvas/canvas'
-import { Row } from '~/components/InteractiveCanvas/row'
-import { state$ } from '~/store'
-import { shuffle } from '~/utils/shuffle'
+} from '~/components/InteractiveCanvas/canvas';
+import { Row } from '~/components/InteractiveCanvas/row';
+import { state$ } from '~/store';
+import { shuffle } from '~/utils/shuffle';
 
-import { PALETTES } from './palettes.data'
+import { PALETTES } from './palettes.data';
 
 // Define a dummy window object for SSR
 const dummyWindow = {
@@ -29,7 +35,7 @@ const dummyWindow = {
   innerWidth: 1024,
   innerHeight: 768,
   devicePixelRatio: 1,
-}
+};
 
 function handleEvent(
   e: React.MouseEvent | React.TouchEvent,
@@ -38,82 +44,82 @@ function handleEvent(
   isDisabled: boolean
 ) {
   if (!isDisabled && canvas) {
-    const result = determineMousePosition(e, canvas)
+    const result = determineMousePosition(e, canvas);
     if (result) {
-      canvasInstance?.setMousePosition(result.x, result.y)
+      canvasInstance?.setMousePosition(result.x, result.y);
     }
   }
 }
 
 function clamp(n: number, min: number, max: number): number {
-  return Math.max(min, Math.min(n, max))
+  return Math.max(min, Math.min(n, max));
 }
 
 function determineMousePosition(
   event: React.MouseEvent | React.TouchEvent,
   canvas: HTMLCanvasElement
 ): { x: number; y: number } | undefined {
-  let x, y
-  const nativeEvent = event.nativeEvent
-  const rect = canvas.getBoundingClientRect()
+  let x, y;
+  const nativeEvent = event.nativeEvent;
+  const rect = canvas.getBoundingClientRect();
   if (
     typeof TouchEvent !== 'undefined' &&
     nativeEvent instanceof TouchEvent &&
     nativeEvent.targetTouches?.length > 0
   ) {
-    x = nativeEvent.targetTouches[0].clientX - rect.left
-    y = nativeEvent.targetTouches[0].clientY - rect.top
+    x = nativeEvent.targetTouches[0].clientX - rect.left;
+    y = nativeEvent.targetTouches[0].clientY - rect.top;
   } else if (nativeEvent instanceof MouseEvent) {
-    x = nativeEvent.clientX - rect.left
-    y = nativeEvent.clientY - rect.top
+    x = nativeEvent.clientX - rect.left;
+    y = nativeEvent.clientY - rect.top;
   } else {
-    return // Neither touch nor mouse event, exit the function
+    return; // Neither touch nor mouse event, exit the function
   }
-  return { x, y }
+  return { x, y };
 }
 
 export interface InteractiveCanvasProps {
-  forwardedRef?: React.Ref<InteractiveCanvasRefType>
-  isDisabled?: boolean
+  forwardedRef?: React.Ref<InteractiveCanvasRefType>;
+  isDisabled?: boolean;
 }
 
 export interface InteractiveCanvasRefType {
-  canvasRef: React.RefObject<HTMLCanvasElement>
-  resetMousePositions: () => void
-  togglePause: () => void
-  wobbleRows: (goToNextPalette?: boolean) => void
+  canvasRef: React.RefObject<HTMLCanvasElement>;
+  resetMousePositions: () => void;
+  togglePause: () => void;
+  wobbleRows: (goToNextPalette?: boolean) => void;
 }
 
-const shuffled = shuffle([...PALETTES])
-const palette = shuffled[0]
+const shuffled = shuffle([...PALETTES]);
+const palette = shuffled[0];
 
 export const InteractiveCanvas = React.memo((props: InteractiveCanvasProps) => {
-  const { isDisabled = false } = props
-  const canvasRef = useRef<HTMLCanvasElement>(null)
-  const localWindow = typeof window !== 'undefined' ? window : dummyWindow
-  const isPaused = state$.isPaused.get()
-  const [totalPoints, setTotalPoints] = useState(0)
-  const [dist, setDist] = useState(0)
+  const { isDisabled = false } = props;
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const localWindow = typeof window !== 'undefined' ? window : dummyWindow;
+  const isPaused = state$.isPaused.get();
+  const [totalPoints, setTotalPoints] = useState(0);
+  const [dist, setDist] = useState(0);
   const rows = useMemo(() => {
     return [4 / 5, 3 / 5, 2 / 5, 1 / 5].map((fraction, i) => {
-      const row: Row = new Row(fraction, totalPoints)
-      row.color = palette[palette.length - i - 1]
-      return row
-    })
-  }, [totalPoints])
+      const row: Row = new Row(fraction, totalPoints);
+      row.color = palette[palette.length - i - 1];
+      return row;
+    });
+  }, [totalPoints]);
 
-  const [canvasInstance, setCanvasInstance] = useState<Canvas | null>(null)
+  const [canvasInstance, setCanvasInstance] = useState<Canvas | null>(null);
 
   useEffect(() => {
     function animate(canvasInstance: Canvas | null, isPaused: boolean) {
       if (!isPaused && canvasInstance) {
-        requestAnimationFrame(() => animate(canvasInstance, isPaused))
-        canvasInstance.drawRows()
+        requestAnimationFrame(() => animate(canvasInstance, isPaused));
+        canvasInstance.drawRows();
       }
     }
 
-    animate(canvasInstance, isPaused)
-  }, [canvasInstance, isPaused])
+    animate(canvasInstance, isPaused);
+  }, [canvasInstance, isPaused]);
 
   useEffect(() => {
     if (canvasRef.current) {
@@ -123,75 +129,75 @@ export const InteractiveCanvas = React.memo((props: InteractiveCanvasProps) => {
         totalPoints,
         dist,
         shuffled
-      )
-      setCanvasInstance(instance)
+      );
+      setCanvasInstance(instance);
     }
-  }, [canvasRef, rows, totalPoints, dist])
+  }, [canvasRef, rows, totalPoints, dist]);
 
   const renderCanvas = useCallback(() => {
     if (canvasInstance) {
-      canvasInstance.updateCanvasSizeAndRows()
-      canvasInstance.drawRows()
+      canvasInstance.updateCanvasSizeAndRows();
+      canvasInstance.drawRows();
     }
-  }, [canvasInstance])
+  }, [canvasInstance]);
 
-  const debouncedRenderCanvas = useDebounce(renderCanvas, 300)
-  const [touchStartX, setTouchStartX] = useState<number | null>(null)
+  const debouncedRenderCanvas = useDebounce(renderCanvas, 300);
+  const [touchStartX, setTouchStartX] = useState<number | null>(null);
 
   const handleTouchEnd = (event: React.TouchEvent) => {
     if (touchStartX !== null) {
-      const touchEndX = event.changedTouches[0].clientX
+      const touchEndX = event.changedTouches[0].clientX;
       if (touchEndX < touchStartX) {
-        canvasInstance?.wobbleRows(PaletteDirection.NEXT)
+        canvasInstance?.wobbleRows(PaletteDirection.NEXT);
       } else if (touchEndX > touchStartX) {
-        canvasInstance?.wobbleRows(PaletteDirection.PREV)
+        canvasInstance?.wobbleRows(PaletteDirection.PREV);
       }
     }
-  }
+  };
 
   // INITIAL LOAD:
   useEffect(() => {
     const handleResizeInner = () => {
       if (canvasInstance) {
-        canvasInstance.updateCanvasSizeAndRows()
-        canvasInstance.drawRows()
+        canvasInstance.updateCanvasSizeAndRows();
+        canvasInstance.drawRows();
       }
-    }
+    };
     const handleKeyDown = (event: Event) => {
-      const keyboardEvent = event as KeyboardEvent
+      const keyboardEvent = event as KeyboardEvent;
 
       if (keyboardEvent.ctrlKey || keyboardEvent.metaKey) {
-        return
+        return;
       }
 
       if (keyboardEvent.key === 'ArrowRight') {
-        canvasInstance?.wobbleRows(PaletteDirection.NEXT, isDisabled)
+        canvasInstance?.wobbleRows(PaletteDirection.NEXT, isDisabled);
       } else if (keyboardEvent.key === 'ArrowLeft') {
-        canvasInstance?.wobbleRows(PaletteDirection.PREV, isDisabled)
+        canvasInstance?.wobbleRows(PaletteDirection.PREV, isDisabled);
       }
-    }
+    };
     const newTotalPoints = Math.round(
       clamp(Math.pow(Math.random() * 8, 2), 16, localWindow.innerWidth / 35)
-    )
-    setTotalPoints(newTotalPoints)
-    setDist(clamp(localWindow.innerWidth / 4, 150, 200))
+    );
+    setTotalPoints(newTotalPoints);
+    setDist(clamp(localWindow.innerWidth / 4, 150, 200));
 
     if (canvasRef.current) {
-      debouncedRenderCanvas?.()
+      debouncedRenderCanvas?.();
     }
     const handleWindowResize = () => {
-      handleResizeInner()
-    }
+      handleResizeInner();
+    };
 
-    localWindow.addEventListener('resize', handleWindowResize)
-    localWindow.addEventListener('keydown', handleKeyDown)
-    handleResizeInner()
+    localWindow.addEventListener('resize', handleWindowResize);
+    localWindow.addEventListener('keydown', handleKeyDown);
+    handleResizeInner();
 
     return () => {
-      localWindow.removeEventListener('resize', handleWindowResize)
-      localWindow.removeEventListener('keydown', handleKeyDown)
-    }
-  }, [canvasInstance, debouncedRenderCanvas, isDisabled, localWindow])
+      localWindow.removeEventListener('resize', handleWindowResize);
+      localWindow.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [canvasInstance, debouncedRenderCanvas, isDisabled, localWindow]);
 
   return (
     <canvas
@@ -199,31 +205,31 @@ export const InteractiveCanvas = React.memo((props: InteractiveCanvasProps) => {
       ref={canvasRef}
       onMouseDown={() => {
         if (!isDisabled) {
-          canvasInstance?.wobbleRows(PaletteDirection.NEXT)
+          canvasInstance?.wobbleRows(PaletteDirection.NEXT);
         }
       }}
       onMouseLeave={() => {
-        canvasInstance?.setMousePosition(MOUSE_OFF, MOUSE_OFF)
+        canvasInstance?.setMousePosition(MOUSE_OFF, MOUSE_OFF);
       }}
       onMouseMove={(e) =>
         handleEvent(e, canvasRef.current, canvasInstance, isDisabled)
       }
       onTouchStart={(e) => {
         if (!isDisabled) {
-          setTouchStartX(e.touches[0].clientX)
+          setTouchStartX(e.touches[0].clientX);
         }
       }}
       onTouchEnd={(e) => {
         if (!isDisabled) {
-          handleTouchEnd(e)
-          canvasInstance?.setMousePosition(MOUSE_OFF, MOUSE_OFF)
+          handleTouchEnd(e);
+          canvasInstance?.setMousePosition(MOUSE_OFF, MOUSE_OFF);
         }
       }}
       onTouchMove={(e) =>
         handleEvent(e, canvasRef.current, canvasInstance, isDisabled)
       }
     />
-  )
-})
+  );
+});
 
-InteractiveCanvas.displayName = 'InteractiveCanvas'
+InteractiveCanvas.displayName = 'InteractiveCanvas';

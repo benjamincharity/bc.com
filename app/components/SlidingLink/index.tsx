@@ -1,5 +1,5 @@
-import { Link, LinkProps } from '@remix-run/react'
-import React from 'react'
+import { Link, LinkProps } from '@remix-run/react';
+import React from 'react';
 
 const Index: React.FC<LinkProps> = (props) => {
   return (
@@ -11,7 +11,7 @@ const Index: React.FC<LinkProps> = (props) => {
     >
       {props.children}
     </Link>
-  )
-}
+  );
+};
 
-export default Index
+export default Index;

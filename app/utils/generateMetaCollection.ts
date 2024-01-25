@@ -1,12 +1,12 @@
-import { siteMetadata } from '~/data/siteMetadata'
+import { siteMetadata } from '~/data/siteMetadata';
 
 interface GenerateMetaCollectionProps {
-  imageUrl?: string
-  summary: string
-  tags: string[]
-  title: string
-  url?: string
-  disableScale?: boolean
+  imageUrl?: string;
+  summary: string;
+  tags: string[];
+  title: string;
+  url?: string;
+  disableScale?: boolean;
 }
 
 export function generateMetaCollection(
@@ -19,10 +19,10 @@ export function generateMetaCollection(
     title = siteMetadata.title,
     url = siteMetadata.url,
     disableScale = false,
-  } = props
-  const keywords = tags.join(', ')
-  const finalImageUrl = imageUrl ?? siteMetadata.image
-  const viewportContent = `width=device-width,initial-scale=1${disableScale ? ',user-scalable=no' : ''}`
+  } = props;
+  const keywords = tags.join(', ');
+  const finalImageUrl = imageUrl ?? siteMetadata.image;
+  const viewportContent = `width=device-width,initial-scale=1${disableScale ? ',user-scalable=no' : ''}`;
 
   return [
     { title: title },
@@ -75,11 +75,11 @@ export function generateMetaCollection(
     {
       tag: 'link',
       rel: 'mask-icon',
-      href: '/images/pwa//safari-pinned-tab.svg',
+      href: '/images/pwa/safari-pinned-tab.svg',
       color: '#3874ce',
     },
     { name: 'msapplication-TileColor', content: '#3874ce' },
     { name: 'theme-color', content: '#3874ce' },
     { tag: 'link', rel: 'canonical', href: url },
-  ]
+  ];
 }

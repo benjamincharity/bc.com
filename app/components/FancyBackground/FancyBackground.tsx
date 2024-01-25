@@ -1,20 +1,20 @@
-import { useReducedMotion } from '@mantine/hooks'
-import React, { useEffect, useState } from 'react'
+import { useReducedMotion } from '@mantine/hooks';
+import React, { useEffect, useState } from 'react';
 
-import { ClientOnly } from '~/components/ClientOnly'
-import { InteractiveCanvas } from '~/components/InteractiveCanvas/InteractiveCanvas'
-import { state$ } from '~/store'
+import { ClientOnly } from '~/components/ClientOnly';
+import { InteractiveCanvas } from '~/components/InteractiveCanvas/InteractiveCanvas';
+import { state$ } from '~/store';
 
 export const FancyBackground = React.memo(
   ({ isVisible = true }: { isVisible?: boolean }) => {
-    const isPartyModeEnabled = state$.isPartyModeEnabled.get()
-    const [localIsVisible, setLocalIsVisible] = useState(() => isVisible)
-    const reduceMotion = useReducedMotion()
+    const isPartyModeEnabled = state$.isPartyModeEnabled.get();
+    const [localIsVisible, setLocalIsVisible] = useState(() => isVisible);
+    const reduceMotion = useReducedMotion();
 
     useEffect(() => {
-      state$.isVisible.set(isVisible)
-      setLocalIsVisible(isVisible)
-    }, [isVisible])
+      state$.isVisible.set(isVisible);
+      setLocalIsVisible(isVisible);
+    }, [isVisible]);
 
     return (
       <div
@@ -27,8 +27,8 @@ export const FancyBackground = React.memo(
         </ClientOnly>
         <div className="canvas-fallback absolute inset-0 z-10 bg-[--highlight-color-1]"></div>
       </div>
-    )
+    );
   }
-)
+);
 
-FancyBackground.displayName = 'FancyBackground'
+FancyBackground.displayName = 'FancyBackground';

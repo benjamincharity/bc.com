@@ -1,45 +1,45 @@
-import { LinksFunction, LoaderFunction, MetaFunction } from '@remix-run/node'
-import { json } from '@remix-run/node'
-import { useLoaderData } from '@remix-run/react'
+import { LinksFunction, LoaderFunction, MetaFunction } from '@remix-run/node';
+import { json } from '@remix-run/node';
+import { useLoaderData } from '@remix-run/react';
 
-import { Badge } from '~/components/Badge'
-import { PrimaryTitle } from '~/components/PrimaryTitle'
-import { colors } from '~/data/colors.data'
-import { RoutesPath } from '~/data/routes.data'
-import { siteMetadata } from '~/data/siteMetadata'
-import { BackToLink } from '~/routes/articles_.$id/components/BackToLink'
-import { getAllArticles } from '~/utils/articles.server'
-import { generateMetaCollection } from '~/utils/generateMetaCollection'
-import { getTagsFromArticles } from '~/utils/getTagsFromArticles'
+import { Badge } from '~/components/Badge';
+import { PrimaryTitle } from '~/components/PrimaryTitle';
+import { colors } from '~/data/colors.data';
+import { RoutesPath } from '~/data/routes.data';
+import { siteMetadata } from '~/data/siteMetadata';
+import { BackToLink } from '~/routes/articles_.$id/components/BackToLink';
+import { getAllArticles } from '~/utils/articles.server';
+import { generateMetaCollection } from '~/utils/generateMetaCollection';
+import { getTagsFromArticles } from '~/utils/getTagsFromArticles';
 
-export type TagPayload = [string, number]
-export type TagsPayload = Array<TagPayload>
+export type TagPayload = [string, number];
+export type TagsPayload = Array<TagPayload>;
 
 interface LoaderData {
-  tags: TagsPayload
+  tags: TagsPayload;
 }
 
 export const loader: LoaderFunction = async () => {
-  const articles = await getAllArticles()
+  const articles = await getAllArticles();
 
   return json({
     tags: getTagsFromArticles(articles),
-  })
-}
+  });
+};
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
-  const { tags } = data as LoaderData
+  const { tags } = data as LoaderData;
   const summaryTags = tags
     .slice(0, 3)
     .map(([tag]) => tag)
-    .join(', ')
+    .join(', ');
   return generateMetaCollection({
     summary: `Explore our comprehensive list of tags to easily find the topics that interest you. From ${summaryTags[0]}, ${summaryTags[1]}, to ${summaryTags[2]}, and more – dive into a world of insightful articles tailored to your interests.`,
     tags: tags.map(([tag]) => tag),
     title: 'Browse articles by tags.',
     url: `${siteMetadata.url}/articles/tags`,
-  })
-}
+  });
+};
 
 export const links: LinksFunction = () => {
   return [
@@ -47,11 +47,11 @@ export const links: LinksFunction = () => {
       rel: 'stylesheet',
       href: 'https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600;700&display=swap',
     },
-  ]
-}
+  ];
+};
 
 export default function Tags() {
-  const { tags } = useLoaderData<LoaderData>()
+  const { tags } = useLoaderData<LoaderData>();
 
   return (
     <div className="prose-wrapper">
@@ -72,9 +72,9 @@ export default function Tags() {
               linkTo={tag}
               tag={tag}
             />
-          )
+          );
         })}
       </nav>
     </div>
-  )
+  );
 }

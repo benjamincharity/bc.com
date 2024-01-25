@@ -6,4 +6,4 @@ export default {
     '\\.(webp)$': '<rootDir>/app/tests/mocks/image.js',
   },
   testEnvironment: 'jsdom',
-}
+};

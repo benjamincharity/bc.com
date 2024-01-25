@@ -15,4 +15,4 @@ export const COMPANIES: ReadonlyArray<string> = [
   'The Home Depot',
   'Tourbuzz',
   'Turner Broadcasting System',
-]
+];

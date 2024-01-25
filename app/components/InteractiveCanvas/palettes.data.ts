@@ -1,5 +1,5 @@
-export type Color = string
-export type Palette = [Color, Color, Color, Color, Color]
+export type Color = string;
+export type Palette = [Color, Color, Color, Color, Color];
 export const PALETTES: ReadonlyArray<Palette> = [
   ['#C0F', '#F0C', '#0CF', '#0FC', '#FF0'],
   ['#333', '#666', '#999', '#CCC', '#FFF'],
@@ -73,4 +73,4 @@ export const PALETTES: ReadonlyArray<Palette> = [
   ['#000699', '#6032ad', '#8b7abd', '#a4c0b7', '#c3e89b'],
   ['#004ca5', '#4a2d7a', '#6e8e9d', '#a7c2c5', '#c5e8cf'],
   ['#c32d0a', '#6f332d', '#2e8e67', '#f1cf25', '#5fbad1'],
-]
+];

@@ -3,16 +3,17 @@ title: Download 320kbps MP3s From Your Premium Spotify Account
 summary: Learn how to store a local copy of your premium Spotify music using open-source software.
 tags:
   - music
-published: true
 publishDate: 2015-01-27
-previousUrl: https://blog.benjamincharity.com/download-320kbps-mp3s-from-your-premium-spotify-account/
 readingTime: 4
+images: ['download-spotify-tracks.jpg']
 ---
 
 Recently I ran across a Node.js library called [Spotijay][spotijay] which allowed you to download Spotify playlists
 to your hard-drive and keep them synced. While Spotify allows you to save tracks to your device for 'offline'
 listening, I've found that the app needs at least some small amount of data transfer just to start up. Which, in my
 eyes, kind of kills the primary benefit of having 'offline' tracks. This feature seems to be about saving bandwidth rather than listening to tracks with no cell service.
+
+![Headphones resting next to a laptop on a wooden desk symbolize the convenience of downloading music from Spotify for offline listening.](download-spotify-tracks.jpg)
 
 I ran into a few issues getting it set up, so I thought I would post the solutions in case it could help anyone else.
 
@@ -27,42 +28,42 @@ I ran into a few issues getting it set up, so I thought I would post the solutio
 
 1. Update/upgrade Homebrew:
 
-```bash
-brew update
-brew upgrade
-```
+   ```bash
+   brew update
+   brew upgrade
+   ```
 
 2. Install a few dependencies:
 
-```bash
-brew install homebrew/binary/libspotify lame sox eyeD3
-```
+   ```bash
+   brew install homebrew/binary/libspotify lame sox eyeD3
+   ```
 
 3. Clone the [Spotijay repo][spotijay] to your desired location:
 
-```bash
-git clone git@github.com:alexperezpaya/Spotijay.git
-```
+   ```bash
+   git clone git@github.com:alexperezpaya/Spotijay.git
+   ```
 
 4. CD into the directory that you just cloned:
 
-```bash
-cd spotijay
-```
+   ```bash
+   cd spotijay
+   ```
 
 5. Grab the Spotify app key that you downloaded earlier and place it inside this directory.
 
 6. Install [NPM][npm] dependencies:
 
-```bash
-npm install
-```
+   ```bash
+   npm install
+   ```
 
 7. Install [Forever][forever]. This is a tool that will keep the Spotijay script running continuously.
 
-```bash
-npm install -g forever
-```
+   ```bash
+   npm install -g forever
+   ```
 
 > Note: If you see an error on this step, you may need to install libspotify from source. More info [here][install_error].
 

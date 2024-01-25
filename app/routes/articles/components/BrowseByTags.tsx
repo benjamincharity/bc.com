@@ -1,7 +1,7 @@
-import { Link } from '@remix-run/react'
+import { Link } from '@remix-run/react';
 
-import { RoutesPath } from '~/data/routes.data'
-import { TagsPayload } from '~/routes/articles_.tags/route'
+import { RoutesPath } from '~/data/routes.data';
+import { TagsPayload } from '~/routes/articles_.tags/route';
 
 export const BrowseByTags = ({
   tags,
@@ -9,10 +9,10 @@ export const BrowseByTags = ({
   heading,
   id,
 }: {
-  tags: TagsPayload
-  currentTag?: string
-  heading?: string
-  id?: string
+  tags: TagsPayload;
+  currentTag?: string;
+  heading?: string;
+  id?: string;
 }) => {
   return (
     <aside
@@ -24,23 +24,23 @@ export const BrowseByTags = ({
         <Tags tags={tags} currentTag={currentTag} />
       </nav>
     </aside>
-  )
-}
+  );
+};
 
 export const Tags = ({
   tags,
   currentTag,
 }: {
-  tags: TagsPayload
-  currentTag?: string
+  tags: TagsPayload;
+  currentTag?: string;
 }) => {
   return (
     <ul className={'text-center'}>
       {tags
         .sort((a, b) => a[0].localeCompare(b[0]))
         .map((t) => {
-          const [tag, count] = t
-          const isCurrent = tag === currentTag
+          const [tag, count] = t;
+          const isCurrent = tag === currentTag;
           return (
             <li key={tag + count} className={'mb-2 mr-6 inline-block text-sm'}>
               {isCurrent ? (
@@ -60,8 +60,8 @@ export const Tags = ({
                 </Link>
               )}
             </li>
-          )
+          );
         })}
     </ul>
-  )
-}
+  );
+};

@@ -1,6 +1,6 @@
-import { Link } from '@remix-run/react'
+import { Link } from '@remix-run/react';
 
-import { RoutesPath } from '~/data/routes.data'
+import { RoutesPath } from '~/data/routes.data';
 
 export function AboutLink() {
   return (
@@ -12,5 +12,5 @@ export function AboutLink() {
       <span aria-hidden="true">?</span>
       <span className="collapse hidden">Site info</span>
     </Link>
-  )
+  );
 }

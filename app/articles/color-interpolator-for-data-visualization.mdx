@@ -5,12 +5,14 @@ tags:
   - 'color'
   - 'data-viz'
   - 'javascript'
-published: true
 publishDate: 2024-01-12
 readingTime: 2
+images: ['color-interpolator-for-data-visualization.jpg']
 ---
 
 In data visualization, color plays a crucial role in conveying information effectively. However, finding the right balance between automated color generation and manual control can be challenging. Let's look at how you can create a color interpolator that generates a palette of colors between two specified values.
+
+![A vivid display of colored panels in a gradient from yellow to deep blue, reminiscent of a carefully crafted color scale used in data visualization.](color-interpolator-for-data-visualization.jpg)
 
 ## The Need for a Custom Color Interpolator
 
@@ -43,13 +45,13 @@ function interpolateColor(
   factor: number = 0.5
 ): number[] {
   if (color1.length !== color2.length) {
-    throw new Error('Color arrays must have the same length')
+    throw new Error('Color arrays must have the same length');
   }
 
   return color1.map((value, index) => {
-    const diff = color2[index] - value
-    return Math.round(value + factor * diff)
-  })
+    const diff = color2[index] - value;
+    return Math.round(value + factor * diff);
+  });
 }
 
 /**
@@ -61,18 +63,18 @@ function interpolateColor(
  * @returns The array of interpolated color values
  */
 function interpolateColors(color1, color2, steps) {
-  const [r1, g1, b1] = color1.match(/\d+/g).map(Number)
-  const [r2, g2, b2] = color2.match(/\d+/g).map(Number)
+  const [r1, g1, b1] = color1.match(/\d+/g).map(Number);
+  const [r2, g2, b2] = color2.match(/\d+/g).map(Number);
 
-  const interpolatedColorArray = []
+  const interpolatedColorArray = [];
 
   for (let i = 0; i < steps; i++) {
-    const factor = i / (steps - 1)
-    const [r, g, b] = interpolateColor([r1, g1, b1], [r2, g2, b2], factor)
-    interpolatedColorArray.push(`rgb(${r}, ${g}, ${b})`)
+    const factor = i / (steps - 1);
+    const [r, g, b] = interpolateColor([r1, g1, b1], [r2, g2, b2], factor);
+    interpolatedColorArray.push(`rgb(${r}, ${g}, ${b})`);
   }
 
-  return interpolatedColorArray
+  return interpolatedColorArray;
 }
 ```
 

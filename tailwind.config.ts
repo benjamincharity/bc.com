@@ -1,6 +1,6 @@
-import type { Config } from 'tailwindcss'
-import defaultTheme from 'tailwindcss/defaultTheme'
-import plugin from 'tailwindcss/plugin'
+import type { Config } from 'tailwindcss';
+import defaultTheme from 'tailwindcss/defaultTheme';
+import plugin from 'tailwindcss/plugin';
 
 export default {
   content: ['./app/**/*.{js,jsx,ts,tsx}'],
@@ -104,7 +104,7 @@ export default {
           }),
         },
         { values: theme('textShadow') }
-      )
+      );
     }),
     plugin(({ addUtilities }) => {
       const newUtilities = {
@@ -112,8 +112,8 @@ export default {
           transition:
             'background-size 320ms 100ms ease-out, background-position 320ms 100ms ease-out',
         },
-      }
-      addUtilities(newUtilities)
+      };
+      addUtilities(newUtilities);
     }),
   ],
-} satisfies Config
+} satisfies Config;

@@ -1,13 +1,13 @@
-import { Datetime } from '~/components/Datetime'
+import { Datetime } from '~/components/Datetime';
 
 interface PublishDateProps {
-  publishDate: string
-  updatedDate?: string
-  className?: string
+  publishDate: string;
+  updatedDate?: string;
+  className?: string;
 }
 
 export const PublishDate = (props: PublishDateProps) => {
-  const { publishDate, updatedDate, className = '' } = props
+  const { publishDate, updatedDate, className = '' } = props;
 
   return (
     !!publishDate && (
@@ -23,5 +23,5 @@ export const PublishDate = (props: PublishDateProps) => {
         </div>
       </div>
     )
-  )
-}
+  );
+};
