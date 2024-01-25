@@ -2,7 +2,6 @@ import { LinksFunction, MetaFunction } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import type { LoaderFunction } from '@remix-run/server-runtime';
 import { json, redirect } from '@remix-run/server-runtime';
-import React from 'react';
 import { ExternalScriptsHandle } from 'remix-utils/external-scripts';
 
 import { BackToTop } from '~/components/BackToTop';
