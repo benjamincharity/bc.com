@@ -1,7 +1,10 @@
-import { LinksFunction, LoaderFunction, MetaFunction } from '@remix-run/node';
-import { json } from '@remix-run/node';
+import {
+  LinksFunction,
+  LoaderFunction,
+  MetaFunction,
+  json,
+} from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
-import React from 'react';
 
 import { BackToTop } from '~/components/BackToTop';
 import { Badge } from '~/components/Badge';

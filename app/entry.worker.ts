@@ -1,6 +1,7 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 /// <reference lib="WebWorker" />
 import { json } from '@remix-run/server-runtime';
+
+import { FixMeLater } from '~/types/shame';
 
 export type {};
 declare let self: ServiceWorkerGlobalScope;
@@ -11,17 +12,17 @@ const ASSET_CACHE = 'asset-cache';
 const DATA_CACHE = 'data-cache';
 const DOCUMENT_CACHE = 'document-cache';
 
-function debug(...messages: any[]) {
+function debug(...messages: FixMeLater[]) {
   if (process.env.NODE_ENV === 'development') {
     console.debug(...messages);
   }
 }
 
-async function handleInstall(event: ExtendableEvent) {
+async function handleInstall() {
   debug('Service worker installed');
 }
 
-async function handleActivate(event: ExtendableEvent) {
+async function handleActivate() {
   debug('Service worker activated');
 }
 
@@ -168,11 +169,11 @@ function isDocumentGetRequest(request: Request) {
 }
 
 self.addEventListener('install', (event) => {
-  event.waitUntil(handleInstall(event).then(() => self.skipWaiting()));
+  event.waitUntil(handleInstall().then(() => self.skipWaiting()));
 });
 
 self.addEventListener('activate', (event) => {
-  event.waitUntil(handleActivate(event).then(() => self.clients.claim()));
+  event.waitUntil(handleActivate().then(() => self.clients.claim()));
 });
 
 self.addEventListener('message', (event) => {
