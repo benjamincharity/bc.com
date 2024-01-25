@@ -27,7 +27,7 @@
     @apply inline-block text-sm text-gray-600;
   }
   .reading-time::before {
-    @apply mr-1;
+    @apply mr-1 opacity-50 transition-opacity duration-700 group-hover:opacity-100;
     content: '⌚';
   }
 
@@ -164,10 +164,13 @@ strong {
   border-codeBoxShadow
   bg-codeBackground
   font-code
-  text-xs;
+  text-base;
 }
 .rendered-markdown pre code {
   @apply rounded font-code;
+}
+.rendered-markdown small {
+  @apply my-2 inline-block leading-tight;
 }
 .rendered-markdown blockquote {
   @apply ml-5 border-l-4 border-drakenhofNightshade italic;
@@ -209,6 +212,9 @@ strong {
 }
 .rendered-markdown ol {
   @apply list-decimal pl-8;
+}
+.rendered-markdown ul {
+  @apply list-disc pl-8;
 }
 .rendered-markdown ul li::marker {
   @apply rotate-45;
