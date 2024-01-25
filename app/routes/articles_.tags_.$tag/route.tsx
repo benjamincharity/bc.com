@@ -2,8 +2,10 @@ import { LinksFunction, MetaFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { useLoaderData, useParams } from '@remix-run/react';
 import pluralize from 'pluralize';
+import React from 'react';
 
 import { ArticlesList } from '~/components/Articles/ArticlesList';
+import { BackToTop } from '~/components/BackToTop';
 import { RoutesPath } from '~/data/routes.data';
 import { siteMetadata } from '~/data/siteMetadata';
 import { BrowseByTags } from '~/routes/articles/components/BrowseByTags';
@@ -95,6 +97,8 @@ export default function Tag() {
       </BackToLink>
 
       <ArticlesList articles={articles} className={'mb-10 pt-4'} />
+
+      <BackToTop />
 
       <hr className={'fancy'} />
 

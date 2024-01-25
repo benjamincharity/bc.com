@@ -2,8 +2,10 @@ import { LinksFunction, MetaFunction } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import type { LoaderFunction } from '@remix-run/server-runtime';
 import { json, redirect } from '@remix-run/server-runtime';
+import React from 'react';
 import { ExternalScriptsHandle } from 'remix-utils/external-scripts';
 
+import { BackToTop } from '~/components/BackToTop';
 import { Footer } from '~/components/Footer';
 import { PrimaryTitle } from '~/components/PrimaryTitle';
 import { RoutesPath } from '~/data/routes.data';
@@ -43,6 +45,7 @@ export const loader: LoaderFunction = async ({ params, request }) => {
   };
 
   if (post.frontmatter.draft && isProd) {
+    console.warn('This post is a draft and cannot be viewed in production.');
     const newUrl = new URL(RoutesPath.notFound, siteMetadata.url);
     newUrl.searchParams.append(
       'message',
@@ -131,6 +134,7 @@ export default function Article() {
           <div dangerouslySetInnerHTML={{ __html: html }} />
         </section>
       </article>
+      <BackToTop />
 
       <hr className={'fancy'} />
 

@@ -4,6 +4,7 @@ import { useLoaderData, useSearchParams } from '@remix-run/react';
 import React, { useMemo } from 'react';
 
 import { ArticlesList } from '~/components/Articles/ArticlesList';
+import { BackToTop } from '~/components/BackToTop';
 import { RoutesPath } from '~/data/routes.data';
 import { siteMetadata } from '~/data/siteMetadata';
 import { BrowseByTags } from '~/routes/articles/components/BrowseByTags';
@@ -66,13 +67,6 @@ export default function Route() {
       behavior: reduceMotion ? 'auto' : 'smooth',
     });
   };
-  const scrollToTop = (event: React.MouseEvent) => {
-    event.preventDefault();
-    window.scrollTo({
-      top: 0,
-      behavior: reduceMotion ? 'auto' : 'smooth',
-    });
-  };
 
   return (
     <section className={'prose-wrapper pb-6'}>
@@ -90,16 +84,7 @@ export default function Route() {
 
       <ArticlesList articles={articles} />
 
-      <div className={'text-right'}>
-        <button
-          className={
-            'animated-link-underline mb-4 text-sm font-normal leading-6'
-          }
-          onClick={scrollToTop}
-        >
-          Back to top &uarr;
-        </button>
-      </div>
+      <BackToTop />
 
       <hr className={'fancy'} />
 
