@@ -1,21 +1,24 @@
 ---
 title: 'Rewriting the Tech Stack: Transitioning from Angular 12 and GatsbyJS to Remix'
-summary: "I'll share my experience transitioning a web project from Angular 12 and GatsbyJS to Remix, using Vite and PNPM, and moving from Netlify to Vercel. Discover lessons learned in modern web development."
+summary: 'I share my experience transitioning a web project from Angular 12 and GatsbyJS to Remix, using Vite and PNPM, and moving from Netlify to Vercel. Discover lessons learned in modern web development.'
 tags:
   - angular
   - javascript
   - remix
   - vite
   - tailwind
-publishDate: 2040-01-24T00:00:00.000Z
+  - vercel
+  - cloudinary
+publishDate: 2024-01-26T00:00:00.000Z
 readingTime: 8
-images: ['angular-to-remix-1_uv4kpd.jpg']
-draft: true
+images: ['snail-and-leopard.jpg']
 ---
 
-I initially developed this website using Angular 12 and GatsbyJS. However, I have recently switched to Remix. I aimed to enhance my development experience and increase the frequency of publishing my articles while also improving the overall quality of my website. In this article, I will explain the reasons behind this decision, the process involved in the transition, and the valuable insights I gained from the experience.
+In addition to the technical details of the transition, I also want to share some of the challenges and benefits of using Remix. With Remix, I found it easier to manage my content and present it in a more organized and visually appealing way. The platform also allowed me to integrate various tools and services that improve user experience and streamline development. One of the most exciting features of Remix is its support for server-side rendering, which significantly enhances the website's performance and SEO.
 
-![Isometric concept art of a programming workflow with interconnected devices and screens displaying code and data management tools on a blue background.](angular-to-remix-1_uv4kpd.jpg)
+![A 16x9 neo-brutalist image showcasing a scale with a snail on one side and a leopard in a snail shell on the other. Predominantly black and white, with pops of color highlighting key elements. The background features abstract geometric shapes, enhancing the minimalist, modern design.](snail-and-leopard.jpg)
+
+With all these advantages, my website is now better positioned to serve its intended audience. So, without further ado, let's dive into the details of how I made the switch and what I learned along the way.
 
 ## Choosing Remix for SSR and BFF Solutions
 
@@ -45,15 +48,11 @@ But it wasn't just about comfort; it was about performance. In the fast-paced wo
 
 ## Exploring SSR for the First Time with RemixJS
 
-My previous website was static, but I wanted to work with server-side rendering (SSR) in a single-page application (SPA). After hearing about RemixJS and its robustness in a React-based ecosystem, I decided to use it.
+I used to have a static website but wanted to try server-side rendering (SSR) with a single-page application (SPA). After learning about RemixJS and its robustness in a React-based ecosystem, I decided to use it.
 
-At first, I was skeptical about SSR, but RemixJS helped me appreciate its benefits. The framework's implementation of SSR was particularly impressive in terms of performance and user experience, especially for sites with rich content.
+Initially, I hesitated about SSR, but RemixJS helped me appreciate its benefits. The framework's implementation of SSR was particularly impressive in terms of performance and user experience, especially for sites with rich content.
 
-In the past, I had used API caching to improve persistence and offline functionality. RemixJS complemented this experience by enhancing the initial data delivery, making it more efficient even when connectivity was limited.
-
-Choosing RemixJS for my first deep dive into SSR wasn't just about trying out a new technology. It represented a significant step in my development practice, where I embraced a more integrated approach, balancing server-side efficiency with a dynamic front-end experience.
-
-## Exploring SSR for the First Time with RemixJS
+Choosing RemixJS for my first deep dive into SSR wasn't just about trying a new technology. It represented a significant step in my development practice, where I embraced a more integrated approach, balancing server-side efficiency with a dynamic front-end experience.
 
 In my previous roles, I gained expertise in managing performance and designing attractive user interfaces in a Single Page Application (SPA) environment. This experience made me confident in handling data dynamically and efficiently. However, I faced a new challenge when I switched to using Server-Side Rendering (SSR) with RemixJS. It required a change in mindset, especially regarding how initial data is handled.
 
@@ -73,9 +72,9 @@ Having spent most of my career using pre-processed languages like SASS, which ha
 
 ## Porting Angular 12 and GatsbyJS to Remix
 
-![Isometric digital illustration of a multilayered data center with cloud computing icons, data blocks, and connectivity symbols in a blue color scheme.](angular-to-remix-3_nt6pcf.jpg)
-
 I decided to rewrite my website, which was previously built using Angular 12 and GatsbyJS, to Remix. The main reason behind this decision was to learn new frameworks and development approaches. My website features interactive canvas, listing, and article detail pages, providing a practical ground for my exploration.
+
+![Isometric digital illustration of a multilayered data center with cloud computing icons, data blocks, and connectivity symbols in a blue color scheme.](angular-to-remix-3_nt6pcf.jpg)
 
 While rewriting the interactive canvas, I had to adopt a more complex approach. Initially, I developed the canvas in Angular and converted the class-based logic to React's functional components without considering the unique requirements of the interactive canvas. Therefore, I isolated the canvas into a class, which enabled the canvas to redraw without causing a re-render and maintaining the same color palette for returning users. This aspect of the rewrite highlighted the importance of understanding framework-specific nuances.
 
