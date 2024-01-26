@@ -96,15 +96,15 @@
     "typescript": "5.1.6"
   },
   "engines": {
-    "node": "^18.0.0"
+    "node": "^20.0.0"
   },
   "husky": {
     "hooks": {
       "pre-commit": "pretty-quick --staged"
     }
   },
-  "name": "bc-new-blog",
-  "private": true,
+  "name": "bc-com",
+  "private": false,
   "scripts": {
     "build": "run-s build:*",
     "build:remix": "remix build",
