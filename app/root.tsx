@@ -160,9 +160,9 @@ export function ErrorBoundary() {
           </div>
         </main>
         <FancyBackground isVisible={true} />
+        <SpeedInsights />
         <Scripts />
         <ExternalScripts />
-        <SpeedInsights />
         <script
           async
           src="https://cpwebassets.codepen.io/assets/embed/ei.js"

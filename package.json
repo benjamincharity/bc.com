@@ -96,7 +96,7 @@
     "typescript": "5.1.6"
   },
   "engines": {
-    "node": ">=18.0.0"
+    "node": "^18.0.0"
   },
   "husky": {
     "hooks": {
@@ -116,6 +116,7 @@
     "format": "npx prettier --loglevel warn --write .",
     "lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint .",
     "start": "remix-serve ./build/index.js",
+    "start:prod": "cross-env NODE_ENV=production remix-serve ./build",
     "test": "jest --config jest.config.ts",
     "typecheck": "tsc"
   },
