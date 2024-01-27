@@ -12,13 +12,8 @@ export default {
   serverBuildTarget,
   serverDependenciesToBundle,
   tailwind: true,
-  //
-  // Remix PWA Settings
-  //
-  // entryWorkerFile: '<appDir>/entry.worker.ts',
-  // worker: '@remix-pwa/runtime',
+  browserNodeBuiltinsPolyfill: { modules: { buffer: true } },
+  watchPaths: ['./tailwind.config.ts'],
   workerName: 'sw',
   workerMinify: true,
-  // workerBuildDirectory: './build',
-  // workerSourcemap: false,
 };

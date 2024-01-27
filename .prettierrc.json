@@ -12,6 +12,7 @@
     "@trivago/prettier-plugin-sort-imports",
     "prettier-plugin-tailwindcss"
   ],
+  "proseWrap": "always",
   "semi": true,
   "singleQuote": true,
   "tabWidth": 2,

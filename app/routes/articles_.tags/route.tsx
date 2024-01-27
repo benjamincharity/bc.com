@@ -1,9 +1,4 @@
-import {
-  LinksFunction,
-  LoaderFunction,
-  MetaFunction,
-  json,
-} from '@remix-run/node';
+import { LoaderFunction, MetaFunction, json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 
 import { BackToTop } from '~/components/BackToTop';
@@ -45,15 +40,6 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
     title: 'Browse articles by tags.',
     url: `${siteMetadata.url}/articles/tags`,
   });
-};
-
-export const links: LinksFunction = () => {
-  return [
-    {
-      rel: 'stylesheet',
-      href: 'https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600;700&display=swap',
-    },
-  ];
 };
 
 export default function Tags() {

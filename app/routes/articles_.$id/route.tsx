@@ -1,7 +1,8 @@
-import { LinksFunction, MetaFunction } from '@remix-run/node';
+import { MetaFunction } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import type { LoaderFunction } from '@remix-run/server-runtime';
 import { json, redirect } from '@remix-run/server-runtime';
+import highlightStyle from 'highlight.js/styles/github.css';
 import { ExternalScriptsHandle } from 'remix-utils/external-scripts';
 
 import { BackToTop } from '~/components/BackToTop';
@@ -84,15 +85,6 @@ export const handle: ExternalScriptsHandle = {
   ],
 };
 
-export const links: LinksFunction = () => {
-  return [
-    {
-      rel: 'stylesheet',
-      href: 'https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600;700&display=swap',
-    },
-  ];
-};
-
 export const meta: MetaFunction = ({ data }: FixMeLater) => {
   const { title, tags, summary, url, images } = data.frontmatter as Frontmatter;
   const imageUrl = images?.length
@@ -142,6 +134,7 @@ export default function Article() {
       <BrowseByTags heading={'Tags:'} tags={localTags} />
 
       <Footer />
+      <link rel="stylesheet" href={highlightStyle} />
     </main>
   );
 }
