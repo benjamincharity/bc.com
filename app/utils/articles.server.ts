@@ -87,6 +87,7 @@ async function fetchArticles(count?: number): Promise<ArticleReference[]> {
   if (process.env.NODE_ENV === 'production') {
     return articles
       .filter((article) => !article.frontmatter.draft)
+      .sort(compareArticles)
       .slice(0, count);
   }
 
@@ -115,11 +116,7 @@ export async function getLatestArticles(
 }
 
 function compareArticles(a: ArticleReference, b: ArticleReference): number {
-  const aDate = new Date(
-    a.frontmatter.updatedDate || a.frontmatter.publishDate
-  );
-  const bDate = new Date(
-    b.frontmatter.updatedDate || b.frontmatter.publishDate
-  );
+  const aDate = new Date(a.frontmatter.publishDate);
+  const bDate = new Date(b.frontmatter.publishDate);
   return bDate.getTime() - aDate.getTime();
 }
