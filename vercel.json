@@ -52,15 +52,9 @@
     "contentDispositionType": "inline",
     "contentSecurityPolicy": "script-src 'none'; frame-src 'none'; sandbox;",
     "dangerouslyAllowSVG": false,
-    "formats": [ "image/webp" ],
+    "formats": ["image/webp"],
     "minimumCacheTTL": 60,
-    "sizes": [
-      256,
-      640,
-      1080,
-      2048,
-      3840
-    ]
+    "sizes": [256, 640, 1080, 2048, 3840]
   },
-  "trailingSlash": true
+  "trailingSlash": false
 }

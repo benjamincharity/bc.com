@@ -22,6 +22,7 @@ import { ModernButton } from '~/components/ModernButton';
 import { siteMetadata } from '~/data/siteMetadata';
 import { determineIfShouldShowBackground } from '~/routes/_index/route';
 import { navigationState$, state$ } from '~/store';
+import { ArticleReference, getLatestArticles } from '~/utils/articles.server';
 import { generateMetaCollection } from '~/utils/generateMetaCollection';
 import { useConsoleArt } from '~/utils/useConsoleArt';
 
@@ -30,6 +31,7 @@ import { isDarkMode } from './utils/isDarkMode';
 interface LoaderData {
   css: string;
   filePath: string;
+  latestArticles: ArticleReference[];
   showBackground: boolean;
 }
 
@@ -52,12 +54,18 @@ export async function loader({ request }: { request: Request }) {
       );
     }
   }
+  const latestArticles = await getLatestArticles();
 
   return json({
     css: cssContent,
     showBackground: local,
+    latestArticles,
   });
 }
+
+export const links: LinksFunction = () => {
+  return [{ rel: 'preconnect', href: 'https://res.cloudinary.com' }];
+};
 
 export const meta: MetaFunction = () => {
   return [...generateMetaCollection()];
@@ -65,7 +73,7 @@ export const meta: MetaFunction = () => {
 
 export default function App() {
   const location = useLocation();
-  const { showBackground, css } = useLoaderData<LoaderData>();
+  const { showBackground, css, latestArticles } = useLoaderData<LoaderData>();
   const [showBg, setShowBg] = useState(showBackground);
 
   useConsoleArt();
@@ -94,11 +102,6 @@ export default function App() {
         <Meta />
         <style dangerouslySetInnerHTML={{ __html: css }} />
         <link rel="manifest" href="/manifest.webmanifest" />
-        <link
-          rel="stylesheet"
-          id="idle-css"
-          data-href="path/to/your/idle-stylesheet.css"
-        />
         <Links />
       </head>
 

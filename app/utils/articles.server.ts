@@ -2,6 +2,7 @@ import parseFrontMatter from 'front-matter';
 import matter from 'gray-matter';
 import path from 'path';
 
+import { siteMetadata } from '~/data/siteMetadata';
 import { toHTML } from '~/utils/mdxProcessor.server';
 
 import { readFile, readdir } from './fs.server';
@@ -21,7 +22,8 @@ export interface Frontmatter {
   tags: string[];
   title: string;
   updatedDate: string;
-  url: string;
+  url?: string;
+  urlPath?: string;
 }
 
 /**
@@ -36,11 +38,11 @@ export async function getArticle(slug: string) {
   const html = await toHTML(content, slug);
 
   return {
-    html,
     code: content,
     frontmatter: {
       ...frontmatter,
     },
+    html,
   };
 }
 
@@ -50,26 +52,32 @@ export interface ArticleReference {
 }
 
 /**
- * Get all frontmatter for all posts
- * @returns
+ * Fetches all articles
+ *
+ * @returns A Promise that resolves to an array of ArticleReference objects.
  */
-export async function getAllArticles(): Promise<ArticleReference[]> {
+async function fetchArticles(count?: number): Promise<ArticleReference[]> {
   const filePath = path.join(process.cwd(), 'app', 'articles');
 
   const postsPath = await readdir(filePath, {
     withFileTypes: true,
   });
 
-  let articles = await Promise.all(
+  const articles = await Promise.all(
     postsPath.map(async (dirent) => {
       const fPath = path.join(filePath, dirent.name);
       const [file] = await Promise.all([readFile(fPath)]);
       const frontmatter = parseFrontMatter(file.toString());
       const attributes = frontmatter.attributes as Frontmatter;
+      const slug = dirent.name.replace(/\.mdx/, '');
+      const urlPath = `/articles/${slug}`;
+      const url = `${siteMetadata.url}${urlPath}`;
 
       return {
-        slug: dirent.name.replace(/\.mdx/, ''),
+        slug,
         frontmatter: {
+          url,
+          urlPath,
           ...attributes,
         },
       };
@@ -77,12 +85,41 @@ export async function getAllArticles(): Promise<ArticleReference[]> {
   );
 
   if (process.env.NODE_ENV === 'production') {
-    articles = articles.filter((article) => !article.frontmatter.draft);
+    return articles
+      .filter((article) => !article.frontmatter.draft)
+      .slice(0, count);
   }
 
-  return articles.sort((a, b) => {
-    const dateA = a.frontmatter.updatedDate || a.frontmatter.publishDate;
-    const dateB = b.frontmatter.updatedDate || b.frontmatter.publishDate;
-    return new Date(dateB).getTime() - new Date(dateA).getTime();
-  });
+  return articles.sort(compareArticles).slice(0, count);
+}
+
+/**
+ * Gets all articles available.
+ *
+ * @returns A Promise that resolves to an array of all ArticleReference objects.
+ */
+export async function getAllArticles(): Promise<ArticleReference[]> {
+  return fetchArticles();
+}
+
+/**
+ * Gets the latest articles.
+ *
+ * @param [count=3] - The number of latest articles to retrieve.
+ * @returns A Promise that resolves to an array of the latest ArticleReference objects.
+ */
+export async function getLatestArticles(
+  count = 3
+): Promise<ArticleReference[]> {
+  return fetchArticles(count);
+}
+
+function compareArticles(a: ArticleReference, b: ArticleReference): number {
+  const aDate = new Date(
+    a.frontmatter.updatedDate || a.frontmatter.publishDate
+  );
+  const bDate = new Date(
+    b.frontmatter.updatedDate || b.frontmatter.publishDate
+  );
+  return bDate.getTime() - aDate.getTime();
 }

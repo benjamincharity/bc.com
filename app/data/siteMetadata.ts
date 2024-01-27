@@ -10,7 +10,7 @@ export const siteMetadata = {
       ? 'https://www.benjamincharity.com'
       : 'http://localhost:3000',
   image: `/images/pwa/apple-splash-2732-2048.jpg`,
-  articleImagePath: `https://res.cloudinary.com/${CLOUDINARY_ACCOUNT}/image/upload/c_scale/f_auto/article-content/`,
+  articleImagePath: `https://res.cloudinary.com/${CLOUDINARY_ACCOUNT}/image/upload/c_scale/f_auto,q_auto/article-content/`,
   twitterImage: `/images/social.Twitter.png`,
   linkedInImage: `/images/social.LinkedIn.png`,
   author: 'Benjamin Charity',
