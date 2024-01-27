@@ -1,8 +1,6 @@
-import { LinksFunction, MetaFunction } from '@remix-run/node';
-import { json } from '@remix-run/node';
+import { MetaFunction, json } from '@remix-run/node';
 import { useLoaderData, useParams } from '@remix-run/react';
 import pluralize from 'pluralize';
-import React from 'react';
 
 import { ArticlesList } from '~/components/Articles/ArticlesList';
 import { BackToTop } from '~/components/BackToTop';
@@ -37,15 +35,6 @@ export const meta: MetaFunction = ({ params }) => {
     { property: 'og:description', content: summary },
     { name: 'twitter:title', content: title },
     { name: 'twitter:description', content: summary },
-  ];
-};
-
-export const links: LinksFunction = () => {
-  return [
-    {
-      rel: 'stylesheet',
-      href: 'https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600;700&display=swap',
-    },
   ];
 };
 

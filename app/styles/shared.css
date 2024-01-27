@@ -3,6 +3,63 @@
 @tailwind utilities;
 
 @layer base {
+  @font-face {
+    font-family: 'VT323';
+    font-display: swap;
+    src: url('/fonts/VT323Regularsubset2.eot');
+    src:
+      url('/fonts/VT323Regularsubset2.eot') format('embedded-opentype'),
+      url('/fonts/VT323Regularsubset2.woff2') format('woff2'),
+      url('/fonts/VT323Regularsubset2.woff') format('woff'),
+      url('/fonts/VT323Regularsubset2.ttf') format('truetype'),
+      url('/fonts/VT323Regularsubset2.svg#VT323Regularsubset2') format('svg');
+  }
+
+  @font-face {
+    font-family: 'Source Serif 4';
+    font-weight: 400;
+    font-display: swap;
+    src: url('/fonts/sourceserif4latin400normalsubset.eot');
+    src:
+      url('/fonts/sourceserif4latin400normalsubset.eot')
+        format('embedded-opentype'),
+      url('/fonts/sourceserif4latin400normalsubset.woff2') format('woff2'),
+      url('/fonts/sourceserif4latin400normalsubset.woff') format('woff'),
+      url('/fonts/sourceserif4latin400normalsubset.ttf') format('truetype'),
+      url('/fonts/sourceserif4latin400normalsubset.svg#sourceserif4latin400normalsubset')
+        format('svg');
+  }
+
+  @font-face {
+    font-family: 'Source Serif 4';
+    font-weight: 600;
+    font-display: swap;
+    src: url('/fonts/sourceserif4latin600normalsubset.eot');
+    src:
+      url('/fonts/sourceserif4latin600normalsubset.eot')
+        format('embedded-opentype'),
+      url('/fonts/sourceserif4latin600normalsubset.woff2') format('woff2'),
+      url('/fonts/sourceserif4latin600normalsubset.woff') format('woff'),
+      url('/fonts/sourceserif4latin600normalsubset.ttf') format('truetype'),
+      url('/fonts/sourceserif4latin600normalsubset.svg#sourceserif4latin600normalsubset')
+        format('svg');
+  }
+
+  @font-face {
+    font-family: 'Source Serif 4';
+    font-weight: 700;
+    font-display: swap;
+    src: url('/fonts/sourceserif4latin700normalsubset.eot');
+    src:
+      url('/fonts/sourceserif4latin700normalsubset.eot')
+        format('embedded-opentype'),
+      url('/fonts/sourceserif4latin700normalsubset.woff2') format('woff2'),
+      url('/fonts/sourceserif4latin700normalsubset.woff') format('woff'),
+      url('/fonts/sourceserif4latin700normalsubset.ttf') format('truetype'),
+      url('/fonts/sourceserif4latin700normalsubset.svg#sourceserif4latin700normalsubset')
+        format('svg');
+  }
+
   html {
     @apply overflow-x-hidden font-sourceSerif4;
   }
@@ -50,8 +107,9 @@
 
 /*noinspection CssNoGenericFontName*/
 @supports not (font-family: 'VT323') {
-  .font-vt323 {
+  h1 {
     font-weight: bold; /* Bold Courier New to approximate VT323's appearance */
+    outline: 2px solid red;
   }
 }
 

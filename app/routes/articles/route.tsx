@@ -1,5 +1,5 @@
 import { useReducedMotion } from '@mantine/hooks';
-import { LinksFunction, type MetaFunction, json } from '@remix-run/node';
+import { type MetaFunction, json } from '@remix-run/node';
 import { useLoaderData, useSearchParams } from '@remix-run/react';
 import React, { useMemo } from 'react';
 
@@ -34,15 +34,6 @@ export async function loader() {
     }
   );
 }
-
-export const links: LinksFunction = () => {
-  return [
-    {
-      rel: 'stylesheet',
-      href: 'https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600;700&display=swap',
-    },
-  ];
-};
 
 export const meta: MetaFunction = ({ data }: FixMeLater) => {
   return generateMetaCollection({

@@ -13,7 +13,6 @@ import {
 } from '@remix-run/react';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/remix';
-import highlightStyle from 'highlight.js/styles/github.css';
 import { useEffect, useState } from 'react';
 import { ExternalScripts } from 'remix-utils/external-scripts';
 
@@ -23,49 +22,42 @@ import { ModernButton } from '~/components/ModernButton';
 import { siteMetadata } from '~/data/siteMetadata';
 import { determineIfShouldShowBackground } from '~/routes/_index/route';
 import { navigationState$, state$ } from '~/store';
-import sharedStyles from '~/styles/shared.css';
 import { generateMetaCollection } from '~/utils/generateMetaCollection';
 import { useConsoleArt } from '~/utils/useConsoleArt';
 
 import { isDarkMode } from './utils/isDarkMode';
 
-export function loader({ request }: { request: Request }) {
+interface LoaderData {
+  css: string;
+  filePath: string;
+  showBackground: boolean;
+}
+
+export async function loader({ request }: { request: Request }) {
   const url = new URL(request.url);
   const local = determineIfShouldShowBackground(url.pathname);
+  let cssContent = '';
+
+  if (typeof window === 'undefined') {
+    const cssUrl = new URL('/shared.css', request.url).href;
+
+    const response = await fetch(cssUrl);
+    if (response.ok) {
+      cssContent = await response.text();
+    } else {
+      console.error(
+        'Failed to load CSS:',
+        response.status,
+        response.statusText
+      );
+    }
+  }
+
   return json({
+    css: cssContent,
     showBackground: local,
   });
 }
-
-export const links: LinksFunction = () => {
-  return [
-    { rel: 'preconnect', href: 'https://fonts.gstatic.com' },
-    {
-      rel: 'preconnect',
-      href: 'https://fonts.gstatic.com',
-      crossOrigin: 'anonymous',
-    },
-    { rel: 'preconnect', href: 'https://res.cloudinary.com' },
-    {
-      rel: 'preload',
-      href: 'https://fonts.googleapis.com/css2?family=VT323&display=swap',
-      as: 'style',
-    },
-    {
-      rel: 'preload',
-      href: 'https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600;700&display=swap',
-      as: 'style',
-    },
-    {
-      rel: 'stylesheet',
-      href: 'https://fonts.googleapis.com/css2?family=VT323&display=swap',
-    },
-    // {
-    //   rel: 'stylesheet',
-    //   href: sharedStyles,
-    // },
-  ];
-};
 
 export const meta: MetaFunction = () => {
   return [...generateMetaCollection()];
@@ -73,7 +65,7 @@ export const meta: MetaFunction = () => {
 
 export default function App() {
   const location = useLocation();
-  const { showBackground } = useLoaderData<typeof loader>();
+  const { showBackground, css } = useLoaderData<LoaderData>();
   const [showBg, setShowBg] = useState(showBackground);
 
   useConsoleArt();
@@ -95,12 +87,18 @@ export default function App() {
   // noinspection HtmlRequiredTitleElement
   return (
     <html
-      lang="en"
       className={showBg ? 'h-full w-full overflow-hidden' : 'overflow-x-hidden'}
+      lang="en"
     >
       <head>
         <Meta />
+        <style dangerouslySetInnerHTML={{ __html: css }} />
         <link rel="manifest" href="/manifest.webmanifest" />
+        <link
+          rel="stylesheet"
+          id="idle-css"
+          data-href="path/to/your/idle-stylesheet.css"
+        />
         <Links />
       </head>
 
@@ -110,13 +108,12 @@ export default function App() {
           <Outlet />
           <ScrollRestoration getKey={(location) => location.pathname} />
           <FancyBackground isVisible={showBg} />
-          <Scripts />
-          <ExternalScripts />
-          <LiveReload />
         </div>
 
-        <link rel="stylesheet" href={sharedStyles} />
-        <link rel="stylesheet" href={highlightStyle} />
+        <Scripts />
+        <ExternalScripts />
+        <LiveReload />
+        <SpeedInsights />
         <Analytics />
       </body>
     </html>
@@ -160,13 +157,8 @@ export function ErrorBoundary() {
           </div>
         </main>
         <FancyBackground isVisible={true} />
-        <SpeedInsights />
         <Scripts />
         <ExternalScripts />
-        <script
-          async
-          src="https://cpwebassets.codepen.io/assets/embed/ei.js"
-        ></script>
       </body>
     </html>
   );
