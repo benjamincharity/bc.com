@@ -116,7 +116,7 @@
     "dev:remix": "remix dev --manual",
     "dev:worker": "remix-pwa dev",
     "e2e": "playwright test",
-    "format": "npx prettier --loglevel warn --write .",
+    "format": "npx prettier --log-level warn --write .",
     "lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint .",
     "start": "remix-serve ./build/index.js",
     "start:prod": "cross-env NODE_ENV=production remix-serve ./build/index.js",

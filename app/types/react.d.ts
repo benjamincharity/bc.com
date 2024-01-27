@@ -14,3 +14,5 @@ declare module '@microflash/rehype-figure' {
   // Define the module's exports here
   export default function rehypeFigure(options?: any): any;
 }
+
+declare module '@microflash/rehype-figure';
