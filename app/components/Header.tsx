@@ -5,7 +5,7 @@ import { RoutesPath } from '~/data/routes.data';
 
 const shared = `relative text-center z-20 font-vt323 leading-none`;
 const largeState = `${shared} pointer-events-none text-white text-title py-10 text-shadow-title`;
-const smallState = `${shared} h-[84px] pointer-events-auto text-gray-700 text-titleSmall pt-6 transition-duration-200`;
+const smallState = `${shared} h-[84px] pointer-events-auto text-gray-700 dark:text-white text-titleSmall pt-6 transition-duration-200`;
 const transition = `transition-all duration-200`;
 
 export const Header = ({

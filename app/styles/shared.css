@@ -61,7 +61,7 @@
   }
 
   html {
-    @apply overflow-x-hidden font-sourceSerif4;
+    @apply overflow-x-hidden bg-white font-sourceSerif4 dark:bg-gray-800;
   }
 }
 
@@ -81,7 +81,7 @@
   }
 
   .reading-time {
-    @apply inline-block text-sm text-gray-600;
+    @apply inline-block text-sm text-gray-600 dark:text-gray-400;
   }
   .reading-time::before {
     @apply mr-1 opacity-50 transition-opacity duration-700 group-hover:opacity-100;
@@ -89,7 +89,7 @@
   }
 
   .highlight {
-    @apply rounded-br-2xl rounded-tl-2xl bg-strongBg font-semibold;
+    @apply dark:bg-strongBgDark rounded-br-2xl rounded-tl-2xl bg-strongBg font-semibold text-gray-800 dark:text-white;
   }
   .highlight code {
     @apply bg-mark;
@@ -136,7 +136,7 @@ strong {
 
 .rendered-markdown hr,
 .fancy {
-  @apply bg-drakenhofNightshade;
+  @apply bg-drakenhofNightshade dark:bg-drakenhofNightshadeTint;
   border: 0;
   height: 1px;
   margin: 30px auto;
@@ -147,7 +147,7 @@ strong {
 
 .rendered-markdown hr::before,
 .fancy::before {
-  @apply border-2 border-solid border-drakenhofNightshade bg-drakenhofNightshade;
+  @apply border-2 border-solid border-drakenhofNightshade bg-drakenhofNightshade dark:border-drakenhofNightshadeTint dark:bg-drakenhofNightshadeTint;
   content: '';
   display: inline-block;
   height: 9px;
@@ -188,7 +188,7 @@ strong {
 
 /*ARTICLE CONTENT*/
 .rendered-markdown {
-  @apply mb-10 text-lg;
+  @apply mb-10 text-lg dark:text-gray-200;
 }
 .rendered-markdown h1,
 .rendered-markdown h2,
@@ -196,7 +196,7 @@ strong {
 .rendered-markdown h4,
 .rendered-markdown h5,
 .rendered-markdown h6 {
-  @apply relative font-bold text-gray-700;
+  @apply relative font-bold text-gray-700 dark:text-gray-200;
 }
 .rendered-markdown h1:hover .anchor,
 .rendered-markdown h2:hover .anchor,
@@ -222,16 +222,17 @@ strong {
   border-codeBoxShadow
   bg-codeBackground
   font-code
-  text-base;
+  text-base
+  dark:border-gray-950;
 }
 .rendered-markdown pre code {
-  @apply rounded font-code;
+  @apply rounded font-code dark:bg-gray-950;
 }
 .rendered-markdown small {
   @apply my-2 inline-block leading-tight;
 }
 .rendered-markdown blockquote {
-  @apply ml-5 border-l-4 border-drakenhofNightshade italic;
+  @apply ml-5 border-l-4 border-drakenhofNightshade italic dark:border-drakenhofNightshadeTint;
 }
 .rendered-markdown blockquote p {
   @apply my-5 pl-3;
@@ -247,16 +248,16 @@ strong {
   @apply highlight;
 }
 .rendered-markdown figure {
-  @apply mt-2 rounded bg-gray-100 p-1 transition;
+  @apply mt-2 rounded bg-gray-100 p-1 transition dark:bg-gray-700;
 }
 .rendered-markdown figcaption {
-  @apply pt-1 text-sm leading-tight text-gray-600 transition-colors;
+  @apply pt-1 text-sm leading-tight text-gray-600 transition-colors dark:text-gray-300;
 }
 .rendered-markdown figure:hover {
-  @apply bg-gray-300;
+  @apply bg-gray-300 dark:bg-gray-700;
 }
 .rendered-markdown figure:hover figcaption {
-  @apply text-gray-700;
+  @apply text-gray-700 dark:text-gray-200;
 }
 .rendered-markdown img {
   @apply inline-block w-full max-w-full text-center font-sourceSerif4 text-xs italic leading-loose text-gray-600 outline-imageOutline;
@@ -292,7 +293,7 @@ strong {
   top: -1px;
 }
 .rendered-markdown code {
-  @apply relative m-0 rounded-sm bg-inlineCodeBackgroundColor font-semibold text-gray-600;
+  @apply relative m-0 rounded-sm bg-inlineCodeBackgroundColor font-semibold text-gray-600 dark:bg-gray-900 dark:text-gray-200;
   font-size: 80%;
   padding: 0.1em 0.4em 0.2em;
   top: -1px;
@@ -303,14 +304,14 @@ strong {
 
 .animated-link-underline,
 .rendered-markdown a:not(.anchor) {
-  @apply text-drakenhofNightshade;
+  @apply text-drakenhofNightshade dark:text-drakenhofNightshadeTint;
   font-weight: bold;
   position: relative;
   text-decoration: none;
 }
 .animated-link-underline::before,
 .rendered-markdown a:not(.anchor)::before {
-  @apply bg-drakenhofNightshade;
+  @apply bg-drakenhofNightshade dark:bg-drakenhofNightshadeTint;
   bottom: 0;
   content: '';
   height: 1px;

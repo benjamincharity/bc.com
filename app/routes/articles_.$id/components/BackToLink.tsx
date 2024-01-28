@@ -3,7 +3,7 @@ import { Link, LinkProps } from '@remix-run/react';
 import { RoutesPath } from '~/data/routes.data';
 
 const classes =
-  'animated-link-underline inline-block text-base text-drakenhofNightshade font-bold font-sourceSerif4';
+  'animated-link-underline inline-block text-base text-drakenhofNightshade: dark:drakenhofNightshadeTint font-bold font-sourceSerif4';
 const spanClasses =
   'inline-block absolute -left-4 origin-right transition arrow -top-[1px]';
 
