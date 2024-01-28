@@ -24,7 +24,7 @@ const Article = React.forwardRef<HTMLDivElement, ArticleProps>(
 
         <p
           className={
-            'mb-1 pt-2 text-base font-bold leading-5 text-gray-600 opacity-80'
+            'mb-1 pt-2 text-base font-bold leading-5 text-gray-600 opacity-80 dark:text-white'
           }
         >
           {item.frontmatter.summary}

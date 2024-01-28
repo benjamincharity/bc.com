@@ -19,7 +19,9 @@ export const BrowseByTags = ({
       className={'text-center font-sourceSerif4 text-base font-bold'}
       id={id}
     >
-      {!!heading && <div className={'mb-2 text-gray-600'}>{heading}</div>}
+      {!!heading && (
+        <div className={'mb-2 text-gray-600 dark:text-gray-400'}>{heading}</div>
+      )}
       <nav>
         <Tags tags={tags} currentTag={currentTag} />
       </nav>
@@ -44,7 +46,7 @@ export const Tags = ({
           return (
             <li key={tag + count} className={'mb-2 mr-6 inline-block text-sm'}>
               {isCurrent ? (
-                <span className={'relative inline-block'}>
+                <span className={'relative inline-block dark:text-gray-500'}>
                   {tag}{' '}
                   <sup className={'left-100 absolute top-1/3 pl-1'}>
                     {count}
@@ -52,7 +54,7 @@ export const Tags = ({
                 </span>
               ) : (
                 <Link
-                  className={`animated-link-underline ${tag === currentTag ? 'is-active' : ''}`}
+                  className={`animated-link-underline`}
                   to={RoutesPath.tag(tag)}
                 >
                   {tag}{' '}

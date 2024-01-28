@@ -18,8 +18,13 @@ export default {
       backgroundImage: {
         'sliding-gradient':
           'linear-gradient(white, white), linear-gradient(#8ae6df, #8ae6df), linear-gradient(#f184a8, #f184a8)',
+        'sliding-gradient-dark':
+          'linear-gradient(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1)), linear-gradient(rgba(138, 230, 223, 0.1), rgba(138, 230, 223, 0.1)), linear-gradient(rgba(241, 132, 168, 0.3), rgba(241, 132, 168, 0.5))',
+
         strongBg:
           'linear-gradient(-100deg, rgba(255, 244, 0, 0.2), rgba(255, 244, 0, 0.5) 95%, rgba(255, 244, 0, 0.1))',
+        strongBgDark:
+          'linear-gradient(-100deg, rgba(255, 244, 0, 0.1), rgba(255, 244, 0, 0.3) 95%, rgba(255, 244, 0, 0.1))',
         wavyBg: 'var(--o-squiggle-link-backgroundImage)',
       },
       backgroundPosition: {
@@ -37,6 +42,7 @@ export default {
         imageOutline: '#dfdfdf',
         inlineCodeBackgroundColor: '#e4e4e4',
         mark: 'rgb(221,217,121)',
+        markDark: 'rgba(221,217,121,0.4)',
 
         drakenhofNightshade: '#2262a1',
         drakenhofNightshadeShade: '#0e2740',

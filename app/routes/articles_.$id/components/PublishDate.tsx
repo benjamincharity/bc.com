@@ -11,7 +11,11 @@ export const PublishDate = (props: PublishDateProps) => {
 
   return (
     !!publishDate && (
-      <div className={'align-center flex gap-x-2 leading-tight text-gray-600'}>
+      <div
+        className={
+          'align-center flex gap-x-2 leading-tight text-gray-600 dark:text-gray-400'
+        }
+      >
         {!!updatedDate && (
           <div className={`font-code text-[10px] italic ${className}`}>
             Updated: <Datetime date={updatedDate} />,

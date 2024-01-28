@@ -20,7 +20,7 @@ export const ArticleTitleLink = React.memo(
     return React.createElement(
       `h${level}`,
       {
-        className: `group text-3xl font-bold text-gray-700 inline ${className}`,
+        className: `group text-3xl font-bold text-gray-700 dark:text-white inline ${className}`,
       },
       <SlidingLink prefetch={'intent'} to={to}>
         {titleTrimmed}
