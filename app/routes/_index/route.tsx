@@ -36,9 +36,6 @@ export default function Index() {
         </h2>
         <Navigation />
       </main>
-
-      {/*TODO: Need to finish this page*/}
-      {/*<AboutLink />*/}
     </div>
   );
 }

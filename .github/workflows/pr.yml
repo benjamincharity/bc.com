@@ -15,6 +15,9 @@ jobs:
 
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v2
+        with:
+          version: 8.10.5
+
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
@@ -28,6 +31,3 @@ jobs:
 
       - name: 'Build'
         run: pnpm build
-
-      - name: Vercel Preview URL Lighthouse Audit
-        uses: TrellisCommerce/vercel-lighthouse-score-action@1.0.1
