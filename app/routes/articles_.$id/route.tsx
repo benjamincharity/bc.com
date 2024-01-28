@@ -110,7 +110,7 @@ export default function Article() {
 
   return (
     <main className={'prose-wrapper py-4'}>
-      <BackToLink />
+      <BackToLink className={'mb-4'} />
 
       <article>
         <PublishDate
