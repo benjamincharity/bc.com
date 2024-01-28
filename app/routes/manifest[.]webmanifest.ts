@@ -31,6 +31,12 @@ export const loader = async () => {
           type: 'image/png',
         },
         {
+          src: '/images/pwa/maskable_icon_x192.png',
+          sizes: '192x192',
+          type: 'image/png',
+          purpose: 'maskable',
+        },
+        {
           src: '/images/pwa/apple-splash-1284-2778.jpg',
           sizes: '1284x2778',
           type: 'image/jpeg',
