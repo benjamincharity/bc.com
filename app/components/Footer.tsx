@@ -4,7 +4,7 @@ export function Footer() {
       <p className={'text-center'}>
         <abbr
           className={
-            'cursor-help text-xs no-underline opacity-60 transition-all group-hover:text-base group-hover:opacity-100'
+            'cursor-help text-xs no-underline opacity-60 transition-all group-hover:text-base group-hover:opacity-100 dark:opacity-80'
           }
           title="Building better. Startups & strategy."
         >

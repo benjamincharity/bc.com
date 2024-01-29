@@ -1,8 +1,9 @@
 import { MetaFunction } from '@remix-run/node';
-import { useLoaderData } from '@remix-run/react';
+import { useLoaderData, useLocation } from '@remix-run/react';
 import type { LoaderFunction } from '@remix-run/server-runtime';
 import { json, redirect } from '@remix-run/server-runtime';
 import highlightStyle from 'highlight.js/styles/github.css';
+import { useEffect } from 'react';
 import { ExternalScriptsHandle } from 'remix-utils/external-scripts';
 
 import { BackToTop } from '~/components/BackToTop';
@@ -107,6 +108,16 @@ function getTagsWithCount(tags: string[], allTags: TagsPayload): TagsPayload {
 export default function Article() {
   const { frontmatter, allTags, html } = useLoaderData<LoaderData>();
   const localTags = getTagsWithCount(frontmatter.tags, allTags);
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.hash) {
+      const el = document.querySelector(location.hash);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  }, [location]);
 
   return (
     <main className={'prose-wrapper py-4'}>

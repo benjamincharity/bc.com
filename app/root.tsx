@@ -1,9 +1,11 @@
+import { useSelector } from '@legendapp/state/react';
 import { LiveReload, useSWEffect } from '@remix-pwa/sw';
 import { LinksFunction, MetaFunction, json } from '@remix-run/node';
 import {
   Links,
   Meta,
   Outlet,
+  PrefetchPageLinks,
   Scripts,
   ScrollRestoration,
   isRouteErrorResponse,
@@ -13,7 +15,7 @@ import {
 } from '@remix-run/react';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/remix';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ExternalScripts } from 'remix-utils/external-scripts';
 
 import { FancyBackground } from '~/components/FancyBackground/FancyBackground';
@@ -24,9 +26,8 @@ import { determineIfShouldShowBackground } from '~/routes/_index/route';
 import { navigationState$, state$ } from '~/store';
 import { ArticleReference, getLatestArticles } from '~/utils/articles.server';
 import { generateMetaCollection } from '~/utils/generateMetaCollection';
+import { Theme, settings$ } from '~/utils/settings.state';
 import { useConsoleArt } from '~/utils/useConsoleArt';
-
-import { isDarkMode } from './utils/isDarkMode';
 
 interface LoaderData {
   css: string;
@@ -58,8 +59,8 @@ export async function loader({ request }: { request: Request }) {
 
   return json({
     css: cssContent,
-    showBackground: local,
     latestArticles,
+    showBackground: local,
   });
 }
 
@@ -71,31 +72,31 @@ export const meta: MetaFunction = () => {
   return [...generateMetaCollection()];
 };
 
-export default function App() {
+const App = React.memo(() => {
   const location = useLocation();
   const { showBackground, css, latestArticles } = useLoaderData<LoaderData>();
-  const [showBg, setShowBg] = useState(showBackground);
+  const [isBgVisible, setIsBgVisible] = useState(showBackground);
+  const currentTheme = useSelector(() => settings$.theme.get());
 
   useConsoleArt();
   useSWEffect();
 
   useEffect(() => {
     state$.isVisible.set(determineIfShouldShowBackground(location.pathname));
-    setShowBg(determineIfShouldShowBackground(location.pathname));
+    setIsBgVisible(determineIfShouldShowBackground(location.pathname));
     navigationState$.history.push(location.pathname);
-
-    if (isDarkMode()) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
   }, [location.pathname]);
+
+  useEffect(() => {
+    document.documentElement.classList.remove(Theme.LIGHT, Theme.DARK);
+    document.documentElement.classList.add(currentTheme);
+  }, [currentTheme]);
 
   // NOTE: The title tag and all other elements will be injected.
   // noinspection HtmlRequiredTitleElement
   return (
     <html
-      className={showBg ? 'h-full w-full overflow-hidden' : 'overflow-x-hidden'}
+      className={`${isBgVisible ? 'h-full w-full overflow-hidden' : 'overflow-x-hidden'}`}
       lang="en"
     >
       <head>
@@ -107,11 +108,18 @@ export default function App() {
 
       <body>
         <div className="relative h-100v text-lg">
-          <Header backgroundIsVisible={showBg} />
+          <Header backgroundIsVisible={isBgVisible} />
           <Outlet />
           <ScrollRestoration getKey={(location) => location.pathname} />
-          <FancyBackground isVisible={showBg} />
+          <FancyBackground isVisible={isBgVisible} />
         </div>
+
+        {latestArticles.map((article) => (
+          <PrefetchPageLinks
+            key={article.slug}
+            page={'/articles/' + article.slug}
+          />
+        ))}
 
         <Scripts />
         <ExternalScripts />
@@ -121,7 +129,23 @@ export default function App() {
       </body>
     </html>
   );
-}
+});
+
+App.displayName = 'App';
+
+const AppWithProviders = React.memo(() => {
+  // const data = useLoaderData<typeof loader>();
+
+  return (
+    // <ThemeProvider specifiedTheme={data.theme}>
+    <App />
+    // </ThemeProvider>
+  );
+});
+
+AppWithProviders.displayName = 'AppWithProviders';
+
+export default AppWithProviders;
 
 export function ErrorBoundary() {
   const error = useRouteError();
