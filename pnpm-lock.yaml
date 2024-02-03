@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@benjc/rehype-scroll-to-top':
+    specifier: file:/Users/bc/code/open-source/rehype-scroll-to-top
+    version: file:../rehype-scroll-to-top(rehype@13.0.1)(unified@11.0.4)
   '@legendapp/state':
     specifier: 2.1.4
     version: 2.1.4(react@18.2.0)
@@ -6880,6 +6883,17 @@ packages:
     dependencies:
       function-bind: 1.1.2
 
+  /hast-util-from-html@2.0.1:
+    resolution: {integrity: sha512-RXQBLMl9kjKVNkJTIO6bZyb2n+cUH8LFaSSzo82jiLT6Tfc+Pt7VQCS+/h3YwG4jaNE2TA2sdJisGWR+aJrp0g==}
+    dependencies:
+      '@types/hast': 3.0.3
+      devlop: 1.1.0
+      hast-util-from-parse5: 8.0.1
+      parse5: 7.1.2
+      vfile: 6.0.1
+      vfile-message: 4.0.2
+    dev: false
+
   /hast-util-from-parse5@8.0.1:
     resolution: {integrity: sha512-Er/Iixbc7IEa7r/XLtuG52zoqn/b3Xng/w6aZQ0xGVxzhw5xUFxcRqdPzP6yFi/4HBYRaifaI5fQ1RH8n0ZeOQ==}
     dependencies:
@@ -10594,6 +10608,14 @@ packages:
       vfile: 6.0.1
     dev: false
 
+  /rehype-parse@9.0.0:
+    resolution: {integrity: sha512-WG7nfvmWWkCR++KEkZevZb/uw41E8TsH4DsY9UxsTbIXCVGbAs4S+r8FrQ+OtH5EEQAs+5UxKC42VinkmpA1Yw==}
+    dependencies:
+      '@types/hast': 3.0.3
+      hast-util-from-html: 2.0.1
+      unified: 11.0.4
+    dev: false
+
   /rehype-raw@7.0.0:
     resolution: {integrity: sha512-/aE8hCfKlQeA8LmyeyQvQF3eBiLRGNlfBJEvWH7ivp9sBqs7TNqBL5X3v157rM4IFETqDnIOO+z5M/biZbo9Ww==}
     dependencies:
@@ -10636,6 +10658,15 @@ packages:
     dependencies:
       '@types/hast': 3.0.3
       hast-util-to-html: 9.0.0
+      unified: 11.0.4
+    dev: false
+
+  /rehype@13.0.1:
+    resolution: {integrity: sha512-AcSLS2mItY+0fYu9xKxOu1LhUZeBZZBx8//5HKzF+0XP+eP8+6a5MXn2+DW2kfXR6Dtp1FEXMVrjyKAcvcU8vg==}
+    dependencies:
+      '@types/hast': 3.0.3
+      rehype-parse: 9.0.0
+      rehype-stringify: 10.0.0
       unified: 11.0.4
     dev: false
 
@@ -12502,6 +12533,19 @@ packages:
 
   /zwitch@2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
+
+  file:../rehype-scroll-to-top(rehype@13.0.1)(unified@11.0.4):
+    resolution: {directory: ../rehype-scroll-to-top, type: directory}
+    id: file:../rehype-scroll-to-top
+    name: '@benjc/rehype-scroll-to-top'
+    engines: {node: '>=18.0.0'}
+    peerDependencies:
+      rehype: ^13.0.0
+      unified: ^11.0.0
+    dependencies:
+      rehype: 13.0.1
+      unified: 11.0.4
+    dev: false
 
   github.com/marekweb/rehype-components/809caf9cfa1f0c6338f1fadbc0f54e7daeb8aaf9:
     resolution: {tarball: https://codeload.github.com/marekweb/rehype-components/tar.gz/809caf9cfa1f0c6338f1fadbc0f54e7daeb8aaf9}
