@@ -6,8 +6,8 @@ settings:
 
 dependencies:
   '@benjc/rehype-scroll-to-top':
-    specifier: file:/Users/bc/code/open-source/rehype-scroll-to-top
-    version: file:../rehype-scroll-to-top(rehype@13.0.1)(unified@11.0.4)
+    specifier: 0.1.4
+    version: 0.1.4(rehype@13.0.1)(unified@11.0.4)
   '@legendapp/state':
     specifier: 2.1.4
     version: 2.1.4(react@18.2.0)
@@ -1779,6 +1779,17 @@ packages:
   /@bcoe/v8-coverage@0.2.3:
     resolution: {integrity: sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==}
     dev: true
+
+  /@benjc/rehype-scroll-to-top@0.1.4(rehype@13.0.1)(unified@11.0.4):
+    resolution: {integrity: sha512-TMuKzhLAMHWUcrZOnUlPK3c0QRIU36WXx1TBYwgsNXGktjAb0pUaUNsKUMUvaVIdK9MY4KOMIbjDC/L90D+MBQ==}
+    engines: {node: '>=18.0.0'}
+    peerDependencies:
+      rehype: ^13.0.0
+      unified: ^11.0.0
+    dependencies:
+      rehype: 13.0.1
+      unified: 11.0.4
+    dev: false
 
   /@cspotcode/source-map-support@0.8.1:
     resolution: {integrity: sha512-IchNf6dN4tHoMFIn/7OE8LWZ19Y6q/67Bmf6vnGREv8RSbBVb9LPJxEcnwrcwX6ixSvaiGoomAUvu4YSxXrVgw==}
@@ -12533,19 +12544,6 @@ packages:
 
   /zwitch@2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
-
-  file:../rehype-scroll-to-top(rehype@13.0.1)(unified@11.0.4):
-    resolution: {directory: ../rehype-scroll-to-top, type: directory}
-    id: file:../rehype-scroll-to-top
-    name: '@benjc/rehype-scroll-to-top'
-    engines: {node: '>=18.0.0'}
-    peerDependencies:
-      rehype: ^13.0.0
-      unified: ^11.0.0
-    dependencies:
-      rehype: 13.0.1
-      unified: 11.0.4
-    dev: false
 
   github.com/marekweb/rehype-components/809caf9cfa1f0c6338f1fadbc0f54e7daeb8aaf9:
     resolution: {tarball: https://codeload.github.com/marekweb/rehype-components/tar.gz/809caf9cfa1f0c6338f1fadbc0f54e7daeb8aaf9}
