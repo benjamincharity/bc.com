@@ -121,7 +121,7 @@ export default function Article() {
 
   return (
     <main className={'prose-wrapper py-4'}>
-      <BackToLink className={'mb-4'} />
+      <BackToLink id={'top'} className={'mb-4'} />
 
       <article>
         <PublishDate
@@ -138,7 +138,6 @@ export default function Article() {
           <div dangerouslySetInnerHTML={{ __html: html }} />
         </section>
       </article>
-      <BackToTop />
 
       <hr className={'fancy'} />
 

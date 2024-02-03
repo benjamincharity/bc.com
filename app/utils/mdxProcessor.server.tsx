@@ -1,3 +1,4 @@
+import rehypeScrollToTop from '@benjc/rehype-scroll-to-top';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import rehypeFigure from '@microflash/rehype-figure';
@@ -141,6 +142,13 @@ const processor = unified()
     },
   })
   .use(rehypeHighlight)
+  .use(rehypeScrollToTop, {
+    topLink: { disabled: true },
+    bottomLink: {
+      text: `Back to top ↑`,
+      classes: 'animated-link-underline',
+    },
+  })
   .use(rehypeInferReadingTimeMeta)
   .use(rehypeMeta, { og: true, twitter: true, copyright: true })
   .use(rehypeFigure)

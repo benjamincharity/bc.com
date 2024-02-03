@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@benjc/rehype-scroll-to-top": "0.1.4",
     "@legendapp/state": "2.1.4",
     "@mantine/hooks": "7.4.2",
     "@mdx-js/mdx": "3.0.0",

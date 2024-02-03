@@ -353,6 +353,12 @@ strong {
 .animated-link-underline:hover .arrow {
   transform: scaleX(1.5);
 }
+.rendered-markdown .scroll-to-wrapper {
+  @apply pt-6 text-right;
+}
+.rendered-markdown .scroll-to-wrapper a {
+  @apply text-sm;
+}
 
 /*TAGS*/
 .pseudo-bullet {
