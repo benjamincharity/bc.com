@@ -8,6 +8,9 @@ dependencies:
   '@benjc/rehype-scroll-to-top':
     specifier: 0.1.4
     version: 0.1.4(rehype@13.0.1)(unified@11.0.4)
+  '@benjc/rehype-semantic-images':
+    specifier: 0.1.0
+    version: 0.1.0(rehype@13.0.1)(unified@11.0.4)
   '@legendapp/state':
     specifier: 2.1.4
     version: 2.1.4(react@18.2.0)
@@ -17,9 +20,6 @@ dependencies:
   '@mdx-js/mdx':
     specifier: 3.0.0
     version: 3.0.0
-  '@microflash/rehype-figure':
-    specifier: 2.0.0
-    version: 2.0.0
   '@remix-pwa/cache':
     specifier: 2.0.12
     version: 2.0.12
@@ -1791,6 +1791,18 @@ packages:
       unified: 11.0.4
     dev: false
 
+  /@benjc/rehype-semantic-images@0.1.0(rehype@13.0.1)(unified@11.0.4):
+    resolution: {integrity: sha512-liFJysC+BiQKGPIl46KK2D2cJKveAUDb1vLT4syfwS3qFtsknOBegx6MmIUxFpgB3UUYScjSKDHqL2MA7BtTRQ==}
+    engines: {node: '>=18.0.0'}
+    peerDependencies:
+      rehype: ^13.0.0
+      unified: ^11.0.0
+    dependencies:
+      rehype: 13.0.1
+      unified: 11.0.4
+      unist-util-visit: 5.0.0
+    dev: false
+
   /@cspotcode/source-map-support@0.8.1:
     resolution: {integrity: sha512-IchNf6dN4tHoMFIn/7OE8LWZ19Y6q/67Bmf6vnGREv8RSbBVb9LPJxEcnwrcwX6ixSvaiGoomAUvu4YSxXrVgw==}
     engines: {node: '>=12'}
@@ -2592,15 +2604,6 @@ packages:
       vfile: 6.0.1
     transitivePeerDependencies:
       - supports-color
-    dev: false
-
-  /@microflash/rehype-figure@2.0.0:
-    resolution: {integrity: sha512-mQodZlU7n+/YbOS6iJ9O6I+cT9dsOOImKsaOSiWh8bKycXRPCc16Fs3NGoofgupkYpJdX0oqjwmQL9j+tBcAGA==}
-    dependencies:
-      hast-util-whitespace: 3.0.0
-      hastscript: 8.0.0
-      unist-util-remove: 4.0.0
-      unist-util-visit: 5.0.0
     dev: false
 
   /@nicolo-ribaudo/eslint-scope-5-internals@5.1.1-v1:

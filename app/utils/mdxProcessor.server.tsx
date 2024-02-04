@@ -1,7 +1,5 @@
 import rehypeScrollToTop from '@benjc/rehype-scroll-to-top';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import rehypeFigure from '@microflash/rehype-figure';
+import rehypeSemanticImages from '@benjc/rehype-semantic-images';
 import { s } from 'hastscript';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypeHighlight from 'rehype-highlight';
@@ -151,7 +149,8 @@ const processor = unified()
   })
   .use(rehypeInferReadingTimeMeta)
   .use(rehypeMeta, { og: true, twitter: true, copyright: true })
-  .use(rehypeFigure)
+  // .use(rehypeFigure)
+  .use(rehypeSemanticImages)
   .use(rehypeStringify, { allowDangerousHtml: true });
 
 const htmlCache: Record<string, string> = {};
