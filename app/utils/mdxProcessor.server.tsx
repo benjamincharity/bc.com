@@ -2,6 +2,8 @@ import rehypeScrollToTop from '@benjc/rehype-scroll-to-top';
 import rehypeSemanticImages from '@benjc/rehype-semantic-images';
 import { s } from 'hastscript';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
+import rehypeColorChips from 'rehype-color-chips';
+import rehypeExternalLinks from 'rehype-external-links';
 import rehypeHighlight from 'rehype-highlight';
 import rehypeInferReadingTimeMeta from 'rehype-infer-reading-time-meta';
 import rehypeMeta from 'rehype-meta';
@@ -130,6 +132,7 @@ const processor = unified()
   .use(rehypeRewrite, rehypeRewriteOptions)
   .use(remarkGfm)
   .use(rehypeRaw)
+  .use(rehypeColorChips)
   .use(rehypeSlug)
   .use(rehypeAutolinkHeadings, {
     behavior: 'prepend',
@@ -149,7 +152,7 @@ const processor = unified()
   })
   .use(rehypeInferReadingTimeMeta)
   .use(rehypeMeta, { og: true, twitter: true, copyright: true })
-  // .use(rehypeFigure)
+  .use(rehypeExternalLinks)
   .use(rehypeSemanticImages)
   .use(rehypeStringify, { allowDangerousHtml: true });
 
