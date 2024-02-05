@@ -359,6 +359,12 @@ strong {
 .rendered-markdown .scroll-to-wrapper a {
   @apply text-sm;
 }
+.rendered-markdown .gfm-color-chip {
+  @apply inline-block rounded-full border border-gray-700;
+  height: 0.625rem;
+  margin-left: 0.125rem;
+  width: 0.625rem;
+}
 
 /*TAGS*/
 .pseudo-bullet {
