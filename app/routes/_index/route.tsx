@@ -1,6 +1,11 @@
-import { Outlet } from '@remix-run/react';
+import { json } from '@remix-run/node';
+import { Outlet, useLoaderData } from '@remix-run/react';
 
+import { COMPANIES } from '~/data/companies.data';
 import { siteMetadata } from '~/data/siteMetadata';
+import { getAllArticles } from '~/utils/articles.server';
+import { getTagsFromArticles } from '~/utils/getTagsFromArticles';
+import { shuffle } from '~/utils/shuffle';
 
 import { Navigation } from './components/Navigation';
 
@@ -10,7 +15,20 @@ export function determineIfShouldShowBackground(url: string): boolean {
   return pagesWithBackground.includes(url.replace(/\//, ''));
 }
 
+type LoaderData = {
+  companies: string[];
+};
+
+export async function loader() {
+  const companies = shuffle([...COMPANIES]);
+  return json<LoaderData>({
+    companies,
+  });
+}
+
 export default function Index() {
+  const { companies } = useLoaderData<LoaderData>();
+
   return (
     <div
       className={
@@ -34,7 +52,7 @@ export default function Index() {
             {siteMetadata.professionalTitleSplit[2]}
           </span>
         </h2>
-        <Navigation />
+        <Navigation companies={companies} />
       </main>
     </div>
   );
