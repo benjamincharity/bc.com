@@ -12,6 +12,7 @@ export const ColorModeToggle = ({
   return (
     !!theme && (
       <button
+        aria-label={`Activate ${theme === Theme.DARK ? 'light' : 'dark'} mode`}
         onClick={onClick}
         className={`${theme} ${isAnimationEnabled ? '' : 'no-motion'} color-mode-toggle absolute right-2 top-2 z-50 origin-top-right scale-[.3] border-none bg-transparent outline-none`}
       >
