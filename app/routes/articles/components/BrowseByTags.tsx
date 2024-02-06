@@ -48,7 +48,7 @@ export const Tags = ({
               {isCurrent ? (
                 <span className={'relative inline-block dark:text-gray-500'}>
                   {tag}{' '}
-                  <sup className={'left-100 absolute top-1/3 pl-1'}>
+                  <sup className={'pl[2px] absolute right-0 top-1/3'}>
                     {count}
                   </sup>
                 </span>
@@ -58,7 +58,9 @@ export const Tags = ({
                   to={RoutesPath.tag(tag)}
                 >
                   {tag}{' '}
-                  <sup className={'left-100 absolute top-1/3'}>{count}</sup>
+                  <sup className={'left-100 absolute top-1/3 pl-[2px]'}>
+                    {count}
+                  </sup>
                 </Link>
               )}
             </li>
