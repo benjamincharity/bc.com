@@ -3,6 +3,8 @@ import matter from 'gray-matter';
 import path from 'path';
 
 import { siteMetadata } from '~/data/siteMetadata';
+import { TagsPayload } from '~/routes/articles_.tags/route';
+import { getTagsFromArticles } from '~/utils/getTagsFromArticles';
 import { toHTML } from '~/utils/mdxProcessor.server';
 
 import { readFile, readdir } from './fs.server';
@@ -106,13 +108,19 @@ export async function getAllArticles(): Promise<ArticleReference[]> {
 /**
  * Gets the latest articles.
  *
- * @param [count=3] - The number of latest articles to retrieve.
+ * @param [count=10] - The number of latest articles to retrieve.
  * @returns A Promise that resolves to an array of the latest ArticleReference objects.
  */
 export async function getLatestArticles(
-  count = 3
+  count = 10
 ): Promise<ArticleReference[]> {
-  return fetchArticles(count);
+  const allArticles = await fetchArticles();
+  return allArticles.slice(0, count);
+}
+
+export async function getAllTags(): Promise<TagsPayload> {
+  const allArticles = await fetchArticles();
+  return getTagsFromArticles(allArticles);
 }
 
 function compareArticles(a: ArticleReference, b: ArticleReference): number {

@@ -15,6 +15,7 @@ export default {
     extend: {
       animation: {
         'slide-bg': 'slideBackground 3s ease-in-out infinite',
+        gentleRotate: 'gentleRotate 4s ease-in-out infinite',
       },
       backgroundImage: {
         'sliding-gradient':
@@ -44,7 +45,6 @@ export default {
         inlineCodeBackgroundColor: '#e4e4e4',
         mark: 'rgb(221,217,121)',
         markDark: 'rgba(221,217,121,0.4)',
-
         drakenhofNightshade: '#2262a1',
         drakenhofNightshadeShade: '#0e2740',
         drakenhofNightshadeTint: '#a7c0d9',
@@ -75,6 +75,12 @@ export default {
         '80v': '80vh',
         '90v': '90vh',
         '100v': '100vh',
+      },
+      keyframes: {
+        gentleRotate: {
+          '0%, 100%': { transform: 'rotate(-2deg)' },
+          '50%': { transform: 'rotate(2deg)' },
+        },
       },
       listStyleType: {
         square: 'square',
