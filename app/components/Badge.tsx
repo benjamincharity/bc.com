@@ -19,7 +19,7 @@ export const Badge = ({ tag, count, linkTo, color = '#3B82F6' }: Props) => {
         />
         <span className="absolute inset-0 h-full w-full border-4 border-black dark:border-gray-950" />
         <span className="relative">
-          {tag} <sup>{count}</sup>
+          {tag} {count >= 0 && <sup>{count}</sup>}
         </span>
       </Link>
     </div>
