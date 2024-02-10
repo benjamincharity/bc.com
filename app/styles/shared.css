@@ -226,19 +226,6 @@ strong {
 .rendered-markdown p {
   @apply my-5 text-gray-800 dark:text-gray-100;
 }
-.rendered-markdown pre {
-  @apply box-border
-  rounded
-  border
-  border-codeBoxShadow
-  bg-codeBackground
-  font-code
-  text-base
-  dark:border-gray-950;
-}
-.rendered-markdown pre code {
-  @apply rounded font-code dark:bg-gray-950;
-}
 .rendered-markdown small {
   @apply my-2 inline-block leading-tight;
 }
@@ -258,16 +245,18 @@ strong {
 .rendered-markdown strong:not(li strong) {
   @apply highlight;
 }
-.rendered-markdown figure {
+.rendered-markdown figure:not([data-rehype-pretty-code-figure]) {
   @apply mt-2 rounded bg-gray-100 p-1 transition dark:bg-gray-700;
 }
 .rendered-markdown figcaption {
   @apply pt-1 text-sm leading-tight text-gray-600 transition-colors dark:text-gray-300;
 }
-.rendered-markdown figure:hover {
+.rendered-markdown figure:not([data-rehype-pretty-code-figure]):hover {
   @apply bg-gray-300 dark:bg-gray-700;
 }
-.rendered-markdown figure:hover figcaption {
+.rendered-markdown
+  figure:not([data-rehype-pretty-code-figure]):hover
+  figcaption {
   @apply text-gray-700 dark:text-gray-200;
 }
 .rendered-markdown img {
@@ -296,23 +285,119 @@ strong {
 .rendered-markdown hr {
   @apply fancy;
 }
+.rendered-markdown pre {
+  @apply overflow-x-auto rounded border-gray-200 dark:border-gray-900;
+  font-size: 80%;
+}
+.dark .rendered-markdown pre {
+  scrollbar-color: #394150 #121826;
+}
+.rendered-markdown pre [data-line] {
+  padding: 0 1rem;
+}
 .rendered-markdown kbd,
-.rendered-markdown:not(pre) > code {
-  @apply relative m-0 rounded-sm bg-inlineCodeBackgroundColor font-semibold text-gray-600;
+.rendered-markdown :not(pre) > code {
+  @apply relative m-0 rounded-sm bg-inlineCodeBackgroundColor font-semibold text-gray-700 dark:bg-gray-700 dark:text-gray-200;
   font-size: 80%;
-  padding: 0.1em 0.4em 0.2em;
-  top: -1px;
+  padding: 0.1em 0.4em;
 }
+.rendered-markdown code[data-theme*=' '],
+.rendered-markdown code[data-theme*=' '] span {
+  color: var(--shiki-light);
+}
+.rendered-markdown pre {
+  background-color: var(--shiki-light-bg);
+}
+.rendered-markdown pre code span[data-highlighted-line] {
+  @apply bg-white bg-opacity-10;
+}
+
+.rendered-markdown code > [data-line]::before {
+  @apply mr-4 inline-block pl-1 text-right text-gray-500;
+  content: counter(line);
+  counter-increment: line;
+}
+
+.rendered-markdown
+  code[data-line-numbers-max-digits='2']
+  > [data-line]::before {
+  width: 2rem;
+}
+
+.rendered-markdown
+  code[data-line-numbers-max-digits='3']
+  > [data-line]::before {
+  width: 3rem;
+}
+
 .rendered-markdown code {
-  @apply relative m-0 rounded-sm bg-inlineCodeBackgroundColor font-semibold text-gray-600 dark:bg-gray-900 dark:text-gray-200;
-  font-size: 80%;
-  padding: 0.1em 0.4em 0.2em;
-  top: -1px;
+  @apply rounded pt-3;
+  counter-reset: line;
 }
+.rendered-markdown pre code > [data-line]::before {
+  @apply mr-4;
+}
+.rendered-markdown pre code > span:first-of-type {
+  @apply rounded-t;
+}
+.rendered-markdown pre code > span:last-of-type {
+  @apply rounded-b pb-3;
+}
+.rendered-markdown [data-rehype-pretty-code-figure] {
+  @apply mt-5;
+}
+.rendered-markdown [data-highlighted-chars],
+.rendered-markdown [data-chars-id] {
+  @apply rounded border-b-2 p-1;
+  border-bottom-color: rgb(202 138 4 / var(--tw-border-opacity));
+  background-color: #854d0e80;
+  --tw-shadow: 0 0 #0000;
+  --tw-shadow-colored: 0 0 #0000;
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
+    var(--tw-ring-shadow, '0 0 #0000'), var(--tw-shadow);
+}
+.rendered-markdown [data-chars-id='a'] {
+  border-bottom-color: rgb(219 39 119 / var(--tw-border-opacity));
+  background-color: #9f123980;
+  color: rgb(249 168 212 / var(--tw-text-opacity)) !important;
+}
+.rendered-markdown [data-chars-id='b'] {
+  border-bottom-color: rgb(202 138 4 / var(--tw-border-opacity));
+  background-color: #854d0e80;
+  color: rgb(253 224 71 / var(--tw-text-opacity)) !important;
+}
+.rendered-markdown [data-chars-id='c'] {
+  --tw-border-opacity: 1;
+  border-bottom-color: rgb(147 51 234 / var(--tw-border-opacity));
+  background-color: #6b21a880;
+  font-weight: 700;
+  --tw-text-opacity: 1 !important;
+  color: rgb(233 213 255 / var(--tw-text-opacity)) !important;
+}
+.rendered-markdown [data-chars-id='d'] {
+  border-bottom-color: rgb(20 150 80 / var(--tw-border-opacity));
+  background-color: #16653480;
+  color: rgb(153 255 204 / var(--tw-text-opacity)) !important;
+}
+.rendered-markdown [data-chars-id='e'] {
+  border-bottom-color: rgb(25 118 210 / var(--tw-border-opacity));
+  background-color: #1e3a5f80;
+  color: rgb(173 216 230 / var(--tw-text-opacity)) !important;
+}
+.rendered-markdown [data-chars-id='f'] {
+  border-bottom-color: rgb(204 85 0 / var(--tw-border-opacity));
+  background-color: #cc550080;
+  color: rgb(255 178 102 / var(--tw-text-opacity)) !important;
+}
+.rendered-markdown [data-chars-id='g'] {
+  border-bottom-color: rgb(255 215 0 / var(--tw-border-opacity));
+  background-color: #9b870c80;
+  color: rgb(255 248 220 / var(--tw-text-opacity)) !important;
+}
+
 .rendered-markdown .anchor {
   @apply absolute left-[-1.25rem] top-2 block h-[18px] w-[18px] scale-90 text-drakenhofNightshade opacity-30 transition group-hover:opacity-100;
 }
-
 .animated-link-underline,
 .rendered-markdown a:not(.anchor) {
   @apply text-drakenhofNightshade dark:text-drakenhofNightshadeTint;
@@ -353,6 +438,15 @@ strong {
 .animated-link-underline:hover .arrow {
   transform: scaleX(1.5);
 }
+/*External links*/
+.rendered-markdown a[rel='nofollow']::after {
+  @apply relative top-[1px] inline-block w-5 scale-75 pl-1 transition-transform;
+  content: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj4KICAgIDxwYXRoIGZpbGw9InJnYigzNCwgOTgsIDE2MSkiIGQ9Ik0zMjAgMGMtMTcuNyAwLTMyIDE0LjMtMzIgMzJzMTQuMyAzMiAzMiAzMmg4Mi43TDIwMS40IDI2NS40Yy0xMi41IDEyLjUtMTIuNSAzMi44IDAgNDUuM3MzMi44IDEyLjUgNDUuMyAwTDQ0OCAxMDkuM1YxOTJjMCAxNy43IDE0LjMgMzIgMzIgMzJzMzItMTQuMyAzMi0zMlYzMmMwLTE3LjctMTQuMy0zMi0zMi0zMkgzMjB6TTgwIDMyQzM1LjggMzIgMCA2Ny44IDAgMTEyVjQzMmMwIDQ0LjIgMzUuOCA4MCA4MCA4MEg0MDBjNDQuMiAwIDgwLTM1LjggODAtODBWMzIwYzAtMTcuNy0xNC4zLTMyLTMyLTMycy0zMiAxNC4zLTMyIDMyVjQzMmMwIDguOC03LjIgMTYtMTYgMTZIODBjLTguOCAwLTE2LTcuMi0xNi0xNlYxMTJjMC04LjggNy4yLTE2IDE2LTE2SDE5MmMxNy43IDAgMzItMTQuMyAzMi0zMnMtMTQuMy0zMi0zMi0zMkg4MHoiLz4KPC9zdmc+');
+}
+.rendered-markdown a[rel='nofollow']:focus::after,
+.rendered-markdown a[rel='nofollow']:hover::after {
+  @apply scale-100;
+}
 .rendered-markdown .scroll-to-wrapper {
   @apply pt-6 text-right;
 }
@@ -364,6 +458,76 @@ strong {
   height: 0.625rem;
   margin-left: 0.125rem;
   width: 0.625rem;
+}
+
+.rendered-markdown .highlighted {
+  border-left-color: #4299e1;
+  background-color: rgba(200, 200, 255, 0.2);
+}
+
+.rendered-markdown code {
+  counter-reset: line;
+}
+
+.rendered-markdown code[data-line-numbers] {
+  counter-reset: line;
+  & > .line::before {
+    counter-increment: line;
+    content: counter(line);
+    margin-right: 1.5rem;
+    display: inline-block;
+    width: 24px;
+    user-select: none;
+    text-align: right;
+    color: #a0aec0;
+  }
+}
+
+.rendered-markdown code > [data-line]::before {
+  counter-increment: line;
+  content: counter(line);
+
+  /* Other styling */
+  display: inline-block;
+  width: 1rem;
+  margin-right: 1rem;
+  text-align: right;
+  color: gray;
+}
+
+.rendered-markdown
+  code[data-line-numbers-max-digits='2']
+  > [data-line]::before {
+  width: 2rem;
+}
+
+.rendered-markdown
+  code[data-line-numbers-max-digits='3']
+  > [data-line]::before {
+  width: 3rem;
+}
+
+.rendered-markdown .word {
+  background-color: #90cdf4;
+  color: #fff;
+}
+
+/*TABLE*/
+.rendered-markdown .ret-table-wrapper {
+  @apply overflow-x-auto;
+}
+.rendered-markdown table {
+  @apply border-collapse border border-gray-200;
+}
+.rendered-markdown thead th {
+  @apply border-b-2 border-gray-200 bg-gray-50 px-4 py-2 text-left text-sm font-bold text-gray-700;
+  width: 300px;
+}
+.rendered-markdown tbody td {
+  @apply border-b border-gray-200 px-4 py-2 text-sm text-gray-900;
+}
+.rendered-markdown tbody tr:hover {
+  @apply bg-gray-50;
 }
 
 /*TAGS*/
