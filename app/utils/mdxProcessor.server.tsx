@@ -1,12 +1,14 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import rehypeEnhancedTables from '@benjc/rehype-enhanced-tables';
 import rehypeScrollToTop from '@benjc/rehype-scroll-to-top';
 import rehypeSemanticImages from '@benjc/rehype-semantic-images';
 import { s } from 'hastscript';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypeColorChips from 'rehype-color-chips';
 import rehypeExternalLinks from 'rehype-external-links';
-import rehypeHighlight from 'rehype-highlight';
 import rehypeInferReadingTimeMeta from 'rehype-infer-reading-time-meta';
 import rehypeMeta from 'rehype-meta';
+import rehypePrettyCode from 'rehype-pretty-code';
 import rehypeRaw from 'rehype-raw';
 import rehypeRewrite, { RehypeRewriteOptions } from 'rehype-rewrite';
 import rehypeSlug from 'rehype-slug';
@@ -15,11 +17,53 @@ import remarkGfm from 'remark-gfm';
 import remarkParse from 'remark-parse';
 import remarkRehype from 'remark-rehype';
 import { remarkTruncateLinks } from 'remark-truncate-links';
+import {
+  transformerMetaHighlight,
+  transformerMetaWordHighlight,
+  transformerNotationDiff,
+  transformerNotationFocus,
+  transformerNotationHighlight,
+  transformerNotationWordHighlight,
+} from 'shikiji-transformers';
 import { unified } from 'unified';
 
 import { CLOUDINARY_ACCOUNT } from '~/data/siteMetadata';
 
 import rehypeSections from './rehype-sections';
+
+type PrettyCodeNodePositionPoint = {
+  line: number;
+  column: number;
+  offset: number;
+};
+interface PrettyCodeNode {
+  type: string;
+  tagName: string;
+  properties: {
+    className: string[] | undefined;
+    'data-line': '';
+  };
+  children: any[];
+  position: {
+    start: PrettyCodeNodePositionPoint;
+    end: PrettyCodeNodePositionPoint;
+  };
+}
+const prettyCodeOptions = {
+  theme: {
+    dark: 'night-owl',
+    light: 'material-theme',
+  },
+  transformers: [
+    transformerNotationDiff(),
+    transformerMetaHighlight(),
+    transformerMetaWordHighlight(),
+    transformerNotationFocus(),
+    transformerNotationHighlight(),
+    transformerNotationWordHighlight(),
+  ],
+  tokensMap: {},
+};
 
 function getURLParams(src: string): Record<string, string> {
   const queryString = src.split('?')[1];
@@ -129,6 +173,10 @@ const processor = unified()
   .use(remarkTruncateLinks, { length: 46 })
   .use(rehypeSections) // NOTE: sectionize must be before remarkRehype
   .use(remarkRehype, { allowDangerousHtml: true })
+  .use(rehypeEnhancedTables)
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  .use(rehypePrettyCode, prettyCodeOptions)
   .use(rehypeRewrite, rehypeRewriteOptions)
   .use(remarkGfm)
   .use(rehypeRaw)
@@ -142,7 +190,6 @@ const processor = unified()
       className: ['anchor'],
     },
   })
-  .use(rehypeHighlight)
   .use(rehypeScrollToTop, {
     topLink: { disabled: true },
     bottomLink: {

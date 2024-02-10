@@ -2,11 +2,9 @@ import { MetaFunction } from '@remix-run/node';
 import { useLoaderData, useLocation } from '@remix-run/react';
 import type { LoaderFunction } from '@remix-run/server-runtime';
 import { json, redirect } from '@remix-run/server-runtime';
-import highlightStyle from 'highlight.js/styles/github.css';
 import { useEffect } from 'react';
 import { ExternalScriptsHandle } from 'remix-utils/external-scripts';
 
-import { BackToTop } from '~/components/BackToTop';
 import { Footer } from '~/components/Footer';
 import { PrimaryTitle } from '~/components/PrimaryTitle';
 import { RoutesPath } from '~/data/routes.data';
@@ -144,7 +142,6 @@ export default function Article() {
       <BrowseByTags heading={'Tags:'} tags={localTags} />
 
       <Footer />
-      <link rel="stylesheet" href={highlightStyle} />
     </main>
   );
 }

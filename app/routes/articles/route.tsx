@@ -32,7 +32,6 @@ export async function loader({ request }: { request: Request }) {
   const page = parseInt(url.searchParams.get('page') || '1', 10);
   const articles = await getLatestArticles(page * PER_PAGE);
   const tags = await getAllTags();
-  console.log('my log: ', tags);
 
   return json<LoaderData>(
     { articles, tags, page },
@@ -101,7 +100,7 @@ export default function Route() {
             </p>
             <img
               className={
-                'animate-gentleRotate mx-auto w-80 max-w-full rounded-full shadow-md'
+                'mx-auto w-80 max-w-full animate-gentleRotate rounded-full shadow-md'
               }
               alt="A person asleep on a couch, illuminated by the glow of a single open laptop in a dimly lit room, conveying a serene late-night session."
               src={

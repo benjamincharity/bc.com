@@ -58,6 +58,10 @@ level 6.
 - _Italic_ with `*` or `_`.
 - ~~Strikethrough~~ with `~~`.
 
+### Callout
+
+Here is a paragraph with a <strong>callout marker</strong> in the middle.
+
 ### Colors
 
 Don't forget to check colors like `#bada55` and `#c0ffee`!
@@ -78,7 +82,8 @@ Don't forget to check colors like `#bada55` and `#c0ffee`!
 
 ## Links
 
-[GitHub](http://github.com)
+- External: [GitHub](http://github.com)
+- Internal: [Home](/)
 
 ## Images
 
@@ -90,28 +95,102 @@ Don't forget to check colors like `#bada55` and `#c0ffee`!
 
 Use single backticks: `var example = true;`
 
+This is an array `[1, 2, 3]{:js}` of numbers 1 through 3.
+
 ### Code Block
 
-```javascript
+```javascript title="Basic syntax highlighting"
 function test() {
-  console.log('notice the blank line before this function?');
+  console.log('Standard output');
 }
 ```
 
-### Syntax Highlighting
+### Line Highlighting
 
-```python
-def foo():
-  if not bar:
-    return True
+```js {2} title="Highlight single line"
+function test() {
+  console.log('notice I am highlighted?');
+}
+```
+
+```js {2,3} title="Highlight multiple lines"
+function test() {
+  console.log('notice I am highlighted?');
+  console.log('and, so am I!');
+}
+```
+
+```js {2,4-7} title="Highlight range"
+function test() {
+  console.log('one');
+  console.log('two');
+  console.log('three');
+  console.log('four');
+  console.log('five');
+  console.log('six');
+}
+```
+
+### Highlight word
+
+```js "test" title="Highlight word"
+function test() {
+  console.log('notice that test is highlighted?');
+}
+```
+
+```ts title="Highlight word by comment"
+// [!code word:options:2]
+const options = { foo: 'bar' };
+options.foo = 'baz';
+console.log(options.foo); // this one will not be highlighted
+```
+
+### Highlight by IDs
+
+```js /age/#a /name/#a /email/#a /setAge/#b /setName/#c /50/#d /'Taylor'/#e /setEmail/#f /example.com/#g title="Highlight multiple by ID"
+const [age, setAge] = useState(50);
+const [name, setName] = useState('Taylor');
+const [email, setEmail] = useState('taylor@example.com');
+```
+
+```ts /ab/#a title="Highlight by ID"
+const ab = 12;
+const abcd = 1234;
+```
+
+### Diff
+
+```ts
+export function foo() {
+  console.log('hewwo'); // [!code --]
+  console.log('hello'); // [!code ++]
+}
+```
+
+```ts
+export function foo() {
+  -console.log('hewwo');
+  +console.log('hello');
+}
+```
+
+### Title & caption
+
+```js title="My title!"
+// Code
+```
+
+```js caption="My caption!"
+// Code
 ```
 
 ## Tables
 
-| Syntax    | Description |
-| --------- | ----------- |
-| Header    | Title       |
-| Paragraph | Text        |
+| Syntax    | Description | Left-aligned | Center-aligned | Right-aligned |
+| --------- | ----------- | :----------- | :------------: | ------------: |
+| Header    | Title       | Cell 1       |     Cell 2     |        Cell 3 |
+| Paragraph | Text        | Cell 4       |     Cell 5     |        Cell 6 |
 
 ## Blockquotes
 
