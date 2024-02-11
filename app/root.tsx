@@ -1,4 +1,3 @@
-import { useSelector } from '@legendapp/state/react';
 import { LiveReload, useSWEffect } from '@remix-pwa/sw';
 import { LinksFunction, MetaFunction, json } from '@remix-run/node';
 import {
@@ -9,34 +8,47 @@ import {
   Scripts,
   ScrollRestoration,
   isRouteErrorResponse,
+  useFetcher,
   useLoaderData,
   useLocation,
   useRouteError,
 } from '@remix-run/react';
 import { Analytics } from '@vercel/analytics/react';
+import { ActionFunctionArgs } from '@vercel/remix';
 import { SpeedInsights } from '@vercel/speed-insights/remix';
 import React, { useEffect, useState } from 'react';
 import { ExternalScripts } from 'remix-utils/external-scripts';
 
+import { ColorModeToggle } from '~/components/ColorModeToggle/ColorModeToggle';
 import { FancyBackground } from '~/components/FancyBackground/FancyBackground';
 import { Header } from '~/components/Header';
 import { ModernButton } from '~/components/ModernButton';
 import { siteMetadata } from '~/data/siteMetadata';
+import { stateCookie } from '~/routes/_index/cookie';
 import { determineIfShouldShowBackground } from '~/routes/_index/route';
 import { navigationState$, state$ } from '~/store';
 import { ArticleReference, getLatestArticles } from '~/utils/articles.server';
 import { generateMetaCollection } from '~/utils/generateMetaCollection';
-import { Theme, settings$ } from '~/utils/settings.state';
 import { useConsoleArt } from '~/utils/useConsoleArt';
+
+export enum Theme {
+  DARK = 'dark',
+  LIGHT = 'light',
+}
 
 interface LoaderData {
   css: string;
   filePath: string;
   latestArticles: ArticleReference[];
   showBackground: boolean;
+  theme: Theme;
 }
 
 export async function loader({ request }: { request: Request }) {
+  const cookieHeader = request.headers.get('Cookie');
+  const cookieState = (await stateCookie.parse(cookieHeader)) || {
+    theme: 'dark',
+  };
   const url = new URL(request.url);
   const local = determineIfShouldShowBackground(url.pathname);
   let cssContent = '';
@@ -61,6 +73,22 @@ export async function loader({ request }: { request: Request }) {
     css: cssContent,
     latestArticles,
     showBackground: local,
+    theme: cookieState.theme,
+  });
+}
+
+export async function action({ request }: ActionFunctionArgs) {
+  const cookieHeader = request.headers.get('Cookie');
+  const cookie = (await stateCookie.parse(cookieHeader)) || {};
+  const formData = await request.formData();
+  const isLight = formData.get('theme') === 'light';
+  const theme = isLight ? Theme.LIGHT : Theme.DARK;
+  cookie.theme = theme;
+
+  return json(theme, {
+    headers: {
+      'Set-Cookie': await stateCookie.serialize(cookie),
+    },
   });
 }
 
@@ -74,9 +102,10 @@ export const meta: MetaFunction = () => {
 
 const App = React.memo(() => {
   const location = useLocation();
-  const { showBackground, css, latestArticles } = useLoaderData<LoaderData>();
+  const fetcher = useFetcher();
+  const { showBackground, css, latestArticles, theme } =
+    useLoaderData<LoaderData>();
   const [isBgVisible, setIsBgVisible] = useState(showBackground);
-  const currentTheme = useSelector(() => settings$.theme.get());
 
   useConsoleArt();
   useSWEffect();
@@ -87,16 +116,11 @@ const App = React.memo(() => {
     navigationState$.history.push(location.pathname);
   }, [location.pathname]);
 
-  useEffect(() => {
-    document.documentElement.classList.remove(Theme.LIGHT, Theme.DARK);
-    document.documentElement.classList.add(currentTheme);
-  }, [currentTheme]);
-
   // NOTE: The title tag and all other elements will be injected.
   // noinspection HtmlRequiredTitleElement
   return (
     <html
-      className={`${isBgVisible ? 'h-full w-full overflow-hidden' : 'overflow-x-hidden'}`}
+      className={`${isBgVisible ? 'h-full w-full overflow-hidden' : 'overflow-x-hidden'} ${theme}`}
       lang="en"
     >
       <head>
@@ -108,7 +132,13 @@ const App = React.memo(() => {
 
       <body>
         <div className="relative h-100v text-lg">
-          <Header backgroundIsVisible={isBgVisible} />
+          <Header backgroundIsVisible={isBgVisible}>
+            {!isBgVisible && (
+              <fetcher.Form method="post">
+                <ColorModeToggle theme={theme} />
+              </fetcher.Form>
+            )}
+          </Header>
           <Outlet />
           <ScrollRestoration getKey={(location) => location.pathname} />
           <FancyBackground isVisible={isBgVisible} />
@@ -134,13 +164,7 @@ const App = React.memo(() => {
 App.displayName = 'App';
 
 const AppWithProviders = React.memo(() => {
-  // const data = useLoaderData<typeof loader>();
-
-  return (
-    // <ThemeProvider specifiedTheme={data.theme}>
-    <App />
-    // </ThemeProvider>
-  );
+  return <App />;
 });
 
 AppWithProviders.displayName = 'AppWithProviders';

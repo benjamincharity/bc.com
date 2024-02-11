@@ -53,7 +53,7 @@ export const meta: MetaFunction = ({ data }: FixMeLater) => {
 
 export default function Route() {
   const { articles, tags, page } = useLoaderData<LoaderData>();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const query = useMemo(() => searchParams.get('q'), [searchParams]);
   const reduceMotion = useReducedMotion();
   const hasNextPage = articles.length >= PER_PAGE * page;

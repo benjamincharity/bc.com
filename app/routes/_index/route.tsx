@@ -3,8 +3,6 @@ import { Outlet, useLoaderData } from '@remix-run/react';
 
 import { COMPANIES } from '~/data/companies.data';
 import { siteMetadata } from '~/data/siteMetadata';
-import { getAllArticles } from '~/utils/articles.server';
-import { getTagsFromArticles } from '~/utils/getTagsFromArticles';
 import { shuffle } from '~/utils/shuffle';
 
 import { Navigation } from './components/Navigation';
@@ -21,9 +19,7 @@ type LoaderData = {
 
 export async function loader() {
   const companies = shuffle([...COMPANIES]);
-  return json<LoaderData>({
-    companies,
-  });
+  return json<LoaderData>({ companies });
 }
 
 export default function Index() {
@@ -34,8 +30,6 @@ export default function Index() {
       className={
         'bc-home pointer-events-none relative z-20 text-center font-vt323'
       }
-      // bcKonami
-      // konami={togglePartyMode}
     >
       <main>
         <Outlet />
