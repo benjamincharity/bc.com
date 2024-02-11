@@ -43,7 +43,7 @@ export async function loader({ request }: { request: Request }) {
 
 export const meta: MetaFunction = ({ data }: FixMeLater) => {
   return generateMetaCollection({
-    title: 'Articles',
+    title: `Articles on startups and engineering, by ${siteMetadata.author}`,
     summary:
       'Explore expert articles on engineering leadership in startups and scale-ups. Discover guides on career paths, team dynamics, and innovation in tech.',
     tags: data.tags,
