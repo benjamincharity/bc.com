@@ -2,8 +2,10 @@ import parseFrontMatter from 'front-matter';
 import matter from 'gray-matter';
 import path from 'path';
 
+import { TagsPayload } from '~/types/articles';
+
 import { siteMetadata } from '~/data/siteMetadata';
-import { TagsPayload } from '~/routes/articles_.tags/route';
+
 import { getTagsFromArticles } from '~/utils/getTagsFromArticles';
 import { toHTML } from '~/utils/mdxProcessor.server';
 

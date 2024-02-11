@@ -1,8 +1,9 @@
 import React from 'react';
 
 import { RoutesPath } from '~/data/routes.data';
-import { ArticleTitleLink } from '~/routes/articles/components/ArticleTitleLink';
-import { PublishDate } from '~/routes/articles_.$id/components/PublishDate';
+
+import { ArticleTitleLink } from '~/components/ArticleTitleLink';
+import { PublishDate } from '~/components/PublishDate';
 import { ArticleReference } from '~/utils/articles.server';
 
 interface ArticleProps {

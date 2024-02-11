@@ -8,33 +8,33 @@ import {
   Scripts,
   ScrollRestoration,
   isRouteErrorResponse,
-  useFetcher,
   useLoaderData,
   useLocation,
   useRouteError,
 } from '@remix-run/react';
 import { Analytics } from '@vercel/analytics/react';
-import { ActionFunctionArgs } from '@vercel/remix';
 import { SpeedInsights } from '@vercel/speed-insights/remix';
 import React, { useEffect, useState } from 'react';
 import { ExternalScripts } from 'remix-utils/external-scripts';
 
-import { ColorModeToggle } from '~/components/ColorModeToggle/ColorModeToggle';
+import { siteMetadata } from '~/data/siteMetadata';
+
 import { FancyBackground } from '~/components/FancyBackground/FancyBackground';
 import { Header } from '~/components/Header';
 import { ModernButton } from '~/components/ModernButton';
-import { siteMetadata } from '~/data/siteMetadata';
-import { stateCookie } from '~/routes/_index/cookie';
 import { determineIfShouldShowBackground } from '~/routes/_index/route';
 import { navigationState$, state$ } from '~/store';
 import { ArticleReference, getLatestArticles } from '~/utils/articles.server';
 import { generateMetaCollection } from '~/utils/generateMetaCollection';
+import {
+  Theme,
+  ThemeBody,
+  ThemeHead,
+  ThemeProvider,
+  useTheme,
+} from '~/utils/theme.provider';
+import { getThemeSession } from '~/utils/theme.server';
 import { useConsoleArt } from '~/utils/useConsoleArt';
-
-export enum Theme {
-  DARK = 'dark',
-  LIGHT = 'light',
-}
 
 interface LoaderData {
   css: string;
@@ -45,14 +45,10 @@ interface LoaderData {
 }
 
 export async function loader({ request }: { request: Request }) {
-  const cookieHeader = request.headers.get('Cookie');
-  const cookieState = (await stateCookie.parse(cookieHeader)) || {
-    theme: 'dark',
-  };
+  const themeSession = await getThemeSession(request);
   const url = new URL(request.url);
   const local = determineIfShouldShowBackground(url.pathname);
   let cssContent = '';
-
   if (typeof window === 'undefined') {
     const cssUrl = new URL('/shared.css', request.url).href;
 
@@ -73,22 +69,7 @@ export async function loader({ request }: { request: Request }) {
     css: cssContent,
     latestArticles,
     showBackground: local,
-    theme: cookieState.theme,
-  });
-}
-
-export async function action({ request }: ActionFunctionArgs) {
-  const cookieHeader = request.headers.get('Cookie');
-  const cookie = (await stateCookie.parse(cookieHeader)) || {};
-  const formData = await request.formData();
-  const isLight = formData.get('theme') === 'light';
-  const theme = isLight ? Theme.LIGHT : Theme.DARK;
-  cookie.theme = theme;
-
-  return json(theme, {
-    headers: {
-      'Set-Cookie': await stateCookie.serialize(cookie),
-    },
+    theme: themeSession.getTheme(),
   });
 }
 
@@ -101,14 +82,23 @@ export const meta: MetaFunction = () => {
 };
 
 const App = React.memo(() => {
+  const {
+    showBackground,
+    css,
+    latestArticles,
+    theme: loaderTheme,
+  } = useLoaderData<LoaderData>();
+  const [theme, setTheme] = useTheme();
   const location = useLocation();
-  const fetcher = useFetcher();
-  const { showBackground, css, latestArticles, theme } =
-    useLoaderData<LoaderData>();
   const [isBgVisible, setIsBgVisible] = useState(showBackground);
 
   useConsoleArt();
   useSWEffect();
+
+  useEffect(() => {
+    setTheme(loaderTheme);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     state$.isVisible.set(determineIfShouldShowBackground(location.pathname));
@@ -128,18 +118,14 @@ const App = React.memo(() => {
         <style dangerouslySetInnerHTML={{ __html: css }} />
         <link rel="manifest" href="/manifest.webmanifest" />
         <Links />
+        <ThemeHead ssrTheme={Boolean(loaderTheme)} />
       </head>
 
       <body>
         <div className="relative h-100v text-lg">
-          <Header backgroundIsVisible={isBgVisible}>
-            {!isBgVisible && (
-              <fetcher.Form method="post">
-                <ColorModeToggle theme={theme} />
-              </fetcher.Form>
-            )}
-          </Header>
+          <Header backgroundIsVisible={isBgVisible} />
           <Outlet />
+          <ThemeBody ssrTheme={Boolean(loaderTheme)} />
           <ScrollRestoration getKey={(location) => location.pathname} />
           <FancyBackground isVisible={isBgVisible} />
         </div>
@@ -165,7 +151,13 @@ const App = React.memo(() => {
 App.displayName = 'App';
 
 const AppWithProviders = React.memo(() => {
-  return <App />;
+  const data = useLoaderData<typeof loader>();
+
+  return (
+    <ThemeProvider specifiedTheme={data.theme}>
+      <App />
+    </ThemeProvider>
+  );
 });
 
 AppWithProviders.displayName = 'AppWithProviders';

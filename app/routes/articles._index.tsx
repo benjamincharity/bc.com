@@ -3,21 +3,25 @@ import { type MetaFunction, json } from '@remix-run/node';
 import { useLoaderData, useSearchParams } from '@remix-run/react';
 import React, { useMemo } from 'react';
 
-import { ArticlesList } from '~/components/Articles/ArticlesList';
-import { BackToTop } from '~/components/BackToTop';
-import { Badge } from '~/components/Badge';
+import { TagsPayload } from '~/types/articles';
+import { FixMeLater } from '~/types/shame';
+
 import { RoutesPath } from '~/data/routes.data';
 import { siteMetadata } from '~/data/siteMetadata';
-import { BrowseByTags } from '~/routes/articles/components/BrowseByTags';
-import { BackToLink } from '~/routes/articles_.$id/components/BackToLink';
-import { TagsPayload } from '~/routes/articles_.tags/route';
-import { FixMeLater } from '~/types/shame';
+
+import { ArticlesList } from '~/components/Articles/ArticlesList';
+import { BackToLink } from '~/components/BackToLink';
+import { BackToTop } from '~/components/BackToTop';
+import { Badge } from '~/components/Badge';
+import { BrowseByTags } from '~/components/BrowseByTags';
 import {
   ArticleReference,
   getAllTags,
   getLatestArticles,
 } from '~/utils/articles.server';
 import { generateMetaCollection } from '~/utils/generateMetaCollection';
+import { getThemeFromCookie } from '~/utils/getThemeFromCookie';
+import { Theme } from '~/utils/theme.provider';
 
 const PER_PAGE = 10;
 
@@ -25,16 +29,18 @@ interface LoaderData {
   articles: ArticleReference[];
   page: number;
   tags: TagsPayload;
+  theme: Theme;
 }
 
 export async function loader({ request }: { request: Request }) {
+  const theme = await getThemeFromCookie(request);
   const url = new URL(request.url);
   const page = parseInt(url.searchParams.get('page') || '1', 10);
   const articles = await getLatestArticles(page * PER_PAGE);
   const tags = await getAllTags();
 
   return json<LoaderData>(
-    { articles, tags, page },
+    { articles, tags, page, theme },
     {
       headers: { 'Cache-Control': 'private, max-age=10' },
     }
@@ -51,7 +57,7 @@ export const meta: MetaFunction = ({ data }: FixMeLater) => {
   });
 };
 
-export default function Route() {
+export default function Index() {
   const { articles, tags, page } = useLoaderData<LoaderData>();
   const [searchParams] = useSearchParams();
   const query = useMemo(() => searchParams.get('q'), [searchParams]);

@@ -1,4 +1,5 @@
-import { TagsPayload } from '~/routes/articles_.tags/route';
+import { TagsPayload } from '~/types/articles';
+
 import { ArticleReference } from '~/utils/articles.server';
 
 export function getTagsFromArticles(articles: ArticleReference[]): TagsPayload {

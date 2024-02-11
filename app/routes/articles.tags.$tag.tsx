@@ -2,18 +2,20 @@ import { MetaFunction, json } from '@remix-run/node';
 import { useLoaderData, useParams } from '@remix-run/react';
 import pluralize from 'pluralize';
 
-import { ArticlesList } from '~/components/Articles/ArticlesList';
-import { BackToTop } from '~/components/BackToTop';
-import { Footer } from '~/components/Footer';
+import { TagsPayload } from '~/types/articles';
+
 import { RoutesPath } from '~/data/routes.data';
 import { siteMetadata } from '~/data/siteMetadata';
-import { BrowseByTags } from '~/routes/articles/components/BrowseByTags';
-import { TagsPayload } from '~/routes/articles_.tags/route';
+
+import { ArticlesList } from '~/components/Articles/ArticlesList';
+import { BackToTop } from '~/components/BackToTop';
+import { BrowseByTags } from '~/components/BrowseByTags';
+import { Footer } from '~/components/Footer';
 import { ArticleReference, getAllArticles } from '~/utils/articles.server';
 import { generateMetaCollection } from '~/utils/generateMetaCollection';
 import { getTagsFromArticles } from '~/utils/getTagsFromArticles';
 
-import { BackToLink } from '../articles_.$id/components/BackToLink';
+import { BackToLink } from '../components/BackToLink';
 
 interface Params {
   tag: string;
