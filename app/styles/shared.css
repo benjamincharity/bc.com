@@ -260,7 +260,7 @@ strong {
   @apply text-gray-700 dark:text-gray-200;
 }
 .rendered-markdown img {
-  @apply inline-block w-full max-w-full text-center font-sourceSerif4 text-xs italic leading-loose text-gray-600 outline-imageOutline;
+  @apply inline-block aspect-video w-full max-w-full text-center font-sourceSerif4 text-xs italic leading-loose text-gray-600 outline-imageOutline;
 }
 .rendered-markdown img::before {
   @apply block bg-gray-200 p-2;
