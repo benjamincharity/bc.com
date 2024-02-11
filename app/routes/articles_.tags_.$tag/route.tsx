@@ -4,11 +4,13 @@ import pluralize from 'pluralize';
 
 import { ArticlesList } from '~/components/Articles/ArticlesList';
 import { BackToTop } from '~/components/BackToTop';
+import { Footer } from '~/components/Footer';
 import { RoutesPath } from '~/data/routes.data';
 import { siteMetadata } from '~/data/siteMetadata';
 import { BrowseByTags } from '~/routes/articles/components/BrowseByTags';
 import { TagsPayload } from '~/routes/articles_.tags/route';
 import { ArticleReference, getAllArticles } from '~/utils/articles.server';
+import { generateMetaCollection } from '~/utils/generateMetaCollection';
 import { getTagsFromArticles } from '~/utils/getTagsFromArticles';
 
 import { BackToLink } from '../articles_.$id/components/BackToLink';
@@ -28,14 +30,12 @@ export const meta: MetaFunction = ({ params }) => {
   const title = `${tag} - ${siteMetadata.author}`;
   const summary = `Articles about ${tag} of ${siteMetadata.author}.`;
 
-  return [
-    { name: 'title', content: title },
-    { name: 'description', content: summary },
-    { property: 'og:title', content: title },
-    { property: 'og:description', content: summary },
-    { name: 'twitter:title', content: title },
-    { name: 'twitter:description', content: summary },
-  ];
+  return generateMetaCollection({
+    summary,
+    tags: [tag ?? ''].filter(Boolean),
+    title,
+    url: `${siteMetadata.url}/articles/tags`,
+  });
 };
 
 export const loader = async ({
@@ -92,6 +92,7 @@ export default function Tag() {
       <hr className={'fancy'} />
 
       <BrowseByTags tags={tags} currentTag={tag} />
+      <Footer />
     </section>
   );
 }

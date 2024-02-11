@@ -1,24 +1,24 @@
 import { siteMetadata } from '~/data/siteMetadata';
 
 interface GenerateMetaCollectionProps {
+  disableScale?: boolean;
   imageUrl?: string;
   summary: string;
   tags: string[];
   title: string;
   url?: string;
-  disableScale?: boolean;
 }
 
 export function generateMetaCollection(
   props: GenerateMetaCollectionProps = {} as GenerateMetaCollectionProps
 ) {
   const {
+    disableScale = false,
     imageUrl = siteMetadata.image,
     summary = siteMetadata.description,
     tags = [],
     title = siteMetadata.title,
     url = siteMetadata.url,
-    disableScale = false,
   } = props;
   const keywords = tags.join(', ');
   const finalImageUrl = imageUrl ?? siteMetadata.image;
