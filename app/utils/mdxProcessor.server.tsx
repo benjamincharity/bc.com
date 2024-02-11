@@ -1,6 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import rehypeEnhancedTables from '@benjc/rehype-enhanced-tables';
-import rehypeScrollToTop from '@benjc/rehype-scroll-to-top';
+import { rehypeEnhancedTables } from '@benjc/rehype-enhanced-tables';
+import { rehypeScrollToTop } from '@benjc/rehype-scroll-to-top';
 import rehypeSemanticImages from '@benjc/rehype-semantic-images';
 import { s } from 'hastscript';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
@@ -31,24 +30,6 @@ import { CLOUDINARY_ACCOUNT } from '~/data/siteMetadata';
 
 import rehypeSections from './rehype-sections';
 
-type PrettyCodeNodePositionPoint = {
-  line: number;
-  column: number;
-  offset: number;
-};
-interface PrettyCodeNode {
-  type: string;
-  tagName: string;
-  properties: {
-    className: string[] | undefined;
-    'data-line': '';
-  };
-  children: any[];
-  position: {
-    start: PrettyCodeNodePositionPoint;
-    end: PrettyCodeNodePositionPoint;
-  };
-}
 const prettyCodeOptions = {
   theme: {
     dark: 'night-owl',
