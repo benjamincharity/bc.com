@@ -5,15 +5,17 @@ import { json, redirect } from '@remix-run/server-runtime';
 import { useEffect } from 'react';
 import { ExternalScriptsHandle } from 'remix-utils/external-scripts';
 
-import { Footer } from '~/components/Footer';
-import { PrimaryTitle } from '~/components/PrimaryTitle';
+import { TagsPayload } from '~/types/articles';
+import { FixMeLater } from '~/types/shame';
+
 import { RoutesPath } from '~/data/routes.data';
 import { siteMetadata } from '~/data/siteMetadata';
-import { BrowseByTags } from '~/routes/articles/components/BrowseByTags';
-import { BackToLink } from '~/routes/articles_.$id/components/BackToLink';
-import { PublishDate } from '~/routes/articles_.$id/components/PublishDate';
-import { TagsPayload } from '~/routes/articles_.tags/route';
-import { FixMeLater } from '~/types/shame';
+
+import { BackToLink } from '~/components/BackToLink';
+import { BrowseByTags } from '~/components/BrowseByTags';
+import { Footer } from '~/components/Footer';
+import { PrimaryTitle } from '~/components/PrimaryTitle';
+import { PublishDate } from '~/components/PublishDate';
 import {
   Frontmatter,
   getAllArticles,

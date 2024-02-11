@@ -1,7 +1,8 @@
 import { Link } from '@remix-run/react';
 
+import { TagsPayload } from '~/types/articles';
+
 import { RoutesPath } from '~/data/routes.data';
-import { TagsPayload } from '~/routes/articles_.tags/route';
 
 export const BrowseByTags = ({
   tags,

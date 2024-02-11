@@ -1,20 +1,20 @@
 import { LoaderFunction, MetaFunction, json } from '@remix-run/node';
-import { useLoaderData } from '@remix-run/react';
+import { Outlet, useLoaderData } from '@remix-run/react';
 
+import { TagsPayload } from '~/types/articles';
+
+import { colors } from '~/data/colors.data';
+import { RoutesPath } from '~/data/routes.data';
+import { siteMetadata } from '~/data/siteMetadata';
+
+import { BackToLink } from '~/components/BackToLink';
 import { BackToTop } from '~/components/BackToTop';
 import { Badge } from '~/components/Badge';
 import { Footer } from '~/components/Footer';
 import { PrimaryTitle } from '~/components/PrimaryTitle';
-import { colors } from '~/data/colors.data';
-import { RoutesPath } from '~/data/routes.data';
-import { siteMetadata } from '~/data/siteMetadata';
-import { BackToLink } from '~/routes/articles_.$id/components/BackToLink';
 import { getAllArticles } from '~/utils/articles.server';
 import { generateMetaCollection } from '~/utils/generateMetaCollection';
 import { getTagsFromArticles } from '~/utils/getTagsFromArticles';
-
-export type TagPayload = [string, number];
-export type TagsPayload = Array<TagPayload>;
 
 interface LoaderData {
   tags: TagsPayload;
@@ -47,13 +47,12 @@ export default function Tags() {
 
   return (
     <main className="prose-wrapper">
+      <PrimaryTitle title={'Tags'} className={'text-center'} />
       <BackToLink to={RoutesPath.articles} />
-
-      <PrimaryTitle title={'Tags'} className={'mb-6 text-center'} />
 
       <nav
         aria-label="Article tags"
-        className="flex flex-wrap justify-center gap-8 text-base"
+        className="flex flex-wrap justify-center gap-8 pt-10 text-base"
       >
         {tags.map(([tag, count], i) => {
           return (
@@ -68,6 +67,8 @@ export default function Tags() {
         })}
       </nav>
       <BackToTop wrapperProps={{ className: 'mt-8' }} />
+
+      <Outlet />
 
       <Footer />
     </main>

@@ -1,13 +1,20 @@
-import { Theme } from '~/root';
+import React from 'react';
 
-export const ColorModeToggle = ({ theme = Theme.DARK }: { theme: Theme }) => {
+import { Theme } from '~/utils/theme.provider';
+
+export const ColorModeToggle = ({
+  theme = Theme.DARK,
+  onClick,
+}: {
+  theme: Theme;
+  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
+}) => {
   return (
     <button
       aria-label={`Activate ${theme === Theme.DARK ? 'light' : 'dark'} mode`}
-      className={`${theme} color-mode-toggle absolute right-2 top-2 z-50 origin-top-right scale-[.3] border-none bg-transparent outline-none`}
+      className={`${theme} color-mode-toggle absolute right-2 top-[-76px] z-50 origin-top-right scale-[.3] border-none bg-transparent outline-none`}
       name={'theme'}
-      type={'submit'}
-      value={theme === Theme.DARK ? Theme.LIGHT : Theme.DARK}
+      onClick={onClick}
     >
       <div className="grid h-full w-full place-items-center">
         <div className="daynight">

@@ -1,4 +1,5 @@
 import { siteMetadata } from '~/data/siteMetadata';
+
 import { getAllArticles } from '~/utils/articles.server';
 
 function escapeXml(unsafeString: string): string {

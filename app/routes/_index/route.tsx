@@ -3,6 +3,7 @@ import { Outlet, useLoaderData } from '@remix-run/react';
 
 import { COMPANIES } from '~/data/companies.data';
 import { siteMetadata } from '~/data/siteMetadata';
+
 import { shuffle } from '~/utils/shuffle';
 
 import { Navigation } from './components/Navigation';
