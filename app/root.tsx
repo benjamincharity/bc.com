@@ -144,6 +144,7 @@ const App = React.memo(() => {
           <FancyBackground isVisible={isBgVisible} />
         </div>
 
+        <PrefetchPageLinks key={'articles-index'} page={'/articles'} />
         {latestArticles.map((article) => (
           <PrefetchPageLinks
             key={article.slug}
