@@ -147,7 +147,7 @@ strong {
 
 .rendered-markdown hr,
 .fancy {
-  @apply bg-drakenhofNightshade dark:bg-drakenhofNightshadeTint;
+  @apply bg-blue-500 dark:bg-blue-300;
   border: 0;
   height: 1px;
   margin: 30px auto;
@@ -158,7 +158,7 @@ strong {
 
 .rendered-markdown hr::before,
 .fancy::before {
-  @apply border-2 border-solid border-drakenhofNightshade bg-drakenhofNightshade dark:border-drakenhofNightshadeTint dark:bg-drakenhofNightshadeTint;
+  @apply border-2 border-solid border-blue-500 bg-blue-500 dark:border-blue-300 dark:bg-blue-300;
   content: '';
   display: inline-block;
   height: 9px;
@@ -230,7 +230,7 @@ strong {
   @apply my-2 inline-block leading-tight;
 }
 .rendered-markdown blockquote {
-  @apply ml-5 border-l-4 border-drakenhofNightshade italic dark:border-drakenhofNightshadeTint;
+  @apply ml-5 border-l-4 border-blue-500 italic dark:border-blue-300;
 }
 .rendered-markdown blockquote p {
   @apply my-5 pl-3;
@@ -244,6 +244,10 @@ strong {
 }
 .rendered-markdown strong:not(li strong) {
   @apply highlight;
+}
+
+.rendered-markdown ::selection {
+  @apply bg-pink-600 text-white;
 }
 .rendered-markdown figure:not([data-rehype-pretty-code-figure]) {
   @apply mt-2 rounded bg-gray-100 p-1 transition dark:bg-gray-700;
@@ -396,18 +400,18 @@ strong {
 }
 
 .rendered-markdown .anchor {
-  @apply absolute left-[-1.25rem] top-2 block h-[18px] w-[18px] scale-90 text-drakenhofNightshade opacity-30 transition group-hover:opacity-100;
+  @apply absolute left-[-1.25rem] top-2 block h-[18px] w-[18px] scale-90 text-blue-500 opacity-30 transition group-hover:opacity-100;
 }
 .animated-link-underline,
 .rendered-markdown a:not(.anchor) {
-  @apply text-drakenhofNightshade dark:text-drakenhofNightshadeTint;
+  @apply text-blue-500 dark:text-blue-300;
   font-weight: bold;
   position: relative;
   text-decoration: none;
 }
 .animated-link-underline::before,
 .rendered-markdown a:not(.anchor)::before {
-  @apply bg-drakenhofNightshade dark:bg-drakenhofNightshadeTint;
+  @apply bg-blue-500 dark:bg-blue-300;
   bottom: 0;
   content: '';
   height: 1px;
@@ -424,7 +428,7 @@ strong {
 .animated-link-underline:focus,
 .rendered-markdown a:not(.anchor):focus-visible,
 .rendered-markdown a:not(.anchor):focus {
-  @apply outline-dashed outline-2 outline-offset-2 outline-drakenhofNightshade;
+  @apply outline-dashed outline-2 outline-offset-2 outline-blue-500;
 }
 .animated-link-underline:hover,
 .rendered-markdown a:not(.anchor):hover {
