@@ -74,6 +74,12 @@
   .dark body {
     @apply text-gray-100;
   }
+  body ::selection {
+    @apply bg-pink-700 text-white;
+  }
+  body ::selection a {
+    @apply text-black;
+  }
 }
 
 @layer utility {
@@ -246,9 +252,6 @@ strong {
   @apply highlight;
 }
 
-.rendered-markdown ::selection {
-  @apply bg-pink-700 text-white;
-}
 .rendered-markdown figure:not([data-rehype-pretty-code-figure]) {
   @apply mt-2 rounded bg-gray-100 p-1 transition dark:bg-gray-700;
 }
