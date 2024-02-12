@@ -78,7 +78,7 @@
     @apply bg-pink-700 text-white;
   }
   body ::selection a {
-    @apply text-black;
+    @apply text-blue-700;
   }
 }
 
