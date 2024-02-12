@@ -92,10 +92,10 @@ export default function Index() {
       <div className={'text-small px-4 pt-4 text-center'}>
         {hasNextPage ? (
           <Badge
-            tag={'Load More'}
+            color={'#f184a8'}
             count={-1}
             linkTo={nextPageLink}
-            color={'#f184a8'}
+            tag={'Load More'}
           />
         ) : (
           <div>
