@@ -247,7 +247,7 @@ strong {
 }
 
 .rendered-markdown ::selection {
-  @apply bg-pink-600 text-white;
+  @apply bg-pink-700 text-white;
 }
 .rendered-markdown figure:not([data-rehype-pretty-code-figure]) {
   @apply mt-2 rounded bg-gray-100 p-1 transition dark:bg-gray-700;
