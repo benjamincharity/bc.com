@@ -14,6 +14,7 @@ import { siteMetadata } from '~/data/siteMetadata';
 import { BackToLink } from '~/components/BackToLink';
 import { BrowseByTags } from '~/components/BrowseByTags';
 import { Footer } from '~/components/Footer';
+import { NewsletterSignUp } from '~/components/NewsletterSignUp';
 import { PrimaryTitle } from '~/components/PrimaryTitle';
 import { PublishDate } from '~/components/PublishDate';
 import {
@@ -138,6 +139,8 @@ export default function Article() {
           <div dangerouslySetInnerHTML={{ __html: html }} />
         </section>
       </article>
+
+      <NewsletterSignUp />
 
       <hr className={'fancy'} />
 

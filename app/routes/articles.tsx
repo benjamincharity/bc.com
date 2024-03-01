@@ -38,11 +38,6 @@ export default function ArticlesLayout() {
     }
   }, [theme]);
 
-  useEffect(() => {
-    setTheme(cookieTheme);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   return (
     <div className={'relative'}>
       <aside>

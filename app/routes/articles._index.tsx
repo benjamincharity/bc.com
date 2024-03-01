@@ -14,6 +14,7 @@ import { BackToLink } from '~/components/BackToLink';
 import { BackToTop } from '~/components/BackToTop';
 import { Badge } from '~/components/Badge';
 import { BrowseByTags } from '~/components/BrowseByTags';
+import { NewsletterSignUp } from '~/components/NewsletterSignUp';
 import {
   ArticleReference,
   getAllTags,
@@ -118,6 +119,8 @@ export default function Index() {
       </div>
 
       <BackToTop />
+
+      <NewsletterSignUp />
 
       <hr className={'fancy'} />
 
