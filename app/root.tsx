@@ -17,11 +17,9 @@ import { SpeedInsights } from '@vercel/speed-insights/remix';
 import React, { useEffect, useState } from 'react';
 import { ExternalScripts } from 'remix-utils/external-scripts';
 
-import { siteMetadata } from '~/data/siteMetadata';
-
+import { ErrorPage } from '~/components/ErrorPage';
 import { FancyBackground } from '~/components/FancyBackground/FancyBackground';
 import { Header } from '~/components/Header';
-import { ModernButton } from '~/components/ModernButton';
 import { determineIfShouldShowBackground } from '~/routes/_index/route';
 import { navigationState$, state$ } from '~/store';
 import { ArticleReference, getLatestArticles } from '~/utils/articles.server';
@@ -88,17 +86,12 @@ const App = React.memo(() => {
     latestArticles,
     theme: loaderTheme,
   } = useLoaderData<LoaderData>();
-  const [theme, setTheme] = useTheme();
+  const [theme] = useTheme();
   const location = useLocation();
   const [isBgVisible, setIsBgVisible] = useState(showBackground);
 
   useConsoleArt();
   useSWEffect();
-
-  useEffect(() => {
-    setTheme(loaderTheme);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   useEffect(() => {
     state$.isVisible.set(determineIfShouldShowBackground(location.pathname));
@@ -168,39 +161,22 @@ export function ErrorBoundary() {
   const error = useRouteError();
 
   return (
-    <html lang="en" className={'h-full w-full overflow-hidden'}>
+    <html lang="en" style={{ height: '100%', width: '100%' }}>
       <head>
         <title>Error</title>
         <Meta />
         <Links />
       </head>
-      <body>
-        <Header backgroundIsVisible={false} />
-        <main className="prose-wrapper relative z-20 text-center">
-          <h2
-            className={'mb-10 font-vt323 text-5xl text-white text-shadow-title'}
-          >
-            error
-          </h2>
-          <p className={'quote mb-10 text-xl'}>
-            {isRouteErrorResponse(error)
+      <body style={{ height: '100%', width: '100%', margin: 0 }}>
+        <ErrorPage
+          message={
+            isRouteErrorResponse(error)
               ? `${error.status} ${error.statusText}`
               : error instanceof Error
                 ? error.message
-                : 'Unknown Error'}
-          </p>
-
-          <div>
-            <ModernButton
-              onClick={() => {
-                window.location.href = siteMetadata.url;
-              }}
-            >
-              Reload
-            </ModernButton>
-          </div>
-        </main>
-        <FancyBackground isVisible={true} />
+                : 'Unknown Error'
+          }
+        />
         <Scripts />
         <ExternalScripts />
       </body>
