@@ -1,11 +1,8 @@
 import { redirect } from '@remix-run/node';
 import { LoaderFunction } from '@remix-run/server-runtime';
 import { ActionFunction, json } from '@vercel/remix';
-import { z } from 'zod';
 
-const EmailSchema = z.object({
-  email: z.string().email(),
-});
+import { isValidEmailAddress } from '~/utils/isValidEmailAddress';
 
 export interface ActionResponse {
   ok?: boolean;
@@ -14,11 +11,11 @@ export interface ActionResponse {
 
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
-  const email = formData.get('email');
+  const email = formData.get('email') as string;
   const referrerOriginal = request.headers.get('Referer') ?? '';
   // NOTE: this is to strip out any existing search params
   const referrer = new URL(referrerOriginal);
-  const { success: emailIsValid } = EmailSchema.safeParse({ email });
+  const emailIsValid = isValidEmailAddress(email);
 
   if (!emailIsValid) {
     return redirect(`${referrer}?subscribe-error=invalid-email`);
