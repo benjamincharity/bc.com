@@ -11,6 +11,7 @@ export const siteMetadata = {
       : 'http://localhost:3000',
   image: `/images/pwa/apple-splash-2732-2048.jpg`,
   articleImagePath: `https://res.cloudinary.com/${CLOUDINARY_ACCOUNT}/image/upload/c_scale/f_auto,q_auto/article-content/`,
+  articleThinImagePath: `https://res.cloudinary.com/${CLOUDINARY_ACCOUNT}/image/upload/c_scale/ar_3.1,f_auto,q_auto,c_lfill/article-content/`,
   websiteImagePath: `https://res.cloudinary.com/${CLOUDINARY_ACCOUNT}/image/upload/c_scale/f_auto,q_auto/website/`,
   twitterImage: `/images/social.Twitter.png`,
   linkedInImage: `/images/social.LinkedIn.png`,

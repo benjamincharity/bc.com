@@ -17,6 +17,9 @@ export default {
         'slide-bg': 'slideBackground 3s ease-in-out infinite',
         gentleRotate: 'gentleRotate 4s ease-in-out infinite',
       },
+      aspectRatio: {
+        'first-hero': '16 / 6',
+      },
       backgroundImage: {
         'sliding-gradient':
           'linear-gradient(white, white), linear-gradient(#8ae6df, #8ae6df), linear-gradient(#f184a8, #f184a8)',
@@ -109,6 +112,17 @@ export default {
           '50%': { transform: 'rotate(2deg)' },
         },
       },
+      lineClamp: {
+        7: '7',
+        8: '8',
+        9: '9',
+        10: '10',
+        11: '11',
+        12: '12',
+        13: '13',
+        14: '14',
+        15: '15',
+      },
       listStyleType: {
         square: 'square',
       },
@@ -131,6 +145,7 @@ export default {
     },
   },
   plugins: [
+    require('@tailwindcss/line-clamp'),
     plugin(function ({ matchUtilities, theme }) {
       matchUtilities(
         {
