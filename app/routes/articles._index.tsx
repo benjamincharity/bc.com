@@ -24,7 +24,8 @@ import { generateMetaCollection } from '~/utils/generateMetaCollection';
 import { getThemeFromCookie } from '~/utils/getThemeFromCookie';
 import { Theme } from '~/utils/theme.provider';
 
-const PER_PAGE = 10;
+const PER_PAGE_FIRST = 7;
+const PER_PAGE = 6;
 
 interface LoaderData {
   articles: ArticleReference[];
@@ -37,7 +38,9 @@ export async function loader({ request }: { request: Request }) {
   const theme = await getThemeFromCookie(request);
   const url = new URL(request.url);
   const page = parseInt(url.searchParams.get('page') || '1', 10);
-  const articles = await getLatestArticles(page * PER_PAGE);
+  const perPageCount = page === 1 ? PER_PAGE_FIRST : PER_PAGE;
+  const total = (page !== 1 ? 1 : 0) + page * perPageCount;
+  const articles = await getLatestArticles(total);
   const tags = await getAllTags();
 
   return json<LoaderData>(
@@ -75,7 +78,7 @@ export default function Index() {
   };
 
   return (
-    <section className={'prose-wrapper pb-6'}>
+    <section className={'prose-wrapper container mx-auto px-5 py-8 pb-6'}>
       <div className="flex justify-between align-middle">
         <BackToLink to={RoutePaths.home}>Home</BackToLink>
         <button
