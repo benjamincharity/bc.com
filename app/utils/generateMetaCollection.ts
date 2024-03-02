@@ -4,7 +4,7 @@ interface GenerateMetaCollectionProps {
   disableScale?: boolean;
   imageUrl?: string;
   summary: string;
-  tags: string[];
+  tags?: string[];
   title: string;
   url?: string;
 }
