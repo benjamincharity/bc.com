@@ -1,16 +1,13 @@
-import { useDidUpdate, useReducedMotion } from '@mantine/hooks';
+import { useReducedMotion } from '@mantine/hooks';
 import {
   Form,
   useLocation,
   useNavigate,
   useNavigation,
 } from '@remix-run/react';
-import React, { useEffect, useState } from 'react';
-import { z } from 'zod';
+import React, { useState } from 'react';
 
-const EmailSchema = z.object({
-  email: z.string().email(),
-});
+import { isValidEmailAddress } from '~/utils/isValidEmailAddress';
 
 interface NewsletterSignUpProps extends React.HTMLProps<HTMLDivElement> {
   heading?: string;
@@ -33,7 +30,7 @@ export function NewsletterSignUp({
 
   function validateEmail(event: React.ChangeEvent<HTMLInputElement>) {
     const email = event.target.value;
-    const { success: emailIsValid } = EmailSchema.safeParse({ email });
+    const emailIsValid = isValidEmailAddress(email);
     setEmailError(emailIsValid ? '' : 'Invalid email address');
   }
 
@@ -129,7 +126,7 @@ export function NewsletterSignUp({
                     <div className={'relative'}>
                       <input
                         aria-describedby="bd-email-helper"
-                        className={`block h-full w-full rounded-lg  bg-white ${emailError ? 'border-red-500 focus:border-red-500 focus:ring-red-500 dark:border-red-300' : 'border-slate-300 focus:border-blue-500 focus:ring-blue-500'} px-4 py-3 text-sm disabled:opacity-50 dark:border-gray-700 dark:bg-slate-900 dark:text-gray-400 dark:focus:ring-gray-600`}
+                        className={`block h-full w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-sm outline-none transition focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50 dark:border-gray-700 dark:bg-slate-900 dark:text-gray-400 dark:focus:ring-gray-600 ${emailError ? 'border-red-500 focus:border-red-500 focus:ring-red-500 dark:border-red-300' : 'border-slate-300 focus:border-blue-500 focus:ring-blue-500'}`}
                         id="bd-email"
                         name="email"
                         onChange={validateEmail}
@@ -161,7 +158,10 @@ export function NewsletterSignUp({
                     </div>
 
                     <button
-                      className={`animate-gradient grid justify-center rounded-lg bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 px-5 py-4 text-center text-sm font-medium text-white focus:ring-4 focus:ring-purple-300 dark:focus:ring-purple-800`}
+                      className={`animate-gradient grid justify-center rounded-lg bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 px-5 py-4 text-center text-sm font-medium text-white focus:ring-4 focus:ring-purple-300 disabled:cursor-not-allowed disabled:opacity-60 dark:focus:ring-purple-800`}
+                      disabled={
+                        navigation.state === 'submitting' || !!emailError
+                      }
                       type="submit"
                     >
                       <span className={'flex gap-2'}>
@@ -183,11 +183,10 @@ export function NewsletterSignUp({
                       className={`mx-auto mb-2 flex max-w-md flex-col justify-center gap-2 md:flex-row`}
                     >
                       <p
-                        className="mt-2 text-sm text-red-600"
+                        className="mt-2 text-sm text-red-600 dark:text-red-300"
                         id="bd-email-helper"
                       >
-                        {emailError.toUpperCase() +
-                          emailError.slice(1).toLowerCase()}
+                        {emailError}
                       </p>
                     </div>
                   )}
