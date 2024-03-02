@@ -2,7 +2,7 @@ import { Link } from '@remix-run/react';
 
 import { TagsPayload } from '~/types/articles';
 
-import { RoutesPath } from '~/data/routes.data';
+import { RoutePaths } from '~/data/routes.data';
 
 export const BrowseByTags = ({
   tags,
@@ -56,7 +56,7 @@ export const Tags = ({
               ) : (
                 <Link
                   className={`animated-link-underline`}
-                  to={RoutesPath.tag(tag)}
+                  to={RoutePaths.tag(tag)}
                 >
                   {tag}{' '}
                   <sup className={'left-100 absolute top-1/3 pl-[2px]'}>

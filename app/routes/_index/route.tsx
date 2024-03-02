@@ -2,16 +2,23 @@ import { json } from '@remix-run/node';
 import { Outlet, useLoaderData } from '@remix-run/react';
 
 import { COMPANIES } from '~/data/companies.data';
+import { RoutePaths } from '~/data/routes.data';
 import { siteMetadata } from '~/data/siteMetadata';
 
 import { shuffle } from '~/utils/shuffle';
 
 import { Navigation } from './components/Navigation';
 
-const pagesWithBackground = ['', '404'];
+const pagesWithBackground = [
+  '',
+  RoutePaths.notFound,
+  RoutePaths.subscribeSuccess,
+];
 
 export function determineIfShouldShowBackground(url: string): boolean {
-  return pagesWithBackground.includes(url.replace(/\//, ''));
+  return pagesWithBackground
+    .map((v) => v.replace(/\//, ''))
+    .includes(url.replace(/\//, ''));
 }
 
 type LoaderData = {

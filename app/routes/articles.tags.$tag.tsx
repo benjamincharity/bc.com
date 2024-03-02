@@ -4,7 +4,7 @@ import pluralize from 'pluralize';
 
 import { TagsPayload } from '~/types/articles';
 
-import { RoutesPath } from '~/data/routes.data';
+import { RoutePaths } from '~/data/routes.data';
 import { siteMetadata } from '~/data/siteMetadata';
 
 import { ArticlesList } from '~/components/Articles/ArticlesList';
@@ -82,8 +82,8 @@ export default function Tag() {
         </h1>
       </header>
 
-      <BackToLink to={RoutesPath.articles}>Back to all articles</BackToLink>
-      <BackToLink className={'mb-4'} to={RoutesPath.tags}>
+      <BackToLink to={RoutePaths.articles}>Back to all articles</BackToLink>
+      <BackToLink className={'mb-4'} to={RoutePaths.tags}>
         Back to all tags
       </BackToLink>
 

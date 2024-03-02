@@ -4,7 +4,7 @@ import { Outlet, useLoaderData } from '@remix-run/react';
 import { TagsPayload } from '~/types/articles';
 
 import { colors } from '~/data/colors.data';
-import { RoutesPath } from '~/data/routes.data';
+import { RoutePaths } from '~/data/routes.data';
 import { siteMetadata } from '~/data/siteMetadata';
 
 import { BackToLink } from '~/components/BackToLink';
@@ -48,7 +48,7 @@ export default function Tags() {
   return (
     <main className="prose-wrapper">
       <PrimaryTitle title={'Tags'} className={'text-center'} />
-      <BackToLink to={RoutesPath.articles} />
+      <BackToLink to={RoutePaths.articles} />
 
       <nav
         aria-label="Article tags"
