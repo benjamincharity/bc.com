@@ -1,6 +1,6 @@
 import { Link, LinkProps } from '@remix-run/react';
 
-import { RoutesPath } from '~/data/routes.data';
+import { RoutePaths } from '~/data/routes.data';
 
 const classes =
   'animated-link-underline inline-block text-base text-drakenhofNightshade: dark:drakenhofNightshadeTint font-bold font-sourceSerif4';
@@ -12,7 +12,7 @@ export const BackToLink = (props: Partial<LinkProps>) => {
 
   return (
     <div className={`text-center ${className} last-of-type:mb-4`}>
-      <Link className={`${classes}`} to={RoutesPath.articles} {...rest}>
+      <Link className={`${classes}`} to={RoutePaths.articles} {...rest}>
         <span className={spanClasses}>&#8668;</span> {children}
       </Link>
     </div>

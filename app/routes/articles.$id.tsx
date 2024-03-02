@@ -8,7 +8,7 @@ import { ExternalScriptsHandle } from 'remix-utils/external-scripts';
 import { TagsPayload } from '~/types/articles';
 import { FixMeLater } from '~/types/shame';
 
-import { RoutesPath } from '~/data/routes.data';
+import { RoutePaths } from '~/data/routes.data';
 import { siteMetadata } from '~/data/siteMetadata';
 
 import { BackToLink } from '~/components/BackToLink';
@@ -50,7 +50,7 @@ export const loader: LoaderFunction = async ({ params, request }) => {
     console.warn(
       '⚠️ This post is a draft and cannot be viewed in production. ⚠️'
     );
-    const newUrl = new URL(RoutesPath.notFound, siteMetadata.url);
+    const newUrl = new URL(RoutePaths.notFound, siteMetadata.url);
     newUrl.searchParams.append(
       'message',
       `

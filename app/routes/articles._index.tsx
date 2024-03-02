@@ -6,7 +6,7 @@ import React, { useMemo } from 'react';
 import { TagsPayload } from '~/types/articles';
 import { FixMeLater } from '~/types/shame';
 
-import { RoutesPath } from '~/data/routes.data';
+import { RoutePaths } from '~/data/routes.data';
 import { siteMetadata } from '~/data/siteMetadata';
 
 import { ArticlesList } from '~/components/Articles/ArticlesList';
@@ -64,7 +64,7 @@ export default function Index() {
   const query = useMemo(() => searchParams.get('q'), [searchParams]);
   const reduceMotion = useReducedMotion();
   const hasNextPage = articles.length >= PER_PAGE * page;
-  const nextPageLink = `${RoutesPath.articles}?page=${page + 1}`;
+  const nextPageLink = `${RoutePaths.articles}?page=${page + 1}`;
 
   const scrollToBottom = (event: React.MouseEvent) => {
     event.preventDefault();
@@ -77,7 +77,7 @@ export default function Index() {
   return (
     <section className={'prose-wrapper pb-6'}>
       <div className="flex justify-between align-middle">
-        <BackToLink to={RoutesPath.home}>Home</BackToLink>
+        <BackToLink to={RoutePaths.home}>Home</BackToLink>
         <button
           className={
             'animated-link-underline relative -top-1 mb-4 text-sm font-normal'

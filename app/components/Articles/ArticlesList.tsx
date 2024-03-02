@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { RoutesPath } from '~/data/routes.data';
+import { RoutePaths } from '~/data/routes.data';
 
 import { ArticleTitleLink } from '~/components/ArticleTitleLink';
 import { PublishDate } from '~/components/PublishDate';
@@ -20,7 +20,7 @@ const Article = React.forwardRef<HTMLDivElement, ArticleProps>(
       >
         <ArticleTitleLink
           title={item.frontmatter.title}
-          to={RoutesPath.article(item.slug)}
+          to={RoutePaths.article(item.slug)}
         />
 
         <p

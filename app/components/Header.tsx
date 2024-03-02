@@ -1,7 +1,7 @@
 import { Link } from '@remix-run/react';
 import { ReactNode, useEffect, useMemo, useState } from 'react';
 
-import { RoutesPath } from '~/data/routes.data';
+import { RoutePaths } from '~/data/routes.data';
 
 const shared = `relative text-center z-20 font-vt323 leading-none`;
 const largeState = `${shared} pointer-events-none text-white text-title py-10 text-shadow-title`;
@@ -42,7 +42,7 @@ export const Header = ({
         {isSmall ? (
           <Link
             className="o-sliding-background-link font-bold"
-            to={RoutesPath.home}
+            to={RoutePaths.home}
           >
             Benjamin
             <br />
