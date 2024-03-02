@@ -15,5 +15,8 @@ Disallow: /*.bmp$
 Disallow: /*.js$
 Disallow: /*.css$
 
+# Utility pages
+Disallow: /subscribe-success/
+
 # Sitemap location
 # Sitemap: https://www.benjamincharity.com/sitemap.xml

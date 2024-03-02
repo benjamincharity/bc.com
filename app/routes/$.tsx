@@ -1,7 +1,7 @@
 import { redirect } from '@remix-run/node';
 
-import { RoutesPath } from '~/data/routes.data';
+import { RoutePaths } from '~/data/routes.data';
 
 export function loader() {
-  return redirect(RoutesPath.home);
+  return redirect(RoutePaths.home);
 }
