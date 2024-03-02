@@ -113,7 +113,7 @@ const App = React.memo(() => {
   // noinspection HtmlRequiredTitleElement
   return (
     <html
-      className={`${isBgVisible ? 'h-full w-full overflow-hidden' : 'overflow-x-hidden'} ${theme}`}
+      className={`${isBgVisible ? 'h-full w-full overflow-hidden' : 'overflow-x-hidden'} ${theme ?? ''}`}
       lang="en"
     >
       <head>

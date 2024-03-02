@@ -1,12 +1,11 @@
 import { redirect } from '@remix-run/node';
 import { LoaderFunction } from '@remix-run/server-runtime';
 import { ActionFunction, json } from '@vercel/remix';
+import { z } from 'zod';
 
-interface SubscriberShape {
-  email: string;
-  tags: string[];
-  referrer?: string;
-}
+const EmailSchema = z.object({
+  email: z.string().email(),
+});
 
 export interface ActionResponse {
   ok?: boolean;
@@ -14,11 +13,16 @@ export interface ActionResponse {
 }
 
 export const action: ActionFunction = async ({ request }) => {
-  console.log('********: ', request);
   const formData = await request.formData();
   const email = formData.get('email');
-  const tags = formData.get('tags') as string | null;
-  const referrer = request.headers.get('Referer');
+  const referrerOriginal = request.headers.get('Referer') ?? '';
+  // NOTE: this is to strip out any existing search params
+  const referrer = new URL(referrerOriginal);
+  const { success: emailIsValid } = EmailSchema.safeParse({ email });
+
+  if (!emailIsValid) {
+    return redirect(`${referrer}?subscribe-error=invalid-email`);
+  }
 
   try {
     const response = await fetch(
@@ -32,28 +36,39 @@ export const action: ActionFunction = async ({ request }) => {
         body: JSON.stringify({
           email,
           referrer,
-          tags: tags ? tags.split(',') : [],
         }),
       }
     );
-    console.log('response: ', response.status);
+    const responseJson = await response.json();
 
-    if (response.status === 401) {
-      // return json({ error: 'Unauthorized' });
+    if (responseJson.code === 'email_already_exists') {
+      return redirect(`${referrer}?subscribe-error=email-already-subscribed`);
+    }
+
+    if (response.status === 401 || response.status === 403) {
       return redirect(`${referrer}?subscribe-error=unauthorized`);
     }
+    if (response.status === 302) {
+      return redirect(`${referrer}?subscribe-error=already-subscribed`);
+    }
+    if (
+      response.status === 400 ||
+      response.status === 404 ||
+      response.status === 500
+    ) {
+      return redirect(`${referrer}?subscribe-error=unknown-error`);
+    }
+    return redirect(`${referrer}?subscribe-success=true`);
   } catch (error) {
     return json({ error });
   }
 };
 
-export const loader: LoaderFunction = async ({ request }) => {
-  // You can decide what you want to do here. For example, you might want to redirect to the homepage
-  // or just return a simple message indicating that this route is not meant to be accessed via GET.
+export const loader: LoaderFunction = async () => {
   return new Response(
     'This route is for newsletter subscriptions. Please use the form to subscribe.',
     {
-      status: 200, // OK status, but you might want to use a different status code or redirect
+      status: 200,
     }
   );
 };
