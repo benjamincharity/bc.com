@@ -3,6 +3,7 @@ import React from 'react';
 
 import { siteMetadata } from '~/data/siteMetadata';
 
+import { ArticleTitleLink } from '~/components/ArticleTitleLink';
 import { ArticleReference } from '~/utils/articles.server';
 import { useActiveBreakpoint } from '~/utils/useActiveBreakpoint';
 
@@ -17,10 +18,10 @@ export function ArticlesList({
 
   return (
     <section className={`body-font ${className}`}>
-      <div className="container mx-auto px-5 py-8">
+      <div className="container mx-auto py-8">
         <Article article={firstArticle} />
 
-        <div className="grid grid-cols-1 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
           {rest?.map((item) => {
             return (
               <Article article={item} key={item.slug} layoutSize={'small'} />
@@ -52,34 +53,32 @@ function Article({ article, layoutSize = 'large', ...divProps }: ArticleProps) {
 
   return (
     <div
-      className={`group ${layoutSize === 'small' ? 'p-4' : 'mb-8 w-full'}`}
+      className={`group ${layoutSize === 'small' ? '' : 'mb-8 w-full'}`}
       key={slug}
       {...divProps}
     >
       <div className="flex h-full flex-col overflow-hidden rounded-lg">
         <img
           alt={title}
-          className={`inline-block ${layoutSize === 'large' ? 'lg:aspect-first-hero' : 'lg:aspect-video'} w-full max-w-full bg-gradient-to-r from-indigo-200 to-yellow-100 text-center text-xs italic leading-loose text-gray-600 outline-gray-300`}
+          className={`inline-block ${layoutSize === 'large' ? 'lg:aspect-first-hero' : 'lg:aspect-video'} aspect-video w-full max-w-full bg-gradient-to-r from-indigo-200 to-yellow-100 text-center text-xs italic leading-loose text-gray-600 outline-gray-300`}
           src={`${CDN_URL_BASE}${images[0]}`}
         />
         <div className="flex-1 rounded-b-lg border-2 border-t-0 border-gray-500 border-opacity-20 p-6 transition hover:border-opacity-50">
           <TagsDisplay tags={tags} />
-          <h1 className={'mb-3 line-clamp-3'} title={title}>
-            <Link className={'link-underline text-2xl font-semibold'} to={url}>
-              {title}
-            </Link>
-          </h1>
-          <p className="mb-3 line-clamp-6 text-lg leading-relaxed">{summary}</p>
+          <ArticleTitleLink title={title} to={url} />
+          <p className="line-clamp-8 my-3 text-lg leading-relaxed text-slate-700 dark:text-slate-100">
+            {summary}
+          </p>
           <div className="flex flex-wrap items-center justify-between">
             <Link
-              className="group inline-flex items-center font-semibold text-indigo-500 underline underline-offset-4 dark:text-indigo-400"
+              className="animated-gradient-text group inline-flex items-center border-b-2 border-b-rose-600 border-opacity-40 font-semibold transition hover:border-opacity-80 dark:border-b-rose-400 dark:border-opacity-20 dark:hover:border-opacity-80"
               to={url}
             >
               Read more
               <svg
                 className="ml-1 h-4 w-4 transition-all group-hover:ml-2"
                 fill="none"
-                stroke="currentColor"
+                stroke="#db2777"
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth="2"
@@ -90,7 +89,7 @@ function Article({ article, layoutSize = 'large', ...divProps }: ArticleProps) {
               </svg>
             </Link>
 
-            <span className="inline-block items-center text-sm leading-none before:mr-1 before:inline-block before:opacity-60 before:transition-opacity before:content-['⌚'] group-hover:before:opacity-100">
+            <span className="inline-block items-center text-sm leading-none text-slate-600 before:mr-1 before:inline-block before:opacity-60 before:transition-opacity before:content-['⌚'] group-hover:before:opacity-100 dark:text-slate-200">
               {readingTime}min
             </span>
           </div>
@@ -109,7 +108,7 @@ function TagsDisplay({ tags, ...divProps }: TagsDisplayProps) {
 
   return (
     <div
-      className={`mb-1 line-clamp-2 flex flex-wrap gap-x-4 gap-y-1 font-code text-xs tracking-wide opacity-60 ${className}`}
+      className={`mb-1 flex flex-wrap gap-x-4 gap-y-1 font-code text-xs tracking-wide opacity-60 ${className}`}
       {...rest}
     >
       {tags.map((tag) => (

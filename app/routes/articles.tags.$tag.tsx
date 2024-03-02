@@ -8,14 +8,13 @@ import { RoutePaths } from '~/data/routes.data';
 import { siteMetadata } from '~/data/siteMetadata';
 
 import { ArticlesList } from '~/components/Articles/ArticlesList';
+import { BackToLink } from '~/components/BackToLink';
 import { BackToTop } from '~/components/BackToTop';
 import { BrowseByTags } from '~/components/BrowseByTags';
 import { Footer } from '~/components/Footer';
 import { ArticleReference, getAllArticles } from '~/utils/articles.server';
 import { generateMetaCollection } from '~/utils/generateMetaCollection';
 import { getTagsFromArticles } from '~/utils/getTagsFromArticles';
-
-import { BackToLink } from '../components/BackToLink';
 
 interface Params {
   tag: string;
@@ -67,7 +66,7 @@ export default function Tag() {
   return (
     <section
       aria-labelledby="tagged-posts-header"
-      className="prose-wrapper max-w-articleMaxWidth"
+      className="prose-wrapper prose-wrapper--large"
     >
       <header>
         <h1

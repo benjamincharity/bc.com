@@ -46,7 +46,7 @@ export default function Tags() {
   const { tags } = useLoaderData<LoaderData>();
 
   return (
-    <main className="prose-wrapper">
+    <main className="prose-wrapper prose-wrapper--large">
       <PrimaryTitle title={'Tags'} className={'text-center'} />
       <BackToLink to={RoutePaths.articles} />
 

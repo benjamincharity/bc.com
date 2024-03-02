@@ -83,8 +83,16 @@
 }
 
 @layer utility {
+  /*FOR DEV*/
+  .callout {
+    @apply bg-yellow-400 bg-opacity-10 outline-dashed outline-4 outline-orange-500;
+  }
+
   .prose-wrapper {
     @apply relative z-20 m-auto max-w-articleMaxWidth px-4 pt-12;
+  }
+  .prose-wrapper--large {
+    @apply container px-5 py-8 pb-6;
   }
 
   .quote {
@@ -122,6 +130,33 @@
   }
 }
 
+@layer components {
+  /*ANIMATED LINK UNDERLINE*/
+  .link-underline {
+    border-bottom-width: 0;
+    background-image: linear-gradient(transparent, transparent),
+      linear-gradient(90deg, #2dd4bf, #0d9488);
+    background-size: 0 3px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: all 0.2s ease-in-out;
+  }
+  .link-underline.link-underline--small {
+    background-size: 0 1px;
+  }
+  .dark .link-underline {
+    background-image: linear-gradient(transparent, transparent),
+      linear-gradient(#fff, #fff);
+  }
+  .link-underline:hover {
+    background-size: 100% 3px;
+    background-position: 0 100%;
+  }
+  .link-underline.link-underline--small:hover {
+    background-size: 100% 1px;
+  }
+}
+
 /*noinspection CssNoGenericFontName*/
 @supports not (font-family: 'VT323') {
   h1 {
@@ -149,6 +184,42 @@ strong {
       100% 100%,
       0 100%;
   }
+}
+
+/*Add any custom utility classes here*/
+@keyframes gradient-animation {
+  0% {
+    background-position: 0 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+a.animated-gradient-text {
+  -webkit-background-clip: text;
+  animation: gradient-animation 16s linear infinite;
+  background-image: linear-gradient(
+    90deg,
+    #f43f5e,
+    #5b21b6,
+    #d97706,
+    #f43f5e,
+    #5b21b6
+  );
+  background-clip: text;
+  background-size: 450% 100%;
+  color: transparent;
+}
+.dark a.animated-gradient-text {
+  background-image: linear-gradient(
+    90deg,
+    #f43f5e,
+    #eab308,
+    #d97706,
+    #f43f5e,
+    #eab308
+  );
 }
 
 .rendered-markdown hr,
