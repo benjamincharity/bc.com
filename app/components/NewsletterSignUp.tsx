@@ -126,7 +126,7 @@ export function NewsletterSignUp({
                     <div className={'relative'}>
                       <input
                         aria-describedby="bd-email-helper"
-                        className={`block h-full w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-sm outline-none transition focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50 dark:border-gray-700 dark:bg-slate-900 dark:text-gray-400 dark:focus:ring-gray-600 ${emailError ? 'border-red-500 focus:border-red-500 focus:ring-red-500 dark:border-red-300' : 'border-slate-300 focus:border-blue-500 focus:ring-blue-500'}`}
+                        className={`block h-full w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-[16px] outline-none transition focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50 dark:border-gray-700 dark:bg-slate-900 dark:text-gray-400 dark:focus:ring-gray-600 ${emailError ? 'border-red-500 focus:border-red-500 focus:ring-red-500 dark:border-red-300' : 'border-slate-300 focus:border-blue-500 focus:ring-blue-500'}`}
                         id="bd-email"
                         name="email"
                         onChange={validateEmail}
