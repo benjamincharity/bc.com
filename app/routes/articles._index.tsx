@@ -78,7 +78,7 @@ export default function Index() {
   };
 
   return (
-    <section className={'prose-wrapper container mx-auto px-5 py-8 pb-6'}>
+    <section className={'prose-wrapper prose-wrapper--large'}>
       <div className="flex justify-between align-middle">
         <BackToLink to={RoutePaths.home}>Home</BackToLink>
         <button

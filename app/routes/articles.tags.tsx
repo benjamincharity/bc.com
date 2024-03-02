@@ -1,9 +1,8 @@
-// app/routes/articles.tsx
 import { Outlet } from '@remix-run/react';
 
 export default function TagsLayout() {
   return (
-    <div>
+    <div data-e2e={'tags'}>
       <Outlet />
     </div>
   );
