@@ -66,7 +66,7 @@ function Article({ article, layoutSize = 'large', ...divProps }: ArticleProps) {
         <div className="flex-1 rounded-b-lg border-2 border-t-0 border-gray-500 border-opacity-20 p-6 transition hover:border-opacity-50">
           <TagsDisplay tags={tags} />
           <ArticleTitleLink title={title} to={url} />
-          <p className="line-clamp-8 my-3 text-lg leading-relaxed text-slate-700 dark:text-slate-100">
+          <p className="my-3 line-clamp-8 text-lg leading-relaxed text-slate-700 dark:text-slate-100">
             {summary}
           </p>
           <div className="flex flex-wrap items-center justify-between">
