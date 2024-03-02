@@ -34,6 +34,10 @@ import {
 import { getThemeSession } from '~/utils/theme.server';
 import { useConsoleArt } from '~/utils/useConsoleArt';
 
+import stylesheet from './styles/shared.css';
+
+const isProd = process.env.NODE_ENV === 'production';
+
 interface LoaderData {
   css: string;
   filePath: string;
@@ -72,7 +76,13 @@ export async function loader({ request }: { request: Request }) {
 }
 
 export const links: LinksFunction = () => {
-  return [{ rel: 'preconnect', href: 'https://res.cloudinary.com' }];
+  const links = [{ rel: 'preconnect', href: 'https://res.cloudinary.com' }];
+
+  if (process.env.NODE_ENV === 'development') {
+    links.push({ rel: 'stylesheet', href: stylesheet });
+  }
+
+  return links;
 };
 
 export const meta: MetaFunction = () => {
@@ -108,7 +118,7 @@ const App = React.memo(() => {
     >
       <head>
         <Meta />
-        <style dangerouslySetInnerHTML={{ __html: css }} />
+        <style dangerouslySetInnerHTML={{ __html: isProd ? css : '' }} />
         <link rel="manifest" href="/manifest.webmanifest" />
         <Links />
         <ThemeHead ssrTheme={Boolean(loaderTheme)} />

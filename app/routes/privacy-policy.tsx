@@ -1,4 +1,18 @@
+import { MetaFunction } from '@remix-run/node';
+
+import { siteMetadata } from '~/data/siteMetadata';
+
 import { Datetime } from '~/components/Datetime';
+import { generateMetaCollection } from '~/utils/generateMetaCollection';
+
+export const meta: MetaFunction = () => {
+  return generateMetaCollection({
+    summary:
+      'Our Privacy Policy explains how we collect, use, and share information from or about you when you visit our website hosted on Vercel, engage with our speed insights and analytics, and sign up for our services through Buttondown.',
+    title: 'Privacy Policy',
+    url: `${siteMetadata.url}/privacy-policy`,
+  });
+};
 
 const updatedDate = new Date('2024-03-01').toDateString();
 
@@ -17,12 +31,12 @@ export default function PrivacyPolicy() {
         </p>
 
         <p>
-          Welcome to BenjaminCharity.com ("we," "us," "our"). We respect your
-          privacy and are committed to protecting your personal information.
-          This Privacy Policy explains how we collect, use, and share
-          information from or about you when you visit our website hosted on
-          Vercel, engage with our speed insights and analytics, and sign up for
-          our services through Buttondown.
+          Welcome to BenjaminCharity.com (&quot;we,&quot; &quot;us,&quot;
+          &quot;our&quot;). We respect your privacy and are committed to
+          protecting your personal information. This Privacy Policy explains how
+          we collect, use, and share information from or about you when you
+          visit our website hosted on Vercel, engage with our speed insights and
+          analytics, and sign up for our services through Buttondown.
         </p>
 
         <h2>Collection of Information</h2>
@@ -78,7 +92,7 @@ export default function PrivacyPolicy() {
         <p>
           We may update this Privacy Policy from time to time. We will notify
           you of any changes by posting the new Privacy Policy on this page and
-          updating the "Last Updated" date at the top.
+          updating the &quot;Last Updated&quot; date at the top.
         </p>
 
         <h2>Contact Us</h2>
