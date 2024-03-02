@@ -78,7 +78,7 @@ export async function loader({ request }: { request: Request }) {
 export const links: LinksFunction = () => {
   const links = [{ rel: 'preconnect', href: 'https://res.cloudinary.com' }];
 
-  if (process.env.NODE_ENV === 'development') {
+  if (!isProd) {
     links.push({ rel: 'stylesheet', href: stylesheet });
   }
 
