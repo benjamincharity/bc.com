@@ -10,6 +10,7 @@ export const COMPANIES: ReadonlyArray<string> = [
   'NCAA',
   'NCR',
   'NFL',
+  'Revelation Pharma',
   'Showcase IDX',
   'Terminus Software',
   'The Home Depot',
