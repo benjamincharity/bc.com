@@ -300,6 +300,9 @@ a.animated-gradient-text {
 .rendered-markdown h3 {
   @apply mb-2 mt-5 text-xl;
 }
+.rendered-markdown h3 + section {
+  @apply mt-4;
+}
 .rendered-markdown p {
   @apply my-5 text-gray-800 dark:text-gray-100;
 }
@@ -319,7 +322,7 @@ a.animated-gradient-text {
   @apply cursor-help;
   text-underline-offset: 2px;
 }
-.rendered-markdown strong:not(li > strong) {
+.rendered-markdown strong:not(li strong) {
   @apply highlight;
 }
 
