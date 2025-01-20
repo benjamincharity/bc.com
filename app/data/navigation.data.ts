@@ -10,8 +10,7 @@ export const NAVIGATION_LINKS = [
   },
   {
     display: 'Resume',
-    destination:
-      'https://www.notion.so/benjamincharity/Benjamin-Charity-s-Resume-44d3f50749e243a2b53b684f595ddb89',
+    destination: 'https://benjamincharity.notion.site/benjamin-charity-resume',
   },
   {
     display: 'LinkedIn',
