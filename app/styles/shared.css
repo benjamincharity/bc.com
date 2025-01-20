@@ -319,7 +319,7 @@ a.animated-gradient-text {
   @apply cursor-help;
   text-underline-offset: 2px;
 }
-.rendered-markdown strong:not(li strong) {
+.rendered-markdown strong:not(li > strong) {
   @apply highlight;
 }
 
