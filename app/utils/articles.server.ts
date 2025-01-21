@@ -14,9 +14,8 @@ import { readFile, readdir } from './fs.server';
 
 const METADATA_CACHE_PATH = path.join(
   process.cwd(),
-  'app',
-  'articles',
-  '.metadata.json'
+  '.cache',
+  'articles-metadata.json'
 );
 
 export interface Frontmatter {
@@ -35,7 +34,7 @@ export interface Frontmatter {
   title: string;
   updatedDate: string;
   url: string;
-  urlPath?: string;
+  urlPath: string;
 }
 
 /**
@@ -72,6 +71,10 @@ export async function generateMetadataCache() {
   const sortedArticles = articles
     .filter((article) => !article.frontmatter.draft)
     .sort(compareArticles);
+
+  // Ensure cache directory exists
+  const cacheDir = path.join(process.cwd(), '.cache');
+  await fs.promises.mkdir(cacheDir, { recursive: true });
 
   await fs.promises.writeFile(
     METADATA_CACHE_PATH,

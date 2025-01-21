@@ -1,7 +1,12 @@
 import { useReducedMotion } from '@mantine/hooks';
-import { type MetaFunction, json } from '@remix-run/node';
-import { useLoaderData, useSearchParams } from '@remix-run/react';
-import React, { useMemo } from 'react';
+import { type LinksFunction, type MetaFunction, json } from '@remix-run/node';
+import {
+  Links,
+  PrefetchPageLinks,
+  useLoaderData,
+  useSearchParams,
+} from '@remix-run/react';
+import React, { useEffect, useMemo } from 'react';
 
 import { TagsPayload } from '~/types/articles';
 import { FixMeLater } from '~/types/shame';
@@ -15,6 +20,7 @@ import { BackToTop } from '~/components/BackToTop';
 import { Badge } from '~/components/Badge';
 import { BrowseByTags } from '~/components/BrowseByTags';
 import { NewsletterSignUp } from '~/components/NewsletterSignUp';
+import { PreloadImages } from '~/components/PreloadImages';
 import {
   ArticleReference,
   getAllTags,
@@ -29,6 +35,7 @@ const PER_PAGE = 6;
 
 interface LoaderData {
   articles: ArticleReference[];
+  preloadArticles: ArticleReference[];
   page: number;
   tags: TagsPayload;
   theme: Theme;
@@ -41,15 +48,31 @@ export async function loader({ request }: { request: Request }) {
   const perPageCount = page === 1 ? PER_PAGE_FIRST : PER_PAGE;
   const total = (page !== 1 ? 1 : 0) + page * perPageCount;
   const articles = await getLatestArticles(total);
+  const preloadArticles = await getLatestArticles(20);
   const tags = await getAllTags();
 
   return json<LoaderData>(
-    { articles, tags, page, theme },
+    { articles, preloadArticles, tags, page, theme },
     {
       headers: { 'Cache-Control': 'private, max-age=10' },
     }
   );
 }
+
+export const handle = {
+  getPreloadLinks: (data: LoaderData) => {
+    if (!data?.preloadArticles) return [];
+
+    // Skip the first 4 articles that were already preloaded in root.tsx
+    return data.preloadArticles.slice(4).flatMap((article) =>
+      article.frontmatter.images.map((image) => ({
+        rel: 'preload' as const,
+        href: `${siteMetadata.articleImagePath}${image}`,
+        as: 'image' as const,
+      }))
+    );
+  },
+};
 
 export const meta: MetaFunction = ({ data }: FixMeLater) => {
   return generateMetaCollection({
@@ -61,13 +84,27 @@ export const meta: MetaFunction = ({ data }: FixMeLater) => {
   });
 };
 
+export const links: LinksFunction = () => {
+  return [];
+};
+
 export default function Index() {
-  const { articles, tags, page } = useLoaderData<LoaderData>();
+  const { articles, preloadArticles, tags, page, theme } =
+    useLoaderData<LoaderData>();
   const [searchParams] = useSearchParams();
   const query = useMemo(() => searchParams.get('q'), [searchParams]);
   const reduceMotion = useReducedMotion();
   const hasNextPage = articles.length >= PER_PAGE * page;
   const nextPageLink = `${RoutePaths.articles}?page=${page + 1}`;
+
+  // Get preload links from handle
+  const preloadLinks = handle.getPreloadLinks({
+    articles,
+    preloadArticles,
+    tags,
+    page,
+    theme,
+  });
 
   const scrollToBottom = (event: React.MouseEvent) => {
     event.preventDefault();
@@ -79,6 +116,18 @@ export default function Index() {
 
   return (
     <section className={'prose-wrapper prose-wrapper--large'}>
+      {preloadLinks.map((link, i) => (
+        <link key={i} {...link} />
+      ))}
+
+      {/* Prefetch article routes that weren't preloaded in root.tsx */}
+      {preloadArticles.slice(4).map((article) => (
+        <PrefetchPageLinks
+          key={article.slug}
+          page={article.frontmatter.urlPath}
+        />
+      ))}
+
       <div className="flex justify-between align-middle">
         <BackToLink to={RoutePaths.home}>Home</BackToLink>
         <button
