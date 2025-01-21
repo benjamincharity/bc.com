@@ -12,13 +12,12 @@ export interface ActionResponse {
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
   const email = formData.get('email') as string;
-  const referrerOriginal = request.headers.get('Referer') ?? '';
-  // NOTE: this is to strip out any existing search params
-  const referrer = new URL(referrerOriginal);
+  const tags = formData.getAll('tag') as string[];
+  const formReferrer = formData.get('referrer') as string;
   const emailIsValid = isValidEmailAddress(email);
 
   if (!emailIsValid) {
-    return redirect(`${referrer}?subscribe-error=invalid-email`);
+    return redirect(`${formReferrer}?subscribe-error=invalid-email`);
   }
 
   try {
@@ -32,30 +31,33 @@ export const action: ActionFunction = async ({ request }) => {
         },
         body: JSON.stringify({
           email,
-          referrer,
+          referrer_url: formReferrer,
+          tags: tags.length > 0 ? tags : undefined,
         }),
       }
     );
     const responseJson = await response.json();
 
     if (responseJson.code === 'email_already_exists') {
-      return redirect(`${referrer}?subscribe-error=email-already-subscribed`);
+      return redirect(
+        `${formReferrer}?subscribe-error=email-already-subscribed`
+      );
     }
 
     if (response.status === 401 || response.status === 403) {
-      return redirect(`${referrer}?subscribe-error=unauthorized`);
+      return redirect(`${formReferrer}?subscribe-error=unauthorized`);
     }
     if (response.status === 302) {
-      return redirect(`${referrer}?subscribe-error=already-subscribed`);
+      return redirect(`${formReferrer}?subscribe-error=already-subscribed`);
     }
     if (
       response.status === 400 ||
       response.status === 404 ||
       response.status === 500
     ) {
-      return redirect(`${referrer}?subscribe-error=unknown-error`);
+      return redirect(`${formReferrer}?subscribe-error=unknown-error`);
     }
-    return redirect(`${referrer}?subscribe-success=true`);
+    return redirect(`${formReferrer}?subscribe-success=true`);
   } catch (error) {
     return json({ error });
   }

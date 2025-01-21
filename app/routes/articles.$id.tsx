@@ -140,7 +140,7 @@ export default function Article() {
         </section>
       </article>
 
-      <NewsletterSignUp />
+      <NewsletterSignUp tags={localTags?.map((tag) => tag[0])} />
 
       <hr className={'fancy'} />
 
