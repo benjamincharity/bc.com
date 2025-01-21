@@ -77,7 +77,38 @@ export async function loader({ request }: { request: Request }) {
 }
 
 export const links: LinksFunction = () => {
-  const links = [{ rel: 'preconnect', href: 'https://res.cloudinary.com' }];
+  const links = [
+    { rel: 'preconnect', href: 'https://res.cloudinary.com' },
+    // Preload font files
+    {
+      rel: 'preload',
+      href: '/fonts/VT323Regularsubset2.woff2',
+      as: 'font',
+      type: 'font/woff2',
+      crossOrigin: 'anonymous' as const,
+    },
+    {
+      rel: 'preload',
+      href: '/fonts/sourceserif4latin400normalsubset.woff2',
+      as: 'font',
+      type: 'font/woff2',
+      crossOrigin: 'anonymous' as const,
+    },
+    {
+      rel: 'preload',
+      href: '/fonts/sourceserif4latin600normalsubset.woff2',
+      as: 'font',
+      type: 'font/woff2',
+      crossOrigin: 'anonymous' as const,
+    },
+    {
+      rel: 'preload',
+      href: '/fonts/sourceserif4latin700normalsubset.woff2',
+      as: 'font',
+      type: 'font/woff2',
+      crossOrigin: 'anonymous' as const,
+    },
+  ];
 
   if (!isProd) {
     links.push({ rel: 'stylesheet', href: stylesheet });
