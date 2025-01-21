@@ -1,4 +1,5 @@
 import parseFrontMatter from 'front-matter';
+import fs from 'fs';
 import matter from 'gray-matter';
 import path from 'path';
 
@@ -10,6 +11,13 @@ import { getTagsFromArticles } from '~/utils/getTagsFromArticles';
 import { toHTML } from '~/utils/mdxProcessor.server';
 
 import { readFile, readdir } from './fs.server';
+
+const METADATA_CACHE_PATH = path.join(
+  process.cwd(),
+  'app',
+  'articles',
+  '.metadata.json'
+);
 
 export interface Frontmatter {
   draft?: boolean;
@@ -26,7 +34,7 @@ export interface Frontmatter {
   tags: string[];
   title: string;
   updatedDate: string;
-  url?: string;
+  url: string;
   urlPath?: string;
 }
 
@@ -56,11 +64,51 @@ export interface ArticleReference {
 }
 
 /**
+ * Generates a metadata cache file during build time
+ * This should be called as part of your build process
+ */
+export async function generateMetadataCache() {
+  const articles = await fetchArticles();
+  const sortedArticles = articles
+    .filter((article) => !article.frontmatter.draft)
+    .sort(compareArticles);
+
+  await fs.promises.writeFile(
+    METADATA_CACHE_PATH,
+    JSON.stringify(sortedArticles, null, 2)
+  );
+}
+
+/**
+ * Reads article metadata from cache if available
+ */
+async function readMetadataCache(): Promise<ArticleReference[] | null> {
+  try {
+    const cacheContent = await fs.promises.readFile(
+      METADATA_CACHE_PATH,
+      'utf-8'
+    );
+    return JSON.parse(cacheContent);
+  } catch {
+    return null;
+  }
+}
+
+/**
  * Fetches all articles
  *
  * @returns A Promise that resolves to an array of ArticleReference objects.
  */
 async function fetchArticles(count?: number): Promise<ArticleReference[]> {
+  console.log('fetchArticles', process.env.NODE_ENV);
+  // In production, try to read from cache first
+  if (process.env.NODE_ENV === 'production') {
+    const cached = await readMetadataCache();
+    if (cached) {
+      return cached.slice(0, count);
+    }
+  }
+
   const filePath = path.join(process.cwd(), 'app', 'articles');
 
   const postsPath = await readdir(filePath, {
@@ -80,9 +128,9 @@ async function fetchArticles(count?: number): Promise<ArticleReference[]> {
       return {
         slug,
         frontmatter: {
+          ...attributes,
           url,
           urlPath,
-          ...attributes,
         },
       };
     })
@@ -116,8 +164,7 @@ export async function getAllArticles(): Promise<ArticleReference[]> {
 export async function getLatestArticles(
   count = 10
 ): Promise<ArticleReference[]> {
-  const allArticles = await fetchArticles();
-  return allArticles.slice(0, count);
+  return await fetchArticles(count);
 }
 
 export async function getAllTags(): Promise<TagsPayload> {

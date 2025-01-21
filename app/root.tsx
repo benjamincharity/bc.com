@@ -14,8 +14,10 @@ import {
 } from '@remix-run/react';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/remix';
-import React, { useEffect, useState } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import { ExternalScripts } from 'remix-utils/external-scripts';
+
+import { siteMetadata } from '~/data/siteMetadata';
 
 import { ErrorPage } from '~/components/ErrorPage';
 import { FancyBackground } from '~/components/FancyBackground/FancyBackground';
@@ -40,7 +42,6 @@ const isProd = process.env.NODE_ENV === 'production';
 
 interface LoaderData {
   css: string;
-  filePath: string;
   latestArticles: ArticleReference[];
   showBackground: boolean;
   theme: Theme;
@@ -85,11 +86,25 @@ export const links: LinksFunction = () => {
   return links;
 };
 
+export const handle = {
+  getPreloadLinks: (data: LoaderData) => {
+    if (!data?.latestArticles) return [];
+
+    return data.latestArticles.slice(0, 4).flatMap((article) =>
+      article.frontmatter.images.map((image) => ({
+        rel: 'preload' as const,
+        href: `${siteMetadata.articleImagePath}${image}`,
+        as: 'image' as const,
+      }))
+    );
+  },
+};
+
 export const meta: MetaFunction = () => {
   return [...generateMetaCollection()];
 };
 
-const App = React.memo(() => {
+const App = memo(() => {
   const {
     showBackground,
     css,
@@ -109,6 +124,14 @@ const App = React.memo(() => {
     navigationState$.history.push(location.pathname);
   }, [location.pathname]);
 
+  // Get preload links from handle
+  const preloadLinks = handle.getPreloadLinks({
+    showBackground,
+    css,
+    latestArticles,
+    theme: loaderTheme,
+  });
+
   // NOTE: The title tag and all other elements will be injected.
   // noinspection HtmlRequiredTitleElement
   return (
@@ -121,6 +144,9 @@ const App = React.memo(() => {
         <style dangerouslySetInnerHTML={{ __html: isProd ? css : '' }} />
         <link rel="manifest" href="/manifest.webmanifest" />
         <Links />
+        {preloadLinks.map((link, i) => (
+          <link key={i} {...link} />
+        ))}
         <ThemeHead ssrTheme={Boolean(loaderTheme)} />
       </head>
 
@@ -137,7 +163,7 @@ const App = React.memo(() => {
         {latestArticles.map((article) => (
           <PrefetchPageLinks
             key={article.slug}
-            page={'/articles/' + article.slug}
+            page={article.frontmatter.url}
           />
         ))}
 
