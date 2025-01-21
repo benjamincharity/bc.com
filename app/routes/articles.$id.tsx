@@ -1,3 +1,4 @@
+import { SEOHandle } from '@nasa-gcn/remix-seo';
 import { MetaFunction } from '@remix-run/node';
 import { useLoaderData, useLocation } from '@remix-run/react';
 import type { LoaderFunction } from '@remix-run/server-runtime';
@@ -77,7 +78,7 @@ It might have been removed or doesn't exist. Please double-check the URL or go b
   }
 };
 
-export const handle: ExternalScriptsHandle = {
+export const handle: SEOHandle & ExternalScriptsHandle = {
   scripts: [
     {
       src: 'https://cpwebassets.codepen.io/assets/embed/ei.js',
@@ -85,6 +86,15 @@ export const handle: ExternalScriptsHandle = {
       preload: true,
     },
   ],
+  getSitemapEntries: async () => {
+    const articles = await getAllArticles();
+    return articles.map((article) => ({
+      route: `/articles/${article.slug}`,
+      priority: 0.7,
+      lastmod:
+        article.frontmatter.updatedDate || article.frontmatter.publishDate,
+    }));
+  },
 };
 
 export const meta: MetaFunction = ({ data }: FixMeLater) => {

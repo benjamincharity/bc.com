@@ -6,6 +6,7 @@
     "@legendapp/state": "2.1.4",
     "@mantine/hooks": "7.4.2",
     "@mdx-js/mdx": "3.0.0",
+    "@nasa-gcn/remix-seo": "2.0.1",
     "@remix-pwa/cache": "2.0.12",
     "@remix-pwa/strategy": "2.1.9",
     "@remix-pwa/sw": "2.1.12",
