@@ -60,7 +60,7 @@ function getURLParams(src: string): Record<string, string> {
   return paramsObj;
 }
 
-const imageBreakpoints = [320, 480, 640, 800];
+const imageBreakpoints = [640, 800, 1024, 1280];
 
 function generateSizes(breakpoints: number[]): string {
   return breakpoints
@@ -81,12 +81,16 @@ function generateSrcset(
   height?: number,
   width?: number
 ): string {
-  const breakpoints = isHighRes ? [640, 800, 960, 1200] : imageBreakpoints;
+  const viewportBreakpoints = imageBreakpoints;
+  // For high res, we'll serve 2x size images while maintaining same viewport breakpoints
+  const breakpoints = isHighRes
+    ? viewportBreakpoints.map((size) => size * 2)
+    : viewportBreakpoints;
   const hString = height ? `h_${height},` : '';
   return breakpoints
     .map(
-      (size) =>
-        `https://res.cloudinary.com/${CLOUDINARY_ACCOUNT}/image/upload/c_scale,${hString}w_${width ?? size}/f_auto/article-content/${src} ${size}w`
+      (size, i) =>
+        `https://res.cloudinary.com/${CLOUDINARY_ACCOUNT}/image/upload/c_scale,${hString}w_${width ?? size}/f_auto/article-content/${src} ${viewportBreakpoints[i]}w`
     )
     .join(', ');
 }
@@ -114,11 +118,10 @@ const rehypeRewriteOptions: RehypeRewriteOptions = {
           customWidth
         );
         const hString = customHeight ? `h_${customHeight},` : '';
+        // Use the viewport size for the fallback src, not the high-res size
         const w = customWidth ?? imageBreakpoints[imageBreakpoints.length - 1];
         const finalSrc = `https://res.cloudinary.com/${CLOUDINARY_ACCOUNT}/image/upload/c_scale,${hString}w_${w}/f_auto/article-content/${src}`;
-        const sizes = generateSizes(
-          isHighRes ? [640, 800, 960, 1200] : imageBreakpoints
-        );
+        const sizes = generateSizes(imageBreakpoints);
 
         node.properties = {
           ...node.properties,
