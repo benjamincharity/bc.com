@@ -20,7 +20,6 @@ import { BackToTop } from '~/components/BackToTop';
 import { Badge } from '~/components/Badge';
 import { BrowseByTags } from '~/components/BrowseByTags';
 import { NewsletterSignUp } from '~/components/NewsletterSignUp';
-import { PreloadImages } from '~/components/PreloadImages';
 import {
   ArticleReference,
   getAllTags,
