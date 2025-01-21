@@ -5,7 +5,6 @@ import { siteMetadata } from '~/data/siteMetadata';
 
 import { ArticleTitleLink } from '~/components/ArticleTitleLink';
 import { ArticleReference } from '~/utils/articles.server';
-import { useActiveBreakpoint } from '~/utils/useActiveBreakpoint';
 
 export function ArticlesList({
   articles = [],
@@ -42,14 +41,6 @@ function Article({ article, layoutSize = 'large', ...divProps }: ArticleProps) {
   const url = `/articles/${article.slug}`;
   const { slug, frontmatter } = article;
   const { title, summary, readingTime, images, tags } = frontmatter;
-  const breakpoint = useActiveBreakpoint();
-  const CDN_URL_BASE =
-    layoutSize === 'large' &&
-    breakpoint !== 'xs' &&
-    breakpoint !== 'sm' &&
-    breakpoint !== 'md'
-      ? siteMetadata.articleThinImagePath
-      : siteMetadata.articleImagePath;
 
   return (
     <div
@@ -58,11 +49,17 @@ function Article({ article, layoutSize = 'large', ...divProps }: ArticleProps) {
       {...divProps}
     >
       <div className="flex h-full flex-col overflow-hidden rounded-lg">
-        <img
-          alt={title}
-          className={`inline-block ${layoutSize === 'large' ? 'lg:aspect-first-hero' : 'lg:aspect-video'} aspect-video w-full max-w-full bg-gradient-to-r from-indigo-200 to-yellow-100 text-center text-xs italic leading-loose text-gray-600 outline-gray-300`}
-          src={`${CDN_URL_BASE}${images[0]}`}
-        />
+        <Link to={url}>
+          <img
+            alt={title}
+            className={`inline-block ${
+              layoutSize === 'large'
+                ? 'lg:aspect-first-hero'
+                : 'lg:aspect-video'
+            } aspect-video w-full max-w-full bg-gradient-to-r from-indigo-200 to-yellow-100 object-cover text-center text-xs italic leading-loose text-gray-600 outline-gray-300`}
+            src={`${siteMetadata.articleImagePath}${images[0]}`}
+          />
+        </Link>
         <div className="flex-1 rounded-b-lg border-2 border-t-0 border-gray-500 border-opacity-20 p-6 transition hover:border-opacity-50">
           <TagsDisplay tags={tags} />
           <ArticleTitleLink title={title} to={url} />
