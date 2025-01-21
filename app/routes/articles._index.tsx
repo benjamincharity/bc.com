@@ -48,7 +48,7 @@ export async function loader({ request }: { request: Request }) {
   const perPageCount = page === 1 ? PER_PAGE_FIRST : PER_PAGE;
   const total = (page !== 1 ? 1 : 0) + page * perPageCount;
   const articles = await getLatestArticles(total);
-  const preloadArticles = await getLatestArticles(20);
+  const preloadArticles = await getLatestArticles(10);
   const tags = await getAllTags();
 
   return json<LoaderData>(
