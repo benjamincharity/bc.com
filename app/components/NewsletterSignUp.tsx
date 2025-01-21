@@ -5,17 +5,19 @@ import {
   useNavigate,
   useNavigation,
 } from '@remix-run/react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { isValidEmailAddress } from '~/utils/isValidEmailAddress';
 
 interface NewsletterSignUpProps extends React.HTMLProps<HTMLDivElement> {
   heading?: string;
   subheading?: string;
+  tags?: string[];
 }
 export function NewsletterSignUp({
   heading = 'Get the latest updates',
   subheading = 'Sign up to hear about new resources & articles.',
+  tags,
   ...rest
 }: NewsletterSignUpProps) {
   const { className, ...divProps } = rest;
@@ -27,6 +29,11 @@ export function NewsletterSignUp({
   const navigate = useNavigate();
   const navigation = useNavigation();
   const [emailError, setEmailError] = useState<string>('');
+  const [referrer, setReferrer] = useState('');
+
+  useEffect(() => {
+    setReferrer(window.location.href);
+  }, []);
 
   function validateEmail(event: React.ChangeEvent<HTMLInputElement>) {
     const email = event.target.value;
@@ -156,6 +163,13 @@ export function NewsletterSignUp({
                         </div>
                       )}
                     </div>
+
+                    {tags?.map((tag) => (
+                      <input key={tag} type="hidden" name="tag" value={tag} />
+                    ))}
+                    {referrer && (
+                      <input type="hidden" name="referrer" value={referrer} />
+                    )}
 
                     <button
                       className={`animate-gradient grid justify-center rounded-lg bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 px-5 py-4 text-center text-sm font-medium text-white focus:ring-4 focus:ring-purple-300 disabled:cursor-not-allowed disabled:opacity-60 dark:focus:ring-purple-800`}
