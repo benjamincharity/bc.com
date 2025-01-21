@@ -26,7 +26,7 @@ looking into fine-tuning the performance of my site I quickly ran into a wall.
 
 ## The gzip mystery
 
-![Fred Jones ready to unmask a villain](unmasking_dnn99c.jpg)
+![Fred Jones ready to unmask a villain](unmasking_dnn99c.webp)
 
 This was before many of the new tools like [Yeoman][yeoman] or [GruntJS][grunt]
 ever crossed my path, so my method was to gzip from the command line and FTP the
@@ -53,7 +53,7 @@ to S3. Or maybe just no one that cared about optimization. <sup>[1]</sup>
 
 ## The gzip answer
 
-![Fred Jones solves the case](unmasked_csgtrs.jpg)
+![Fred Jones solves the case](unmasked_csgtrs.webp)
 
 Come to find out, it was all about the content-encoding. The tricky part is that
 **while Amazon offers handy dropdowns with values for both `content-type` and
@@ -65,7 +65,7 @@ this time.)
 Head to your bucket and highlight your gzipped file and click on the
 'Properties' tab. Then expand the metadata section.
 
-![A screenshot of AWS S3 meta settings.](metadata_rpijy9.jpg)
+![A screenshot of AWS S3 meta settings.](metadata_rpijy9.webp)
 
 If you don't see these three options, just click the 'Add more metadata' button
 and select the missing ones. Now, for the value of `content-type` input
