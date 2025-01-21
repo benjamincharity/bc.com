@@ -66,7 +66,7 @@ export function NewsletterSignUp({
             </h1>
 
             <svg
-              className={`mx-auto my-4 size-12 lg:size-16 ${reduceMotion ? 'animate-none' : 'animate-bounce'} text-green-500 opacity-50`}
+              className={`mx-auto my-4 size-12 lg:size-16 ${reduceMotion ? 'animate-none' : 'animate-bounce'} text-green-500 opacity-50 dark:opacity-70`}
               viewBox="0 0 24 24"
             >
               <path
