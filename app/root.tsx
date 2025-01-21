@@ -66,7 +66,7 @@ export async function loader({ request }: { request: Request }) {
       );
     }
   }
-  const latestArticles = await getLatestArticles();
+  const latestArticles = await getLatestArticles(4);
 
   return json({
     css: cssContent,
@@ -86,6 +86,10 @@ export const links: LinksFunction = () => {
   return links;
 };
 
+export const meta: MetaFunction = () => {
+  return [...generateMetaCollection()];
+};
+
 export const handle = {
   getPreloadLinks: (data: LoaderData) => {
     if (!data?.latestArticles) return [];
@@ -98,10 +102,6 @@ export const handle = {
       }))
     );
   },
-};
-
-export const meta: MetaFunction = () => {
-  return [...generateMetaCollection()];
 };
 
 const App = memo(() => {
@@ -126,14 +126,12 @@ const App = memo(() => {
 
   // Get preload links from handle
   const preloadLinks = handle.getPreloadLinks({
-    showBackground,
     css,
     latestArticles,
+    showBackground,
     theme: loaderTheme,
   });
 
-  // NOTE: The title tag and all other elements will be injected.
-  // noinspection HtmlRequiredTitleElement
   return (
     <html
       className={`${isBgVisible ? 'h-full w-full overflow-hidden' : 'overflow-x-hidden'} ${theme ?? ''}`}
@@ -144,10 +142,10 @@ const App = memo(() => {
         <style dangerouslySetInnerHTML={{ __html: isProd ? css : '' }} />
         <link rel="manifest" href="/manifest.webmanifest" />
         <Links />
+        <ThemeHead ssrTheme={Boolean(loaderTheme)} />
         {preloadLinks.map((link, i) => (
           <link key={i} {...link} />
         ))}
-        <ThemeHead ssrTheme={Boolean(loaderTheme)} />
       </head>
 
       <body>
@@ -160,10 +158,10 @@ const App = memo(() => {
         </div>
 
         <PrefetchPageLinks key={'articles-index'} page={'/articles'} />
-        {latestArticles.map((article) => (
+        {latestArticles.slice(0, 4).map((article) => (
           <PrefetchPageLinks
             key={article.slug}
-            page={article.frontmatter.url}
+            page={article.frontmatter.urlPath}
           />
         ))}
 
