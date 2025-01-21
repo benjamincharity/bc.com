@@ -75,6 +75,7 @@ function Article({ article, layoutSize = 'large', ...divProps }: ArticleProps) {
               to={url}
             >
               Read more
+              <span className="sr-only"> about {title}</span>
               <svg
                 className="ml-1 h-4 w-4 transition-all group-hover:ml-2"
                 fill="none"

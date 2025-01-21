@@ -10,7 +10,7 @@ export function AboutLink() {
       to={RoutePaths.about}
     >
       <span aria-hidden="true">?</span>
-      <span className="collapse hidden">Site info</span>
+      <span className="sr-only">Site info</span>
     </Link>
   );
 }
