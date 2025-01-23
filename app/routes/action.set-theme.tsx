@@ -18,9 +18,19 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   }
 
   themeSession.setTheme(theme);
+  const cookie = await themeSession.commit();
+
   return json(
-    { success: true },
-    { headers: { 'Set-Cookie': await themeSession.commit() } }
+    { success: true, theme },
+    {
+      headers: {
+        'Set-Cookie': cookie,
+        'Cache-Control':
+          'private, no-cache, no-store, max-age=0, must-revalidate',
+        Pragma: 'no-cache',
+        Expires: '0',
+      },
+    }
   );
 };
 

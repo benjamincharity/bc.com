@@ -31,15 +31,9 @@ function ThemeProvider({
   specifiedTheme: Theme | null;
 }) {
   const [theme, setTheme] = useState<Theme | null>(() => {
-    // On the server, if we don't have a specified theme then we should
-    // return null and the clientThemeCode will set the theme for us
-    // before hydration. Then (during hydration), this code will get the same
-    // value that clientThemeCode got so hydration is happy.
     if (specifiedTheme) {
       if (themes.includes(specifiedTheme)) {
         return specifiedTheme;
-      } else {
-        return null;
       }
     }
 
@@ -75,6 +69,13 @@ function ThemeProvider({
       { action: 'action/set-theme', method: 'post' }
     );
   }, [theme]);
+
+  useEffect(() => {
+    // If we have a specifiedTheme from the server, use it
+    if (specifiedTheme && themes.includes(specifiedTheme)) {
+      setTheme(specifiedTheme);
+    }
+  }, [specifiedTheme]);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia(prefersDarkMQ);
