@@ -10,16 +10,10 @@ import React, { useEffect, useState } from 'react';
 import { isValidEmailAddress } from '~/utils/isValidEmailAddress';
 
 interface NewsletterSignUpProps extends React.HTMLProps<HTMLDivElement> {
-  heading?: string;
-  subheading?: string;
   tags?: string[];
 }
-export function NewsletterSignUp({
-  heading = 'Get the latest updates',
-  subheading = 'Sign up to hear about new resources & articles.',
-  tags,
-  ...rest
-}: NewsletterSignUpProps) {
+
+export function NewsletterSignUp({ tags, ...rest }: NewsletterSignUpProps) {
   const { className, ...divProps } = rest;
   const reduceMotion = useReducedMotion();
   const location = useLocation();
@@ -109,12 +103,13 @@ export function NewsletterSignUp({
         {!subscribeSuccess && !subscribeError && (
           <div className="mx-auto max-w-xl">
             <div className={'mb-4 text-center'}>
-              <h2 className="text-2xl font-semibold">{heading}</h2>
-              {!!subheading && (
-                <p className="text-slate-600 dark:text-slate-300">
-                  {subheading}
-                </p>
-              )}
+              <h2 className="mb-1 text-2xl font-semibold">
+                Build, Scale, Succeed
+              </h2>
+              <p className="leading-tight text-slate-600 dark:text-slate-300">
+                Join others receiving expert advice on
+                <br /> engineering and product development.
+              </p>
             </div>
 
             <div>
