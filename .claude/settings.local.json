@@ -11,7 +11,8 @@
       "Bash(pnpm build:*)",
       "Bash(pnpm typecheck:*)",
       "Bash(timeout:*)",
-      "Bash(xargs cat:*)"
+      "Bash(xargs cat:*)",
+      "WebSearch"
     ],
     "deny": [],
     "ask": [],
