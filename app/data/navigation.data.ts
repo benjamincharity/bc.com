@@ -20,4 +20,8 @@ export const NAVIGATION_LINKS = [
     display: 'GitHub',
     destination: 'https://github.com/benjamincharity/',
   },
+  {
+    display: 'SoundCloud',
+    destination: 'https://soundcloud.com/benjamin-charity',
+  },
 ];
