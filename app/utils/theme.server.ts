@@ -21,22 +21,56 @@ if (!sessionSecret) {
 
 const finalSecret = sessionSecret || 'dev-only-secret-change-in-production';
 const isProd = process.env.NODE_ENV === 'production';
+// In Vercel, all environments use HTTPS, so secure should always be true in production
+// But for local development, we want secure to be false
+const isSecure = process.env.NODE_ENV === 'production';
+
+// Determine the cookie domain based on environment
+// - Production (bc.com): Use '.bc.com' to share across subdomains
+// - Vercel Preview: Don't set domain (cookie will be specific to that preview URL)
+// - Local development: Don't set domain
+function getCookieDomain(): string | undefined {
+  // Only set domain for production bc.com, not for preview/staging
+  if (process.env.VERCEL_ENV === 'production' && process.env.VERCEL_URL?.includes('bc.com')) {
+    return '.bc.com';
+  }
+  // For preview deployments and local dev, don't set domain
+  // This ensures each preview URL has its own isolated cookie
+  return undefined;
+}
+
+const cookieDomain = getCookieDomain();
 
 const themeStorage = createCookieSessionStorage({
   cookie: {
     name: 'bc_theme',
-    secure: isProd,
+    secure: isSecure,
     secrets: [finalSecret],
     sameSite: 'lax',
     path: '/',
     httpOnly: true,
     maxAge: 60 * 60 * 24 * 365, // 1 year
-    domain: isProd ? '.bc.com' : undefined, // Add domain for production
+    domain: cookieDomain,
   },
 });
 
 async function getThemeSession(request: Request) {
-  const session = await themeStorage.getSession(request.headers.get('Cookie'));
+  const cookieHeader = request.headers.get('Cookie');
+  const session = await themeStorage.getSession(cookieHeader);
+  
+  // Debug logging for Vercel preview
+  if (process.env.NODE_ENV === 'production' && process.env.VERCEL_ENV === 'preview') {
+    console.log('[Theme Debug] Environment:', {
+      NODE_ENV: process.env.NODE_ENV,
+      VERCEL_ENV: process.env.VERCEL_ENV,
+      VERCEL_URL: process.env.VERCEL_URL,
+      cookieDomain: cookieDomain,
+      isSecure: isSecure,
+    });
+    console.log('[Theme Debug] Cookie header:', cookieHeader?.substring(0, 200));
+    console.log('[Theme Debug] Session data:', session.data);
+    console.log('[Theme Debug] Theme value:', session.get('theme'));
+  }
 
   return {
     getTheme: () => {
