@@ -41,15 +41,6 @@ async function getThemeSession(request: Request) {
   return {
     getTheme: () => {
       const themeValue = session.get('theme');
-      if (!themeValue) {
-        // Default to system preference if no theme is set
-        if (typeof window !== 'undefined' && window.matchMedia) {
-          return window.matchMedia('(prefers-color-scheme: dark)').matches
-            ? 'dark'
-            : 'light';
-        }
-        return null;
-      }
       return isTheme(themeValue) ? themeValue : null;
     },
     setTheme: (theme: Theme) => session.set('theme', theme),
