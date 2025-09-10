@@ -3,6 +3,7 @@ export const COMPANIES: ReadonlyArray<string> = [
   'Apiture',
   'Baker Hughes',
   'Case-Mate',
+  'Drive Clutch',
   'InComm',
   'Kenzie Lane Innovation',
   'Lamar Advertising Company',
