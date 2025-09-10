@@ -72,7 +72,7 @@ export async function loader({ request }: { request: Request }) {
     css: cssContent,
     latestArticles,
     showBackground: local,
-    theme: themeSession.getTheme(),
+    theme: themeSession.getTheme() || Theme.DARK,
   });
 }
 
@@ -212,7 +212,7 @@ const AppWithProviders = React.memo(() => {
   const data = useLoaderData<typeof loader>();
 
   return (
-    <ThemeProvider specifiedTheme={data.theme}>
+    <ThemeProvider specifiedTheme={data.theme as Theme}>
       <App />
     </ThemeProvider>
   );
