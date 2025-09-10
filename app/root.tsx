@@ -44,7 +44,7 @@ interface LoaderData {
   css: string;
   latestArticles: ArticleReference[];
   showBackground: boolean;
-  theme: Theme;
+  theme: Theme | null;
 }
 
 export async function loader({ request }: { request: Request }) {
@@ -72,7 +72,7 @@ export async function loader({ request }: { request: Request }) {
     css: cssContent,
     latestArticles,
     showBackground: local,
-    theme: themeSession.getTheme() || Theme.DARK,
+    theme: themeSession.getTheme(), // Don't default here, let client decide based on system
   });
 }
 
@@ -165,7 +165,7 @@ const App = memo(() => {
 
   return (
     <html
-      className={getHtmlClassName(isBgVisible, theme)}
+      className={getHtmlClassName(isBgVisible, theme || loaderTheme)}
       lang="en"
     >
       <head>

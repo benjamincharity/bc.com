@@ -56,32 +56,7 @@ const themeStorage = createCookieSessionStorage({
 
 async function getThemeSession(request: Request) {
   const cookieHeader = request.headers.get('Cookie');
-  
-  // Parse all cookies to see what's there
-  if (process.env.NODE_ENV === 'production' && process.env.VERCEL_ENV === 'preview') {
-    const cookies = cookieHeader?.split(';').map(c => {
-      const [name, ...rest] = c.trim().split('=');
-      return { name, value: rest.join('=')?.substring(0, 50) };
-    });
-    console.log('[Theme Debug] All cookies:', cookies);
-  }
-  
   const session = await themeStorage.getSession(cookieHeader);
-  
-  // Debug logging for Vercel preview
-  if (process.env.NODE_ENV === 'production' && process.env.VERCEL_ENV === 'preview') {
-    console.log('[Theme Debug] Environment:', {
-      NODE_ENV: process.env.NODE_ENV,
-      VERCEL_ENV: process.env.VERCEL_ENV,
-      VERCEL_URL: process.env.VERCEL_URL,
-      cookieDomain: cookieDomain,
-      isSecure: isSecure,
-      hasSessionSecret: !!process.env.SESSION_SECRET,
-    });
-    console.log('[Theme Debug] Session ID:', session.id);
-    console.log('[Theme Debug] Session data:', JSON.stringify(session.data));
-    console.log('[Theme Debug] Theme value from session:', session.get('theme'));
-  }
 
   return {
     getTheme: () => {
@@ -89,12 +64,7 @@ async function getThemeSession(request: Request) {
       return isTheme(themeValue) ? themeValue : null;
     },
     setTheme: (theme: Theme) => session.set('theme', theme),
-    commit: () => {
-      if (process.env.NODE_ENV === 'production' && process.env.VERCEL_ENV === 'preview') {
-        console.log('[Theme Debug] Committing session with theme:', session.get('theme'));
-      }
-      return themeStorage.commitSession(session);
-    },
+    commit: () => themeStorage.commitSession(session),
   };
 }
 
