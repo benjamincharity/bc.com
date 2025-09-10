@@ -180,9 +180,11 @@ const App = memo(() => {
       </head>
 
       <body>
-        <div className="relative h-100v text-lg">
+        <div className="relative h-100v text-lg flex flex-col">
           <Header backgroundIsVisible={isBgVisible} />
-          <Outlet />
+          <div className="flex-grow">
+            <Outlet />
+          </div>
           <ThemeBody ssrTheme={Boolean(loaderTheme)} />
           <ScrollRestoration getKey={(location) => location.pathname} />
           <FancyBackground isVisible={isBgVisible} />

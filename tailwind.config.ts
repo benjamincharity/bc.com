@@ -85,9 +85,10 @@ export default {
         },
       },
       fontSize: {
-        title: 'clamp(3rem, 23vw, 6rem)',
-        titleSmall: 'clamp(2rem, 23vw, 2rem)',
-        subTitle: 'clamp(16px, 6vw, 30px)',
+        title: 'clamp(2.5rem, 18vw, 6rem)',
+        titleSmall: 'clamp(1.5rem, 18vw, 2rem)',
+        subTitle: 'clamp(14px, 4.5vw, 24px)',
+        navLink: 'clamp(1.25rem, 4vw, 1.875rem)',
       },
       fontFamily: {
         vt323: ['"VT323"', 'Courier New', ...defaultTheme.fontFamily.mono],
