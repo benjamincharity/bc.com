@@ -3,14 +3,30 @@ import { createCookieSessionStorage } from '@remix-run/node';
 import { isTheme } from './theme.provider';
 import type { Theme } from './theme.provider';
 
-const sessionSecret = process.env.SESSION_SECRET ?? 'DEFAULT_SECRET';
+// Ensure SESSION_SECRET is set in production
+const sessionSecret = process.env.SESSION_SECRET;
+if (!sessionSecret) {
+  if (process.env.NODE_ENV === 'production') {
+    throw new Error(
+      'SESSION_SECRET environment variable is required in production. ' +
+      'Please set it in your environment variables.'
+    );
+  }
+  // Only use default in development
+  console.warn(
+    '⚠️  SESSION_SECRET not set, using default for development only. ' +
+    'Set SESSION_SECRET environment variable for production.'
+  );
+}
+
+const finalSecret = sessionSecret || 'dev-only-secret-change-in-production';
 const isProd = process.env.NODE_ENV === 'production';
 
 const themeStorage = createCookieSessionStorage({
   cookie: {
     name: 'bc_theme',
     secure: isProd,
-    secrets: [sessionSecret],
+    secrets: [finalSecret],
     sameSite: 'lax',
     path: '/',
     httpOnly: true,
