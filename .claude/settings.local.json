@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(claude doctor)",
+      "Bash(npm update:*)",
+      "Bash(claude auth logout)",
+      "Bash(claude auth login)",
+      "Bash(rm:*)",
+      "Bash(claude --version)",
+      "Bash(npm install:*)",
+      "Bash(pnpm build:*)",
+      "Bash(pnpm typecheck:*)"
+    ],
+    "deny": [],
+    "ask": [],
+    "additionalDirectories": [
+      "/Users/bc/.claude/local",
+      "/Users/bc"
+    ]
+  }
+}

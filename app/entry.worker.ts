@@ -155,7 +155,10 @@ function isMethod(request: Request, methods: string[]) {
 function isAssetRequest(request: Request) {
   return (
     isMethod(request, ['get']) &&
-    STATIC_ASSETS.some((publicPath) => request.url.startsWith(publicPath))
+    (STATIC_ASSETS.some((publicPath) => request.url.startsWith(publicPath)) ||
+      request.url.includes('res.cloudinary.com') ||
+      request.url.includes('cpwebassets.codepen.io') ||
+      request.url.includes('vercel.live'))
   );
 }
 
