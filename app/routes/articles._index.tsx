@@ -1,5 +1,5 @@
 import { useReducedMotion } from '@mantine/hooks';
-import { type LinksFunction, type MetaFunction, json } from '@remix-run/node';
+import { type LinksFunction, type MetaFunction } from '@remix-run/node';
 import {
   Links,
   PrefetchPageLinks,
@@ -51,12 +51,7 @@ export async function loader({ request }: { request: Request }) {
   const preloadArticles = await getLatestArticles(10);
   const tags = await getAllTags();
 
-  return json<LoaderData>(
-    { articles, preloadArticles, tags, page, theme },
-    {
-      headers: { 'Cache-Control': 'private, max-age=10' },
-    }
-  );
+  return { articles, preloadArticles, tags, page, theme };
 }
 
 export const handle = {

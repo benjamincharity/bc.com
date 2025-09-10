@@ -1,4 +1,4 @@
-import { json, redirect } from '@remix-run/node';
+import { redirect } from '@remix-run/node';
 import { ActionFunctionArgs } from '@vercel/remix';
 
 import { Theme, isTheme } from '~/utils/theme.provider';
@@ -11,17 +11,22 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const theme = form.get('theme') as Theme;
 
   if (!theme || !isTheme(theme)) {
-    return json({
-      success: false,
-      message: `theme value of ${theme} is not a valid theme`,
-    });
+    return new Response(
+      JSON.stringify({
+        success: false,
+        message: `theme value of ${theme} is not a valid theme`,
+      }),
+      {
+        headers: { 'Content-Type': 'application/json' }
+      }
+    );
   }
 
   themeSession.setTheme(theme);
   const cookie = await themeSession.commit();
 
-  return json(
-    { success: true, theme },
+  return new Response(
+    JSON.stringify({ success: true, theme }),
     {
       headers: {
         'Set-Cookie': cookie,
@@ -29,6 +34,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
           'private, no-cache, no-store, max-age=0, must-revalidate',
         Pragma: 'no-cache',
         Expires: '0',
+        'Content-Type': 'application/json',
       },
     }
   );

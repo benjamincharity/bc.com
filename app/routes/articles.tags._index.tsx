@@ -1,4 +1,4 @@
-import { LoaderFunction, MetaFunction, json } from '@remix-run/node';
+import { LoaderFunction, MetaFunction } from '@remix-run/node';
 import { Outlet, useLoaderData } from '@remix-run/react';
 
 import { TagsPayload } from '~/types/articles';
@@ -23,9 +23,9 @@ interface LoaderData {
 export const loader: LoaderFunction = async () => {
   const articles = await getAllArticles();
 
-  return json({
+  return {
     tags: getTagsFromArticles(articles),
-  });
+  };
 };
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {

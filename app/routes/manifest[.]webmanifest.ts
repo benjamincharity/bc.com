@@ -1,8 +1,7 @@
-import { json } from '@remix-run/node';
 
 export const loader = async () => {
-  return json(
-    {
+  return new Response(
+    JSON.stringify({
       short_name: 'BC',
       lang: 'en-US',
       name: 'Benjamin Charity',
@@ -162,7 +161,7 @@ export const loader = async () => {
           type: 'image/jpeg',
         },
       ],
-    },
+    }),
     {
       headers: {
         'Cache-Control': `public, max-age=600`,

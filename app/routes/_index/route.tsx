@@ -1,4 +1,3 @@
-import { json } from '@remix-run/node';
 import { Outlet, useLoaderData } from '@remix-run/react';
 
 import { COMPANIES } from '~/data/companies.data';
@@ -27,7 +26,7 @@ type LoaderData = {
 
 export async function loader() {
   const companies = shuffle([...COMPANIES]);
-  return json<LoaderData>({ companies });
+  return { companies };
 }
 
 export default function Index() {
