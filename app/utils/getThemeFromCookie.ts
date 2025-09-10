@@ -1,5 +1,5 @@
-import { Theme } from '~/root';
 import { stateCookie } from '~/routes/_index/cookie';
+import { Theme } from '~/utils/theme.provider';
 
 export async function getThemeFromCookie(request: Request): Promise<Theme> {
   const cookieHeader = request.headers.get('Cookie');
