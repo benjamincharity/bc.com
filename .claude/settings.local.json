@@ -10,7 +10,8 @@
       "Bash(npm install:*)",
       "Bash(pnpm build:*)",
       "Bash(pnpm typecheck:*)",
-      "Bash(timeout:*)"
+      "Bash(timeout:*)",
+      "Bash(xargs cat:*)"
     ],
     "deny": [],
     "ask": [],
