@@ -9,7 +9,8 @@
       "Bash(claude --version)",
       "Bash(npm install:*)",
       "Bash(pnpm build:*)",
-      "Bash(pnpm typecheck:*)"
+      "Bash(pnpm typecheck:*)",
+      "Bash(timeout:*)"
     ],
     "deny": [],
     "ask": [],
