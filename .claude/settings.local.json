@@ -12,6 +12,7 @@
       "Bash(pnpm typecheck:*)",
       "Bash(timeout:*)",
       "Bash(xargs cat:*)",
+      "Bash(pnpm dev:*)",
       "WebSearch"
     ],
     "deny": [],

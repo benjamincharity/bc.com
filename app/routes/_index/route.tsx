@@ -35,25 +35,43 @@ export default function Index() {
   return (
     <div
       className={
-        'bc-home pointer-events-none relative z-20 text-center font-vt323'
+        'bc-home pointer-events-none relative z-20 text-center font-vt323 h-full flex flex-col'
       }
     >
-      <main>
+      <main className="flex flex-col flex-grow justify-between">
         <Outlet />
 
-        <h2 className="m-4 mt-2 inline-block hyphens-none text-center font-vt323 text-subTitle uppercase leading-none text-white text-shadow-title">
-          <span className={'inline-block whitespace-nowrap'}>
-            {siteMetadata.professionalTitleSplit[0]}
-          </span>{' '}
-          <span className={'inline-block whitespace-nowrap'}>
-            {siteMetadata.professionalTitleSplit[1]}
-          </span>
-          <br />
-          <span className={'inline-block whitespace-nowrap'}>
-            {siteMetadata.professionalTitleSplit[2]}
-          </span>
-        </h2>
-        <Navigation companies={companies} />
+        <div className="flex flex-col justify-center space-y-6 sm:space-y-8">
+          <h2 className="mx-2 inline-block hyphens-none text-center font-vt323 text-subTitle uppercase leading-tight text-white text-shadow-title sm:leading-none">
+            <span className={'inline-block whitespace-nowrap'}>
+              {siteMetadata.professionalTitleSplit[0]}
+            </span>{' '}
+            <span className={'inline-block whitespace-nowrap'}>
+              {siteMetadata.professionalTitleSplit[1]}
+            </span>
+            <br />
+            <span className={'inline-block whitespace-nowrap'}>
+              {siteMetadata.professionalTitleSplit[2]}
+            </span>
+          </h2>
+          <Navigation />
+        </div>
+        
+        <section className="mx-auto max-w-xl text-sm leading-tight text-gray-800 sm:text-base pb-4 sm:pb-6 text-center">
+          <h3 className="trusted-title mb-1 text-xs opacity-60 sm:text-sm">Trusted by</h3>
+          <ul className="pointer-events-auto list-none leading-none">
+            {companies.map((c, i) => {
+              return (
+                <li
+                  className={`px-1 py-0 mr-2 inline-block whitespace-nowrap leading-none sm:py-0 sm:mr-3 sm:text-base lg:text-lg ${i === c.length - 1 ? 'last' : ''}`}
+                  key={c}
+                >
+                  {c}
+                </li>
+              );
+            })}
+          </ul>
+        </section>
       </main>
     </div>
   );
