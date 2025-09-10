@@ -1,5 +1,5 @@
 import { LiveReload, useSWEffect } from '@remix-pwa/sw';
-import { LinksFunction, MetaFunction, json } from '@remix-run/node';
+import { LinksFunction, MetaFunction } from '@remix-run/node';
 import {
   Links,
   Meta,
@@ -68,12 +68,12 @@ export async function loader({ request }: { request: Request }) {
   }
   const latestArticles = await getLatestArticles(4);
 
-  return json({
+  return {
     css: cssContent,
     latestArticles,
     showBackground: local,
     theme: themeSession.getTheme(), // Don't default here, let client decide based on system
-  });
+  };
 }
 
 export const links: LinksFunction = () => {

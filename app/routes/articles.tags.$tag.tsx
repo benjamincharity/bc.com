@@ -1,4 +1,4 @@
-import { MetaFunction, json } from '@remix-run/node';
+import { MetaFunction } from '@remix-run/node';
 import { useLoaderData, useParams } from '@remix-run/react';
 import pluralize from 'pluralize';
 
@@ -56,7 +56,7 @@ export const loader = async ({
     a.frontmatter?.tags?.includes(tag)
   );
 
-  return json<LoaderData>({ articles: filteredArticles, query, tags });
+  return { articles: filteredArticles, query, tags };
 };
 
 export default function Tag() {
