@@ -26,7 +26,7 @@
         },
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cpwebassets.codepen.io https://vercel.live; style-src 'self' 'unsafe-inline'; img-src 'self' https://res.cloudinary.com data: blob:; font-src 'self' data:; connect-src 'self' https://vitals.vercel-insights.com https://api.buttondown.email wss://ws-us3.pusher.com https://sockjs-us3.pusher.com; frame-src 'self' https://vercel.live https://codepen.io; object-src 'none'; base-uri 'self'; form-action 'self';"
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' https://cpwebassets.codepen.io https://vercel.live; style-src 'self' 'unsafe-inline'; img-src 'self' https://res.cloudinary.com data: blob:; font-src 'self' data:; connect-src 'self' https://vitals.vercel-insights.com https://api.buttondown.email wss://ws-us3.pusher.com https://sockjs-us3.pusher.com; frame-src 'self' https://vercel.live https://codepen.io; object-src 'none'; base-uri 'self'; form-action 'self';"
         }
       ],
       "source": "/(.*)"
