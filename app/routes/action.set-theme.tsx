@@ -23,7 +23,8 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   // Debug logging for Vercel preview
   if (process.env.NODE_ENV === 'production' && process.env.VERCEL_ENV === 'preview') {
     console.log('[Theme Action] Setting theme to:', theme);
-    console.log('[Theme Action] Cookie being set:', cookie.substring(0, 100));
+    console.log('[Theme Action] Full cookie string:', cookie);
+    console.log('[Theme Action] Request URL:', request.url);
   }
 
   return json(
