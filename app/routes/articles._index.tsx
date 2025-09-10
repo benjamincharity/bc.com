@@ -37,12 +37,12 @@ interface LoaderData {
   preloadArticles: ArticleReference[];
   page: number;
   tags: TagsPayload;
-  theme: Theme;
+  theme: Theme | null;
 }
 
 export async function loader({ request }: { request: Request }) {
   const themeSession = await getThemeSession(request);
-  const theme = themeSession.getTheme() || Theme.DARK;
+  const theme = themeSession.getTheme(); // Don't default, let it be null if not set
   const url = new URL(request.url);
   const page = parseInt(url.searchParams.get('page') || '1', 10);
   const perPageCount = page === 1 ? PER_PAGE_FIRST : PER_PAGE;
