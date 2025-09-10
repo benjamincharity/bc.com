@@ -26,7 +26,7 @@ import {
   getLatestArticles,
 } from '~/utils/articles.server';
 import { generateMetaCollection } from '~/utils/generateMetaCollection';
-import { getThemeFromCookie } from '~/utils/getThemeFromCookie';
+import { getThemeSession } from '~/utils/theme.server';
 import { Theme } from '~/utils/theme.provider';
 
 const PER_PAGE_FIRST = 7;
@@ -41,7 +41,8 @@ interface LoaderData {
 }
 
 export async function loader({ request }: { request: Request }) {
-  const theme = await getThemeFromCookie(request);
+  const themeSession = await getThemeSession(request);
+  const theme = themeSession.getTheme() || Theme.DARK;
   const url = new URL(request.url);
   const page = parseInt(url.searchParams.get('page') || '1', 10);
   const perPageCount = page === 1 ? PER_PAGE_FIRST : PER_PAGE;
