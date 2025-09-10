@@ -165,7 +165,7 @@ const App = memo(() => {
 
   return (
     <html
-      className={`${isBgVisible ? 'h-full w-full overflow-hidden' : 'overflow-x-hidden'} ${theme ?? ''}`}
+      className={getHtmlClassName(isBgVisible, theme)}
       lang="en"
     >
       <head>
@@ -207,6 +207,17 @@ const App = memo(() => {
 });
 
 App.displayName = 'App';
+
+/**
+ * Generates the HTML element className based on background visibility and theme
+ */
+function getHtmlClassName(isBgVisible: boolean, theme: string | null): string {
+  const overflowClasses = isBgVisible 
+    ? 'h-full w-full overflow-hidden' 
+    : 'overflow-x-hidden';
+  
+  return `${overflowClasses} ${theme ?? ''}`.trim();
+}
 
 const AppWithProviders = React.memo(() => {
   const data = useLoaderData<typeof loader>();
