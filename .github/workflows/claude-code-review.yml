@@ -42,14 +42,21 @@ jobs:
 
           # Direct prompt for automated review (no @claude mention needed)
           direct_prompt: |
-            Please review this pull request and provide feedback on:
-            - Code quality and best practices
-            - Potential bugs or issues
-            - Performance considerations
-            - Security concerns
-            - Test coverage
+            Review this PR focusing on ACTUAL problems, not theoretical concerns.
             
-            Be constructive and helpful in your feedback.
+            Only flag issues if they will:
+            - Cause runtime errors or bugs
+            - Create significant security vulnerabilities
+            - Break existing functionality
+            - Violate clear coding standards already in the project
+            
+            DO NOT flag:
+            - Working patterns that are common/acceptable (like dev fallback secrets)
+            - Environment-aware code that handles dev/prod correctly
+            - Theoretical security improvements to working code
+            - Style preferences unless they violate existing project patterns
+            
+            Be concise and only mention genuine issues that need fixing.
 
           # Optional: Use sticky comments to make Claude reuse the same comment on subsequent pushes to the same PR
           # use_sticky_comment: true
