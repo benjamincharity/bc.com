@@ -19,6 +19,12 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
   themeSession.setTheme(theme);
   const cookie = await themeSession.commit();
+  
+  // Debug logging for Vercel preview
+  if (process.env.NODE_ENV === 'production' && process.env.VERCEL_ENV === 'preview') {
+    console.log('[Theme Action] Setting theme to:', theme);
+    console.log('[Theme Action] Cookie being set:', cookie.substring(0, 100));
+  }
 
   return json(
     { success: true, theme },
