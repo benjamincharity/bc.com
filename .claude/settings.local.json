@@ -13,7 +13,16 @@
       "Bash(timeout:*)",
       "Bash(xargs cat:*)",
       "Bash(pnpm dev:*)",
-      "WebSearch"
+      "WebSearch",
+      "Bash(npm i:*)",
+      "Bash(mkdir:*)",
+      "Bash(claude migrate-installer:*)",
+      "Bash(npm:*)",
+      "Bash(~/.local/bin/claude --version)",
+      "Bash(chmod:*)",
+      "Bash(TZ=\"America/New_York\" date)",
+      "Bash(pnpm lint:*)",
+      "Bash(sed:*)"
     ],
     "deny": [],
     "ask": [],
