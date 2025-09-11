@@ -106,6 +106,17 @@ export default {
         '80v': '80vh',
         '90v': '90vh',
         '100v': '100vh',
+        // Dynamic viewport units for mobile
+        '10dv': '10dvh',
+        '20dv': '20dvh',
+        '30dv': '30dvh',
+        '40dv': '40dvh',
+        '50dv': '50dvh',
+        '60dv': '60dvh',
+        '70dv': '70dvh',
+        '80dv': '80dvh',
+        '90dv': '90dvh',
+        '100dv': '100dvh',
       },
       keyframes: {
         gentleRotate: {
