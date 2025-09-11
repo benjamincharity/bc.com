@@ -50,7 +50,7 @@ function Article({ article, layoutSize = 'large', ...divProps }: ArticleProps) {
     >
       <div className="flex h-full flex-col overflow-hidden rounded-lg">
         <Link to={url}>
-          <img
+          {images?.[0] && <img
             alt={title}
             className={`inline-block ${
               layoutSize === 'large'
@@ -58,7 +58,7 @@ function Article({ article, layoutSize = 'large', ...divProps }: ArticleProps) {
                 : 'lg:aspect-video'
             } aspect-video w-full max-w-full bg-gradient-to-r from-indigo-200 to-yellow-100 object-cover text-center text-xs italic leading-loose text-gray-600 outline-gray-300`}
             src={`${siteMetadata.articleImagePath}${images[0]}`}
-          />
+          />}
         </Link>
         <div className="flex-1 rounded-b-lg border-2 border-t-0 border-gray-500 border-opacity-20 p-6 transition hover:border-opacity-50">
           <TagsDisplay tags={tags} />

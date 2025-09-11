@@ -126,7 +126,7 @@ export const handle = {
     if (!data?.latestArticles) return [];
 
     return data.latestArticles.slice(0, 4).flatMap((article) =>
-      article.frontmatter.images.map((image) => ({
+      article.frontmatter.images?.map((image) => ({
         rel: 'preload' as const,
         href: `${siteMetadata.articleImagePath}${image}`,
         as: 'image' as const,
@@ -174,7 +174,7 @@ const App = memo(() => {
         <link rel="manifest" href="/manifest.webmanifest" />
         <Links />
         <ThemeHead ssrTheme={Boolean(loaderTheme)} />
-        {preloadLinks.map((link, i) => (
+        {preloadLinks?.map((link, i) => (
           <link key={i} {...link} />
         ))}
       </head>
