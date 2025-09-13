@@ -100,9 +100,11 @@ async function readMetadataCache(): Promise<ArticleReference[] | null> {
 /**
  * Fetches all articles
  *
+ * @param count - Optional limit on number of articles to return
+ * @param includeDrafts - Whether to include draft articles (useful for preview)
  * @returns A Promise that resolves to an array of ArticleReference objects.
  */
-async function fetchArticles(count?: number): Promise<ArticleReference[]> {
+async function fetchArticles(count?: number, includeDrafts = false): Promise<ArticleReference[]> {
   // In production, try to read from cache first
   if (process.env.NODE_ENV === 'production') {
     const cached = await readMetadataCache();
@@ -138,7 +140,8 @@ async function fetchArticles(count?: number): Promise<ArticleReference[]> {
     })
   );
 
-  if (process.env.NODE_ENV === 'production') {
+  // In production, filter out drafts unless explicitly requested
+  if (process.env.NODE_ENV === 'production' && !includeDrafts) {
     return articles
       .filter((article) => !article.frontmatter.draft)
       .sort(compareArticles)
@@ -151,26 +154,29 @@ async function fetchArticles(count?: number): Promise<ArticleReference[]> {
 /**
  * Gets all articles available.
  *
+ * @param includeDrafts - Whether to include draft articles (useful for preview)
  * @returns A Promise that resolves to an array of all ArticleReference objects.
  */
-export async function getAllArticles(): Promise<ArticleReference[]> {
-  return fetchArticles();
+export async function getAllArticles(includeDrafts = false): Promise<ArticleReference[]> {
+  return fetchArticles(undefined, includeDrafts);
 }
 
 /**
  * Gets the latest articles.
  *
  * @param [count=10] - The number of latest articles to retrieve.
+ * @param includeDrafts - Whether to include draft articles (useful for preview)
  * @returns A Promise that resolves to an array of the latest ArticleReference objects.
  */
 export async function getLatestArticles(
-  count = 10
+  count = 10,
+  includeDrafts = false
 ): Promise<ArticleReference[]> {
-  return await fetchArticles(count);
+  return await fetchArticles(count, includeDrafts);
 }
 
-export async function getAllTags(): Promise<TagsPayload> {
-  const allArticles = await fetchArticles();
+export async function getAllTags(includeDrafts = false): Promise<TagsPayload> {
+  const allArticles = await fetchArticles(undefined, includeDrafts);
   return getTagsFromArticles(allArticles);
 }
 

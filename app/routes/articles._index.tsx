@@ -45,11 +45,12 @@ export async function loader({ request }: { request: Request }) {
   const theme = themeSession.getTheme(); // Don't default, let it be null if not set
   const url = new URL(request.url);
   const page = parseInt(url.searchParams.get('page') || '1', 10);
+  const includeDrafts = url.searchParams.get('draft') === 'true';
   const perPageCount = page === 1 ? PER_PAGE_FIRST : PER_PAGE;
   const total = (page !== 1 ? 1 : 0) + page * perPageCount;
-  const articles = await getLatestArticles(total);
-  const preloadArticles = await getLatestArticles(10);
-  const tags = await getAllTags();
+  const articles = await getLatestArticles(total, includeDrafts);
+  const preloadArticles = await getLatestArticles(10, includeDrafts);
+  const tags = await getAllTags(includeDrafts);
 
   return { articles, preloadArticles, tags, page, theme };
 }
