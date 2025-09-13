@@ -34,7 +34,9 @@
       "WebFetch(domain:pmc.ncbi.nlm.nih.gov)",
       "WebFetch(domain:leb.fbi.gov)",
       "WebFetch(domain:jumpcloud.com)",
-      "WebFetch(domain:statuscast.com)"
+      "WebFetch(domain:statuscast.com)",
+      "WebFetch(domain:sre.google)",
+      "WebFetch(domain:psychsafety.com)"
     ],
     "deny": [],
     "ask": [],
