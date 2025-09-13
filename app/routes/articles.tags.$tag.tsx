@@ -49,7 +49,8 @@ export const loader = async ({
   const { tag } = params;
   const url = new URL(request.url);
   const query = url.searchParams.get('q');
-  const articles = await getAllArticles();
+  const includeDrafts = url.searchParams.get('draft') === 'true';
+  const articles = await getAllArticles(includeDrafts);
   const tags = getTagsFromArticles(articles);
 
   const filteredArticles = articles.filter((a) =>

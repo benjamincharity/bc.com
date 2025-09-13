@@ -20,8 +20,10 @@ interface LoaderData {
   tags: TagsPayload;
 }
 
-export const loader: LoaderFunction = async () => {
-  const articles = await getAllArticles();
+export const loader: LoaderFunction = async ({ request }) => {
+  const url = new URL(request.url);
+  const includeDrafts = url.searchParams.get('draft') === 'true';
+  const articles = await getAllArticles(includeDrafts);
 
   return {
     tags: getTagsFromArticles(articles),
