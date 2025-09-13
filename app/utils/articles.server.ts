@@ -105,7 +105,7 @@ async function readMetadataCache(): Promise<ArticleReference[] | null> {
  * @returns A Promise that resolves to an array of ArticleReference objects.
  */
 async function fetchArticles(count?: number, includeDrafts = false): Promise<ArticleReference[]> {
-  // In production, try to read from cache first
+  // In production, try to read from cache first. In development, always scan filesystem for immediate updates.
   if (process.env.NODE_ENV === 'production') {
     const cached = await readMetadataCache();
     if (cached) {

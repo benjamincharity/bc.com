@@ -22,7 +22,13 @@
       "Bash(chmod:*)",
       "Bash(TZ=\"America/New_York\" date)",
       "Bash(pnpm lint:*)",
-      "Bash(sed:*)"
+      "Bash(sed:*)",
+      "Bash(for:*)",
+      "Bash(do echo \"=== $file ===\")",
+      "Bash(head:*)",
+      "Bash(done)",
+      "Bash(pnpm run:*)",
+      "Bash(echo:*)"
     ],
     "deny": [],
     "ask": [],
