@@ -28,7 +28,9 @@
       "Bash(head:*)",
       "Bash(done)",
       "Bash(pnpm run:*)",
-      "Bash(echo:*)"
+      "Bash(echo:*)",
+      "WebFetch(domain:www.pagerduty.com)",
+      "WebFetch(domain:www.atlassian.com)"
     ],
     "deny": [],
     "ask": [],
