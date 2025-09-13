@@ -30,7 +30,11 @@
       "Bash(pnpm run:*)",
       "Bash(echo:*)",
       "WebFetch(domain:www.pagerduty.com)",
-      "WebFetch(domain:www.atlassian.com)"
+      "WebFetch(domain:www.atlassian.com)",
+      "WebFetch(domain:pmc.ncbi.nlm.nih.gov)",
+      "WebFetch(domain:leb.fbi.gov)",
+      "WebFetch(domain:jumpcloud.com)",
+      "WebFetch(domain:statuscast.com)"
     ],
     "deny": [],
     "ask": [],
