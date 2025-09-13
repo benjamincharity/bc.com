@@ -183,7 +183,7 @@ const processor = unified()
   })
   .use(rehypeInferReadingTimeMeta)
   .use(rehypeMeta, { og: true, twitter: true, copyright: true })
-  .use(rehypeExternalLinks)
+  .use(rehypeExternalLinks, { target: '_blank', rel: 'noopener noreferrer' })
   .use(rehypeSemanticImages)
   .use(rehypeStringify, { allowDangerousHtml: true });
 
