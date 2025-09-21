@@ -21,7 +21,7 @@ const METADATA_CACHE_PATH = path.join(
 export interface Frontmatter {
   draft?: boolean;
   formattedDate: string;
-  images: string[];
+  images?: string[];
   meta?: {
     description?: string;
     title?: string;
@@ -133,6 +133,7 @@ async function fetchArticles(count?: number, includeDrafts = false): Promise<Art
         slug,
         frontmatter: {
           ...attributes,
+          images: attributes.images || [],
           url,
           urlPath,
         },

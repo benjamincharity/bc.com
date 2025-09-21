@@ -44,7 +44,8 @@
       "Bash(pnpm add:*)",
       "Bash(pnpm install:*)",
       "Bash(pnpm remove:*)",
-      "WebFetch(domain:github.com)"
+      "WebFetch(domain:github.com)",
+      "Bash(find:*)"
     ],
     "deny": [],
     "ask": [],
