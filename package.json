@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "@benjc/rehype-enhanced-tables": "0.1.1",
+    "@benjc/rehype-gif-controls": "^1.0.0",
     "@benjc/rehype-scroll-to-top": "0.1.5",
     "@benjc/rehype-semantic-images": "0.1.0",
     "@legendapp/state": "2.1.15",

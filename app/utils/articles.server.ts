@@ -38,12 +38,34 @@ export interface Frontmatter {
 }
 
 /**
+ * Finds the file path for a given slug by searching recursively
+ */
+async function findArticleBySlug(slug: string): Promise<string | null> {
+  const articlesDir = path.join(process.cwd(), 'app', 'articles');
+  const mdxFiles = await findMdxFiles(articlesDir);
+
+  for (const filePath of mdxFiles) {
+    const fileName = path.basename(filePath, '.mdx');
+    if (fileName === slug) {
+      return filePath;
+    }
+  }
+
+  return null;
+}
+
+/**
  * Get the React component, and frontmatter JSON for a given slug
  * @param slug
  * @returns
  */
 export async function getArticle(slug: string) {
-  const filePath = path.join(process.cwd(), 'app', 'articles', slug + '.mdx');
+  const filePath = await findArticleBySlug(slug);
+
+  if (!filePath) {
+    throw new Error(`Article with slug "${slug}" not found`);
+  }
+
   const source = await readFile(filePath, 'utf-8');
   const { data: frontmatter, content } = matter(source);
   const html = await toHTML(content, slug);
@@ -98,6 +120,29 @@ async function readMetadataCache(): Promise<ArticleReference[] | null> {
 }
 
 /**
+ * Recursively finds all .mdx files in a directory
+ */
+async function findMdxFiles(dir: string): Promise<string[]> {
+  const entries = await readdir(dir, { withFileTypes: true });
+  const files: string[] = [];
+
+  for (const entry of entries) {
+    const fullPath = path.join(dir, entry.name);
+
+    if (entry.isDirectory()) {
+      // Recursively search subdirectories
+      const subFiles = await findMdxFiles(fullPath);
+      files.push(...subFiles);
+    } else if (entry.isFile() && entry.name.endsWith('.mdx')) {
+      // Add .mdx files
+      files.push(fullPath);
+    }
+  }
+
+  return files;
+}
+
+/**
  * Fetches all articles
  *
  * @param count - Optional limit on number of articles to return
@@ -115,17 +160,16 @@ async function fetchArticles(count?: number, includeDrafts = false): Promise<Art
 
   const filePath = path.join(process.cwd(), 'app', 'articles');
 
-  const postsPath = await readdir(filePath, {
-    withFileTypes: true,
-  });
+  // Recursively find all .mdx files
+  const mdxFiles = await findMdxFiles(filePath);
 
   const articles = await Promise.all(
-    postsPath.map(async (dirent) => {
-      const fPath = path.join(filePath, dirent.name);
-      const [file] = await Promise.all([readFile(fPath)]);
+    mdxFiles.map(async (filePath) => {
+      const [file] = await Promise.all([readFile(filePath)]);
       const frontmatter = parseFrontMatter(file.toString());
       const attributes = frontmatter.attributes as Frontmatter;
-      const slug = dirent.name.replace(/\.mdx/, '');
+      // Extract filename without extension for slug (preserves current behavior)
+      const slug = path.basename(filePath).replace(/\.mdx/, '');
       const urlPath = `/articles/${slug}`;
       const url = `${siteMetadata.url}${urlPath}`;
 
