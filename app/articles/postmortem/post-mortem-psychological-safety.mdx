@@ -1,0 +1,155 @@
+---
+title: "Effective Post-Mortems: Psychological Safety"
+publishDate: 2026-01-19
+summary: You can't fix what people are afraid to say. Learn how Google, Etsy, and other elite teams built psychological safety infrastructure that encourages honest incident reporting and accelerates organizational learning.
+tags:
+  - engineering
+  - leadership
+  - culture
+  - psychological-safety
+draft: true
+---
+
+**This is part of the Post-Mortem series.** Read the [Executive Brief](/articles/post-mortem-executive-brief), the [Field Guide](/articles/post-mortem-field-guide), or the [Full Guide](/articles/post-mortem-that-actually-prevents-future-incidents) (canonical).
+
+## You Can't Fix What People Are Afraid to Say
+
+When engineers fear blame, the whole post-mortem process becomes a superficial exercise. Important details get hidden, critical mistakes go unmentioned, and the real causes of incidents stay buried. The result? Organizations repeat the same failures over and over because they never learn the full truth about what went wrong.
+
+But teams that create genuine psychological safety see dramatically different outcomes. They uncover root causes faster, implement more effective fixes, and experience far fewer repeat incidents. The difference isn't in their technical sophistication: it's in their willingness to surface uncomfortable truths.
+
+## The Research: Why Safety Drives Performance
+
+Google's famous "Project Aristotle" research analyzed 180 teams to understand what made some high-performing and others mediocre. The #1 predictor wasn't technical expertise, individual talent, or team composition. It was **psychological safety**: the shared belief that team members can admit mistakes, ask questions, and voice concerns without fear of punishment or embarrassment.
+
+This finding has been replicated across industries. Amy Edmondson's foundational research in healthcare teams found that high-safety teams reported significantly more errors than low-safety teams. Not because they made more mistakes, but because they felt safe admitting them. Those error reports led to system improvements that prevented future failures.
+
+### The Paradox of Error Reporting
+
+In psychologically safe environments, people consistently report higher error rates. This initially seems counterintuitive(shouldn't better teams make fewer mistakes? But the data reveals the opposite)**high-performing teams surface problems early**, while blame-driven cultures drive issues underground.
+
+Consider two scenarios:
+- **Team A (Low Safety):** Engineer notices a concerning metric but doesn't mention it because "it's probably nothing" and they don't want to look paranoid
+- **Team B (High Safety):** Engineer immediately flags the same concern, leading to investigation that prevents a major outage
+
+The difference isn't in what happens: it's in what gets shared. Team B prevents more incidents because they surface more potential problems.
+
+## The Cost of Fear
+
+When post-mortems feel like witch hunts, organizations pay multiple costs:
+
+### Information Warfare
+
+People hide or downplay crucial facts to avoid embarrassment. During outages, this is disastrous(if engineers hesitate to report mistakes, recovery is delayed and root causes stay hidden. Google's SRE guide warns)**"An atmosphere of blame risks creating a culture in which incidents and issues are swept under the rug,"** increasing organizational risk.
+
+### Brain Drain
+
+Talented engineers don't stick around in blame-heavy cultures. They know that in complex systems, everyone makes mistakes eventually. If the organizational response is to find someone to punish, they'll find somewhere else to work.
+
+### Innovation Paralysis
+
+When failure means blame, people avoid taking risks. This creates a culture of CYA (Cover Your Assets) rather than bold problem-solving. Teams spend more energy protecting themselves than improving systems.
+
+## How Elite Teams Build Safety Infrastructure
+
+Leading organizations don't just hope for psychological safety: they design it into their processes. Here's how:
+
+### Design Blamelessness Into the Process
+
+The post-mortem process and report should focus on what went wrong in the system, not who to blame. This isn't just about tone: it's about structure:
+
+**Instead of:** "Engineer X didn't follow procedure"
+**Use:** "The procedure was unclear, and safeguards failed to catch the issue"
+
+**Instead of:** "Why did you make that decision?"
+**Use:** "What information was available when that decision was made?"
+
+Language shapes thinking. By consistently framing problems as system issues rather than personal failures, you train people to think in terms of improvement rather than blame.
+
+### Learn from Etsy's Transparency Model
+
+Etsy famously implemented a "Just Culture" where engineers publicly share their mistakes in company-wide emails so everyone can learn. These "PSA" emails describe what happened, why the engineer made the choices they did, and what they learned: all without punishment.
+
+The CEO and CTO openly endorse this practice. As Etsy's CTO John Allspaw put it, a funny thing happens when engineers feel safe to give details about mistakes: they actually become more accountable, and the whole company gets better.
+
+The key elements of Etsy's approach:
+- **Public sharing** normalizes discussing mistakes
+- **Focus on learning** rather than blame
+- **Executive support** signals organizational commitment
+- **No punishment** reinforces psychological safety
+
+### Establish Ground Rules Before Incidents Happen
+
+Don't wait for the next outage to introduce blameless principles. Set expectations proactively:
+
+1. **Create a written policy** approved by leadership stating that incident reviews focus on learning, not punishment
+2. **Include it in onboarding** so new engineers understand the culture from day one
+3. **Reinforce during incidents** with reminders like "This is a blameless investigation: all facts are welcome"
+4. **Model the behavior** by having leaders share their own mistakes and learnings
+
+### Track Safety Over Time
+
+Cultural change needs measurement. Consider adding brief surveys after post-mortems or periodic team health checks with questions like:
+- "When someone makes a mistake on this team, it is not held against them"
+- "I feel safe admitting errors to my teammates"
+- "Our incident reviews focus on system improvement rather than individual blame"
+
+Track these scores over time and aim for improvement. High reporting of mistakes is actually a positive indicator, as long as you're learning from them.
+
+## Practical Implementation Steps
+
+### Week 1: Set the Foundation
+- Draft a blameless post-mortem policy with executive sign-off
+- Communicate the new approach in team meetings
+- Choose facilitators who understand and can model blameless investigation
+
+### Week 2-4: Practice and Reinforce
+- Apply the approach to the next incident (even a minor one)
+- Use language that focuses on system conditions rather than individual actions
+- Celebrate when people share mistakes or near-misses
+
+### Month 2-3: Build Habits
+- Create channels for sharing learnings and near-misses
+- Recognize people who contribute honest, detailed post-mortem insights
+- Address any backsliding into blame language immediately
+
+### Ongoing: Maintain and Improve
+- Regular check-ins on psychological safety metrics
+- Continued executive modeling of blameless principles
+- Adjustment of processes based on team feedback
+
+## The Business Impact
+
+Organizations that successfully build psychological safety infrastructure see measurable benefits:
+
+- **Fewer outages:** Google's internal data shows teams with blameless cultures suffer fewer incidents and deliver better user experiences
+- **Faster resolution:** When people freely share information, incidents are resolved more quickly
+- **Better retention:** Engineers stay longer in cultures where mistakes are learning opportunities rather than career threats
+- **More innovation:** Teams willing to take calculated risks drive more breakthrough improvements
+
+## Common Pitfalls and How to Avoid Them
+
+### "Blameless Means No Accountability"
+
+Some managers worry that removing blame means removing consequences. In reality, blameless post-mortems create *more* accountability: just focused on learning and system improvement rather than punishment. Performance issues are handled separately through normal management channels.
+
+### "We'll Become Careless"
+
+The opposite typically happens. When people aren't afraid to report problems, issues get caught and fixed earlier. Etsy's engineers report more mistakes after implementing their Just Culture, but they also prevent more outages.
+
+### "One Incident Won't Change Culture"
+
+Start small but be consistent. Even partial implementation shows benefits, and early wins build momentum for broader adoption.
+
+## Your Next Steps
+
+1. **Start with language:** In your next incident discussion, consciously avoid "who" questions and focus on "how" and "what"
+2. **Write it down:** Create a simple policy statement about blameless incident investigation
+3. **Get executive buy-in:** Ensure leadership visibly supports and models the approach
+4. **Measure progress:** Track both safety metrics and incident outcomes
+
+**Continue the series:**
+- [Systems Thinking Over Person-Hunting](/articles/post-mortem-systems-thinking) - Finding real root causes in complex systems
+- [Action Accountability That Sticks](/articles/post-mortem-action-accountability) - Ensuring improvements actually happen
+
+**Want the complete framework?** Read the [Full Guide](/articles/post-mortem-that-actually-prevents-future-incidents) for detailed implementation steps, success stories, and leadership objection handling.
