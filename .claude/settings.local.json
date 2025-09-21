@@ -36,7 +36,15 @@
       "WebFetch(domain:jumpcloud.com)",
       "WebFetch(domain:statuscast.com)",
       "WebFetch(domain:sre.google)",
-      "WebFetch(domain:psychsafety.com)"
+      "WebFetch(domain:psychsafety.com)",
+      "Bash(pnpm link:*)",
+      "Bash(lsof:*)",
+      "Bash(xargs kill:*)",
+      "Bash(curl:*)",
+      "Bash(pnpm add:*)",
+      "Bash(pnpm install:*)",
+      "Bash(pnpm remove:*)",
+      "WebFetch(domain:github.com)"
     ],
     "deny": [],
     "ask": [],
