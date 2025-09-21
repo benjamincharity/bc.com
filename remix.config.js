@@ -4,7 +4,7 @@
 const cacheDirectory = './node_modules/.cache/remix';
 const ignoredRouteFiles = ['**/.*', '**/*.css', '**/*.test.{js,jsx,ts,tsx}'];
 const serverBuildTarget = 'vercel';
-const serverDependenciesToBundle = [/@remix-pwa\/.*/, /^remix-utils.*/];
+const serverDependenciesToBundle = [/@remix-pwa\/.*/, /^remix-utils.*/, /@benjc\/rehype-gif-controls.*/];
 
 export default {
   cacheDirectory,

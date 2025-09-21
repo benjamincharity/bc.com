@@ -45,7 +45,9 @@
       "Bash(pnpm install:*)",
       "Bash(pnpm remove:*)",
       "WebFetch(domain:github.com)",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "Bash(grep:*)",
+      "Bash(do echo \"Processing $file\")"
     ],
     "deny": [],
     "ask": [],

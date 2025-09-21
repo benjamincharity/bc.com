@@ -1,4 +1,5 @@
 import { rehypeEnhancedTables } from '@benjc/rehype-enhanced-tables';
+import rehypeGifControls from '@benjc/rehype-gif-controls';
 import { rehypeScrollToTop } from '@benjc/rehype-scroll-to-top';
 import rehypeSemanticImages from '@benjc/rehype-semantic-images';
 import { s } from 'hastscript';
@@ -97,11 +98,44 @@ function generateSrcset(
 
 const rehypeRewriteOptions: RehypeRewriteOptions = {
   rewrite: (node) => {
+    // Handle gif-player elements created by rehypeGifControls
+    if (node.type === 'element' && node.tagName === 'gif-player') {
+      const src = node.properties?.src as string;
+      if (src && !src.startsWith('http')) {
+        // Update the src to point to Cloudinary
+        node.properties = {
+          ...node.properties,
+          src: `https://res.cloudinary.com/${CLOUDINARY_ACCOUNT}/image/upload/article-content/${src}`,
+        };
+      }
+      return;
+    }
+
     if (node.type === 'element' && node.tagName === 'img') {
       const src = node.properties?.src as string;
       const alt = node.properties?.alt || '';
 
       if (src) {
+        // Skip processing for GIFs - they should be handled by rehypeGifControls
+        const isGif = src.toLowerCase().endsWith('.gif');
+
+        if (isGif) {
+          // GIFs should have already been processed by rehypeGifControls
+          // Just update the src to point to Cloudinary if needed
+          if (!src.startsWith('http')) {
+            const finalSrc = `https://res.cloudinary.com/${CLOUDINARY_ACCOUNT}/image/upload/article-content/${src}`;
+
+            node.properties = {
+              ...node.properties,
+              alt,
+              src: finalSrc,
+              // Remove srcset and sizes for GIFs to avoid complexity
+            };
+          }
+          return;
+        }
+
+        // Normal processing for non-GIF images
         let customHeight: number | undefined = undefined;
         let customWidth: number | undefined = undefined;
         let isHighRes = false;
@@ -161,10 +195,27 @@ const processor = unified()
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   .use(rehypePrettyCode, prettyCodeOptions)
-  .use(rehypeRewrite, rehypeRewriteOptions)
   .use(remarkGfm)
   .use(rehypeRaw)
   .use(rehypeColorChips)
+  // Process GIF controls BEFORE rewrite modifies the image elements
+  .use(rehypeGifControls, {
+    gifPlayer: {
+      delay: 500,        // Delay before auto-play in ms
+      autoplay: true,    // Auto-play when scrolled into view
+      preload: true,     // Preload GIF frames
+      showLoader: true,  // Show loading spinner
+    },
+    security: {
+      allowedDomains: [
+        'benjamincharity.com',    // Production domain
+        'vercel.app',             // Vercel preview domains
+        'localhost',              // Local development
+        'res.cloudinary.com',     // Cloudinary CDN
+      ],
+    },
+  })
+  .use(rehypeRewrite, rehypeRewriteOptions)
   .use(rehypeSlug)
   .use(rehypeAutolinkHeadings, {
     behavior: 'prepend',

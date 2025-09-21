@@ -11,6 +11,9 @@ importers:
       '@benjc/rehype-enhanced-tables':
         specifier: 0.1.1
         version: 0.1.1
+      '@benjc/rehype-gif-controls':
+        specifier: ^1.0.0
+        version: 1.0.0(unified@11.0.4)
       '@benjc/rehype-scroll-to-top':
         specifier: 0.1.5
         version: 0.1.5(rehype@13.0.2)(unified@11.0.4)
@@ -980,6 +983,11 @@ packages:
   '@benjc/rehype-enhanced-tables@0.1.1':
     resolution: {integrity: sha512-4GlVQoQ5XBkBp5XXfMN6Ps3sN6y2Jvxo7NQD92LZiJ0y5ix0GvXejXvuoFD+WqQhBrKpbp0TPaZ17qZabHxGXg==}
     engines: {node: '>=18.0.0'}
+
+  '@benjc/rehype-gif-controls@1.0.0':
+    resolution: {integrity: sha512-PdEWNGg5Rm2WXW3tm/15MvlLRIj/S6ORyBQrVJbj5mzE2jmboUNrjj94ApNI3nrm7lJY7agb3MLKqxsmvuvX0g==}
+    peerDependencies:
+      unified: '>=10.0.0 || >=11.0.0'
 
   '@benjc/rehype-scroll-to-top@0.1.5':
     resolution: {integrity: sha512-xvTAJa1BpZN6lhuwA1MuxWxdNmu7FozQRfGfAJFiG64jPADhAmNzRf/NegXjOFRhe3CnXWz5VRAW3xLvCbSr/g==}
@@ -8207,6 +8215,11 @@ snapshots:
       rehype: 13.0.2
       unified: 11.0.4
       unist-util-remove: 4.0.0
+      unist-util-visit: 5.0.0
+
+  '@benjc/rehype-gif-controls@1.0.0(unified@11.0.4)':
+    dependencies:
+      unified: 11.0.4
       unist-util-visit: 5.0.0
 
   '@benjc/rehype-scroll-to-top@0.1.5(rehype@13.0.2)(unified@11.0.4)':
