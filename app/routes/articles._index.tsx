@@ -61,7 +61,7 @@ export const handle = {
 
     // Skip the first 4 articles that were already preloaded in root.tsx
     return data.preloadArticles.slice(4).flatMap((article) =>
-      article.frontmatter.images.map((image) => ({
+      (article.frontmatter.images || []).map((image) => ({
         rel: 'preload' as const,
         href: `${siteMetadata.articleImagePath}${image}`,
         as: 'image' as const,
