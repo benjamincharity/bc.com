@@ -9,13 +9,13 @@ if (!sessionSecret) {
   if (process.env.NODE_ENV === 'production') {
     throw new Error(
       'SESSION_SECRET environment variable is required in production. ' +
-      'Please set it in your environment variables.'
+        'Please set it in your environment variables.'
     );
   }
   // Only use default in development
   console.warn(
     '⚠️  SESSION_SECRET not set, using default for development only. ' +
-    'Set SESSION_SECRET environment variable for production.'
+      'Set SESSION_SECRET environment variable for production.'
   );
 }
 
@@ -31,7 +31,10 @@ const isSecure = process.env.NODE_ENV === 'production';
 // - Local development: Don't set domain
 function getCookieDomain(): string | undefined {
   // Only set domain for production bc.com, not for preview/staging
-  if (process.env.VERCEL_ENV === 'production' && process.env.VERCEL_URL?.includes('bc.com')) {
+  if (
+    process.env.VERCEL_ENV === 'production' &&
+    process.env.VERCEL_URL?.includes('bc.com')
+  ) {
     return '.bc.com';
   }
   // For preview deployments and local dev, don't set domain

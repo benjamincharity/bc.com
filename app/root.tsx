@@ -180,7 +180,7 @@ const App = memo(() => {
       </head>
 
       <body>
-        <div className="relative h-100v text-lg flex flex-col">
+        <div className="relative flex h-100v flex-col text-lg">
           <Header backgroundIsVisible={isBgVisible} />
           <div className="flex-grow">
             <Outlet />
@@ -214,10 +214,10 @@ App.displayName = 'App';
  * Generates the HTML element className based on background visibility and theme
  */
 function getHtmlClassName(isBgVisible: boolean, theme: string | null): string {
-  const overflowClasses = isBgVisible 
-    ? 'h-full w-full overflow-hidden' 
+  const overflowClasses = isBgVisible
+    ? 'h-full w-full overflow-hidden'
     : 'overflow-x-hidden';
-  
+
   return `${overflowClasses} ${theme ?? ''}`.trim();
 }
 

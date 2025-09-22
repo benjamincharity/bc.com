@@ -35,10 +35,10 @@ export default function Index() {
   return (
     <div
       className={
-        'bc-home pointer-events-none relative z-20 text-center font-vt323 h-full flex flex-col'
+        'bc-home pointer-events-none relative z-20 flex h-full flex-col text-center font-vt323'
       }
     >
-      <main className="flex flex-col flex-grow justify-between">
+      <main className="flex flex-grow flex-col justify-between">
         <Outlet />
 
         <div className="flex flex-col justify-center space-y-6 sm:space-y-8">
@@ -56,14 +56,16 @@ export default function Index() {
           </h2>
           <Navigation />
         </div>
-        
-        <section className="mx-auto max-w-xl text-sm leading-tight text-gray-800 sm:text-base pb-4 sm:pb-6 text-center">
-          <h3 className="trusted-title mb-1 text-xs opacity-60 sm:text-sm">Trusted by</h3>
+
+        <section className="mx-auto max-w-xl pb-4 text-center text-sm leading-tight text-gray-800 sm:pb-6 sm:text-base">
+          <h3 className="trusted-title mb-1 text-xs opacity-60 sm:text-sm">
+            Trusted by
+          </h3>
           <ul className="pointer-events-auto list-none leading-none">
             {companies.map((c, i) => {
               return (
                 <li
-                  className={`px-1 py-0 mr-2 inline-block whitespace-nowrap leading-none sm:py-0 sm:mr-3 sm:text-base lg:text-lg ${i === c.length - 1 ? 'last' : ''}`}
+                  className={`mr-2 inline-block whitespace-nowrap px-1 py-0 leading-none sm:mr-3 sm:py-0 sm:text-base lg:text-lg ${i === c.length - 1 ? 'last' : ''}`}
                   key={c}
                 >
                   {c}

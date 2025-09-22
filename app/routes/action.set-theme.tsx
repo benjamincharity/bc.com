@@ -17,7 +17,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
         message: `theme value of ${theme} is not a valid theme`,
       }),
       {
-        headers: { 'Content-Type': 'application/json' }
+        headers: { 'Content-Type': 'application/json' },
       }
     );
   }
@@ -25,19 +25,16 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   themeSession.setTheme(theme);
   const cookie = await themeSession.commit();
 
-  return new Response(
-    JSON.stringify({ success: true, theme }),
-    {
-      headers: {
-        'Set-Cookie': cookie,
-        'Cache-Control':
-          'private, no-cache, no-store, max-age=0, must-revalidate',
-        Pragma: 'no-cache',
-        Expires: '0',
-        'Content-Type': 'application/json',
-      },
-    }
-  );
+  return new Response(JSON.stringify({ success: true, theme }), {
+    headers: {
+      'Set-Cookie': cookie,
+      'Cache-Control':
+        'private, no-cache, no-store, max-age=0, must-revalidate',
+      Pragma: 'no-cache',
+      Expires: '0',
+      'Content-Type': 'application/json',
+    },
+  });
 };
 
 export const loader = async () => redirect('/', { status: 404 });
