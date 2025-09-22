@@ -8,7 +8,7 @@ export function ViewToggle({ isCompactView, onToggle }: ViewToggleProps) {
     <button
       onClick={onToggle}
       aria-label={`Switch to ${isCompactView ? 'grid' : 'compact'} view`}
-      className="flex items-center space-x-2 rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
+      className="flex items-center space-x-1 rounded-md border border-gray-300 bg-white px-2 py-1 text-xs font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
     >
       {isCompactView ? (
         <>
@@ -28,7 +28,7 @@ export function ViewToggle({ isCompactView, onToggle }: ViewToggleProps) {
 function GridIcon() {
   return (
     <svg
-      className="h-4 w-4"
+      className="h-3 w-3"
       fill="none"
       stroke="currentColor"
       strokeWidth="2"
@@ -46,7 +46,7 @@ function GridIcon() {
 function ListIcon() {
   return (
     <svg
-      className="h-4 w-4"
+      className="h-3 w-3"
       fill="none"
       stroke="currentColor"
       strokeWidth="2"
