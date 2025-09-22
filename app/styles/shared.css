@@ -309,6 +309,9 @@ a.animated-gradient-text {
 .rendered-markdown h3 + section {
   @apply mt-4;
 }
+.rendered-markdown h4 {
+  @apply mb-2 mt-4 text-lg;
+}
 .rendered-markdown p {
   @apply my-5 text-gray-800 dark:text-gray-100;
 }
