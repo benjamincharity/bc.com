@@ -91,7 +91,8 @@ export default function Index() {
   const query = useMemo(() => searchParams.get('q'), [searchParams]);
   const reduceMotion = useReducedMotion();
   const hasNextPage = articles.length >= PER_PAGE * page;
-  const nextPageLink = `${RoutePaths.articles}?page=${page + 1}`;
+  const isDraft = searchParams.get('draft') === 'true';
+  const nextPageLink = `${RoutePaths.articles}?page=${page + 1}${isDraft ? '&draft=true' : ''}`;
 
   // Get preload links from handle
   const preloadLinks = handle.getPreloadLinks({
