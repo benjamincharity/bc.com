@@ -98,7 +98,7 @@ function Article({ article, layoutSize = 'large', hideImage = false, ...divProps
             />
           </Link>
         )}
-        <div className={`flex-1 ${isCompact ? 'border-l-0' : 'rounded-b-lg border-t-0'} border-2 border-gray-500 border-opacity-20 ${isCompact ? 'p-4' : 'p-6'} transition hover:border-opacity-50`}>
+        <div className={`flex-1 border-2 border-gray-500 border-opacity-20 ${isCompact ? 'p-4 rounded-lg' : 'rounded-b-lg border-t-0 p-6'} transition hover:border-opacity-50`}>
           <TagsDisplay tags={tags} />
           <ArticleTitleLink 
             title={title} 

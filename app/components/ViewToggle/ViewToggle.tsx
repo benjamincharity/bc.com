@@ -1,5 +1,3 @@
-import React from 'react';
-
 interface ViewToggleProps {
   isCompactView: boolean;
   onToggle: () => void;

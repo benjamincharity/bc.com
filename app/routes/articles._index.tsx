@@ -1,12 +1,11 @@
 import { useReducedMotion } from '@mantine/hooks';
 import { type LinksFunction, type MetaFunction } from '@remix-run/node';
 import {
-  Links,
   PrefetchPageLinks,
   useLoaderData,
   useSearchParams,
 } from '@remix-run/react';
-import React, { useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { useObservable } from '@legendapp/state/react';
 
 import { TagsPayload } from '~/types/articles';
