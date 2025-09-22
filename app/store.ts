@@ -17,3 +17,8 @@ const initialState: NavigationState = {
 };
 
 export const navigationState$ = observable(initialState);
+
+// ARTICLES VIEW STATE
+export const articlesViewState$ = observable({
+  isCompactView: false,
+});
