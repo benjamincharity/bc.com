@@ -100,7 +100,7 @@ export default function Index() {
   const isCompactView = useObservable(articlesViewState$.isCompactView);
   
   const toggleView = () => {
-    articlesViewState$.isCompactView.set(!isCompactView.get());
+    articlesViewState$.isCompactView.set(!isCompactView);
   };
 
   // Get preload links from handle
@@ -137,7 +137,7 @@ export default function Index() {
       <div className="flex justify-between align-middle">
         <BackToLink to={RoutePaths.home}>Home</BackToLink>
         <div className="flex items-center space-x-4">
-          <ViewToggle isCompactView={isCompactView.get()} onToggle={toggleView} />
+          <ViewToggle isCompactView={isCompactView} onToggle={toggleView} />
           <button
             className={
               'animated-link-underline relative -top-1 mb-4 text-sm font-normal'
@@ -149,7 +149,7 @@ export default function Index() {
         </div>
       </div>
 
-      <ArticlesList articles={articles} isCompactView={isCompactView.get()} />
+      <ArticlesList articles={articles} isCompactView={isCompactView} />
 
       <div className={'text-small px-4 pt-4 text-center'}>
         {hasNextPage ? (
