@@ -7,6 +7,7 @@ import {
   useSearchParams,
 } from '@remix-run/react';
 import React, { useEffect, useMemo } from 'react';
+import { useObservable } from '@legendapp/state/react';
 
 import { TagsPayload } from '~/types/articles';
 import { FixMeLater } from '~/types/shame';
@@ -20,6 +21,7 @@ import { BackToTop } from '~/components/BackToTop';
 import { Badge } from '~/components/Badge';
 import { BrowseByTags } from '~/components/BrowseByTags';
 import { NewsletterSignUp } from '~/components/NewsletterSignUp';
+import { ViewToggle } from '~/components/ViewToggle';
 import {
   ArticleReference,
   getAllTags,
@@ -28,6 +30,7 @@ import {
 import { generateMetaCollection } from '~/utils/generateMetaCollection';
 import { getThemeSession } from '~/utils/theme.server';
 import { Theme } from '~/utils/theme.provider';
+import { articlesViewState$ } from '~/store';
 
 const PER_PAGE_FIRST = 7;
 const PER_PAGE = 6;
@@ -94,6 +97,13 @@ export default function Index() {
   const isDraft = searchParams.get('draft') === 'true';
   const nextPageLink = `${RoutePaths.articles}?page=${page + 1}${isDraft ? '&draft=true' : ''}`;
 
+  // View state management
+  const isCompactView = useObservable(articlesViewState$.isCompactView);
+  
+  const toggleView = () => {
+    articlesViewState$.isCompactView.set(!isCompactView.get());
+  };
+
   // Get preload links from handle
   const preloadLinks = handle.getPreloadLinks({
     articles,
@@ -127,17 +137,20 @@ export default function Index() {
 
       <div className="flex justify-between align-middle">
         <BackToLink to={RoutePaths.home}>Home</BackToLink>
-        <button
-          className={
-            'animated-link-underline relative -top-1 mb-4 text-sm font-normal'
-          }
-          onClick={scrollToBottom}
-        >
-          Jump to tags &darr;
-        </button>
+        <div className="flex items-center space-x-4">
+          <ViewToggle isCompactView={isCompactView.get()} onToggle={toggleView} />
+          <button
+            className={
+              'animated-link-underline relative -top-1 mb-4 text-sm font-normal'
+            }
+            onClick={scrollToBottom}
+          >
+            Jump to tags &darr;
+          </button>
+        </div>
       </div>
 
-      <ArticlesList articles={articles} />
+      <ArticlesList articles={articles} isCompactView={isCompactView.get()} />
 
       <div className={'text-small px-4 pt-4 text-center'}>
         {hasNextPage ? (
