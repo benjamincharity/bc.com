@@ -26,8 +26,8 @@ import {
   getLatestArticles,
 } from '~/utils/articles.server';
 import { generateMetaCollection } from '~/utils/generateMetaCollection';
-import { getThemeSession } from '~/utils/theme.server';
 import { Theme } from '~/utils/theme.provider';
+import { getThemeSession } from '~/utils/theme.server';
 
 const PER_PAGE_FIRST = 7;
 const PER_PAGE = 6;

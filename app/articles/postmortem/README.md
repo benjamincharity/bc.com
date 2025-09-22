@@ -1,10 +1,13 @@
 # Post-Mortem Article Series
 
-This directory contains a comprehensive series on effective post-mortems that prevent future incidents. The articles are designed to be read in a specific order for maximum understanding and impact.
+This directory contains a comprehensive series on effective post-mortems that
+prevent future incidents. The articles are designed to be read in a specific
+order for maximum understanding and impact.
 
 ## Reading Order and Timeline
 
 ### Main Articles
+
 1. **Executive Brief**
    - For executives and directors who want the why and business case
    - High-level overview of the problem and solution
@@ -21,6 +24,7 @@ This directory contains a comprehensive series on effective post-mortems that pr
    - Success stories and case studies
 
 ### Deep Dive Articles
+
 4. **The Reality Check**
    - Why incidents keep repeating
    - Brutal statistics on self-inflicted failures
@@ -54,6 +58,7 @@ This directory contains a comprehensive series on effective post-mortems that pr
 ## Article Structure
 
 Each article:
+
 - Opens with its own framing hook
 - Stands alone with new intro and context
 - Reuses and refines content from the full guide
@@ -62,6 +67,7 @@ Each article:
 ## SEO and Marketing
 
 All articles use the prefix "Effective Post-Mortems:" for:
+
 - Clear value proposition
 - SEO optimization for "effective post mortem" searches
 - Consistent branding across the series
@@ -70,6 +76,7 @@ All articles use the prefix "Effective Post-Mortems:" for:
 ## Maintenance
 
 When updating these articles:
+
 1. Maintain the logical flow between articles
 2. Keep crosslinks updated if URLs change
 3. Ensure dates remain staggered for proper release sequence

@@ -149,7 +149,10 @@ async function findMdxFiles(dir: string): Promise<string[]> {
  * @param includeDrafts - Whether to include draft articles (useful for preview)
  * @returns A Promise that resolves to an array of ArticleReference objects.
  */
-async function fetchArticles(count?: number, includeDrafts = false): Promise<ArticleReference[]> {
+async function fetchArticles(
+  count?: number,
+  includeDrafts = false
+): Promise<ArticleReference[]> {
   // In production, try to read from cache first. In development, always scan filesystem for immediate updates.
   if (process.env.NODE_ENV === 'production') {
     const cached = await readMetadataCache();
@@ -202,7 +205,9 @@ async function fetchArticles(count?: number, includeDrafts = false): Promise<Art
  * @param includeDrafts - Whether to include draft articles (useful for preview)
  * @returns A Promise that resolves to an array of all ArticleReference objects.
  */
-export async function getAllArticles(includeDrafts = false): Promise<ArticleReference[]> {
+export async function getAllArticles(
+  includeDrafts = false
+): Promise<ArticleReference[]> {
   return fetchArticles(undefined, includeDrafts);
 }
 

@@ -19,7 +19,7 @@ const Codepen: React.FC<ReactCodepenProps> = ({
 }) => {
   // Build the embed URL with parameters
   const embedUrl = `https://codepen.io/${user}/embed/${hash}?height=${height}&default-tab=${encodeURIComponent(defaultTab)}&slug-hash=${hash}&user=${user}&name=cp_embed_${hash.slice(0, 6)}`;
-  
+
   const penLink = `https://codepen.io/${user}/pen/${hash}/`;
   const userProfileLink = `https://codepen.io/${user}`;
 

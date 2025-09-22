@@ -201,17 +201,17 @@ const processor = unified()
   // Process GIF controls BEFORE rewrite modifies the image elements
   .use(rehypeGifControls, {
     gifPlayer: {
-      delay: 500,        // Delay before auto-play in ms
-      autoplay: true,    // Auto-play when scrolled into view
-      preload: true,     // Preload GIF frames
-      showLoader: true,  // Show loading spinner
+      delay: 500, // Delay before auto-play in ms
+      autoplay: true, // Auto-play when scrolled into view
+      preload: true, // Preload GIF frames
+      showLoader: true, // Show loading spinner
     },
     security: {
       allowedDomains: [
-        'benjamincharity.com',    // Production domain
-        'vercel.app',             // Vercel preview domains
-        'localhost',              // Local development
-        'res.cloudinary.com',     // Cloudinary CDN
+        'benjamincharity.com', // Production domain
+        'vercel.app', // Vercel preview domains
+        'localhost', // Local development
+        'res.cloudinary.com', // Cloudinary CDN
       ],
     },
   })

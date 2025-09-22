@@ -51,9 +51,6 @@
     ],
     "deny": [],
     "ask": [],
-    "additionalDirectories": [
-      "/Users/bc/.claude/local",
-      "/Users/bc"
-    ]
+    "additionalDirectories": ["/Users/bc/.claude/local", "/Users/bc"]
   }
 }
