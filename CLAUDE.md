@@ -88,6 +88,41 @@ The build process has dependencies:
 
 - `~/*` maps to `./app/*` (configured in tsconfig.json)
 
+## Environment Variables
+
+Required environment variables (see `.env.example`):
+- `SESSION_SECRET` - Required for session encryption in production
+- `BUTTONDOWN_API_KEY` - Optional newsletter integration
+- `NODE_ENV` - Environment setting (development/production)
+
+## Testing
+
+- **Unit Tests**: Jest with React Testing Library (`pnpm test`)
+  - Tests located in `app/tests/` with `*.spec.tsx` pattern
+  - JSDOM environment with path alias support
+- **E2E Tests**: Playwright across Chrome, Firefox, Safari (`pnpm e2e`)
+  - Tests in `e2e/` directory, runs against localhost:3000
+
+## Git Hooks & Code Quality
+
+- Husky pre-commit hooks run `pretty-quick --staged`
+- Prettier with Tailwind CSS plugin for consistent formatting
+- ESLint configuration with TypeScript and React rules
+
+## PWA Service Worker
+
+- Custom service worker with multi-cache strategy at `app/entry.worker.ts`
+- Caches assets, data, and documents separately
+- Supports offline fallback with network-first approach
+- Handles Cloudinary images and CodePen embeds
+
+## Deployment (Vercel)
+
+- Comprehensive security headers and CSP policies in `vercel.json`
+- Aggressive caching: 1 year for static assets, 1 week for articles
+- Image optimization with WebP format and multiple sizes
+- Framework detection with Remix adapter
+
 ## Environment
 
 - Node.js ^20.0.0
