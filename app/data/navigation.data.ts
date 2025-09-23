@@ -21,11 +21,3 @@ export const NAVIGATION_LINKS = [
     destination: 'https://github.com/benjamincharity/',
   },
 ];
-
-// Saving for later
-const UNUSED_LINKS = [
-  {
-    display: 'SoundCloud',
-    destination: 'https://soundcloud.com/benjamin-charity',
-  },
-];

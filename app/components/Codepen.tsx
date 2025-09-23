@@ -5,7 +5,6 @@ interface ReactCodepenProps {
   hash: string;
   height?: number;
   title?: string;
-  themeId?: string | number;
   user: string;
 }
 
@@ -14,7 +13,6 @@ const Codepen: React.FC<ReactCodepenProps> = ({
   hash,
   height = 300,
   title,
-  themeId = 'dark',
   user,
 }) => {
   // Build the embed URL with parameters
