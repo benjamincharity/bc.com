@@ -20,7 +20,6 @@ if (!sessionSecret) {
 }
 
 const finalSecret = sessionSecret || 'dev-only-secret-change-in-production';
-const isProd = process.env.NODE_ENV === 'production';
 // In Vercel, all environments use HTTPS, so secure should always be true in production
 // But for local development, we want secure to be false
 const isSecure = process.env.NODE_ENV === 'production';

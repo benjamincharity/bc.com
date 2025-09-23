@@ -6,7 +6,7 @@ import {
   useSearchParams,
 } from '@remix-run/react';
 import React, { useMemo } from 'react';
-import { useObservable } from '@legendapp/state/react';
+import { useSelector } from '@legendapp/state/react';
 
 import { TagsPayload } from '~/types/articles';
 import { FixMeLater } from '~/types/shame';
@@ -97,10 +97,15 @@ export default function Index() {
   const nextPageLink = `${RoutePaths.articles}?page=${page + 1}${isDraft ? '&draft=true' : ''}`;
 
   // View state management
-  const isCompactView = useObservable(articlesViewState$.isCompactView);
-  
+  const isCompactView = useSelector(() => articlesViewState$.isCompactView.get());
+
   const toggleView = () => {
-    articlesViewState$.isCompactView.set(!isCompactView);
+    const newValue = !isCompactView;
+    articlesViewState$.isCompactView.set(newValue);
+    // Persist to localStorage
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('articlesCompactView', String(newValue));
+    }
   };
 
   // Get preload links from handle
@@ -134,19 +139,19 @@ export default function Index() {
         />
       ))}
 
-      <div className="flex justify-between align-middle">
+      <div className="relative flex items-center justify-between mb-4">
         <BackToLink to={RoutePaths.home}>Home</BackToLink>
-        <div className="flex items-center space-x-4">
+        <div className="absolute left-1/2 -translate-x-1/2">
           <ViewToggle isCompactView={isCompactView} onToggle={toggleView} />
-          <button
-            className={
-              'animated-link-underline relative -top-1 mb-4 text-sm font-normal'
-            }
-            onClick={scrollToBottom}
-          >
-            Jump to tags &darr;
-          </button>
         </div>
+        <button
+          className={
+            'animated-link-underline text-sm font-normal'
+          }
+          onClick={scrollToBottom}
+        >
+          Jump to tags &darr;
+        </button>
       </div>
 
       <ArticlesList articles={articles} isCompactView={isCompactView} />
