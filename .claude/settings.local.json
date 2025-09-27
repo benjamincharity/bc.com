@@ -47,7 +47,8 @@
       "WebFetch(domain:github.com)",
       "Bash(find:*)",
       "Bash(grep:*)",
-      "Bash(do echo \"Processing $file\")"
+      "Bash(git mv:*)",
+      "Bash(do sed -i *)"
     ],
     "deny": [],
     "ask": [],
