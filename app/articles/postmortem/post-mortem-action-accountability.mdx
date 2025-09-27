@@ -1,6 +1,6 @@
 ---
 title: "Effective Post-Mortems: Action Accountability"
-publishDate: 2026-01-21
+publishDate: 2025-10-13
 summary: If everyone owns it, no one owns it. Learn how leading teams ensure post-mortem improvements actually get implemented through clear ownership, realistic deadlines, and systematic tracking that treats reliability work as seriously as feature development.
 tags:
   - engineering
@@ -11,7 +11,7 @@ images: ['incident-dive4-rangers-checklist.webp']
 draft: true
 ---
 
-> **This is part of the Post-Mortem series.** Read the [Executive Brief](/articles/post-mortem-executive-brief) (7 min), the [Field Guide](/articles/post-mortem-field-guide) (20 min), or the [Definitive Guide](/articles/post-mortem-that-actually-prevents-future-incidents) (60 min, canonical).
+> **This is part of the Post-Mortem series.** Read the [Executive Brief](/articles/post-mortem-executive-brief) (7 min), the [Field Guide](/articles/post-mortem-field-guide) (20 min), or the [Definitive Guide](/articles/post-mortem-definitive-guide) (60 min, canonical).
 
 ## If Everyone Owns It, No One Owns It
 
@@ -19,7 +19,7 @@ You've conducted a brilliant post-mortem. The team identified three systemic iss
 
 This execution gap is where most post-mortem programs fail. Even when teams identify valuable insights and concrete improvements, follow-through often falters. Without clear ownership and systematic tracking, action items disappear into backlogs, and the underlying vulnerabilities remain.
 
-The brutal reality: Less than 50% of organizations have mature incident learning processes with consistent follow-through. Those that do enjoy substantially fewer repeat outages.[²](/articles/post-mortem-that-actually-prevents-future-incidents#user-content-fn-2) The completion gap is what separates incremental learning from real resilience.
+The brutal reality: Less than 50% of organizations have mature incident learning processes with consistent follow-through. Those that do enjoy substantially fewer repeat outages.[²](/articles/post-mortem-definitive-guide#user-content-fn-2) The completion gap is what separates incremental learning from real resilience.
 
 ![A ranger's checklist at a trailhead.](incident-dive4-rangers-checklist.webp)
 
@@ -29,9 +29,9 @@ Understanding why follow-ups fail is crucial to fixing the process:
 
 ### The Action Item Void
 
-Atlassian calls this the "action item void": the black hole where good intentions go to die. Google's SRE documentation describes it as creating "unvirtuous cycles of unclosed postmortems" when organizations reward writing reports but not completing the associated fixes.[¹¹](/articles/post-mortem-that-actually-prevents-future-incidents#user-content-fn-11)
+Atlassian calls this the "action item void": the black hole where good intentions go to die. Google's SRE documentation describes it as creating "unvirtuous cycles of unclosed postmortems" when organizations reward writing reports but not completing the associated fixes.[¹¹](/articles/post-mortem-definitive-guide#user-content-fn-11)
 
-This execution gap is widely recognized across the industry. **Subpar postmortems with incomplete action items make incident recurrence far more likely**, and action items without clear owners are significantly less likely to be resolved.[¹⁰](/articles/post-mortem-that-actually-prevents-future-incidents#user-content-fn-10)
+This execution gap is widely recognized across the industry. **Subpar postmortems with incomplete action items make incident recurrence far more likely**, and action items without clear owners are significantly less likely to be resolved.[¹⁰](/articles/post-mortem-definitive-guide#user-content-fn-10)
 
 ### Two Fatal Patterns
 
@@ -39,7 +39,7 @@ This execution gap is widely recognized across the industry. **Subpar postmortem
 Actions like "investigate X" or "add monitoring for Y" get assigned to a team or left unassigned. When everyone owns it, no one owns it. Without a single accountable person, the task never happens.
 
 #### No Deadlines or Follow-up
-In many organizations, there's no defined timeline for post-mortem fixes. Teams move on to new project work, and incident action items get deprioritized indefinitely. One report notes that teams had to implement strict 4- or 8-week SLOs for completing "priority actions" to ensure these fixes weren't endlessly postponed.[¹⁰](/articles/post-mortem-that-actually-prevents-future-incidents#user-content-fn-10)
+In many organizations, there's no defined timeline for post-mortem fixes. Teams move on to new project work, and incident action items get deprioritized indefinitely. One report notes that teams had to implement strict 4- or 8-week SLOs for completing "priority actions" to ensure these fixes weren't endlessly postponed.[¹⁰](/articles/post-mortem-definitive-guide#user-content-fn-10)
 
 ### The Vicious Cycle
 
@@ -55,7 +55,7 @@ Elite organizations have cracked the code on action accountability through syste
 
 Every single action item from a post-mortem gets assigned to an individual owner (with their agreement), not to a group or left as "TBD." That person is accountable for driving completion or escalating issues.
 
-Atlassian's approach: They track all post-mortem follow-up tasks in Jira, linking them to the incident ticket, with an assignee for each.[¹⁰](/articles/post-mortem-that-actually-prevents-future-incidents#user-content-fn-10) This avoids the diffusion of responsibility that plagues many follow-ups.
+Atlassian's approach: They track all post-mortem follow-up tasks in Jira, linking them to the incident ticket, with an assignee for each.[¹⁰](/articles/post-mortem-definitive-guide#user-content-fn-10) This avoids the diffusion of responsibility that plagues many follow-ups.
 
 Why individuals matter: Personal accountability creates ownership. When someone's name is on a task, they're more likely to drive it to completion or raise blockers early.
 
@@ -67,7 +67,7 @@ Not all fixes are equal. Some might be quick (adding a missing alert), others mi
 - **Medium improvements:** 4-8 weeks with milestones
 - **Large projects:** Break into phases with concrete deliverables
 
-Atlassian's framework: They designate "Priority 1 actions" that must be completed within 4 or 8 weeks depending on severity, with actual reporting on these deadlines.[¹⁰](/articles/post-mortem-that-actually-prevents-future-incidents#user-content-fn-10)
+Atlassian's framework: They designate "Priority 1 actions" that must be completed within 4 or 8 weeks depending on severity, with actual reporting on these deadlines.[¹⁰](/articles/post-mortem-definitive-guide#user-content-fn-10)
 
 The goal isn't micro-management but ensuring improvements don't slip into "someday." If an action will take longer than a couple of months, break it into phases or make it a formal project.
 
@@ -79,7 +79,7 @@ What mechanism ensures the team doesn't forget? This can be lightweight but must
 Some teams set up an "Incident Action Item Kanban" visible to engineering leads and review it in staff meetings every two weeks. This creates gentle peer pressure to complete tasks and allows raising blockers.
 
 #### Automated Reminders
-Many companies automate periodic Slack reminders about open post-mortem tasks. Atlassian built custom reporting from Jira to see how many incidents still have open "priority actions," with managers reviewing that list regularly.[¹¹](/articles/post-mortem-that-actually-prevents-future-incidents#user-content-fn-11)
+Many companies automate periodic Slack reminders about open post-mortem tasks. Atlassian built custom reporting from Jira to see how many incidents still have open "priority actions," with managers reviewing that list regularly.[¹¹](/articles/post-mortem-definitive-guide#user-content-fn-11)
 
 #### Executive Visibility
 **Measure it and it will improve.** If leadership tracks "action item closure rate" as a key metric, teams are more likely to follow through. High-performing teams treat that closure rate as seriously as uptime or velocity.
@@ -88,7 +88,7 @@ Many companies automate periodic Slack reminders about open post-mortem tasks. A
 
 This is a force multiplier. When senior leaders (director, VP, CTO) regularly read post-mortems and ask about follow-up status, it signals this work is truly important.
 
-Google's approach: SRE leaders note that management's active participation in postmortem reviews and follow-up is crucial to reinforce the culture.[⁵](/articles/post-mortem-that-actually-prevents-future-incidents#user-content-fn-5) In practice, this might mean:
+Google's approach: SRE leaders note that management's active participation in postmortem reviews and follow-up is crucial to reinforce the culture.[⁵](/articles/post-mortem-definitive-guide#user-content-fn-5) In practice, this might mean:
 - A senior leader chairs post-mortem reviews for major incidents
 - Executives add comments like "The database timeout fix looks critical. Do you need help getting database team bandwidth?"
 - Public recognition for team members who implement major preventive fixes
@@ -159,12 +159,12 @@ Don't let the pursuit of perfect fixes prevent good incremental improvements. A 
 
 Organizations with systematic action item tracking and completion see:
 
-- **Significantly fewer repeat incidents** compared to teams with poor follow-through[¹⁰](/articles/post-mortem-that-actually-prevents-future-incidents#user-content-fn-10).
+- **Significantly fewer repeat incidents** compared to teams with poor follow-through[¹⁰](/articles/post-mortem-definitive-guide#user-content-fn-10).
 - **Accumulated institutional knowledge** and resilience over time.
 - **Higher team morale** as engineers see their effort resulting in tangible improvements.
 - **Customer trust** through demonstrated commitment to reliability.
 
-As Google acknowledges, continuous postmortem investment results in fewer outages over time and better user experiences.[⁵](/articles/post-mortem-that-actually-prevents-future-incidents#user-content-fn-5) **Robust action follow-through pays off in reliability and customer trust.**
+As Google acknowledges, continuous postmortem investment results in fewer outages over time and better user experiences.[⁵](/articles/post-mortem-definitive-guide#user-content-fn-5) **Robust action follow-through pays off in reliability and customer trust.**
 
 ## Implementation Quick Start
 
@@ -181,10 +181,10 @@ As Google acknowledges, continuous postmortem investment results in fewer outage
 
 ---
 
-> **Want the definitive framework?** Read the [Definitive Guide](/articles/post-mortem-that-actually-prevents-future-incidents) for detailed tracking templates, success metrics, and case studies from Google, Atlassian, and other leading organizations.
+> **Want the definitive framework?** Read the [Definitive Guide](/articles/post-mortem-definitive-guide) for detailed tracking templates, success metrics, and case studies from Google, Atlassian, and other leading organizations.
 
 ---
 
 ### Research Citations:
 
-For detailed sources and research backing these claims, see the [Definitive Guide References](/articles/post-mortem-that-actually-prevents-future-incidents#references).
+For detailed sources and research backing these claims, see the [Definitive Guide References](/articles/post-mortem-definitive-guide#references).
