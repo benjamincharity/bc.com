@@ -1,6 +1,6 @@
 ---
 title: "Effective Post-Mortems: Leadership Buy-In"
-publishDate: 2026-01-23
+publishDate: 2025-10-20
 summary: Blameless doesn't mean toothless. Learn how to address common executive concerns about accountability, time investment, and business impact with data-driven responses that secure leadership support for systematic incident learning.
 tags:
   - engineering
@@ -11,7 +11,7 @@ images: ['incident-dive6-leader.webp']
 draft: true
 ---
 
-> **This is part of the Post-Mortem series.** Read the [Executive Brief](/articles/post-mortem-executive-brief) (7 min), the [Field Guide](/articles/post-mortem-field-guide) (20 min), or the [Definitive Guide](/articles/post-mortem-that-actually-prevents-future-incidents) (60 min, canonical).
+> **This is part of the Post-Mortem series.** Read the [Executive Brief](/articles/post-mortem-executive-brief) (7 min), the [Field Guide](/articles/post-mortem-field-guide) (20 min), or the [Definitive Guide](/articles/post-mortem-definitive-guide) (60 min, canonical).
 
 ## Blameless Doesn't Mean Toothless
 
@@ -35,9 +35,9 @@ Some managers worry that if nobody gets blamed, people won't take incidents seri
 
 ### Present the data:
 
-- Google and Etsy's experiences show engineers actually come forward and own up to mistakes more readily in blameless cultures[⁵](/articles/post-mortem-that-actually-prevents-future-incidents#user-content-fn-5)[⁶](/articles/post-mortem-that-actually-prevents-future-incidents#user-content-fn-6)
-- Teams with psychological safety report 47% more errors: not because they make more mistakes, but because they surface issues that can be fixed[⁴](/articles/post-mortem-that-actually-prevents-future-incidents#user-content-fn-4)
-- In blame-driven cultures, people withhold information to avoid punishment, slowing resolution and hiding systemic problems[⁷](/articles/post-mortem-that-actually-prevents-future-incidents#user-content-fn-7)
+- Google and Etsy's experiences show engineers actually come forward and own up to mistakes more readily in blameless cultures[⁵](/articles/post-mortem-definitive-guide#user-content-fn-5)[⁶](/articles/post-mortem-definitive-guide#user-content-fn-6)
+- Teams with psychological safety report 47% more errors: not because they make more mistakes, but because they surface issues that can be fixed[⁴](/articles/post-mortem-definitive-guide#user-content-fn-4)
+- In blame-driven cultures, people withhold information to avoid punishment, slowing resolution and hiding systemic problems[⁷](/articles/post-mortem-definitive-guide#user-content-fn-7)
 
 ### Frame it correctly:
 
@@ -49,7 +49,7 @@ Some managers worry that if nobody gets blamed, people won't take incidents seri
 
 ### The Business Case Script
 
-"The goal is faster incident resolution and fewer repeat outages. When people freely share information instead of hiding it, we resolve incidents faster and prevent similar ones. **Google's internal data shows that teams with blameless cultures suffer fewer outages and deliver better user experiences.**[⁵](/articles/post-mortem-that-actually-prevents-future-incidents#user-content-fn-5) We're optimizing for business outcomes, not individual punishment."
+"The goal is faster incident resolution and fewer repeat outages. When people freely share information instead of hiding it, we resolve incidents faster and prevent similar ones. **Google's internal data shows that teams with blameless cultures suffer fewer outages and deliver better user experiences.**[⁵](/articles/post-mortem-definitive-guide#user-content-fn-5) We're optimizing for business outcomes, not individual punishment."
 
 ## Objection 2: "We Don't Have Time for All These Follow-Ups and Meetings"
 
@@ -61,7 +61,7 @@ Teams are busy with product deadlines, and managers fear the overhead of thoroug
 
 #### Present the cost comparison:
 
-- Gartner estimates downtime costs approximately $5,600 per minute (~$300k per hour)[¹³](/articles/post-mortem-that-actually-prevents-future-incidents#user-content-fn-13)
+- Gartner estimates downtime costs approximately $5,600 per minute (~$300k per hour)[¹³](/articles/post-mortem-definitive-guide#user-content-fn-13)
 - A single major incident can cost more than months of engineering time
 - Preventing one outage through systematic fixes typically pays for the entire program
 
@@ -74,7 +74,7 @@ Teams are busy with product deadlines, and managers fear the overhead of thoroug
 
 #### Address the investment mindset:
 
-"This is a classic pay-now or pay-later scenario. We can invest a few hours systematically improving our systems, or we can spend dozens of hours firefighting the same issues repeatedly. **Companies implementing systematic post-incident improvements see up to 50% fewer repeat incidents.**[¹²](/articles/post-mortem-that-actually-prevents-future-incidents#user-content-fn-12)"
+"This is a classic pay-now or pay-later scenario. We can invest a few hours systematically improving our systems, or we can spend dozens of hours firefighting the same issues repeatedly. **Companies implementing systematic post-incident improvements see up to 50% fewer repeat incidents.**[¹²](/articles/post-mortem-definitive-guide#user-content-fn-12)"
 
 ### The ROI Script
 
@@ -90,7 +90,7 @@ A lead might argue that every outage is different and case-by-case handling is m
 
 #### Share the research:
 
-While every incident has unique aspects, studies show common failure patterns across organizations. A 2024 study found 80% of incidents stem from internal changes, and 69% lack proactive alerts.[¹](/articles/post-mortem-that-actually-prevents-future-incidents#user-content-fn-1) These are systemic patterns that standardized analysis can catch.
+While every incident has unique aspects, studies show common failure patterns across organizations. A 2024 study found 80% of incidents stem from internal changes, and 69% lack proactive alerts.[¹](/articles/post-mortem-definitive-guide#user-content-fn-1) These are systemic patterns that standardized analysis can catch.
 
 #### Explain the template value:
 
@@ -98,7 +98,7 @@ While every incident has unique aspects, studies show common failure patterns ac
 
 #### Highlight cross-team benefits:
 
-"Standardization allows knowledge sharing across teams. When everyone uses a similar format, it's easier to read each other's reports and learn from different teams' experiences. Companies like Atlassian and Amazon standardized postmortem templates precisely so lessons could be consumed company-wide."[¹⁰](/articles/post-mortem-that-actually-prevents-future-incidents#user-content-fn-10)
+"Standardization allows knowledge sharing across teams. When everyone uses a similar format, it's easier to read each other's reports and learn from different teams' experiences. Companies like Atlassian and Amazon standardized postmortem templates precisely so lessons could be consumed company-wide."[¹⁰](/articles/post-mortem-definitive-guide#user-content-fn-10)
 
 ### The Consistency Script
 
@@ -122,7 +122,7 @@ Directors wonder if someone does something reckless, do they just get away with 
 
 #### Reference industry standards:
 
-"We follow a 'just culture' approach from aviation and healthcare: console human error, coach at-risk behavior, and only discipline reckless behavior.[²²](/articles/post-mortem-that-actually-prevents-future-incidents#user-content-fn-22) Most incidents are system problems or unintentional mistakes. **True recklessness is extremely rare**, maybe 1% of cases."
+"We follow a 'just culture' approach from aviation and healthcare: console human error, coach at-risk behavior, and only discipline reckless behavior.[²²](/articles/post-mortem-definitive-guide#user-content-fn-22) Most incidents are system problems or unintentional mistakes. **True recklessness is extremely rare**, maybe 1% of cases."
 
 ### The Professionalism Script
 
@@ -138,7 +138,7 @@ Executives need tangible business outcomes, not just internal process improvemen
 
 #### Present the reliability connection:
 
-"Yes: research shows a direct link to reliability and customer satisfaction. Organizations implementing systematic post-incident improvements see up to 50% fewer repeat incidents and 30% faster resolution times."[¹²](/articles/post-mortem-that-actually-prevents-future-incidents#user-content-fn-12)
+"Yes: research shows a direct link to reliability and customer satisfaction. Organizations implementing systematic post-incident improvements see up to 50% fewer repeat incidents and 30% faster resolution times."[¹²](/articles/post-mortem-definitive-guide#user-content-fn-12)
 
 #### Show competitive advantage:
 
@@ -242,7 +242,7 @@ Remember: **you're not asking for a leap of faith. You're proposing a proven app
 
 ---
 
-> **Want the definitive implementation framework?** Read the [Definitive Guide](/articles/post-mortem-that-actually-prevents-future-incidents) for detailed success stories, cultural transformation roadmaps, and templates for measuring business impact.
+> **Want the definitive implementation framework?** Read the [Definitive Guide](/articles/post-mortem-definitive-guide) for detailed success stories, cultural transformation roadmaps, and templates for measuring business impact.
 
 ---
 
@@ -258,4 +258,4 @@ Remember: **you're not asking for a leap of faith. You're proposing a proven app
 
 ### Research Citations:
 
-For detailed sources and research backing these claims, see the [Definitive Guide References](/articles/post-mortem-that-actually-prevents-future-incidents#references).
+For detailed sources and research backing these claims, see the [Definitive Guide References](/articles/post-mortem-definitive-guide#references).

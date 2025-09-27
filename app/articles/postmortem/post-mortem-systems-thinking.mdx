@@ -1,6 +1,6 @@
 ---
 title: "Effective Post-Mortems: Systems Thinking"
-publishDate: 2026-01-20
+publishDate: 2025-10-09
 summary: Major incidents are like Swiss cheese, not single bullets. Learn how to shift from "who screwed up" to "how did our system allow this" and uncover the multiple contributing factors that lead to complex system failures.
 tags:
   - engineering
@@ -11,7 +11,7 @@ images: ['incident-dive3-tree-down.webp']
 draft: true
 ---
 
-> **This is part of the Post-Mortem series.** Read the [Executive Brief](/articles/post-mortem-executive-brief) (7 min), the [Field Guide](/articles/post-mortem-field-guide) (20 min), or the [Definitive Guide](/articles/post-mortem-that-actually-prevents-future-incidents) (60 min, canonical).
+> **This is part of the Post-Mortem series.** Read the [Executive Brief](/articles/post-mortem-executive-brief) (7 min), the [Field Guide](/articles/post-mortem-field-guide) (20 min), or the [Definitive Guide](/articles/post-mortem-definitive-guide) (60 min, canonical).
 
 ## Major Incidents Are Swiss Cheese, Not Single Bullets
 
@@ -35,9 +35,9 @@ Once we know the outcome, we conclude we "should have known" things that were ac
 
 ### Confirmation Bias Seeks Easy Answers
 
-Studies show that even experienced investigators can be led astray by their preconceived theories. They seek evidence to fit a favorite hypothesis and overlook contrary facts.[⁹](/articles/post-mortem-that-actually-prevents-future-incidents#user-content-fn-9) In practice, this means a post-mortem might pin the cause on an easy scapegoat when reality involves multiple contributing factors.
+Studies show that even experienced investigators can be led astray by their preconceived theories. They seek evidence to fit a favorite hypothesis and overlook contrary facts.[⁹](/articles/post-mortem-definitive-guide#user-content-fn-9) In practice, this means a post-mortem might pin the cause on an easy scapegoat when reality involves multiple contributing factors.
 
-Dave Zwieback points out that **hindsight and blame create a "comfortable story" that satisfies our need for closure but prevents real learning**.[⁷](/articles/post-mortem-that-actually-prevents-future-incidents#user-content-fn-7) We prematurely decide "Susan deployed bad code, that's the root cause," and stop analyzing deeper systemic issues.
+Dave Zwieback points out that **hindsight and blame create a "comfortable story" that satisfies our need for closure but prevents real learning**.[⁷](/articles/post-mortem-definitive-guide#user-content-fn-7) We prematurely decide "Susan deployed bad code, that's the root cause," and stop analyzing deeper systemic issues.
 
 ### The Fundamental Attribution Error
 
@@ -93,13 +93,13 @@ When someone makes a mistake, resist the urge to focus on their individual faili
 - Were procedures tested under realistic conditions?
 - Did tooling make the wrong action easy and the right action difficult?
 
-As Dave Zwieback puts it: **"Human error is a symptom, never the cause, of deeper trouble in the system."**[⁷](/articles/post-mortem-that-actually-prevents-future-incidents#user-content-fn-7) If someone made a mistake, ask what made that mistake possible and how the system could catch or prevent it.
+As Dave Zwieback puts it: **"Human error is a symptom, never the cause, of deeper trouble in the system."**[⁷](/articles/post-mortem-definitive-guide#user-content-fn-7) If someone made a mistake, ask what made that mistake possible and how the system could catch or prevent it.
 
 ## Learning from Aviation's Transformation
 
-The aviation industry provides a powerful example of systems thinking in action. Aviation achieved a 95%+ incident reporting rate and dramatically reduced accidents by adopting a systemic, non-blame approach.[²²](/articles/post-mortem-that-actually-prevents-future-incidents#user-content-fn-22)
+The aviation industry provides a powerful example of systems thinking in action. Aviation achieved a 95%+ incident reporting rate and dramatically reduced accidents by adopting a systemic, non-blame approach.[²²](/articles/post-mortem-definitive-guide#user-content-fn-22)
 
-Through programs like NASA's Aviation Safety Reporting System, pilots receive immunity when they voluntarily report errors or near-misses. This created an enormous database of systemic issues and fixes. The result: aviation's fatal accident rate kept dropping despite increasing complexity.[²²](/articles/post-mortem-that-actually-prevents-future-incidents#user-content-fn-22)
+Through programs like NASA's Aviation Safety Reporting System, pilots receive immunity when they voluntarily report errors or near-misses. This created an enormous database of systemic issues and fixes. The result: aviation's fatal accident rate kept dropping despite increasing complexity.[²²](/articles/post-mortem-definitive-guide#user-content-fn-22)
 
 The key insight: **When people aren't punished for mistakes, they report problems freely, and the organization as a whole gets safer.** Nearly all incidents get reported, providing a rich dataset for systematic improvement.
 
@@ -162,7 +162,7 @@ Engineers appreciate analyses that focus on improving systems rather than assign
 
 ### Builds Antifragile Systems
 
-By understanding how failures propagate through your system, you can design resilience that actually improves under stress. Companies like Netflix have embraced this through chaos engineering.[¹⁷](/articles/post-mortem-that-actually-prevents-future-incidents#user-content-fn-17)
+By understanding how failures propagate through your system, you can design resilience that actually improves under stress. Companies like Netflix have embraced this through chaos engineering.[¹⁷](/articles/post-mortem-definitive-guide#user-content-fn-17)
 
 ## Your Implementation Checklist
 
@@ -179,10 +179,10 @@ By understanding how failures propagate through your system, you can design resi
 
 ---
 
-> **Want the definitive framework?** Read the [Definitive Guide](/articles/post-mortem-that-actually-prevents-future-incidents) for detailed implementation steps, aviation case studies, and structured analysis templates.
+> **Want the definitive framework?** Read the [Definitive Guide](/articles/post-mortem-definitive-guide) for detailed implementation steps, aviation case studies, and structured analysis templates.
 
 ---
 
 ### Research Citations:
 
-For detailed sources and research backing these claims, see the [Definitive Guide References](/articles/post-mortem-that-actually-prevents-future-incidents#references).
+For detailed sources and research backing these claims, see the [Definitive Guide References](/articles/post-mortem-definitive-guide#references).
