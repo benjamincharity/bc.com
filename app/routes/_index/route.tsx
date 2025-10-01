@@ -35,13 +35,13 @@ export default function Index() {
   return (
     <div
       className={
-        'bc-home pointer-events-none relative z-20 text-center font-vt323 h-full flex flex-col'
+        'bc-home pointer-events-none relative z-20 text-center font-vt323 min-h-full flex flex-col'
       }
     >
-      <main className="flex flex-col flex-grow justify-between">
+      <main className="flex flex-col min-h-full justify-between">
         <Outlet />
 
-        <div className="flex flex-col justify-center space-y-6 sm:space-y-8">
+        <div className="flex flex-col justify-center items-center space-y-6 sm:space-y-8 flex-1">
           <h2 className="mx-2 inline-block hyphens-none text-center font-vt323 text-subTitle uppercase leading-tight text-white text-shadow-title sm:leading-none">
             <span className={'inline-block whitespace-nowrap'}>
               {siteMetadata.professionalTitleSplit[0]}
@@ -56,8 +56,8 @@ export default function Index() {
           </h2>
           <Navigation />
         </div>
-        
-        <section className="mx-auto max-w-xl text-sm leading-tight text-gray-800 sm:text-base pb-4 sm:pb-6 text-center">
+
+        <section className="mx-auto max-w-xl text-sm leading-tight text-gray-800 sm:text-base pb-4 sm:pb-6 text-center flex-shrink-0">
           <h3 className="trusted-title mb-1 text-xs opacity-60 sm:text-sm">Trusted by</h3>
           <ul className="pointer-events-auto list-none leading-none">
             {companies.map((c, i) => {

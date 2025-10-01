@@ -1,0 +1,176 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Header from '~/components/Header.astro';
+import Footer from '~/components/Footer.astro';
+import { formatDate } from '~/utils/date';
+import type { CollectionEntry } from 'astro:content';
+
+export interface Props {
+  frontmatter: CollectionEntry<'blog'>['data'];
+  slug: string;
+  readingTime?: string;
+}
+
+const { frontmatter, slug, readingTime } = Astro.props;
+
+const siteURL = Astro.site;
+const articleURL = new URL(`/blog/${slug}`, siteURL);
+const imageURL = frontmatter.image
+  ? new URL(`/images/articles/${frontmatter.image}`, siteURL)
+  : new URL('/og-image.png', siteURL);
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  headline: frontmatter.title,
+  description: frontmatter.description,
+  image: imageURL.toString(),
+  author: {
+    "@type": "Person",
+    name: "Benjamin Charity",
+    url: siteURL?.toString()
+  },
+  publisher: {
+    "@type": "Person",
+    name: "Benjamin Charity",
+    url: siteURL?.toString()
+  },
+  datePublished: frontmatter.date.toISOString(),
+  dateModified: frontmatter.date.toISOString(),
+  mainEntityOfPage: {
+    "@type": "WebPage",
+    "@id": articleURL.toString()
+  }
+};
+---
+
+<BaseLayout
+  title={`${frontmatter.title} - Benjamin Charity`}
+  description={frontmatter.description}
+  image={imageURL.toString()}
+  type="article"
+  canonicalURL={articleURL}
+  className="article-layout"
+>
+  <Header />
+
+  <main class="container mx-auto px-4 py-8 max-w-4xl">
+    <article class="prose prose-lg prose-pink dark:prose-invert max-w-none">
+      <header class="mb-8 not-prose">
+        <h1 class="text-4xl md:text-5xl font-bold leading-tight mb-4 text-black dark:text-white">
+          {frontmatter.title}
+        </h1>
+
+        <div class="flex flex-wrap items-center gap-4 text-sm text-gray-600 dark:text-gray-400 mb-6">
+          <time datetime={frontmatter.date.toISOString()} class="flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+            {formatDate(frontmatter.date)}
+          </time>
+
+          {readingTime && (
+            <span class="flex items-center gap-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              {readingTime}
+            </span>
+          )}
+        </div>
+
+        {frontmatter.tags && frontmatter.tags.length > 0 && (
+          <div class="flex flex-wrap gap-2 mb-6">
+            {frontmatter.tags.map((tag: string) => (
+              <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-pink-100 text-pink-800 dark:bg-pink-900 dark:text-pink-200">
+                #{tag}
+              </span>
+            ))}
+          </div>
+        )}
+
+        {frontmatter.image && (
+          <div class="mb-8 rounded-lg overflow-hidden">
+            <img
+              src={`/images/articles/${frontmatter.image}`}
+              alt={frontmatter.title}
+              class="w-full h-auto object-cover"
+              loading="eager"
+            />
+          </div>
+        )}
+      </header>
+
+      <div class="article-content">
+        <slot />
+      </div>
+    </article>
+  </main>
+
+  <Footer />
+
+  <!-- Structured Data for SEO -->
+  <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+</BaseLayout>
+
+<style>
+  .article-content {
+    @apply leading-relaxed;
+  }
+
+  .article-content h1,
+  .article-content h2,
+  .article-content h3,
+  .article-content h4,
+  .article-content h5,
+  .article-content h6 {
+    @apply font-bold text-black dark:text-white mt-8 mb-4;
+  }
+
+  .article-content h2 {
+    @apply text-2xl;
+  }
+
+  .article-content h3 {
+    @apply text-xl;
+  }
+
+  .article-content p {
+    @apply mb-4;
+  }
+
+  .article-content blockquote {
+    @apply border-l-4 border-pink-400 pl-4 my-6 italic text-gray-700 dark:text-gray-300;
+  }
+
+  .article-content code {
+    @apply bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded text-sm font-mono;
+  }
+
+  .article-content pre {
+    @apply bg-gray-900 rounded-lg p-4 overflow-x-auto my-6;
+  }
+
+  .article-content pre code {
+    @apply bg-transparent p-0;
+  }
+
+  .article-content img {
+    @apply rounded-lg shadow-lg my-6;
+  }
+
+  .article-content ul,
+  .article-content ol {
+    @apply my-4 pl-6;
+  }
+
+  .article-content li {
+    @apply mb-2;
+  }
+
+  .article-content a {
+    @apply text-pink-600 dark:text-pink-400 hover:text-pink-800 dark:hover:text-pink-200 transition-colors;
+  }
+</style>

@@ -1,0 +1,113 @@
+---
+import ThemeToggle from './islands/ThemeToggle';
+
+const navigation = [
+  { name: 'Home', href: '/' },
+  { name: 'Blog', href: '/blog' },
+  { name: 'About', href: '/about' },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="sticky top-0 z-50 bg-white/80 dark:bg-black/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-800">
+  <div class="container mx-auto px-4">
+    <div class="flex items-center justify-between h-16">
+      <!-- Logo/Brand -->
+      <div class="flex items-center">
+        <a
+          href="/"
+          class="text-xl font-bold text-black dark:text-white hover:text-pink-600 dark:hover:text-pink-400 transition-colors"
+          aria-label="Benjamin Charity - Home"
+        >
+          BC
+        </a>
+      </div>
+
+      <!-- Navigation -->
+      <nav class="hidden md:flex items-center space-x-8">
+        {navigation.map((item) => (
+          <a
+            href={item.href}
+            class={`text-sm font-medium transition-colors hover:text-pink-600 dark:hover:text-pink-400 ${
+              currentPath === item.href || (item.href === '/blog' && currentPath.startsWith('/blog'))
+                ? 'text-pink-600 dark:text-pink-400'
+                : 'text-gray-700 dark:text-gray-300'
+            }`}
+            aria-current={currentPath === item.href ? 'page' : undefined}
+          >
+            {item.name}
+          </a>
+        ))}
+      </nav>
+
+      <!-- Theme Toggle & Mobile Menu -->
+      <div class="flex items-center space-x-4">
+        <ThemeToggle client:load />
+
+        <!-- Mobile Menu Button -->
+        <button
+          id="mobile-menu-button"
+          class="md:hidden p-2 rounded-md text-gray-700 dark:text-gray-300 hover:text-pink-600 dark:hover:text-pink-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+          aria-label="Toggle mobile menu"
+          aria-expanded="false"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Navigation Menu -->
+    <div id="mobile-menu" class="md:hidden hidden border-t border-gray-200 dark:border-gray-800">
+      <div class="py-4 space-y-2">
+        {navigation.map((item) => (
+          <a
+            href={item.href}
+            class={`block px-4 py-2 text-sm font-medium rounded-md transition-colors hover:text-pink-600 dark:hover:text-pink-400 hover:bg-gray-100 dark:hover:bg-gray-800 ${
+              currentPath === item.href || (item.href === '/blog' && currentPath.startsWith('/blog'))
+                ? 'text-pink-600 dark:text-pink-400 bg-pink-50 dark:bg-pink-900/20'
+                : 'text-gray-700 dark:text-gray-300'
+            }`}
+            aria-current={currentPath === item.href ? 'page' : undefined}
+          >
+            {item.name}
+          </a>
+        ))}
+      </div>
+    </div>
+  </div>
+</header>
+
+<script>
+  // Mobile menu toggle functionality
+  const mobileMenuButton = document.getElementById('mobile-menu-button');
+  const mobileMenu = document.getElementById('mobile-menu');
+
+  if (mobileMenuButton && mobileMenu) {
+    mobileMenuButton.addEventListener('click', () => {
+      const isExpanded = mobileMenuButton.getAttribute('aria-expanded') === 'true';
+
+      mobileMenuButton.setAttribute('aria-expanded', (!isExpanded).toString());
+      mobileMenu.classList.toggle('hidden');
+    });
+
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', (event) => {
+      const target = event.target as Element;
+      if (!mobileMenuButton.contains(target) && !mobileMenu.contains(target)) {
+        mobileMenuButton.setAttribute('aria-expanded', 'false');
+        mobileMenu.classList.add('hidden');
+      }
+    });
+
+    // Close mobile menu on escape key
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        mobileMenuButton.setAttribute('aria-expanded', 'false');
+        mobileMenu.classList.add('hidden');
+      }
+    });
+  }
+</script>

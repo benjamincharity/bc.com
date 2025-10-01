@@ -1,0 +1,68 @@
+---
+export interface Props {
+  tag: string;
+  href?: string;
+  size?: 'sm' | 'md' | 'lg';
+  variant?: 'default' | 'outline' | 'subtle';
+  className?: string;
+  interactive?: boolean;
+}
+
+const {
+  tag,
+  href,
+  size = 'md',
+  variant = 'default',
+  className = '',
+  interactive = false
+} = Astro.props;
+
+const sizeClasses = {
+  sm: 'px-2 py-1 text-xs',
+  md: 'px-3 py-1.5 text-sm',
+  lg: 'px-4 py-2 text-base'
+};
+
+const variantClasses = {
+  default: 'bg-pink-100 text-pink-800 dark:bg-pink-900 dark:text-pink-200',
+  outline: 'border border-pink-300 text-pink-700 dark:border-pink-700 dark:text-pink-300 bg-transparent',
+  subtle: 'bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300'
+};
+
+const interactiveClasses = interactive
+  ? 'hover:bg-pink-200 dark:hover:bg-pink-800 hover:text-pink-900 dark:hover:text-pink-100 transition-colors cursor-pointer'
+  : '';
+
+const baseClasses = 'inline-flex items-center rounded-full font-medium';
+const combinedClasses = `${baseClasses} ${sizeClasses[size]} ${variantClasses[variant]} ${interactiveClasses} ${className}`;
+
+const TagElement = href ? 'a' : 'span';
+---
+
+<TagElement
+  href={href}
+  class={combinedClasses}
+  role={interactive ? 'button' : undefined}
+  tabindex={interactive && !href ? '0' : undefined}
+>
+  #{tag}
+</TagElement>
+
+{interactive && !href && (
+  <script>
+    // Add keyboard support for interactive tags without href
+    document.addEventListener('DOMContentLoaded', () => {
+      const interactiveTags = document.querySelectorAll('[role="button"][tabindex="0"]');
+
+      interactiveTags.forEach(tag => {
+        tag.addEventListener('keydown', (event: Event) => {
+          const keyEvent = event as KeyboardEvent;
+          if (keyEvent.key === 'Enter' || keyEvent.key === ' ') {
+            event.preventDefault();
+            (tag as HTMLElement).click();
+          }
+        });
+      });
+    });
+  </script>
+)}

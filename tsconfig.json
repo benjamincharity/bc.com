@@ -1,7 +1,7 @@
 {
-  "include": ["remix.env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["remix.env.d.ts", "**/*.ts", "**/*.tsx", "src/**/*"],
   "compilerOptions": {
-    "lib": ["DOM", "DOM.Iterable", "ES2019"],
+    "lib": ["DOM", "DOM.Iterable", "ES2020"],
     "isolatedModules": true,
     "esModuleInterop": true,
     "jsx": "react-jsx",
@@ -14,10 +14,11 @@
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "paths": {
-      "~/*": ["./app/*"]
+      "~/*": ["./src/*"]
     },
     "skipLibCheck": true,
-    "types": ["node"],
-    "noEmit": true
+    "types": ["node", "vitest/globals"],
+    "noEmit": true,
+    "strictNullChecks": true
   }
 }

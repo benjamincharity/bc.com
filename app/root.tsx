@@ -165,7 +165,7 @@ const App = memo(() => {
 
   return (
     <html
-      className={getHtmlClassName(isBgVisible, theme || loaderTheme)}
+      className={`h-dvh ${getHtmlClassName(isBgVisible, theme || loaderTheme)}`}
       lang="en"
     >
       <head>
@@ -179,8 +179,8 @@ const App = memo(() => {
         ))}
       </head>
 
-      <body>
-        <div className="relative h-100v text-lg flex flex-col">
+      <body className="h-dvh">
+        <div className="relative h-full text-lg flex flex-col">
           <Header backgroundIsVisible={isBgVisible} />
           <div className="flex-grow">
             <Outlet />

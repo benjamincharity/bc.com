@@ -1,0 +1,106 @@
+---
+import { ViewTransitions } from 'astro:transitions';
+import '../styles/global.css';
+import Header from '~/components/islands/Header';
+
+export interface Props {
+  title?: string;
+  description?: string;
+  theme?: 'light' | 'dark' | null;
+  showBackground?: boolean;
+}
+
+const {
+  title = 'Benjamin Charity',
+  description = 'Building products & Engineering teams',
+  theme = null,
+  showBackground = true,
+} = Astro.props;
+
+// This should match your existing siteMetadata structure
+const siteMetadata = {
+  title: 'Benjamin Charity',
+  description: 'Building products & Engineering teams',
+  keywords: ['engineering', 'products', 'leadership', 'technology'],
+  siteUrl: 'https://www.benjamincharity.com',
+};
+
+const fullTitle = title === siteMetadata.title ? title : `${title} | ${siteMetadata.title}`;
+---
+
+<!DOCTYPE html>
+<html lang="en" class={`h-dvh ${theme || 'dark'}`}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="keywords" content={siteMetadata.keywords.join(', ')} />
+    <link rel="canonical" href={siteMetadata.siteUrl + Astro.url.pathname} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={siteMetadata.siteUrl + Astro.url.pathname} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:url" content={siteMetadata.siteUrl + Astro.url.pathname} />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+
+    <!-- Fonts - VT323 is key to your design -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=VT323&family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&display=swap" rel="stylesheet" />
+
+    <!-- Astro Tailwind CSS will be injected automatically -->
+
+    <ViewTransitions />
+    <!-- Keep the original shared.css for now to ensure existing styles work -->
+    <link rel="stylesheet" href="/shared.css" />
+
+    <!-- Theme handling (matching your existing theme provider) -->
+    <script is:inline>
+      // This should match your existing theme.provider.tsx logic
+      (function() {
+        function getTheme() {
+          if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
+            return localStorage.getItem('theme');
+          }
+          if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            return 'dark';
+          }
+          return 'light';
+        }
+
+        const theme = getTheme();
+        if (theme === 'light') {
+          document.documentElement.classList.remove('dark');
+        } else {
+          document.documentElement.classList.add('dark');
+        }
+      })();
+    </script>
+
+    <ViewTransitions />
+  </head>
+  <body class="h-dvh transition-colors duration-100 flex flex-col">
+    <Header client:load transition:persist />
+    <div class="flex-grow">
+      <slot />
+    </div>
+
+    <!-- Your console art and analytics scripts would go here -->
+    <script>
+      // Initialize console art (matching your useConsoleArt hook)
+      if (typeof window !== 'undefined') {
+        console.log('Your existing console art here');
+      }
+    </script>
+  </body>
+</html>

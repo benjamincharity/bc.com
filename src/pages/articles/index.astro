@@ -1,0 +1,78 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import { BackToLink } from '~/components/BackToLink';
+import { ViewToggle } from '~/components/ViewToggle';
+import { ArticlesList } from '~/components/Articles/ArticlesList';
+
+// Get all articles from the blog collection
+const articles = await getCollection('blog');
+
+// Filter out drafts and sort by date (newest first)
+const sortedArticles = articles
+  .filter(article => !article.data.draft)
+  .sort((a, b) => {
+    return new Date(b.data.date).getTime() - new Date(a.data.date).getTime();
+  });
+
+const siteMetadata = {
+  title: 'Benjamin Charity',
+  description: 'Building products & Engineering teams',
+  author: 'Benjamin Charity',
+  url: 'https://www.benjamincharity.com',
+};
+---
+
+<BaseLayout
+  title={`Articles on startups and engineering, by ${siteMetadata.author}`}
+  description="Explore expert articles on engineering leadership in startups and scale-ups. Discover guides on career paths, team dynamics, and innovation in tech."
+  showBackground={false}
+>
+  <section class="prose-wrapper prose-wrapper--large">
+    <div class="relative flex items-center justify-between mb-4">
+      <BackToLink to="/" client:load>Home</BackToLink>
+      <div class="absolute left-1/2 -translate-x-1/2">
+        <ViewToggle isCompactView={false} onToggle={() => {}} client:load />
+      </div>
+      <button
+        class="animated-link-underline text-sm font-normal"
+        onclick="window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })"
+      >
+        Jump to tags ↓
+      </button>
+    </div>
+
+    <ArticlesList articles={sortedArticles} isCompactView={false} client:load />
+
+    <div class="text-center px-4 pt-4">
+      <div>
+        <p class="mb-2 text-sm italic text-gray-700 dark:text-gray-200">
+          You've reached the end!
+        </p>
+        <img
+          class="mx-auto w-80 max-w-full animate-gentleRotate rounded-full shadow-md"
+          alt="A person asleep on a couch, illuminated by the glow of a single open laptop in a dimly lit room, conveying a serene late-night session."
+          src="https://res.cloudinary.com/da2exoho7/image/upload/ar_1:1,c_fill,g_auto,r_max,w_1000/v1707251970/website/person_fallen_asleep.webp"
+        />
+      </div>
+    </div>
+
+    <hr class="fancy" />
+
+    <div id="tags-section" class="text-center py-8">
+      <h3 class="text-lg font-bold font-sourceSerif4 mb-4 text-gray-800 dark:text-white">
+        Browse by tags:
+      </h3>
+      <div class="flex flex-wrap gap-2 justify-center">
+        {Array.from(new Set(sortedArticles.flatMap(article => article.data.tags || []))).sort().map((tag: string) => (
+          <a
+            href={`/articles/tags/${tag}`}
+            class="pseudo-bullet bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 px-3 py-1 rounded text-sm transition-colors"
+          >
+            {tag}
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

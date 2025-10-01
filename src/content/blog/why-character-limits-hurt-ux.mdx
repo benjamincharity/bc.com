@@ -1,0 +1,213 @@
+---
+title: "Why Enforcing Character Limits in UIs Fails (and What to Do Instead)"
+date: 2025-01-30T00:00:00.000Z
+description: "Character limits can feel like a neat solution for keeping your UI clean and consistent. But here’s the problem: the world we design for is messy. From..."
+tags:
+  - "a11y"
+  - "design"
+  - "ux"
+image: "text-truncation-hero.webp"
+draft: false
+---
+
+## Why Enforcing Character Limits in UIs is a Bad Idea (and What to Do Instead)
+
+Character limits can feel like a neat solution for keeping your UI clean and
+consistent. But here’s the problem: the world we design for is messy. From
+diverse languages to the endless variety of screen sizes, rigid character limits
+don’t scale. Worse, they often lead to usability and accessibility issues,
+leaving users frustrated and your product looking inflexible.
+
+And let’s be honest—**truncating text is rarely a solution with the customer in
+mind**. More often than not, it’s about making the UI look “pretty” or adhering
+to a specific design aesthetic. While a clean layout is important, prioritizing
+aesthetics over usability ends up doing a disservice to your users. The goal of
+a UI is to serve your audience, not to cram content into a box for the sake of
+visual tidiness.
+
+![Text spilling out of a computer monitor.](text-truncation-hero.webp)
+
+Let’s unpack why character limits are usually a bad idea, when truncation might
+make sense, and how to handle text constraints in a way that keeps everyone
+happy.
+
+## The Problem with Character Limits
+
+Character limits might seem like a simple way to control your UI, but they often
+create more problems than they solve. Here’s why:
+
+### 1. There Are No Standard Screen Sizes
+
+We live in a world of infinite devices. From phones to ultra-wide monitors and
+everything in between, the idea of designing for a single screen size is
+outdated. A character limit might work perfectly on one layout but overflow
+awkwardly on another or leave too much empty space.
+
+### 2. Languages Break Limits
+
+Character limits assume text will always take up the same amount of space.
+Spoiler: it doesn’t. English text may fit fine, but when translated into German,
+French, or Russian, a simple word like "Settings" (_Einstellungen_ in German)
+can balloon and throw your design into chaos. Character limits also fail to
+account for languages like Arabic, which expand differently due to contextual
+letter forms.
+
+### 3. Accessibility Suffers
+
+Truncated text often hides important context from users relying on screen
+readers or assistive technologies. If there’s no way to access the full content,
+these users are left with incomplete information, creating a significant barrier
+to access.
+
+Even if your UI provides a way to access the full text, such as a tooltip or
+modal, you’re introducing an additional step for the user. Depending on the use
+case, this extra interaction can add unnecessary friction to their workflow.
+Imagine a scenario where a user with a screen reader is navigating a long list
+of truncated items—if they need to interact with each one individually to get
+the full context, their experience becomes slow and frustrating.
+
+In high-frequency or high-stakes workflows, like reviewing medical records,
+processing financial transactions, or searching for a specific document in a
+long list, these extra steps can compound into significant inefficiencies. **A
+design that forces users to repeatedly “dig” for full information isn’t just
+inconvenient—it actively undermines productivity and can lead to errors or
+oversights.**
+
+Accessibility isn’t just about making content available—it’s about making it
+available _easily_. Truncating text without careful consideration can turn what
+should be an intuitive experience into an obstacle course.
+
+## The UX Issues Caused by Character Limits
+
+Let’s look at how character limits impact real-world scenarios:
+
+### 1. Truncated Text With No Context
+
+Imagine an e-commerce app where product titles are shortened to fit a card
+layout. You end up with something like:
+
+- **Before:** _“Organic Cotton T-Shirt - Women’s Size Large”_
+- **After:** _“Organic Cotton T-Shirt -...”_
+
+Users can’t tell if this is the product they’re looking for, forcing them to
+click into every listing to find what they need. Not great.
+
+### 2. Inconsistent User Experiences Across Languages
+
+In multilingual UIs, rigid character limits can make the same UI feel clean in
+one language and completely broken in another. A button labeled "Get Started"
+works well in English but doesn’t fit when translated to _Commencer maintenant_
+in French.
+
+### 3. Lost Opportunities for Responsive Design
+
+Character limits lock your content into a fixed mindset, ignoring how modern
+design needs to adapt. On a desktop layout, a headline might look oddly short,
+leaving wasted whitespace. On mobile, the same headline overflows, forcing
+truncation.
+
+## When Truncation Makes Sense
+
+While truncation is rarely the ideal solution, there are situations where it’s a
+practical compromise. The key is to understand the context, ensure usability,
+and weigh the trade-offs carefully. Here are two examples where truncation can
+make sense:
+
+### 1. Truncating Long Identifiers (e.g., UUIDs)
+
+Generated identifiers like UUIDs are long and often difficult to parse visually.
+Users rarely need to read the entire string but may need to verify specific
+portions. Truncation can make these identifiers more manageable while preserving
+enough context for users:
+
+- **Truncate in the Middle:** Keep the beginning and end visible for reference,
+  like `123e...89ab`.
+- **Truncate the Start (if Sequential):** If identifiers share a common prefix,
+  hiding the repetitive start and showing the differentiating end (e.g.,
+  `...456789ab`) can improve readability.
+
+This approach reduces clutter without sacrificing functionality.
+
+### 2. Managing User-Generated Content: A Real-World Example
+
+Here’s an example from my own experience: I once worked on a piece of software
+where users had a habit of naming documents with absurdly long titles—50+ words,
+in some cases. While our ideal solution would have been to retrain users to
+adopt shorter, more descriptive titles, it wasn’t feasible. **Changing ingrained
+user behavior wouldn’t have provided enough benefit to justify the effort, and
+forcing new limits would have risked alienating users.**
+
+Instead, we opted to truncate titles in the middle, showing the first and last
+portions of the text. Since the app was used exclusively on desktop (not
+mobile), this still allowed users to see over 20 words of the title—enough to
+locate the document they needed. The design balanced usability for the users
+while maintaining consistency across the interface, which kept our product team
+sane.
+
+**Sometimes, real-world constraints force you to adapt.** While it wasn’t a
+perfect solution, it was the best compromise given the context and user
+behavior.
+
+## Best Practices for Truncating Text
+
+If you decide to truncate, follow these essential guidelines to maintain a
+positive user experience:
+
+### 1. Always Provide Access to Full Text
+
+Users should always have a way to view the complete content. Some common
+approaches include:
+
+1. **Tooltips or Popovers:** Show the full text on hover or tap.
+2. **Expandable Text:** Use a `[...]` button to expand the truncated content in
+   place or in a modal.
+
+### 2. Ensure Accessibility
+
+Truncation should never block screen reader users or assistive technologies:
+
+- Use an **`aria-label`** to include the full content.
+- Alternatively, include the full text in a visually hidden element and
+  reference it with **`aria-describedby`**.
+
+### 3. Preserve Full Text for Searching and Filtering
+
+When truncating identifiers like UUIDs, **truncate the display, not the actual
+data**. This ensures users can still search, filter, or copy-paste the complete
+information. Avoid APIs that truncate text before returning it—this almost
+always creates issues for both developers and users.
+
+## Truncation: Almost Always the Wrong Choice
+
+While truncation might occasionally make sense, it’s usually the wrong solution.
+Here’s why:
+
+1. **You’re Designing for Limitations, Not Possibilities** Truncating content
+   assumes your design is static. But modern UIs should be dynamic, adapting to
+   various screen sizes, languages, and contexts. Why force content to fit into
+   a box when you can make the box fit the content?
+2. **It Creates Hidden Complexity** Truncating text adds extra layers of UX
+   complexity. Users need tooltips, modals, or other mechanisms to access the
+   full content. This makes your design harder to use and more challenging to
+   maintain.
+3. **It Fails to Solve the Underlying Problem** If content feels too long,
+   consider rethinking your layout or interaction model. Can the information be
+   grouped or segmented differently? Could you prioritize key details and hide
+   less critical information by default?
+
+The best solution is often not to truncate but to design flexibly, allowing
+content to breathe and adapt.
+
+## Final Thoughts: Truncate Wisely, Design Smarter
+
+Enforcing character limits or truncating text should never be your default
+approach. Instead, **focus on designing UIs that scale gracefully—across
+devices, languages, and use cases**. When truncation is necessary, implement it
+thoughtfully, with clear access to the full content and accessibility in mind.
+
+## Further reading
+
+- [Another Stab at Truncated Text](https://css-tricks.com/another-stab-at-truncated-text/)
+  by Geoff Graham.
+- [Taming Long Text: The Art of Truncation with CSS](https://medium.com/@tejeswar_79802/taming-long-text-the-art-of-truncation-with-css-499e33a7276e)
+  by Tejeswar Reddy
