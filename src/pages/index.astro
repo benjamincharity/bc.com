@@ -1,7 +1,6 @@
 ---
 import BaseLayout from '~/layouts/BaseLayout.astro';
 import FancyBackground from '~/components/islands/FancyBackground';
-import Header from '~/components/islands/Header';
 import Navigation from '~/components/islands/Navigation';
 
 // Your existing site metadata (copied exactly)
@@ -58,43 +57,40 @@ const showBackground = true;
   <FancyBackground client:load isVisible={showBackground} />
 
 
-  <!-- Your EXACT existing home page layout from app/routes/_index/route.tsx -->
-  <div class="bc-home pointer-events-none relative z-20 text-center font-vt323 h-full flex flex-col">
-    <main class="flex flex-col h-full justify-between">
+  <!-- Home page layout - needs to work with the persistent Header from BaseLayout -->
+  <div class="bc-home pointer-events-none relative z-20 text-center font-vt323 h-full flex flex-col justify-between">
+    <main class="flex flex-col items-center pt-8">
+      <!-- Subtitle below the Header (which contains the title) -->
+      <h2 class="mx-2 mt-4 mb-6 inline-block hyphens-none text-center font-vt323 text-subTitle uppercase leading-tight text-white text-shadow-title sm:leading-none">
+        <span class="inline-block whitespace-nowrap">
+          {siteMetadata.professionalTitleSplit[0]}
+        </span>{' '}
+        <span class="inline-block whitespace-nowrap">
+          {siteMetadata.professionalTitleSplit[1]}
+        </span>
+        <br />
+        <span class="inline-block whitespace-nowrap">
+          {siteMetadata.professionalTitleSplit[2]}
+        </span>
+      </h2>
 
-      <div class="flex flex-col justify-center items-center space-y-6 sm:space-y-8 flex-1">
-        <h2 class="mx-2 inline-block hyphens-none text-center font-vt323 text-subTitle uppercase leading-tight text-white text-shadow-title sm:leading-none">
-          <span class="inline-block whitespace-nowrap">
-            {siteMetadata.professionalTitleSplit[0]}
-          </span>{' '}
-          <span class="inline-block whitespace-nowrap">
-            {siteMetadata.professionalTitleSplit[1]}
-          </span>
-          <br />
-          <span class="inline-block whitespace-nowrap">
-            {siteMetadata.professionalTitleSplit[2]}
-          </span>
-        </h2>
-
-        <!-- Your existing Navigation component -->
-        <Navigation client:load />
-      </div>
-
-      <!-- Your existing "Trusted by" companies section -->
-      <section class="mx-auto max-w-xl text-sm leading-tight text-gray-800 sm:text-base pb-4 sm:pb-6 text-center flex-shrink-0">
-        <h3 class="trusted-title mb-1 text-xs opacity-60 sm:text-sm uppercase">Trusted by</h3>
-        <ul class="pointer-events-auto list-none leading-none">
-          {companies.map((c, i) => (
-            <li
-              class={`px-1 py-0 mr-2 inline-block whitespace-nowrap leading-none sm:py-0 sm:mr-3 sm:text-base lg:text-lg ${i === companies.length - 1 ? 'last' : ''}`}
-              key={c}
-            >
-              {c}
-            </li>
-          ))}
-        </ul>
-      </section>
-
+      <!-- Navigation -->
+      <Navigation client:load />
     </main>
+
+    <!-- Companies section at bottom -->
+    <section class="mx-auto max-w-xl text-sm leading-tight text-gray-800 sm:text-base pb-4 sm:pb-6 text-center">
+      <h3 class="trusted-title mb-1 text-xs opacity-60 sm:text-sm uppercase">Trusted by</h3>
+      <ul class="pointer-events-auto list-none leading-none">
+        {companies.map((c, i) => (
+          <li
+            class={`px-1 py-0 mr-2 inline-block whitespace-nowrap leading-none sm:py-0 sm:mr-3 sm:text-base lg:text-lg ${i === companies.length - 1 ? 'last' : ''}`}
+            key={c}
+          >
+            {c}
+          </li>
+        ))}
+      </ul>
+    </section>
   </div>
 </BaseLayout>

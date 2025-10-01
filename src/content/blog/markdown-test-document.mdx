@@ -3,7 +3,7 @@ title: "Markdown Test Document"
 date: 2045-01-01
 description: "Creating a comprehensive Markdown page that includes all possible GitHub Markdown elements can serve as an invaluable resource for documentation, project README"
 tags:
-  - "general"
+  - general
 image: "TestImage.webp"
 draft: false
 ---
@@ -96,7 +96,7 @@ This is an array `[1, 2, 3]{:js}` of numbers 1 through 3.
 
 ### Code Block
 
-```javascript title="Basic syntax highlighting"
+```javascript title="Basic syntax highlighting
 function test() {
   console.log('Standard output');
 }
@@ -104,20 +104,20 @@ function test() {
 
 ### Line Highlighting
 
-```js {2} title="Highlight single line"
+```js {2} title="Highlight single line
 function test() {
   console.log('notice I am highlighted?');
 }
 ```
 
-```js {2,3} title="Highlight multiple lines"
+```js {2,3} title="Highlight multiple lines
 function test() {
   console.log('notice I am highlighted?');
   console.log('and, so am I!');
 }
 ```
 
-```js {2,4-7} title="Highlight range"
+```js {2,4-7} title="Highlight range
 function test() {
   console.log('one');
   console.log('two');
@@ -130,13 +130,13 @@ function test() {
 
 ### Highlight word
 
-```js "test" title="Highlight word"
+```js "test" title="Highlight word
 function test() {
   console.log('notice that test is highlighted?');
 }
 ```
 
-```ts title="Highlight word by comment"
+```ts title="Highlight word by comment
 // [!code word:options:2]
 const options = { foo: 'bar' };
 options.foo = 'baz';
@@ -145,13 +145,13 @@ console.log(options.foo); // this one will not be highlighted
 
 ### Highlight by IDs
 
-```js /age/#a /name/#a /email/#a /setAge/#b /setName/#c /50/#d /'Taylor'/#e /setEmail/#f /example.com/#g title="Highlight multiple by ID"
+```js /age/#a /name/#a /email/#a /setAge/#b /setName/#c /50/#d /'Taylor'/#e /setEmail/#f /example.com/#g title="Highlight multiple by ID
 const [age, setAge] = useState(50);
 const [name, setName] = useState('Taylor');
 const [email, setEmail] = useState('taylor@example.com');
 ```
 
-```ts /ab/#a title="Highlight by ID"
+```ts /ab/#a title="Highlight by ID
 const ab = 12;
 const abcd = 1234;
 ```
@@ -174,11 +174,11 @@ export function foo() {
 
 ### Title & caption
 
-```js title="My title!"
+```js title="My title!
 // Code
 ```
 
-```js caption="My caption!"
+```js caption="My caption!
 // Code
 ```
 

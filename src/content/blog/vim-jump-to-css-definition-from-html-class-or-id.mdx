@@ -3,8 +3,8 @@ title: "Vim Jump to CSS Definition from Class or ID in HTML"
 date: 2015-01-29
 description: "Recently I came across a great [Vim function on Stack Overflow][so]. Once added to your .vimrc, it allows you to jump from a class or ID within an HTML..."
 tags:
-  - "tools"
-  - "workflow"
+  - tools
+  - workflow
 draft: false
 ---
 
@@ -21,9 +21,9 @@ function! JumpToCSS()
 
   if class_pos > 0 || id_pos > 0
     if class_pos < id_pos
-      execute ":vim '#".expand('<cword>')."' */styles/**/*.scss"
+      execute ":vim '#".expand('<cword>')."' */styles/**/*.scss
     elseif class_pos > id_pos
-      execute ":vim '.".expand('<cword>')."' */styles/**/*.scss"
+      execute ":vim '.".expand('<cword>')."' */styles/**/*.scss
     endif
   endif
 endfunction

@@ -1,8 +1,8 @@
 
-# Implementation Plan: [FEATURE]
+# Implementation Plan: Update README and Prepare Cloudflare Deployment
 
-**Branch**: `[###-feature-name]` | **Date**: [DATE] | **Spec**: [link]
-**Input**: Feature specification from `/specs/[###-feature-name]/spec.md`
+**Branch**: `001-migrate-personal-blog` | **Date**: 2025-10-01 | **Spec**: `/specs/001-migrate-personal-blog/readme-cloudflare-spec.md`
+**Input**: Feature specification from `/specs/001-migrate-personal-blog/readme-cloudflare-spec.md`
 
 ## Execution Flow (/plan command scope)
 ```
@@ -31,23 +31,38 @@
 - Phase 3-4: Implementation execution (manual or via tools)
 
 ## Summary
-[Extract from feature spec: primary requirement + technical approach from research]
+Update the README documentation to reflect the new Astro stack implementation and prepare the CI/CD pipeline for deployment to Cloudflare Pages instead of Vercel. This involves documenting the Astro architecture, available commands, development setup, and configuring GitHub Actions for automated testing and Cloudflare deployment.
 
 ## Technical Context
-**Language/Version**: [e.g., Python 3.11, Swift 5.9, Rust 1.75 or NEEDS CLARIFICATION]  
-**Primary Dependencies**: [e.g., FastAPI, UIKit, LLVM or NEEDS CLARIFICATION]  
-**Storage**: [if applicable, e.g., PostgreSQL, CoreData, files or N/A]  
-**Testing**: [e.g., pytest, XCTest, cargo test or NEEDS CLARIFICATION]  
-**Target Platform**: [e.g., Linux server, iOS 15+, WASM or NEEDS CLARIFICATION]
-**Project Type**: [single/web/mobile - determines source structure]  
-**Performance Goals**: [domain-specific, e.g., 1000 req/s, 10k lines/sec, 60 fps or NEEDS CLARIFICATION]  
-**Constraints**: [domain-specific, e.g., <200ms p95, <100MB memory, offline-capable or NEEDS CLARIFICATION]  
-**Scale/Scope**: [domain-specific, e.g., 10k users, 1M LOC, 50 screens or NEEDS CLARIFICATION]
+**Language/Version**: TypeScript 5.x, Node.js 20.x
+**Primary Dependencies**: Astro 4.x, Tailwind CSS, MDX, Cloudflare Pages
+**Storage**: Static site generation with MDX content files
+**Testing**: Vitest for unit tests, Playwright for E2E
+**Target Platform**: Cloudflare Pages (static hosting)
+**Project Type**: web - Static site with build-time generation
+**Performance Goals**: <3s initial load on 3G, Lighthouse >90 all metrics
+**Constraints**: Must maintain URL structure, zero downtime deployment
+**Scale/Scope**: Personal blog site, ~50 articles, CI/CD pipeline
 
 ## Constitution Check
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-[Gates determined based on constitution file]
+### Core Principles Compliance
+- [x] **Content-First Development**: Documentation update focuses on content delivery
+- [x] **Progressive Enhancement**: README and deployment maintain core functionality
+- [x] **Test-Driven Development**: GitHub Actions preserves test-first approach
+- [x] **Performance Budget**: Cloudflare deployment targets <3s load times
+- [x] **Simplicity Over Cleverness**: Using standard GitHub Actions and Cloudflare integration
+
+### Development Standards
+- [x] **Code Quality**: TypeScript strict mode maintained
+- [x] **Testing Standards**: Preserving existing test suite in CI/CD
+- [x] **Accessibility**: N/A for documentation and deployment config
+
+### Deployment & Operations
+- [x] **Version Control**: Following conventional commits
+- [x] **Deployment Process**: CI/CD pipeline with automated tests
+- [x] **Monitoring**: Cloudflare Analytics will replace Vercel Analytics
 
 ## Project Structure
 
@@ -63,50 +78,29 @@ specs/[###-feature]/
 ```
 
 ### Source Code (repository root)
-<!--
-  ACTION REQUIRED: Replace the placeholder tree below with the concrete layout
-  for this feature. Delete unused options and expand the chosen structure with
-  real paths (e.g., apps/admin, packages/something). The delivered plan must
-  not include Option labels.
--->
 ```
-# [REMOVE IF UNUSED] Option 1: Single project (DEFAULT)
+.github/
+├── workflows/
+│   ├── ci.yml              # Testing workflow
+│   └── deploy.yml          # Cloudflare deployment workflow
+
 src/
-├── models/
-├── services/
-├── cli/
-└── lib/
+├── content/
+│   └── blog/               # MDX articles
+├── pages/                  # Astro pages
+├── components/             # React/Astro components
+└── styles/                 # Tailwind styles
 
 tests/
-├── contract/
-├── integration/
-└── unit/
+├── e2e/                    # Playwright tests
+└── unit/                   # Vitest tests
 
-# [REMOVE IF UNUSED] Option 2: Web application (when "frontend" + "backend" detected)
-backend/
-├── src/
-│   ├── models/
-│   ├── services/
-│   └── api/
-└── tests/
-
-frontend/
-├── src/
-│   ├── components/
-│   ├── pages/
-│   └── services/
-└── tests/
-
-# [REMOVE IF UNUSED] Option 3: Mobile + API (when "iOS/Android" detected)
-api/
-└── [same as backend above]
-
-ios/ or android/
-└── [platform-specific structure: feature modules, UI flows, platform tests]
+# Documentation files
+README.md                   # Main documentation
+CLAUDE.md                   # AI assistant context
 ```
 
-**Structure Decision**: [Document the selected structure and reference the real
-directories captured above]
+**Structure Decision**: Documentation-focused structure with GitHub Actions workflows for CI/CD and standard Astro project layout. No backend services required as this is a static site.
 
 ## Phase 0: Outline & Research
 1. **Extract unknowns from Technical Context** above:
@@ -168,17 +162,29 @@ directories captured above]
 **Task Generation Strategy**:
 - Load `.specify/templates/tasks-template.md` as base
 - Generate tasks from Phase 1 design docs (contracts, data model, quickstart)
-- Each contract → contract test task [P]
-- Each entity → model creation task [P] 
-- Each user story → integration test task
-- Implementation tasks to make tests pass
+- Create minimal README task
+- Create documentation directory structure tasks
+- Populate individual documentation files
+- CI workflow implementation from contract
+- Cloudflare configuration tasks from quickstart
+- Validation tasks from success criteria
 
 **Ordering Strategy**:
-- TDD order: Tests before implementation 
-- Dependency order: Models before services before UI
-- Mark [P] for parallel execution (independent files)
+- Documentation structure first: Create docs directory
+- Documentation content second: Populate all docs files [P]
+- Update minimal README third: Simple and clean
+- CI setup fourth: Create GitHub Actions workflow
+- Cloudflare configuration fifth: Connect and configure
+- Validation last: Test entire pipeline
+- Mark [P] for parallel execution where possible
 
-**Estimated Output**: 25-30 numbered, ordered tasks in tasks.md
+**Estimated Output**: 18-22 numbered, ordered tasks in tasks.md covering:
+1. Documentation structure creation (2-3 tasks)
+2. Documentation file population (6 tasks, can be parallel)
+3. Minimal README update (1 task)
+4. CI workflow creation and testing (3-4 tasks)
+5. Cloudflare setup and configuration (4-5 tasks)
+6. Validation and cleanup (2-3 tasks)
 
 **IMPORTANT**: This phase is executed by the /tasks command, NOT by /plan
 
@@ -202,18 +208,18 @@ directories captured above]
 *This checklist is updated during execution flow*
 
 **Phase Status**:
-- [ ] Phase 0: Research complete (/plan command)
-- [ ] Phase 1: Design complete (/plan command)
-- [ ] Phase 2: Task planning complete (/plan command - describe approach only)
+- [x] Phase 0: Research complete (/plan command)
+- [x] Phase 1: Design complete (/plan command)
+- [x] Phase 2: Task planning complete (/plan command - describe approach only)
 - [ ] Phase 3: Tasks generated (/tasks command)
 - [ ] Phase 4: Implementation complete
 - [ ] Phase 5: Validation passed
 
 **Gate Status**:
-- [ ] Initial Constitution Check: PASS
-- [ ] Post-Design Constitution Check: PASS
-- [ ] All NEEDS CLARIFICATION resolved
-- [ ] Complexity deviations documented
+- [x] Initial Constitution Check: PASS
+- [x] Post-Design Constitution Check: PASS
+- [x] All NEEDS CLARIFICATION resolved
+- [x] Complexity deviations documented (none required)
 
 ---
 *Based on Constitution v2.1.1 - See `/memory/constitution.md`*

@@ -1,0 +1,83 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Cloudflare Pages Configuration Contract",
+  "description": "Configuration for Cloudflare Pages deployment",
+  "type": "object",
+  "required": [
+    "projectName",
+    "productionBranch",
+    "buildCommand",
+    "buildOutputDirectory",
+    "nodeVersion"
+  ],
+  "properties": {
+    "projectName": {
+      "type": "string",
+      "description": "Unique project name in Cloudflare account",
+      "pattern": "^[a-z0-9-]+$",
+      "example": "bc-com"
+    },
+    "productionBranch": {
+      "type": "string",
+      "description": "Branch to deploy to production",
+      "default": "main"
+    },
+    "previewBranches": {
+      "type": "string",
+      "description": "Branches to create preview deployments",
+      "default": "All non-production branches"
+    },
+    "buildCommand": {
+      "type": "string",
+      "description": "Command to build the project",
+      "example": "pnpm build"
+    },
+    "buildOutputDirectory": {
+      "type": "string",
+      "description": "Directory containing build output",
+      "example": "dist"
+    },
+    "rootDirectory": {
+      "type": "string",
+      "description": "Root directory for the build",
+      "default": "/"
+    },
+    "nodeVersion": {
+      "type": "string",
+      "description": "Node.js version for builds",
+      "enum": ["20", "20.x"],
+      "default": "20"
+    },
+    "environmentVariables": {
+      "type": "object",
+      "description": "Build-time environment variables",
+      "additionalProperties": {
+        "type": "string"
+      },
+      "examples": [
+        {
+          "SITE_URL": "https://benjamincharity.com"
+        }
+      ]
+    },
+    "compatibility": {
+      "type": "object",
+      "properties": {
+        "nodeCompat": {
+          "type": "boolean",
+          "description": "Enable Node.js compatibility",
+          "default": false
+        }
+      }
+    }
+  },
+  "example": {
+    "projectName": "bc-com",
+    "productionBranch": "main",
+    "buildCommand": "pnpm build",
+    "buildOutputDirectory": "dist",
+    "rootDirectory": "/",
+    "nodeVersion": "20",
+    "environmentVariables": {}
+  }
+}

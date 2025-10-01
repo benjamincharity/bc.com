@@ -1,262 +1,146 @@
-# Tasks: Migrate Personal Blog from Remix to Astro
+# Tasks: Update README and Prepare Cloudflare Deployment
 
 **Input**: Design documents from `/specs/001-migrate-personal-blog/`
-**Prerequisites**: plan.md (required), research.md, data-model.md, contracts/
+**Prerequisites**: plan.md ✓, data-model.md ✓, contracts/ ✓, quickstart.md ✓
 
 ## Execution Flow (main)
 ```
-1. Load plan.md from feature directory
-   → SUCCESS: Implementation plan loaded
-   → Extract: Astro 5.x + React 19.x + TypeScript 5.x + Tailwind CSS 4.x
-2. Load optional design documents:
-   → data-model.md: 5 entities (Article, UserPreference, Newsletter, Navigation, Cache)
-   → contracts/: TypeScript contracts for components and APIs
-   → research.md: Technical decisions for migration approach
+1. Load plan.md from feature directory ✓
+   → Extract: TypeScript 5.x, Astro 4.x, Cloudflare Pages
+2. Load design documents ✓:
+   → data-model.md: Documentation entities → documentation tasks
+   → contracts/: CI workflow, Cloudflare config, README structure
+   → quickstart.md: Validation scenarios → test tasks
 3. Generate tasks by category:
-   → Setup: Astro project, dependencies, content collections
-   → Tests: Component tests, API tests, integration tests
-   → Core: Content migration, component islands, layouts
-   → Integration: PWA, deployment, performance
-   → Polish: Testing, optimization, validation
+   → Setup: documentation structure, CI workflow
+   → Tests: validation tests for configs and docs
+   → Core: documentation files, workflow implementation
+   → Integration: Cloudflare connection, deployment
+   → Polish: validation, cleanup, testing
 4. Apply task rules:
    → Different files = mark [P] for parallel
    → Same file = sequential (no [P])
-   → Tests before implementation (TDD)
+   → Documentation before configuration
 5. Number tasks sequentially (T001, T002...)
 6. Generate dependency graph
 7. Create parallel execution examples
-8. Validate task completeness
-9. Return: SUCCESS (tasks ready for execution)
+8. SUCCESS: tasks ready for execution
 ```
 
 ## Format: `[ID] [P?] Description`
 - **[P]**: Can run in parallel (different files, no dependencies)
 - Include exact file paths in descriptions
 
-## Path Conventions
-Web application structure with Astro SSG + islands architecture:
-- **Content**: `src/content/` for MDX collections
-- **Components**: `src/components/` for Astro/React components
-- **Pages**: `src/pages/` for file-based routing
-- **Tests**: `tests/` at repository root
+## Phase 3.1: Setup and Structure
 
-## Phase 3.1: Project Setup
+- [ ] **T001** Create documentation directory structure at `/docs/`
+- [ ] **T002** [P] Create empty documentation files: docs/README.md, docs/development.md, docs/deployment.md, docs/architecture.md, docs/testing.md, docs/contributing.md
+- [ ] **T003** [P] Create GitHub Actions workflow directory at `/.github/workflows/`
 
-- [x] T001 Initialize Astro 5.x project with TypeScript strict mode and minimal template
-- [x] T002 [P] Install Astro integrations: @astrojs/react, @astrojs/tailwind, @astrojs/mdx, @astrojs/cloudflare
-- [x] T003 [P] Install React dependencies: react@19, react-dom@19, @types/react, @types/react-dom
-- [x] T004 [P] Install content processing: rehype-pretty-code, rehype-autolink-headings, remark-gfm, @shikijs/core
-- [x] T005 [P] Install utilities: @legendapp/state, zod, date-fns, reading-time, @vite-pwa/astro
-- [x] T006 Configure astro.config.mjs with integrations, markdown plugins, and Cloudflare adapter
-- [x] T007 [P] Configure TypeScript with strict mode and path aliases in tsconfig.json
-- [x] T008 [P] Configure Tailwind CSS with dark mode and custom design tokens in tailwind.config.mjs
-- [x] T009 [P] Set up ESLint and Prettier with Astro-specific rules in eslint.config.js
-- [x] T010 [P] Configure Vitest for unit testing in vitest.config.ts
+## Phase 3.2: Tests First (TDD) ⚠️ MUST COMPLETE BEFORE 3.3
+**CRITICAL: These validation tests MUST be written and MUST FAIL before ANY content implementation**
 
-## Phase 3.2: Content Collections & Data Models (TDD)
+- [ ] **T004** [P] Create README validation test in `/tests/docs/test-readme-structure.js` - verify minimal structure, quick start commands, badge presence
+- [ ] **T005** [P] Create CI workflow validation test in `/tests/workflows/test-ci-syntax.js` - verify YAML syntax, required steps, Node 20
+- [ ] **T006** [P] Create documentation links test in `/tests/docs/test-internal-links.js` - verify all internal links resolve correctly
+- [ ] **T007** [P] Create command validation test in `/tests/docs/test-documented-commands.js` - verify all documented commands actually work
 
-**CRITICAL: These tests MUST be written and MUST FAIL before ANY implementation**
+## Phase 3.3: Core Implementation (ONLY after tests are failing)
 
-- [x] T011 [P] Content collection schema test for blog articles in tests/unit/content-collections.test.ts
-- [x] T012 [P] Article metadata validation test in tests/unit/article-schema.test.ts
-- [x] T013 [P] UserPreferences type validation test in tests/unit/user-preferences.test.ts
-- [x] T014 [P] Newsletter subscription schema test in tests/unit/newsletter-schema.test.ts
-- [x] T015 [P] Navigation state management test in tests/unit/navigation-state.test.ts
+### Documentation Content
+- [ ] **T008** [P] Write docs/README.md - documentation index with navigation links
+- [ ] **T009** [P] Write docs/development.md - prerequisites, setup, commands, project structure
+- [ ] **T010** [P] Write docs/deployment.md - Cloudflare Pages setup, environment variables, preview deployments
+- [ ] **T011** [P] Write docs/architecture.md - tech stack, key features, performance targets
+- [ ] **T012** [P] Write docs/testing.md - unit tests, E2E tests, CI pipeline
+- [ ] **T013** [P] Write docs/contributing.md - process, commit conventions
 
-## Phase 3.3: Content Collections Setup (ONLY after tests are failing)
+### Configuration Files
+- [ ] **T014** Create CI workflow file at `/.github/workflows/ci.yml` based on contract specification
+- [ ] **T015** Update minimal README.md - title, badge, description, hero image, quick start, docs link
 
-- [x] T016 Create content collection config with blog schema in src/content/config.ts
-- [x] T017 [P] Define Article type interfaces in src/types/article.ts
-- [x] T018 [P] Define UserPreferences type interfaces in src/types/preferences.ts
-- [x] T019 [P] Define Newsletter types in src/types/newsletter.ts
-- [x] T020 [P] Define Navigation types in src/types/navigation.ts
-- [x] T021 Migrate MDX articles from app/articles/ to src/content/blog/ with frontmatter validation
+## Phase 3.4: Integration and Configuration
 
-## Phase 3.4: Layout Components & Static Elements
+- [ ] **T016** Configure Cloudflare Pages project via dashboard - connect GitHub repo, set build settings
+- [ ] **T017** Test CI workflow execution - push branch, verify all steps run successfully
+- [ ] **T018** Update deployment badge URL in README.md once Cloudflare project is live
+- [ ] **T019** Remove legacy Vercel configuration files - vercel.json, .vercelignore
 
-- [ ] T022 [P] Base layout component in src/layouts/BaseLayout.astro
-- [ ] T023 [P] Article layout component in src/layouts/ArticleLayout.astro
-- [ ] T024 [P] Header component with navigation in src/components/Header.astro
-- [ ] T025 [P] Footer component in src/components/Footer.astro
-- [ ] T026 [P] SEO component for meta tags in src/components/SEO.astro
-- [ ] T027 [P] Article card component in src/components/ArticleCard.astro
-- [ ] T028 [P] Tag component for article categorization in src/components/Tag.astro
+## Phase 3.5: Validation and Polish
 
-## Phase 3.5: Interactive Components (React Islands)
-
-**CRITICAL: Component tests MUST be written first and MUST FAIL before implementation**
-
-- [ ] T029 [P] ThemeToggle component test in tests/unit/theme-toggle.test.tsx
-- [ ] T030 [P] CanvasBackground component test in tests/unit/canvas-background.test.tsx
-- [ ] T031 [P] NewsletterForm component test in tests/unit/newsletter-form.test.tsx
-- [ ] T032 [P] ViewToggle component test in tests/unit/view-toggle.test.tsx
-- [ ] T033 [P] ScrollBehavior component test in tests/unit/scroll-behavior.test.tsx
-
-- [ ] T034 [P] ThemeToggle React component with dark/light/system modes in src/components/islands/ThemeToggle.tsx
-- [ ] T035 [P] CanvasBackground React component with animation loop in src/components/islands/CanvasBackground.tsx
-- [ ] T036 [P] NewsletterForm React component with validation in src/components/islands/NewsletterForm.tsx
-- [ ] T037 [P] ViewToggle React component for grid/compact views in src/components/islands/ViewToggle.tsx
-- [ ] T038 [P] ScrollBehavior React component for smooth scrolling in src/components/islands/ScrollBehavior.tsx
-- [ ] T039 [P] Console Easter egg utility in src/utils/console-easter-egg.ts
-
-## Phase 3.6: State Management & Utilities
-
-- [ ] T040 [P] User preferences store with Legend State in src/stores/preferences.ts
-- [ ] T041 [P] Navigation history store in src/stores/navigation.ts
-- [ ] T042 [P] Theme persistence utility functions in src/utils/theme.ts
-- [ ] T043 [P] Reading time calculation utility in src/utils/reading-time.ts
-- [ ] T044 [P] Date formatting utilities in src/utils/date.ts
-- [ ] T045 [P] Local storage utilities with type safety in src/utils/storage.ts
-
-## Phase 3.7: Page Routes & Dynamic Content
-
-- [ ] T046 Home page with article listing in src/pages/index.astro
-- [ ] T047 About page migration in src/pages/about.astro
-- [ ] T048 Blog index page with filtering and sorting in src/pages/blog/index.astro
-- [ ] T049 Dynamic article pages with [...slug] routing in src/pages/blog/[...slug].astro
-- [ ] T050 404 error page in src/pages/404.astro
-- [ ] T051 [P] RSS feed generation in src/pages/rss.xml.js
-- [ ] T052 [P] Sitemap generation in src/pages/sitemap.xml.js
-
-## Phase 3.8: PWA & Service Worker
-
-- [ ] T053 [P] PWA configuration with @vite-pwa/astro in src/pwa.config.ts
-- [ ] T054 [P] Service worker for offline support in public/sw.js
-- [ ] T055 [P] PWA manifest with app metadata in public/manifest.json
-- [ ] T056 [P] Cache strategies for articles and assets in src/utils/cache.ts
-
-## Phase 3.9: API Endpoints (Edge Functions)
-
-- [ ] T057 [P] Newsletter subscription API endpoint in src/pages/api/newsletter.ts
-- [ ] T058 [P] Theme preference API endpoint in src/pages/api/theme.ts
-- [ ] T059 [P] Performance metrics collection endpoint in src/pages/api/metrics.ts
-
-## Phase 3.10: Deployment & Infrastructure
-
-- [ ] T060 [P] Cloudflare Pages configuration in wrangler.toml
-- [ ] T061 [P] GitHub Actions workflow for CI/CD in .github/workflows/deploy.yml
-- [ ] T062 [P] Environment variables setup for production in .env.example
-- [ ] T063 [P] Cloudflare edge middleware in src/middleware.ts
-
-## Phase 3.11: Integration Tests
-
-- [ ] T064 [P] Home page integration test in tests/integration/home-page.test.ts
-- [ ] T065 [P] Article reading flow test in tests/integration/article-flow.test.ts
-- [ ] T066 [P] Theme switching integration test in tests/integration/theme-switching.test.ts
-- [ ] T067 [P] Newsletter subscription flow test in tests/integration/newsletter-flow.test.ts
-- [ ] T068 [P] PWA installation test in tests/integration/pwa.test.ts
-- [ ] T069 [P] Offline functionality test in tests/integration/offline.test.ts
-
-## Phase 3.12: E2E Testing (Playwright)
-
-- [ ] T070 [P] Home page load and navigation E2E test in tests/e2e/navigation.spec.ts
-- [ ] T071 [P] Article reading and interaction E2E test in tests/e2e/article-reading.spec.ts
-- [ ] T072 [P] Theme toggle functionality E2E test in tests/e2e/theme-toggle.spec.ts
-- [ ] T073 [P] Canvas background interaction E2E test in tests/e2e/canvas-interaction.spec.ts
-- [ ] T074 [P] Newsletter form submission E2E test in tests/e2e/newsletter.spec.ts
-- [ ] T075 [P] PWA installation and offline E2E test in tests/e2e/pwa.spec.ts
-
-## Phase 3.13: Performance & Optimization
-
-- [ ] T076 [P] Image optimization setup with Astro Image in src/components/OptimizedImage.astro
-- [ ] T077 [P] Font loading optimization in src/layouts/BaseLayout.astro
-- [ ] T078 [P] Bundle size analysis and optimization in build scripts
-- [ ] T079 [P] Lighthouse performance testing script in scripts/lighthouse.js
-- [ ] T080 [P] Core Web Vitals monitoring setup in src/utils/performance.ts
-
-## Phase 3.14: Migration Validation
-
-- [ ] T081 Content migration validation - verify all articles migrated correctly
-- [ ] T082 URL structure validation - ensure all routes match Remix URLs
-- [ ] T083 [P] SEO metadata comparison between Remix and Astro versions
-- [ ] T084 [P] Performance benchmark comparison (before/after migration)
-- [ ] T085 Interactive feature validation - test all 7 interactive components
-- [ ] T086 [P] PWA functionality validation - offline access and installation
-- [ ] T087 [P] Cross-browser compatibility testing
-
-## Phase 3.15: Polish & Documentation
-
-- [ ] T088 [P] Update README.md with Astro-specific instructions
-- [ ] T089 [P] Create migration documentation in docs/migration.md
-- [ ] T090 [P] Performance optimization documentation in docs/performance.md
-- [ ] T091 [P] Component usage documentation in docs/components.md
-- [ ] T092 [P] Clean up unused Remix dependencies and files
-- [ ] T093 [P] Add code comments for complex interactive components
-- [ ] T094 [P] Create troubleshooting guide in docs/troubleshooting.md
+- [ ] **T020** [P] Run README validation test - verify structure matches contract
+- [ ] **T021** [P] Run CI workflow validation test - verify syntax and required steps
+- [ ] **T022** [P] Run documentation links test - verify all internal links work
+- [ ] **T023** [P] Run command validation test - verify all documented commands execute successfully
+- [ ] **T024** Test complete deployment pipeline - push to main, verify Cloudflare deployment
+- [ ] **T025** Manual validation per quickstart guide - follow all steps to verify functionality
+- [ ] **T026** [P] Run markdown linting on all documentation files
+- [ ] **T027** Clean up any placeholder content or temporary files
 
 ## Dependencies
 
-### Critical Path Dependencies:
-- Project setup (T001-T010) before all other tasks
-- Content collection tests (T011-T015) before content implementation (T016-T021)
-- Component tests (T029-T033) before component implementation (T034-T039)
-- Layouts (T022-T028) before pages (T046-T052)
-- State management (T040-T045) before interactive components (T034-T039)
-- API endpoints (T057-T059) before integration tests (T064-T069)
+**Critical Path:**
+- Structure (T001-T003) → Tests (T004-T007) → Content (T008-T015) → Integration (T016-T019) → Validation (T020-T027)
 
-### File Dependencies:
-- T016 (content config) blocks T021 (article migration)
-- T034-T038 (React components) block T046-T049 (pages using components)
-- T040-T042 (stores/utils) block T034-T038 (components using stores)
-- T046-T052 (pages) block T064-T075 (tests using pages)
+**Parallel Opportunities:**
+- T002: All doc files can be created simultaneously
+- T004-T007: All validation tests can be written in parallel
+- T008-T013: All documentation content can be written in parallel
+- T020-T023, T026: All validation tasks can run in parallel
 
 ## Parallel Execution Examples
 
-### Phase 1 - Setup Dependencies:
+### Create All Documentation Structure
 ```bash
-# Launch T002-T005 together (different package installs):
-Task: "Install Astro integrations in package.json"
-Task: "Install React dependencies in package.json"
-Task: "Install content processing dependencies in package.json"
-Task: "Install utility dependencies in package.json"
+# Can run these simultaneously
+Task T002: Create docs/README.md
+Task T002: Create docs/development.md
+Task T002: Create docs/deployment.md
+Task T002: Create docs/architecture.md
+Task T002: Create docs/testing.md
+Task T002: Create docs/contributing.md
 ```
 
-### Phase 2 - Content Tests:
+### Write All Validation Tests
 ```bash
-# Launch T011-T015 together (different test files):
-Task: "Content collection schema test in tests/unit/content-collections.test.ts"
-Task: "Article metadata validation test in tests/unit/article-schema.test.ts"
-Task: "UserPreferences type validation test in tests/unit/user-preferences.test.ts"
-Task: "Newsletter subscription schema test in tests/unit/newsletter-schema.test.ts"
+# These can be developed in parallel
+Task T004: tests/docs/test-readme-structure.js
+Task T005: tests/workflows/test-ci-syntax.js
+Task T006: tests/docs/test-internal-links.js
+Task T007: tests/docs/test-documented-commands.js
 ```
 
-### Phase 3 - Component Development:
+### Write All Documentation Content
 ```bash
-# Launch T022-T028 together (different component files):
-Task: "Base layout component in src/layouts/BaseLayout.astro"
-Task: "Article layout component in src/layouts/ArticleLayout.astro"
-Task: "Header component in src/components/Header.astro"
-Task: "Footer component in src/components/Footer.astro"
+# Content can be written simultaneously by different team members
+Task T008: docs/README.md
+Task T009: docs/development.md
+Task T010: docs/deployment.md
+Task T011: docs/architecture.md
+Task T012: docs/testing.md
+Task T013: docs/contributing.md
 ```
 
-### Phase 4 - Island Components:
+### Run Final Validation
 ```bash
-# Launch T034-T038 together (different React island files):
-Task: "ThemeToggle React component in src/components/islands/ThemeToggle.tsx"
-Task: "CanvasBackground React component in src/components/islands/CanvasBackground.tsx"
-Task: "NewsletterForm React component in src/components/islands/NewsletterForm.tsx"
-Task: "ViewToggle React component in src/components/islands/ViewToggle.tsx"
+# All validation can run concurrently
+Task T020: README validation
+Task T021: CI workflow validation
+Task T022: Links validation
+Task T023: Commands validation
+Task T026: Markdown linting
 ```
 
-## Notes
-- [P] tasks = different files, no dependencies
-- All tests must fail before implementing corresponding features (TDD)
-- Commit after each completed task
-- Interactive components use client:* directives for hydration
-- Maintain existing URL structure during migration
-- Test performance after each major phase
+## Success Criteria
 
-## Validation Checklist
-*GATE: Checked before considering migration complete*
+All tasks complete when:
+- [ ] Minimal README with quick start working
+- [ ] Complete docs/ directory with all guides
+- [ ] CI workflow running successfully on all pushes
+- [ ] Cloudflare Pages auto-deploying from main branch
+- [ ] All validation tests passing
+- [ ] All documentation links working
+- [ ] All documented commands execute successfully
 
-- [ ] All content collections have corresponding tests and schemas
-- [ ] All interactive components have React island implementations
-- [ ] All tests come before implementation (TDD followed)
-- [ ] Parallel tasks are truly independent (different files)
-- [ ] Each task specifies exact file path
-- [ ] No task modifies same file as another [P] task
-- [ ] All 7 interactive components migrated and functional
-- [ ] PWA functionality preserved
-- [ ] Performance targets met (>90 Lighthouse scores)
-- [ ] All existing URLs maintained
-- [ ] Cloudflare Pages deployment successful
+---
+*Total: 27 tasks | Estimated time: 4-6 hours | Parallel execution can reduce to 2-3 hours*

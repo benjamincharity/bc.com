@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ViewToggle } from '../ViewToggle';
 import { ArticlesList } from '../Articles/ArticlesList';
 import { Badge } from '../Badge';
+import { BackToLink } from '../BackToLink';
 
 interface ArticlesPageWrapperProps {
   articles: any[];
@@ -41,9 +42,9 @@ export default function ArticlesPageWrapper({ articles }: ArticlesPageWrapperPro
   return (
     <>
       <div className="relative flex items-center justify-between mb-4">
-        <a href="/" className="text-blue-500 dark:text-blue-300 hover:underline font-vt323">
-          ← Home
-        </a>
+        <BackToLink to="/" className="text-left">
+          Home
+        </BackToLink>
 
         <div className="absolute left-1/2 -translate-x-1/2">
           <ViewToggle isCompactView={isCompactView} onToggle={toggleView} />
@@ -83,6 +84,15 @@ export default function ArticlesPageWrapper({ articles }: ArticlesPageWrapperPro
             />
           </div>
         )}
+      </div>
+
+      <div className="flex justify-end pt-4">
+        <button
+          className="animated-link-underline text-sm font-normal"
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        >
+          Back to top ↑
+        </button>
       </div>
     </>
   );

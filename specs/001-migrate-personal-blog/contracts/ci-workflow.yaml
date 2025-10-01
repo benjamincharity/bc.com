@@ -1,0 +1,61 @@
+# CI Workflow Contract
+# This defines the structure for .github/workflows/ci.yml
+
+name: CI
+
+# Trigger configuration
+on:
+  push:
+    branches: ['**']  # Run on all branches
+  pull_request:
+    branches: [main]  # Run on PRs targeting main
+
+# Job definitions
+jobs:
+  # Main test job
+  test:
+    name: Test Suite
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout repository
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Setup pnpm
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      # Setup Node.js
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      # Install dependencies
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # Run linting
+      - name: Lint
+        run: pnpm lint
+
+      # Run type checking
+      - name: Type check
+        run: pnpm typecheck
+
+      # Run unit tests
+      - name: Unit tests
+        run: pnpm test
+
+      # Build the project
+      - name: Build
+        run: pnpm build
+
+      # Run E2E tests (only on PRs)
+      - name: E2E tests
+        if: github.event_name == 'pull_request'
+        run: pnpm e2e

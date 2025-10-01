@@ -3,7 +3,7 @@ title: "Git Commits Year In Review"
 date: 2014-12-30
 description: "A few years back I saw a post by someone where they created a video by capturing a picture from their webcam each day and then combined them together into a..."
 tags:
-  - "git"
+  - git
 image: "git-commits-year-in-review.webp"
 draft: false
 ---
@@ -34,9 +34,9 @@ Inside the `post-commit` file paste this snippet:
 
 ```bash
 #!/usr/bin/env ruby
-file="~/Dropbox/gitshots/#{Time.now.to_i}.jpg"
-puts "Taking capture into #{file}!"
-system "imagesnap -q -w 3 #{file}"
+file="~/Dropbox/gitshots/#{Time.now.to_i}.jpg
+puts "Taking capture into #{file}!
+system "imagesnap -q -w 3 #{file}
 exit 0
 ```
 

@@ -16,7 +16,7 @@ interface FormState {
 
 export default function NewsletterForm({
   className = '',
-  placeholder = 'Enter your email address',
+  placeholder = 'Your email',
   buttonText = 'Subscribe',
   successMessage = 'Thanks for subscribing!',
   apiEndpoint = '/api/newsletter'
@@ -114,69 +114,43 @@ export default function NewsletterForm({
   const { email, status, message } = formState;
 
   return (
-    <div className={`w-full max-w-md ${className}`}>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="relative">
-          <input
-            type="email"
-            value={email}
-            onChange={handleEmailChange}
-            placeholder={placeholder}
-            disabled={status === 'loading'}
-            className={`
-              w-full px-4 py-3 pr-32 rounded-lg border text-sm
-              bg-white dark:bg-gray-900
-              text-gray-900 dark:text-gray-100
-              placeholder-gray-500 dark:placeholder-gray-400
-              border-gray-300 dark:border-gray-700
-              focus:border-pink-500 dark:focus:border-pink-400
-              focus:ring-2 focus:ring-pink-500/20 dark:focus:ring-pink-400/20
-              focus:outline-none
-              disabled:opacity-50 disabled:cursor-not-allowed
-              transition-all duration-200
-              ${status === 'error' ? 'border-red-500 focus:border-red-500 focus:ring-red-500/20' : ''}
-              ${status === 'success' ? 'border-green-500 focus:border-green-500 focus:ring-green-500/20' : ''}
-            `}
-            aria-describedby={message ? 'newsletter-message' : undefined}
-            aria-invalid={status === 'error'}
-          />
+    <div className={`w-full max-w-md mx-auto ${className}`}>
+      <form onSubmit={handleSubmit} className="space-y-2">
+        <input
+          type="email"
+          value={email}
+          onChange={handleEmailChange}
+          placeholder={placeholder}
+          disabled={status === 'loading'}
+          className={`
+            w-full h-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-[16px] outline-none transition
+            focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50
+            dark:border-gray-700 dark:bg-slate-900 dark:text-gray-400 dark:focus:ring-gray-600
+            ${status === 'error' ? 'border-red-500 focus:border-red-500 focus:ring-red-500 dark:border-red-300' : 'border-slate-300 focus:border-blue-500 focus:ring-blue-500'}
+          `}
+          aria-describedby={message ? 'newsletter-message' : undefined}
+          aria-invalid={status === 'error'}
+        />
 
-          <button
-            type="submit"
-            disabled={status === 'loading' || !email.trim()}
-            className={`
-              absolute right-2 top-1/2 -translate-y-1/2
-              px-4 py-1.5 rounded-md text-sm font-medium
-              bg-pink-600 hover:bg-pink-700 dark:bg-pink-500 dark:hover:bg-pink-600
-              text-white
-              disabled:opacity-50 disabled:cursor-not-allowed
-              focus:outline-none focus:ring-2 focus:ring-pink-500/50
-              transition-all duration-200
-              ${status === 'loading' ? 'cursor-wait' : ''}
-            `}
-          >
-            {status === 'loading' ? (
-              <div className="flex items-center space-x-2">
-                <svg
-                  className="w-4 h-4 animate-spin"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-                  />
-                </svg>
-                <span>...</span>
-              </div>
-            ) : (
-              buttonText
-            )}
-          </button>
-        </div>
+        <button
+          type="submit"
+          disabled={status === 'loading' || !email.trim()}
+          className={`
+            animate-gradient w-full justify-center rounded-lg bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 px-5 py-4 text-center text-sm font-medium text-white
+            focus:ring-4 focus:ring-purple-300 disabled:cursor-not-allowed disabled:opacity-60 dark:focus:ring-purple-800
+          `}
+        >
+          <span className="flex gap-2 justify-center items-center">
+            <svg
+              className={`w-[16px] fill-white ${status === 'loading' ? 'animate-wobble' : ''}`}
+              viewBox="0 0 512 512"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path d="M16.1 260.2c-22.6 12.9-20.5 47.3 3.6 57.3L160 376V479.3c0 18.1 14.6 32.7 32.7 32.7c9.7 0 18.9-4.3 25.1-11.8l62-74.3 123.9 51.6c18.9 7.9 40.8-4.5 43.9-24.7l64-416c1.9-12.1-3.4-24.3-13.5-31.2s-23.3-7.5-34-1.4l-448 256zm52.1 25.5L409.7 90.6 190.1 336l1.2 1L68.2 285.7zM403.3 425.4L236.7 355.9 450.8 116.6 403.3 425.4z" />
+            </svg>
+            {status === 'loading' ? 'Subscribing...' : buttonText}
+          </span>
+        </button>
 
         {message && (
           <div
@@ -214,8 +188,8 @@ export default function NewsletterForm({
         )}
       </form>
 
-      <p className="text-xs text-gray-500 dark:text-gray-400 mt-3">
-        Subscribe to get notified about new articles and insights. No spam, unsubscribe anytime.
+      <p className="py-2 text-center text-xs text-slate-500 dark:text-slate-300">
+        No data sharing. Unsubscribe at any time.
       </p>
     </div>
   );

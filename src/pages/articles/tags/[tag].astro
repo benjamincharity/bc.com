@@ -1,0 +1,139 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import type { GetStaticPaths } from 'astro';
+import { ArticlesList } from '~/components/Articles/ArticlesList';
+import NewsletterForm from '~/components/islands/NewsletterForm';
+import BrowseByTags from '~/components/islands/BrowseByTags';
+import { BackToLink } from '~/components/BackToLink';
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const articles = await getCollection('blog');
+  const publishedArticles = articles.filter(article => !article.data.draft);
+
+  // Get all unique tags
+  const tags = new Set<string>();
+  publishedArticles.forEach(article => {
+    const articleTags = article.data.tags || [];
+    articleTags.forEach(tag => tags.add(tag));
+  });
+
+  return Array.from(tags).map(tag => ({
+    params: { tag },
+  }));
+};
+
+const { tag } = Astro.params;
+
+// Get all articles from the blog collection
+const articles = await getCollection('blog');
+
+// Filter articles by tag and remove drafts
+const filteredArticles = articles
+  .filter(article => !article.data.draft)
+  .filter(article => article.data.tags?.includes(tag as string))
+  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
+
+// Get all tags for the browse section
+const allArticles = articles.filter(article => !article.data.draft);
+const tagCounts = new Map<string, number>();
+allArticles.forEach(article => {
+  const tags = article.data.tags || [];
+  tags.forEach(t => {
+    tagCounts.set(t, (tagCounts.get(t) || 0) + 1);
+  });
+});
+const tagsForBrowse = Array.from(tagCounts.entries());
+
+const siteMetadata = {
+  title: 'Benjamin Charity',
+  description: 'Building products & Engineering teams',
+  author: 'Benjamin Charity',
+  url: 'https://www.benjamincharity.com',
+};
+
+const title = `${tag} - ${siteMetadata.author}`;
+const description = `Articles about ${tag} by ${siteMetadata.author}.`;
+
+function pluralize(word: string, count: number): string {
+  return count === 1 ? word : word + 's';
+}
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  showBackground={false}
+>
+  <section class="prose-wrapper prose-wrapper--large">
+    <!-- Header with navigation similar to articles page -->
+    <div class="relative flex items-center justify-between mb-4">
+      <a
+        href="/"
+        class="text-blue-500 dark:text-blue-300 hover:underline font-vt323"
+      >
+        &larr; Home
+      </a>
+
+      <div class="absolute left-1/2 -translate-x-1/2">
+        <div class="text-center">
+          <p class="text-sm italic text-gray-600 dark:text-gray-400">
+            Showing <strong>{filteredArticles.length}</strong>{' '}
+            {pluralize('article', filteredArticles.length)} tagged with{' '}
+            <span class="font-bold font-sourceSerif4 text-gray-900 dark:text-white highlight">
+              {tag}
+            </span>
+          </p>
+        </div>
+      </div>
+
+      <div class="flex flex-col items-end text-right space-y-1">
+        <a
+          href="/articles"
+          class="animated-link-underline text-sm font-normal"
+        >
+          All articles ↗
+        </a>
+        <a
+          href="/articles/tags"
+          class="animated-link-underline text-sm font-normal"
+        >
+          All tags ↗
+        </a>
+      </div>
+    </div>
+
+    <!-- Articles list using the same component as articles index -->
+    <ArticlesList articles={filteredArticles} />
+
+    <hr class="fancy" />
+
+    <!-- Newsletter section matching articles page -->
+    <div class="max-w-screen-2xl mx-auto px-8 py-12">
+      <div class="max-w-xl mx-auto text-center">
+        <h2 class="mb-1 text-2xl font-semibold font-sourceSerif4 text-gray-800 dark:text-white">
+          Build, Scale, Succeed
+        </h2>
+        <p class="mb-6 leading-tight text-gray-600 dark:text-gray-300">
+          Join others receiving expert advice on<br /> engineering and product development.
+        </p>
+        <NewsletterForm
+          className="mx-auto"
+          successMessage="Boom! You're in the club! 🎉 Expect a warm welcome in your inbox soon!"
+          client:load
+        />
+      </div>
+    </div>
+
+    <hr class="fancy" />
+
+    <!-- Browse other tags section -->
+    <BrowseByTags
+      tags={tagsForBrowse}
+      currentTag={tag as string}
+      heading="Browse other tags:"
+      id="tags-section"
+      client:load
+    />
+  </section>
+</BaseLayout>

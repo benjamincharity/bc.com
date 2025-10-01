@@ -2,6 +2,7 @@
 import { ViewTransitions } from 'astro:transitions';
 import '../styles/global.css';
 import Header from '~/components/islands/Header';
+import ColorModeToggle from '~/components/islands/ColorModeToggle';
 
 export interface Props {
   title?: string;
@@ -16,6 +17,9 @@ const {
   theme = null,
   showBackground = true,
 } = Astro.props;
+
+// Check if this is the homepage
+const isHomepage = Astro.url.pathname === '/';
 
 // This should match your existing siteMetadata structure
 const siteMetadata = {
@@ -53,6 +57,9 @@ const fullTitle = title === siteMetadata.title ? title : `${title} | ${siteMetad
     <!-- Favicons -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
 
+    <!-- Theme meta -->
+    <meta name="color-scheme" content="dark light" />
+
     <!-- Fonts - VT323 is key to your design -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -66,23 +73,39 @@ const fullTitle = title === siteMetadata.title ? title : `${title} | ${siteMetad
 
     <!-- Theme handling (matching your existing theme provider) -->
     <script is:inline>
-      // This should match your existing theme.provider.tsx logic
+      // This matches the legacy Remix theme.provider.tsx logic
       (function() {
+        function getPreferredTheme() {
+          return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+
         function getTheme() {
           if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
-            return localStorage.getItem('theme');
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark' || savedTheme === 'light') {
+              return savedTheme;
+            }
           }
-          if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            return 'dark';
-          }
-          return 'light';
+          return getPreferredTheme();
         }
 
         const theme = getTheme();
-        if (theme === 'light') {
-          document.documentElement.classList.remove('dark');
-        } else {
-          document.documentElement.classList.add('dark');
+        const cl = document.documentElement.classList;
+
+        // Remove existing theme classes
+        cl.remove('light', 'dark');
+
+        // Apply theme
+        cl.add(theme);
+
+        // Update meta theme-color
+        const meta = document.querySelector('meta[name=color-scheme]');
+        if (meta) {
+          if (theme === 'dark') {
+            meta.content = 'dark light';
+          } else {
+            meta.content = 'light dark';
+          }
         }
       })();
     </script>
@@ -91,6 +114,14 @@ const fullTitle = title === siteMetadata.title ? title : `${title} | ${siteMetad
   </head>
   <body class="h-dvh transition-colors duration-100 flex flex-col">
     <Header client:load transition:persist />
+
+    <!-- Add ColorModeToggle to all pages except homepage -->
+    {!isHomepage && (
+      <div style="position: relative;">
+        <ColorModeToggle client:load />
+      </div>
+    )}
+
     <div class="flex-grow">
       <slot />
     </div>
