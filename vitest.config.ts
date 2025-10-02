@@ -1,16 +1,30 @@
-import { defineConfig } from 'vitest/config';
-import react from '@vitejs/plugin-react';
+/// <reference types="vitest" />
+import { getViteConfig } from 'astro/config';
 
-export default defineConfig({
-  plugins: [react()],
+export default getViteConfig({
   test: {
     environment: 'jsdom',
     setupFiles: ['./tests/setup.ts'],
     globals: true,
-  },
-  resolve: {
-    alias: {
-      '~': '/src',
+    exclude: [
+      '**/node_modules/**',
+      '**/dist/**',
+      '**/e2e/**', // Exclude e2e tests (run with Playwright)
+      '**/.{idea,git,cache,output,temp}/**',
+    ],
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'json', 'html'],
+      exclude: [
+        'node_modules/**',
+        'tests/**',
+        '**/*.test.ts',
+        '**/*.spec.ts',
+        'legacy-remix/**',
+        '.astro/**',
+        'dist/**',
+        'e2e/**',
+      ],
     },
   },
 });
