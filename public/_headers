@@ -18,9 +18,9 @@
   # XSS Protection (legacy but still useful)
   X-XSS-Protection: 1; mode=block
 
-  # Content Security Policy is now handled by Astro's experimental CSP feature
-  # CSP meta tags are auto-generated per page during build with proper hashes
-  # See astro.config.mjs experimental.csp configuration
+  # Content Security Policy is auto-generated during build
+  # See public/_headers.template for configuration
+  # The build script (scripts/generate-csp.js) extracts hashes from dist/index.html
 
 # API endpoint - stricter CSP
 /api/*

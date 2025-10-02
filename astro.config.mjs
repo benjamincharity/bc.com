@@ -17,26 +17,6 @@ export default defineConfig({
   site: 'https://www.benjamincharity.com',
   output: 'server', // Server mode but pages will be prerendered
   adapter: cloudflare(),
-  experimental: {
-    csp: {
-      directives: [
-        "default-src 'self'",
-        "img-src 'self' https://res.cloudinary.com data: blob:",
-        "font-src 'self' data:",
-        "connect-src 'self' https://api.buttondown.email https://cloudflareinsights.com",
-        "object-src 'none'",
-        "frame-ancestors 'none'",
-        "base-uri 'self'",
-        "form-action 'self' https://buttondown.com",
-      ],
-      scriptDirective: {
-        resources: ["'self'", 'https://static.cloudflareinsights.com'],
-      },
-      styleDirective: {
-        resources: ["'self'"],
-      },
-    },
-  },
   integrations: [
     react(),
     tailwind({
