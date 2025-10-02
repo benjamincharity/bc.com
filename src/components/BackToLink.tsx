@@ -1,7 +1,7 @@
 import React from 'react';
 
 const classes =
-  'text-blue-500 dark:text-blue-300 hover:underline font-vt323';
+  'animated-link-underline text-sm font-normal';
 
 interface BackToLinkProps {
   to: string;
@@ -13,7 +13,7 @@ export const BackToLink = ({ to, children = 'Back to all articles', className = 
   return (
     <div className={`text-center ${className} last-of-type:mb-4`}>
       <a className={classes} href={to}>
-&larr; {children}
+      ⇜ {children}
       </a>
     </div>
   );

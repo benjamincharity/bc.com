@@ -8,6 +8,7 @@ import NewsletterForm from '~/components/islands/NewsletterForm';
 import BrowseByTags from '~/components/islands/BrowseByTags';
 import { siteMetadata } from '~/data/siteMetadata';
 import type { GetStaticPaths } from 'astro';
+import { BackToLink } from '~/components/BackToLink';
 
 export const getStaticPaths = (async () => {
   const articles = await getCollection('blog');
@@ -85,12 +86,9 @@ const jsonLd = {
   <div class="prose-wrapper">
     <main>
       <nav class="mb-6 text-center">
-        <a
-          href="/articles"
-          class="text-blue-500 dark:text-blue-300 hover:underline font-bold"
-        >
-⇜ Back to all articles
-        </a>
+        <BackToLink to="/articles">
+          Back to all articles
+        </BackToLink>
       </nav>
 
       <header class="mb-4">

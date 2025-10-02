@@ -64,12 +64,9 @@ function pluralize(word: string, count: number): string {
   <section class="prose-wrapper prose-wrapper--large">
     <!-- Header with navigation similar to articles page -->
     <div class="relative flex items-center justify-between mb-4">
-      <a
-        href="/"
-        class="text-blue-500 dark:text-blue-300 hover:underline font-vt323"
-      >
-        &larr; Home
-      </a>
+        <BackToLink to="/">
+          Home
+        </BackToLink>
 
       <div class="absolute left-1/2 -translate-x-1/2">
         <div class="text-center">
