@@ -18,10 +18,9 @@
   # XSS Protection (legacy but still useful)
   X-XSS-Protection: 1; mode=block
 
-  # Content Security Policy (auto-generated hashes)
-  # Hashes are calculated during build from dist/index.html
-  # To regenerate: npm run build
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'sha256-EwvUlCwhXJVe8sxdupA2kKzxAAklA9vWBuwDHFrR7CI=' 'sha256-QzWFZi+FLIx23tnm9SBU4aEgx4x8DsuASP07mfqol/c=' 'sha256-p9VbHs/ClkQc+x63XdUjvCAgeWxA4ZGvpebJtMn9jbs=' 'sha256-WOgiF58Macen5AccbF2DLCB5DGIm7ErRixgwEc88Wvs=' https://static.cloudflareinsights.com; style-src 'self' 'sha256-vv9IoKo7BSLbWcUHr3tNmfNVmm5L/9Cfn2H6LMk7/ow='; img-src 'self' https://res.cloudinary.com data: blob:; font-src 'self' data:; connect-src 'self' https://api.buttondown.email https://cloudflareinsights.com; object-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'
+  # Content Security Policy is now handled by Astro's experimental CSP feature
+  # CSP meta tags are auto-generated per page during build with proper hashes
+  # See astro.config.mjs experimental.csp configuration
 
 # API endpoint - stricter CSP
 /api/*
