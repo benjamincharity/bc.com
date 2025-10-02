@@ -2,6 +2,7 @@ node_modules
 
 .cache
 .env
+.dev.vars
 .vercel
 .output
 

@@ -5,7 +5,7 @@ import { logger } from '~/utils/logger';
 
 export const prerender = false;
 
-export const POST: APIRoute = async ({ request, clientAddress }) => {
+export const POST: APIRoute = async ({ request, clientAddress, locals }) => {
   try {
     // Rate limiting
     const identifier = clientAddress || request.headers.get('CF-Connecting-IP') || 'unknown';
@@ -69,7 +69,9 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     const normalizedEmail = validation.normalized!;
 
     // Check for Buttondown API key
-    const apiKey = import.meta.env.BUTTONDOWN_API_KEY;
+    // In Cloudflare Pages, use runtime.env for server-side env vars
+    // Falls back to import.meta.env for local development
+    const apiKey = locals.runtime?.env?.BUTTONDOWN_API_KEY || import.meta.env.BUTTONDOWN_API_KEY;
     if (!apiKey) {
       logger.warn('Newsletter API key not configured', {
         endpoint: '/api/newsletter',
