@@ -75,6 +75,7 @@ export default function NewsletterForm({
         onSubmit={handleSubmit}
         className="space-y-2"
       >
+        <input type="hidden" name="embed" value="1" />
         <input
           type="email"
           name="email"
