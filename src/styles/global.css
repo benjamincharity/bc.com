@@ -827,3 +827,8 @@ a.animated-gradient-text {
     height: 100dvh !important;
   }
 }
+
+/* Canvas background gradient */
+.canvas-background {
+  background: linear-gradient(135deg, rgba(251, 113, 133, 0.1), transparent);
+}

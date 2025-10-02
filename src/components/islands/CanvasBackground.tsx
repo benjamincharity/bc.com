@@ -231,10 +231,7 @@ export default function CanvasBackground({
   return (
     <canvas
       ref={canvasRef}
-      className={`fixed inset-0 pointer-events-none z-0 ${className}`}
-      style={{
-        background: `linear-gradient(135deg, ${fallbackColor}10, transparent)`,
-      }}
+      className={`fixed inset-0 pointer-events-none z-0 canvas-background ${className}`}
       aria-hidden="true"
     />
   );
