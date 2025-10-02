@@ -107,7 +107,7 @@
   }
 
   .prose-wrapper {
-    @apply relative z-20 m-auto max-w-articleMaxWidth px-4 pt-12;
+    @apply relative z-20 m-auto max-w-articleMaxWidth px-4 pt-4;
   }
   .prose-wrapper--large {
     @apply container px-5 py-8 pb-6;
