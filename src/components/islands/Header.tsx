@@ -77,7 +77,7 @@ export default function Header({
     <header id="primary-header" className={headerClasses}>
       <div>
         {/* Your site title - this should match your existing design */}
-        <h1>
+        <h1 className="uppercase">
           <a
             href="/"
             className="text-inherit hover:text-inherit no-underline"

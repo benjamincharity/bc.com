@@ -1,0 +1,335 @@
+---
+title: "Effective Post-Mortems: Implementation Playbook"
+date: 2025-10-16
+tags:
+  - engineering
+  - incident-management
+  - implementation
+  - playbook
+description: "From incident to learning integration with a step-by-step, blameless post-mortem cadence."
+image: "incident-dive5-phases.webp"
+draft: true
+---
+
+
+
+> **This is part of the Post-Mortem series.** Read the [Executive Brief](/articles/post-mortem-executive-brief) (7 min), the [Field Guide](/articles/post-mortem-field-guide) (20 min), or the [Definitive Guide](/articles/post-mortem-definitive-guide) (60 min, canonical).
+
+## D0 to D+14: What Great Teams Actually Do
+
+Improving your post-mortem process doesn't happen by accident: it requires a systematic approach from the moment an incident occurs through long-term organizational learning. Elite teams like Google, Netflix, and Atlassian have refined this into a proven four-phase playbook that spans from immediate incident response through ongoing improvement.
+
+This isn't just about writing better reports. It's about creating a closed-loop system where every incident becomes fuel for making your systems more resilient.
+
+![A trail sign with four arrows pointing in different directions.](incident-dive5-phases.webp)
+
+## Phase 1: Immediate Response (0-48 hours) - Stabilize and Record
+
+The first 48 hours after an incident are critical for both resolution and learning. What you do immediately sets up everything that follows.
+
+### Speed Matters: The 5-Minute Rule
+
+Elite SRE teams mobilize response within minutes. **Aim to have your on-call engineer respond and assemble a response team within 5 minutes.** This quick engagement can cut downtime significantly: teams that wait 30+ minutes to respond invariably suffer longer MTTR.
+
+Prerequisites for speed:
+
+- Clear on-call rotations defined in advance
+- Incident commander role identified before incidents happen
+- Communication channels pre-established
+- Escalation procedures documented and practiced
+
+### Communication Cadence: The 15-20 Minute Update Rule
+
+During the incident, establish a rhythm for updates: even if nothing has changed. **Post an update every 15-20 minutes in your public Slack channel or bridge line**, even if it's just "investigating still."
+
+Why this matters:
+
+- Keeps everyone aligned and avoids confusion
+- Creates a timeline you can use later in the post-mortem
+- Prevents stakeholder anxiety and speculation
+- Enables responders to focus on resolution instead of fielding questions
+
+As PagerDuty notes, building a communication strategy to update stakeholders enables on-call responders to spend more time resolving the incident.[²](/articles/post-mortem-definitive-guide#user-content-fn-2)
+
+### Real-Time Logging: Facts First, Analysis Later
+
+As the incident unfolds, **encourage responders to log key events and decisions**: time, action, outcome. Capture this either in a shared document or directly in Slack.
+
+Use blame-neutral language:
+
+- **Good:** "18:42 - Deployment of version 1.2 initiated"
+- **Bad:** "Dev deployed bad code at 18:42"
+
+Google's postmortem guide emphasizes factual timelines to anchor the investigation.[¹⁸](/articles/post-mortem-definitive-guide#user-content-fn-18) **Facts first, analysis later.**
+
+### The 48-Hour Draft Rule
+
+While the incident is fresh, get a draft post-mortem started within 48 hours. It doesn't need to be final, but document the basics:
+
+- Timeline of events
+- Impact assessment
+- Known contributing factors
+- Initial thoughts on root cause
+
+Why 48 hours matters:
+
+- Fresh information is more accurate
+- Faster publication reassures stakeholders you're addressing issues
+- Prevents speculation from filling the information void
+- Memory degrades quickly: capture details while they're vivid
+
+Google and other best-in-class organizations often publish postmortems within 24-48 hours of an outage. A senior engineer at Google put it: the longer you wait, the more people fill the void with speculation, which "seldom works in your favor."[¹⁸](/articles/post-mortem-definitive-guide#user-content-fn-18)
+
+## Phase 2: Deep Analysis (48 hours - 7 days) - Investigate Thoroughly
+
+Once the fire is out and a preliminary document exists, invest time in deeper analysis before finalizing the report.
+
+### Multidisciplinary Review: Gather All Perspectives
+
+Schedule a post-mortem meeting within a week that includes people from all relevant areas: not just the directly involved engineers. Include QA, support, operations, and anyone else with insight.
+
+Why diverse perspectives matter:
+
+- Operations might point out monitoring gaps
+- QA might note test cases that could catch similar issues
+- Support might reveal customer-facing symptoms that weren't obvious
+- Different viewpoints ensure nothing is missed
+
+This is where psychological safety becomes crucial: **the facilitator must set a tone that all questions are welcome and it's a blameless discussion.**
+
+### "5 Whys" and Beyond: Systematic Root Cause Analysis
+
+Use structured techniques to get past surface symptoms:
+
+1. **Ask "Why" iteratively** until you uncover process or design flaws
+2. **Counter hindsight bias** by asking "Could we realistically have detected X before? If not, why not?"
+3. **Look for systemic patterns** by reviewing past incidents for similarities
+4. **Apply human factors analysis** examining documentation quality, training gaps, and environmental pressures
+
+Pattern recognition example: Teams often discover that 3 different incidents all stemmed from similar configuration mistakes, pointing to a tooling deficiency that wouldn't be obvious from any single incident.
+
+**High-maturity organizations perform periodic incident trend analysis**: Google aggregates postmortems to spot common themes across products.[⁵](/articles/post-mortem-definitive-guide#user-content-fn-5)
+
+### Human Factors Investigation
+
+Don't just focus on technical root causes. Investigate human and organizational factors:
+- Was the runbook misleading or incomplete?
+- Did alert fatigue cause warnings to be ignored?
+- Was the engineer new or under pressure?
+- Were procedures tested under realistic conditions?
+
+These factors often point to training needs or process improvements that are just as important as technical fixes.
+
+### Peer Review and Validation
+
+By day 5-7, have a solid understanding of what went wrong, documented in the post-mortem. Ensure the analysis is reviewed by senior engineers or managers: Google requires peer review of postmortems for completeness.[⁵](/articles/post-mortem-definitive-guide#user-content-fn-5)
+
+Review checklist:
+
+- Did we get to the real root causes?
+- Are there deeper issues we haven't addressed?
+- Is the tone blameless and factual?
+- Are we missing any contributing factors?
+
+## Phase 3: Action Planning (Days 7-14) - Turn Insights into Improvements
+
+With causes identified, decide what to do about them.
+
+### Brainstorm and Prioritize Actions
+
+The post-mortem team brainstorms specific preventative or corrective actions for each root cause, then prioritizes them using a systematic approach:
+
+Prioritization methods:
+
+- Risk Priority Number (RPN): Severity × Occurrence × Detection difficulty
+- Simple High/Medium/Low based on impact judgment
+- 80/20 rule: Which 20% of fixes will prevent 80% of the risk?
+
+Categorize by effort:
+
+- **Quick wins** (add missing monitor, fix documentation): Next sprint
+- **Medium improvements** (enhance testing, tool upgrades): 4-8 weeks
+- **Long-term projects** (architecture changes): Break into phases
+
+### Assign Owners and Set Deadlines
+
+As covered in the Action Accountability pillar, every action gets:
+- **Individual owner** (with their agreement)
+- **Target completion date** appropriate to scope
+- **Tracking** in your project management system
+
+SLO examples from Atlassian:[¹⁰](/articles/post-mortem-definitive-guide#user-content-fn-10)
+
+- Priority 1 actions: 4-8 weeks depending on severity
+- Medium actions: 8-12 weeks with milestones
+- Large projects: Quarterly planning with phases
+
+### Resource Commitment for Big Changes
+
+Sometimes fixes require significant resources: budget, staffing, or architecture changes. Phase 3 is when you escalate to leadership if needed.
+
+Make the business case:
+- Frame it as preventing similar costly outages
+- Use incident impact data (revenue loss, SLA penalties)
+- Show how investment in prevention pays off
+
+**Companies like Google and Amazon explicitly budget engineering time for post-incident improvements** as part of "keeping the lights on."
+
+### Documentation and Communication
+
+Document the action plan clearly in the post-mortem report with a table showing:
+- Action description
+- Owner
+- Due date
+- Current status
+
+Also communicate the plan to stakeholders: "We've identified 5 follow-up actions; two are already done, three will be completed by next month, and here's how they'll mitigate the risk."
+
+## Phase 4: Learning Integration (Ongoing) - Make Improvement Continuous
+
+This phase institutionalizes the process so the organization continuously gets safer and more efficient.
+
+### Monthly Tracking and Review
+
+At least once monthly, leadership should review open post-mortem actions. This could be:
+
+- A spreadsheet or Linear filter of "all postmortem tickets not done"
+- A 30-minute "post-mortem review" meeting where teams update on open items
+- Custom reporting showing overdue or stuck actions
+
+Why regular review matters:
+
+- Creates gentle peer pressure to complete tasks
+- Allows raising blockers early
+- Prevents "out of sight, out of mind" problems
+- Demonstrates leadership commitment
+
+### Quarterly Trend Analysis
+
+Every quarter, analyze trends across incidents:
+
+- **Categorize root causes:** How many due to deployments? Scaling issues? Third-party outages?
+- **Track improvement metrics:** Are numbers getting better quarter over quarter?
+- **Identify systemic needs:** "Half our incidents this quarter involved microservice A: maybe we need to refactor it"
+
+This is essentially an operations retrospective at a higher level. **Google's SRE organization has working groups that coordinate postmortem efforts and perform cross-incident analysis**.[⁵](/articles/post-mortem-definitive-guide#user-content-fn-5)
+
+Pattern recognition tools:
+
+- Simple spreadsheet tracking incident metadata
+- Database with incident categories and trends
+- Automated tooling for pattern detection (advanced)
+
+### Annual Culture Review
+
+Assess the post-mortem process itself annually:
+
+- **Survey the engineering organization:** Do people feel the process is valuable? Safe?
+- **Review completion rates:** What % of incidents had post-mortems? What % of actions got done?
+- **Adjust based on feedback:** Maybe templates are too heavy, or certain teams aren't participating
+
+Meta-metrics to track:
+
+- Post-mortem completion rate (strive for >90% on high-severity incidents)
+- Average time to complete post-mortem (improve this over time)
+- Action item completion percentage
+- Psychological safety sentiment scores
+
+### Process Refinement and Evolution
+
+Feed improvements back into the process:
+
+- Adopt new tools that streamline phases 1-3
+- Introduce game days (simulated incidents) to practice
+- Create internal "post-mortem of the month" newsletter to share knowledge
+- Keep iterating as technology and scale change
+
+## Timeline Summary
+
+### 0-48 hours (Phase 1):
+
+- Respond within 5 minutes
+- Update every 15-20 minutes during incident
+- Log timeline with factual, blame-neutral language
+- Draft post-mortem by 48 hours
+
+### 48 hours - 7 days (Phase 2):
+
+- Multidisciplinary review meeting
+- Systematic root cause analysis (5 Whys, human factors)
+- Peer review of findings
+- Finalized post-mortem with root causes
+
+### 7-14 days (Phase 3):
+
+- Brainstorm and prioritize actions
+- Assign owners and deadlines
+- Escalate resource needs to leadership
+- Document and communicate action plan
+
+### Ongoing (Phase 4):
+
+- Monthly action item review
+- Quarterly trend analysis
+- Annual process assessment
+- Continuous refinement
+
+## Success Metrics by Phase
+
+### Phase 1 Success:
+
+- Response time under 5 minutes
+- Regular communication during incident
+- Complete timeline documented
+- Draft post-mortem within 48 hours
+
+### Phase 2 Success:
+
+- Multiple perspectives included in analysis
+- Three or more contributing factors identified
+- Human factors examined
+- Peer review completed
+
+### Phase 3 Success:
+
+- All actions have individual owners
+- Realistic deadlines set
+- High-priority items prioritized
+- Leadership commitment secured
+
+### Phase 4 Success:
+
+- Greater than 80% action completion rate
+- Decreasing repeat incident rate
+- Improving MTTR over time
+- High team satisfaction with process
+
+---
+
+> **Quick Reference:** Bookmark this [Post-Mortem Cheat Sheet](https://benjamincharity.notion.site/Post-Mortem-Cheat-Sheet-27b6edefd08e807ab127d93c09411e63) for facilitating your first post-mortems.
+
+> **Want the definitive implementation roadmap?** Read the [Definitive Guide](/articles/post-mortem-definitive-guide) for 90-day and 12-month transformation plans, success metrics, and detailed templates for each phase.
+
+---
+
+## Process Guardrails
+
+- **48-hour draft rule:** Complete initial post-mortem draft within 48 hours while details are fresh
+- **85% closure target:** Maintain >85% action item completion rate within defined deadlines
+
+---
+
+## Resources
+
+- Definitive Guide (60 min) – canonical reference
+  - https://www.benjamincharity.com/articles/post-mortem-definitive-guide
+- [Post-Mortem Cheat Sheet](https://benjamincharity.notion.site/Post-Mortem-Cheat-Sheet-27b6edefd08e807ab127d93c09411e63) – free quick-reference checklist
+- [Post-Mortem Template](https://benjamincharity.notion.site/Incident-Postmortem-Template-Blameless-26e6edefd08e80c6829bfffe0e2293fe) – free, ready-to-use Notion template
+- [Blameless Post-Mortem Policy](https://benjamincharity.notion.site/Blameless-Post-Mortem-Policy-26e6edefd08e80dbbcffce0093471840) – ready-to-implement blameless policy framework
+
+---
+
+### Continue the series:
+
+[Convincing Skeptical Leaders](/articles/post-mortem-leadership-buy-in) - Getting executive support for systematic incident learning
+

@@ -25,7 +25,8 @@
       "Bash(mkdir:*)",
       "Bash(pnpm test:*)",
       "Bash(git add:*)",
-      "Bash(echo:*)"
+      "Bash(echo:*)",
+      "Bash(pnpm build:*)"
     ],
     "deny": [],
     "ask": [],
