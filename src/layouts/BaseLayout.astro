@@ -126,12 +126,53 @@ const fullTitle = title === siteMetadata.title ? title : `${title} | ${siteMetad
       <slot />
     </div>
 
-    <!-- Your console art and analytics scripts would go here -->
-    <script>
-      // Initialize console art (matching your useConsoleArt hook)
-      if (typeof window !== 'undefined') {
-        console.log('Your existing console art here');
-      }
+    <!-- Rock Paper Scissors Console Art -->
+    <script is:inline>
+      // Rock Paper Scissors console game
+      (function() {
+        const rock = `
+    _______
+---'   ____)
+      (_____)
+      (_____)
+      (____)
+---.__(___)
+(rock)
+`;
+
+        const paper = `
+    _______
+---'   ____)____
+          ______)
+          _______)
+         _______)
+---.__________)
+(paper)
+`;
+
+        const scissors = `
+    _______
+---'   ____)____
+          ______)
+       __________)
+      (____)
+---.__(___)
+(scissors)
+`;
+
+        const hands = [rock, paper, scissors];
+        const result = Math.floor(Math.random() * 3);
+
+        console.log(`
+Welcome! 👋🏼
+
+Think you can outsmart me?
+
+${hands[result]}
+
+Refresh to play again!
+        `);
+      })();
     </script>
   </body>
 </html>
