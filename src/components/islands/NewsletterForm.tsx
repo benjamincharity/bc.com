@@ -81,6 +81,18 @@ export default function NewsletterForm({
         body: JSON.stringify({ email: email.trim() }),
       });
 
+      // Handle rate limiting
+      if (response.status === 429) {
+        const data = await response.json().catch(() => ({}));
+        const retryAfter = data.error?.retryAfter || 60;
+        setFormState(prev => ({
+          ...prev,
+          status: 'error',
+          message: `Too many attempts. Please try again in ${retryAfter} seconds.`
+        }));
+        return;
+      }
+
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
         throw new Error(errorData.message || 'Failed to subscribe. Please try again.');
