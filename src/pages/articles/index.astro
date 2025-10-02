@@ -4,6 +4,7 @@ import { getCollection } from 'astro:content';
 import ArticlesPageWrapper from '~/components/islands/ArticlesPageWrapper';
 import NewsletterForm from '~/components/islands/NewsletterForm';
 import BrowseByTags from '~/components/islands/BrowseByTags';
+import { siteMetadata } from '~/data/siteMetadata';
 
 // Get all articles from the blog collection
 const articles = await getCollection('blog');
@@ -24,13 +25,6 @@ sortedArticles.forEach(article => {
   });
 });
 const tagsForBrowse = Array.from(tagCounts.entries());
-
-const siteMetadata = {
-  title: 'Benjamin Charity',
-  description: 'Building products & Engineering teams',
-  author: 'Benjamin Charity',
-  url: 'https://www.benjamincharity.com',
-};
 ---
 
 <BaseLayout

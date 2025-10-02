@@ -40,7 +40,10 @@
       "Bash(do sed -i '' '/^draft: false$/d' \"$file\")",
       "Bash(git log:*)",
       "Bash(xargs:*)",
-      "Bash(chmod:*)"
+      "Bash(chmod:*)",
+      "Bash(npm run typecheck:*)",
+      "Bash(npm outdated:*)",
+      "Bash(npm prune:*)"
     ],
     "deny": [],
     "ask": [],

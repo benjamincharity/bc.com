@@ -6,6 +6,7 @@ import { ArticlesList } from '~/components/Articles/ArticlesList';
 import NewsletterForm from '~/components/islands/NewsletterForm';
 import BrowseByTags from '~/components/islands/BrowseByTags';
 import { BackToLink } from '~/components/BackToLink';
+import { siteMetadata } from '~/data/siteMetadata';
 
 export const getStaticPaths = (async () => {
   const articles = await getCollection('blog');
@@ -44,13 +45,6 @@ allArticles.forEach(article => {
   });
 });
 const tagsForBrowse = Array.from(tagCounts.entries());
-
-const siteMetadata = {
-  title: 'Benjamin Charity',
-  description: 'Building products & Engineering teams',
-  author: 'Benjamin Charity',
-  url: 'https://www.benjamincharity.com',
-};
 
 const title = `${tag} - ${siteMetadata.author}`;
 const description = `Articles about ${tag} by ${siteMetadata.author}.`;

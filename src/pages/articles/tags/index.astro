@@ -6,6 +6,7 @@ import { Badge } from '~/components/Badge';
 import { colors } from '~/data/colors';
 import BrowseByTags from '~/components/islands/BrowseByTags';
 import { BackToLink } from '~/components/BackToLink';
+import { siteMetadata } from '~/data/siteMetadata';
 
 // Get all articles from the blog collection
 const articles = await getCollection('blog');
@@ -24,13 +25,6 @@ publishedArticles.forEach(article => {
 
 // Convert to array and sort by tag name
 const sortedTags = Array.from(tagCounts.entries()).sort((a, b) => a[0].localeCompare(b[0]));
-
-const siteMetadata = {
-  title: 'Benjamin Charity',
-  description: 'Building products & Engineering teams',
-  author: 'Benjamin Charity',
-  url: 'https://www.benjamincharity.com',
-};
 
 // Create summary for meta
 const summaryTags = sortedTags.slice(0, 3).map(([tag]) => tag);

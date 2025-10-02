@@ -4,6 +4,7 @@ import { getCollection } from 'astro:content';
 import { processMarkdown } from '~/utils/markdown-processor';
 import NewsletterForm from '~/components/islands/NewsletterForm';
 import BrowseByTags from '~/components/islands/BrowseByTags';
+import { siteMetadata } from '~/data/siteMetadata';
 import type { GetStaticPaths } from 'astro';
 
 export const getStaticPaths = (async () => {
@@ -43,10 +44,10 @@ const tagsWithCounts = articleTags
   .map(tag => [tag, tagCounts.get(tag) || 0] as [string, number])
   .filter(([_, count]) => count > 0);
 
-const siteMetadata = {
-  title: 'Benjamin Charity',
-  description: 'Building products & Engineering teams',
-};
+// Construct full Cloudinary URL for article image
+const articleImage = article.data.image
+  ? siteMetadata.articleImagePath + article.data.image
+  : siteMetadata.url + siteMetadata.image;
 
 // JSON-LD structured data for article
 const jsonLd = {
@@ -54,26 +55,26 @@ const jsonLd = {
   '@type': 'BlogPosting',
   headline: article.data.title,
   description: article.data.description,
-  image: article.data.image,
+  image: articleImage,
   datePublished: article.data.date.toISOString(),
   author: {
     '@type': 'Person',
-    name: 'Benjamin Charity',
-    url: 'https://www.benjamincharity.com',
+    name: siteMetadata.author,
+    url: siteMetadata.url,
   },
   publisher: {
     '@type': 'Person',
-    name: 'Benjamin Charity',
-    url: 'https://www.benjamincharity.com',
+    name: siteMetadata.author,
+    url: siteMetadata.url,
   },
   keywords: article.data.tags.join(', '),
 };
 ---
 
 <BaseLayout
-  title={`${article.data.title} | Benjamin Charity`}
+  title={`${article.data.title} | ${siteMetadata.title}`}
   description={article.data.description || `Article: ${article.data.title}`}
-  image={article.data.image}
+  image={articleImage}
   showBackground={false}
 >
   <Fragment slot="head">
