@@ -36,7 +36,7 @@ function Article({ article, layoutSize = 'large', hideImage = false, ...divProps
   const isCompactFirst = layoutSize === 'compact-first';
 
   return (
-    <div
+    <article
       className={`group ${
         layoutSize === 'small' ? '' :
         isCompact ? 'w-full' :
@@ -112,7 +112,7 @@ function Article({ article, layoutSize = 'large', hideImage = false, ...divProps
           </div>
         </div>
       </div>
-    </div>
+    </article>
   );
 }
 

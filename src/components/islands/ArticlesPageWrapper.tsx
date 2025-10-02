@@ -13,12 +13,24 @@ export default function ArticlesPageWrapper({ articles }: ArticlesPageWrapperPro
   const [isCompactView, setIsCompactView] = useState(false);
   const [visibleCount, setVisibleCount] = useState(7);
 
-  // Load saved view preference
+  // Load saved view preference and pagination state from URL
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const saved = localStorage.getItem('articlesCompactView');
       if (saved) {
         setIsCompactView(saved === 'true');
+      }
+
+      // Read page number from URL query params
+      const urlParams = new URLSearchParams(window.location.search);
+      const pageParam = urlParams.get('page');
+      if (pageParam) {
+        const page = parseInt(pageParam, 10);
+        if (page > 0) {
+          // Calculate visible count: 7 for page 1, then +6 for each additional page
+          const count = 7 + (page - 1) * 6;
+          setVisibleCount(count);
+        }
       }
     }
   }, []);
@@ -33,7 +45,20 @@ export default function ArticlesPageWrapper({ articles }: ArticlesPageWrapperPro
   };
 
   const loadMore = () => {
-    setVisibleCount(prev => prev + 6);
+    setVisibleCount(prev => {
+      const newCount = prev + 6;
+
+      // Update URL with new page number
+      if (typeof window !== 'undefined') {
+        const currentPage = Math.floor((prev - 7) / 6) + 1;
+        const newPage = currentPage + 1;
+        const url = new URL(window.location.href);
+        url.searchParams.set('page', String(newPage));
+        window.history.pushState({}, '', url);
+      }
+
+      return newCount;
+    });
   };
 
   const visibleArticles = articles.slice(0, visibleCount);
@@ -41,7 +66,7 @@ export default function ArticlesPageWrapper({ articles }: ArticlesPageWrapperPro
 
   return (
     <>
-      <div className="relative flex items-center justify-between mb-4">
+      <nav className="relative flex items-center justify-between mb-4" aria-label="Article navigation controls">
         <BackToLink to="/" className="text-left">
           Home
         </BackToLink>
@@ -56,7 +81,7 @@ export default function ArticlesPageWrapper({ articles }: ArticlesPageWrapperPro
         >
           Jump to tags ↓
         </button>
-      </div>
+      </nav>
 
       <ArticlesList articles={visibleArticles} isCompactView={isCompactView} />
 

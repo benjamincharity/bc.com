@@ -146,9 +146,9 @@ const fullTitle = title === siteMetadata.title ? title : `${title} | ${siteMetad
       </div>
     )}
 
-    <div id="main-content" tabindex="-1" class="flex-grow">
+    <main id="main-content" tabindex="-1" class="flex-grow">
       <slot />
-    </div>
+    </main>
 
     <!-- Footer - only show on pages without canvas background -->
     {!hasCanvas && <Footer />}

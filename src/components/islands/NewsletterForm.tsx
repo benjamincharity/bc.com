@@ -68,7 +68,8 @@ export default function NewsletterForm({
   const { email, status, message } = formState;
 
   return (
-    <div className={`w-full max-w-md mx-auto ${className}`}>
+    <section className={`w-full max-w-md mx-auto ${className}`} aria-labelledby="newsletter-heading">
+      <h2 id="newsletter-heading" className="sr-only">Newsletter Subscription</h2>
       <form
         action="https://buttondown.com/api/emails/embed-subscribe/benjamincharity"
         method="POST"
@@ -139,6 +140,6 @@ export default function NewsletterForm({
       <p className="py-2 text-center text-xs text-slate-500 dark:text-slate-300">
         No data sharing. Unsubscribe at any time.
       </p>
-    </div>
+    </section>
   );
 }
