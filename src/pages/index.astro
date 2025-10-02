@@ -2,6 +2,7 @@
 import BaseLayout from '~/layouts/BaseLayout.astro';
 import FancyBackground from '~/components/islands/FancyBackground';
 import Navigation from '~/components/islands/Navigation';
+import { getCollection } from 'astro:content';
 
 // Your existing site metadata (copied exactly)
 const siteMetadata = {
@@ -46,6 +47,14 @@ function shuffle<T>(array: T[]): T[] {
 
 const companies = shuffle([...COMPANIES]);
 const showBackground = true;
+
+// Get latest 4 articles for image preloading
+const articles = await getCollection('blog');
+const latestArticles = articles
+  .filter(article => !article.data.draft)
+  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
+  .slice(0, 4)
+  .filter(article => article.data.image);
 ---
 
 <BaseLayout
@@ -53,6 +62,18 @@ const showBackground = true;
   description="Engineering leader & team builder at high-growth startups & scale-ups."
   showBackground={showBackground}
 >
+  <!-- Preload latest article images with low priority (won't block page load) -->
+  <Fragment slot="head">
+    {latestArticles.map(article => (
+      <link
+        rel="preload"
+        as="image"
+        href={article.data.image}
+        fetchpriority="low"
+      />
+    ))}
+  </Fragment>
+
   <!-- Your existing FancyBackground component -->
   <FancyBackground client:load isVisible={showBackground} />
 

@@ -67,6 +67,9 @@ const fullTitle = title === siteMetadata.title ? title : `${title} | ${siteMetad
 
     <!-- Astro Tailwind CSS will be injected automatically -->
 
+    <!-- Allow pages to inject additional head elements -->
+    <slot name="head" />
+
     <ViewTransitions />
     <!-- Keep the original shared.css for now to ensure existing styles work -->
     <link rel="stylesheet" href="/shared.css" />
