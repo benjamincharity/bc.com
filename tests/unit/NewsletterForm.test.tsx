@@ -1,10 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import NewsletterForm from '~/components/islands/NewsletterForm';
-
-// Mock fetch
-global.fetch = vi.fn();
 
 describe('NewsletterForm', () => {
   beforeEach(() => {
@@ -37,6 +34,32 @@ describe('NewsletterForm', () => {
       expect(screen.getByText(/no data sharing/i)).toBeInTheDocument();
       expect(screen.getByText(/unsubscribe at any time/i)).toBeInTheDocument();
     });
+
+    it('should have correct form action pointing to Buttondown', () => {
+      const { container } = render(<NewsletterForm />);
+      const form = container.querySelector('form');
+
+      expect(form).toHaveAttribute('action', 'https://buttondown.com/api/emails/embed-subscribe/benjamincharity');
+      expect(form).toHaveAttribute('method', 'POST');
+    });
+
+    it('should include hidden embed field', () => {
+      const { container } = render(<NewsletterForm />);
+      const embedInput = container.querySelector('input[name="embed"]');
+
+      expect(embedInput).toBeInTheDocument();
+      expect(embedInput).toHaveAttribute('type', 'hidden');
+      expect(embedInput).toHaveAttribute('value', '1');
+    });
+
+    it('should include hidden tag field', () => {
+      const { container } = render(<NewsletterForm />);
+      const tagInput = container.querySelector('input[name="tag"]');
+
+      expect(tagInput).toBeInTheDocument();
+      expect(tagInput).toHaveAttribute('type', 'hidden');
+      expect(tagInput).toHaveAttribute('value', 'website');
+    });
   });
 
   describe('Form validation', () => {
@@ -61,187 +84,67 @@ describe('NewsletterForm', () => {
       expect(button).not.toBeDisabled();
     });
 
-    it('should show error for empty email after trimming', async () => {
+    it('should keep button disabled for whitespace-only input', async () => {
       const user = userEvent.setup();
       render(<NewsletterForm />);
 
       const input = screen.getByPlaceholderText('Your email');
-      const button = screen.getByRole('button', { name: /subscribe/i });
-
       await user.type(input, '   ');
 
-      // Button should be disabled for whitespace-only input
+      const button = screen.getByRole('button', { name: /subscribe/i });
       expect(button).toBeDisabled();
     });
   });
 
-  describe('Form submission', () => {
-    it('should call Buttondown API with valid email', async () => {
-      const user = userEvent.setup();
-      (global.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
-        ok: true,
-      } as Response);
+  describe('Email input', () => {
+    it('should have email input with correct name attribute', () => {
+      render(<NewsletterForm />);
+      const input = screen.getByPlaceholderText('Your email');
 
+      expect(input).toHaveAttribute('type', 'email');
+      expect(input).toHaveAttribute('name', 'email');
+    });
+
+    it('should update input value as user types', async () => {
+      const user = userEvent.setup();
       render(<NewsletterForm />);
 
       const input = screen.getByPlaceholderText('Your email');
       await user.type(input, 'test@example.com');
-      await user.click(screen.getByRole('button', { name: /subscribe/i }));
 
-      await waitFor(() => {
-        expect(global.fetch).toHaveBeenCalledWith(
-          'https://buttondown.com/api/emails/embed-subscribe/benjamincharity',
-          expect.objectContaining({
-            method: 'POST',
-            body: expect.any(FormData),
-          })
-        );
-      });
+      expect(input).toHaveValue('test@example.com');
     });
 
-    it('should show success message on successful submission', async () => {
+    it('should allow typing and updating email value', async () => {
       const user = userEvent.setup();
-      (global.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
-        ok: true,
-      } as Response);
-
       render(<NewsletterForm />);
 
       const input = screen.getByPlaceholderText('Your email');
-      await user.type(input, 'test@example.com');
-      await user.click(screen.getByRole('button', { name: /subscribe/i }));
 
-      await waitFor(() => {
-        expect(screen.getByText(/thanks for subscribing/i)).toBeInTheDocument();
-      });
+      await user.type(input, 'test');
+      expect(input).toHaveValue('test');
 
-      // Email input should be cleared
-      expect(input).toHaveValue('');
-    });
-
-    it('should show custom success message', async () => {
-      const user = userEvent.setup();
-      (global.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
-        ok: true,
-      } as Response);
-
-      render(<NewsletterForm successMessage="You're on the list!" />);
-
-      const input = screen.getByPlaceholderText('Your email');
-      await user.type(input, 'test@example.com');
-      await user.click(screen.getByRole('button'));
-
-      await waitFor(() => {
-        expect(screen.getByText("You're on the list!")).toBeInTheDocument();
-      });
-    });
-
-    it('should show loading state during submission', async () => {
-      const user = userEvent.setup();
-      let resolvePromise: (value: any) => void;
-      const fetchPromise = new Promise(resolve => {
-        resolvePromise = resolve;
-      });
-      (global.fetch as ReturnType<typeof vi.fn>).mockReturnValueOnce(fetchPromise);
-
-      render(<NewsletterForm />);
-
-      const input = screen.getByPlaceholderText('Your email');
-      const button = screen.getByRole('button', { name: /subscribe/i });
-
-      await user.type(input, 'test@example.com');
-      await user.click(button);
-
-      // Should show loading state
-      await waitFor(() => {
-        expect(screen.getByText(/subscribing/i)).toBeInTheDocument();
-        expect(button).toBeDisabled();
-        expect(input).toBeDisabled();
-      });
-
-      // Resolve the promise to clean up
-      resolvePromise!({
-        ok: true,
-      });
-    });
-  });
-
-  describe('Error handling', () => {
-    it('should show error message on API failure', async () => {
-      const user = userEvent.setup();
-      (global.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
-        ok: false,
-      } as Response);
-
-      render(<NewsletterForm />);
-
-      const input = screen.getByPlaceholderText('Your email');
-      await user.type(input, 'test@example.com');
-      await user.click(screen.getByRole('button', { name: /subscribe/i }));
-
-      await waitFor(() => {
-        expect(screen.getByText(/failed to subscribe/i)).toBeInTheDocument();
-      });
-    });
-
-    it('should handle network errors', async () => {
-      const user = userEvent.setup();
-      (global.fetch as ReturnType<typeof vi.fn>).mockRejectedValueOnce(
-        new Error('Network error')
-      );
-
-      render(<NewsletterForm />);
-
-      const input = screen.getByPlaceholderText('Your email');
-      await user.type(input, 'test@example.com');
-      await user.click(screen.getByRole('button', { name: /subscribe/i }));
-
-      await waitFor(() => {
-        expect(screen.getByText(/network error/i)).toBeInTheDocument();
-      });
-    });
-
-    it('should clear error when user starts typing again', async () => {
-      const user = userEvent.setup();
-      (global.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
-        ok: false,
-      } as Response);
-
-      render(<NewsletterForm />);
-
-      const input = screen.getByPlaceholderText('Your email');
-      await user.type(input, 'test@example.com');
-      await user.click(screen.getByRole('button', { name: /subscribe/i }));
-
-      await waitFor(() => {
-        expect(screen.getByText(/failed to subscribe/i)).toBeInTheDocument();
-      });
-
-      // Start typing again to clear error
       await user.clear(input);
       await user.type(input, 'new@example.com');
-
-      expect(screen.queryByText(/failed to subscribe/i)).not.toBeInTheDocument();
+      expect(input).toHaveValue('new@example.com');
     });
   });
 
-  describe('User feedback', () => {
-    it('should show visual feedback for successful submission', async () => {
-      const user = userEvent.setup();
-      (global.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
-        ok: true,
-      } as Response);
-
+  describe('Accessibility', () => {
+    it('should have proper ARIA attributes', () => {
       render(<NewsletterForm />);
-
       const input = screen.getByPlaceholderText('Your email');
-      await user.type(input, 'test@example.com');
-      await user.click(screen.getByRole('button', { name: /subscribe/i }));
 
-      // User should see success message
-      await waitFor(() => {
-        expect(screen.getByText(/thanks for subscribing/i)).toBeInTheDocument();
-      });
+      expect(input).toHaveAttribute('aria-describedby', 'newsletter-message');
+      expect(input).toHaveAttribute('aria-invalid', 'false');
+    });
+
+    it('should maintain aria-describedby relationship', () => {
+      render(<NewsletterForm />);
+      const input = screen.getByPlaceholderText('Your email');
+
+      // Check that aria-describedby points to the message container
+      expect(input).toHaveAttribute('aria-describedby', 'newsletter-message');
     });
   });
 });

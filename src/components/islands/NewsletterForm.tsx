@@ -76,6 +76,7 @@ export default function NewsletterForm({
         className="space-y-2"
       >
         <input type="hidden" name="embed" value="1" />
+        <input type="hidden" name="tag" value="website" />
         <input
           type="email"
           name="email"

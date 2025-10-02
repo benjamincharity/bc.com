@@ -1,0 +1,49 @@
+---
+export const prerender = true;
+
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import FancyBackground from '~/components/islands/FancyBackground';
+
+const showBackground = true;
+---
+
+<BaseLayout
+  title="Welcome to the Club! 🎉"
+  description="Successfully subscribed to Benjamin Charity's newsletter."
+  showBackground={showBackground}
+  canvasLayout={true}
+>
+  <!-- FancyBackground component (same as landing page) -->
+  <FancyBackground client:load isVisible={showBackground} />
+
+  <!-- Success page layout - matches 404 page structure -->
+  <div class="bc-home pointer-events-none relative z-20 text-center font-vt323 h-full flex flex-col">
+    <main class="flex flex-col items-center pt-8 mt-2 sm:mt-4">
+      <!-- Success message -->
+      <h2 class="mx-2 mb-6 inline-block hyphens-none text-center font-vt323 text-5xl sm:text-6xl uppercase leading-tight text-white text-shadow-title sm:leading-none">
+        You're in the club!
+      </h2>
+
+      <!-- Success description -->
+      <p class="text-white text-xl sm:text-2xl mb-12 px-4 text-shadow-title max-w-2xl">
+        Expect a warm welcome in your inbox soon.
+      </p>
+
+      <!-- Action buttons -->
+      <div class="pointer-events-auto flex flex-col sm:flex-row gap-4 sm:gap-6">
+        <a
+          href="/"
+          class="px-8 py-3 bg-white text-black font-vt323 text-xl uppercase border-4 border-black hover:bg-gray-200 transition-colors"
+        >
+          ← Go home
+        </a>
+        <a
+          href="/articles"
+          class="px-8 py-3 bg-transparent text-white font-vt323 text-xl uppercase border-4 border-white hover:bg-white hover:text-black transition-colors"
+        >
+          Read the latest articles →
+        </a>
+      </div>
+    </main>
+  </div>
+</BaseLayout>
