@@ -9,8 +9,8 @@ My personal website.
 ## Quick Start
 
 ```bash
-pnpm install
-pnpm dev
+npm install
+npm run dev
 ```
 
 See [docs/](./docs/) for detailed documentation.

@@ -8,13 +8,13 @@ This site deploys automatically to Cloudflare Pages when changes are pushed to t
 
 1. **Create Cloudflare Pages Project**
    - Log in to Cloudflare Dashboard
-   - Go to Pages ’ Create a project
+   - Go to Pages ï¿½ Create a project
    - Connect to GitHub repository
 
 2. **Configure Build Settings**
    ```
    Production branch: main
-   Build command: pnpm build
+   Build command: npm run build
    Build output directory: dist
    Root directory: /
    Node version: 20
@@ -36,15 +36,15 @@ Optional variables for enhanced features:
 | `SITE_URL` | Canonical site URL | No |
 
 Set environment variables in:
-- Cloudflare Dashboard ’ Pages ’ Settings ’ Environment variables
+- Cloudflare Dashboard ï¿½ Pages ï¿½ Settings ï¿½ Environment variables
 
 ### Build Process
 
 The build process runs automatically on every push to main:
 
 1. **Trigger**: Push to main branch
-2. **Install**: `pnpm install --frozen-lockfile`
-3. **Build**: `pnpm build`
+2. **Install**: `npm ci`
+3. **Build**: `npm run build`
 4. **Deploy**: Upload `dist/` to Cloudflare's global CDN
 5. **Verify**: Site available at `https://your-project.pages.dev`
 
@@ -61,7 +61,7 @@ Every pull request gets a preview deployment:
 To use a custom domain:
 
 1. **Add Domain in Cloudflare**
-   - Pages ’ Custom domains ’ Set up a custom domain
+   - Pages ï¿½ Custom domains ï¿½ Set up a custom domain
    - Enter your domain name
 
 2. **Update DNS**
@@ -128,13 +128,13 @@ on:
 ### CI Steps
 
 1. **Checkout code**
-2. **Setup Node.js 20** with pnpm cache
-3. **Install dependencies** with `pnpm install --frozen-lockfile`
-4. **Lint code** with `pnpm lint`
-5. **Type check** with `pnpm typecheck`
-6. **Run tests** with `pnpm test`
-7. **Build project** with `pnpm build`
-8. **E2E tests** (PR only) with `pnpm e2e`
+2. **Setup Node.js 20** with npm cache
+3. **Install dependencies** with `npm ci`
+4. **Lint code** with `npm run lint`
+5. **Type check** with `npm run typecheck`
+6. **Run tests** with `npm test`
+7. **Build project** with `npm run build`
+8. **E2E tests** (PR only) with `npm run e2e`
 
 ### CI Configuration
 
@@ -142,17 +142,17 @@ The workflow is defined in `.github/workflows/ci.yml`:
 
 - **Runner**: ubuntu-latest
 - **Node version**: 20
-- **Package manager**: pnpm 9
-- **Cache**: pnpm dependencies cached automatically
+- **Package manager**: npm
+- **Cache**: npm dependencies cached automatically
 
 ## Deployment Checklist
 
 Before deploying to production:
 
-- [ ] All tests pass locally (`pnpm test`)
-- [ ] Build succeeds locally (`pnpm build`)
-- [ ] TypeScript checks pass (`pnpm typecheck`)
-- [ ] Linting passes (`pnpm lint`)
+- [ ] All tests pass locally (`npm test`)
+- [ ] Build succeeds locally (`npm run build`)
+- [ ] TypeScript checks pass (`npm run typecheck`)
+- [ ] Linting passes (`npm run lint`)
 - [ ] Preview deployment tested
 - [ ] Performance tested (Lighthouse scores)
 
@@ -170,7 +170,7 @@ Before deploying to production:
 
 2. Solutions:
    - Review error messages in build logs
-   - Test build locally: `pnpm build`
+   - Test build locally: `npm run build`
    - Check package.json dependencies
    - Verify Node version compatibility
 
@@ -190,7 +190,7 @@ Before deploying to production:
 1. Check Core Web Vitals in Cloudflare Analytics
 2. Run Lighthouse audit
 3. Optimize images and assets
-4. Review bundle size: `pnpm build && ls -la dist/`
+4. Review bundle size: `npm run build && ls -la dist/`
 
 ### SSL Certificate Issues
 

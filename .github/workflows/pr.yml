@@ -14,20 +14,17 @@ jobs:
         uses: fkirc/skip-duplicate-actions@v5.3.1
 
       - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v2
-        with:
-          version: 8.10.5
 
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'pnpm'
+          cache: 'npm'
 
       - name: Install dependencies
-        run: pnpm install
+        run: npm ci
 
       - name: 'Lint'
-        run: pnpm lint --quiet
+        run: npm run lint --quiet
 
       - name: 'Build'
-        run: pnpm build
+        run: npm run build

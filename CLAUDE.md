@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a personal website for Benjamin Charity built with **Astro**, TypeScript, and Tailwind CSS. The site features articles/blog posts written in MDX, supports draft articles with query parameter visibility, and is deployed to Vercel.
+This is a personal website for Benjamin Charity built with **Astro**, TypeScript, and Tailwind CSS. The site features articles/blog posts written in MDX, supports draft articles with query parameter visibility, and is deployed to Cloudflare Pages.
 
 **Recent Migration**: The project was migrated from Remix to Astro for improved static site generation and content management. Legacy Remix code is archived in the `legacy-remix/` directory.
 
@@ -103,15 +103,16 @@ This project uses **npm** (switched from pnpm). Configuration:
 - Node.js version specified in `.nvmrc` (v20)
 - npm settings in `.npmrc`
 
-## Deployment (Vercel)
+## Deployment (Cloudflare Pages)
 
-- Deployed on Vercel with Astro adapter
+- Deployed on Cloudflare Pages with Astro Cloudflare adapter
 - Custom headers configured in `public/_headers`:
   - MIME type headers for fonts, images, scripts
   - Security headers and CSP policies
   - Caching policies: 1 year for static assets
-- Image optimization with WebP format
+- Edge delivery via Cloudflare's global CDN
 - Node.js ^20.0.0 required
+- Automatic deployments on push to main branch
 
 ## Security & Accessibility
 
@@ -188,7 +189,7 @@ Two PRDs document planned improvements:
 3. Optional frontmatter: `draft: true` (hides from production), `readingTime`
 4. Test locally with `npm run dev`
 5. Preview production build with `npm run preview`
-6. Deploy automatically via Vercel on push to main branch
+6. Deploy automatically via Cloudflare Pages on push to main branch
 
 ## Testing
 

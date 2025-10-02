@@ -3,7 +3,7 @@ import defaultTheme from 'tailwindcss/defaultTheme';
 import plugin from 'tailwindcss/plugin';
 
 export default {
-  content: ['./app/**/*.{js,jsx,ts,tsx}', './src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
+  content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
   darkMode: 'class',
   theme: {
     screens: {

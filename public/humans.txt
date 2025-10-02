@@ -1,7 +1,7 @@
 /* TEAM */
 
 Design/Development: Benjamin Charity (@benjamincharity)
-Location: Atlanta, USA.
+Location: Atlanta, USA
 
 
 /* THANKS */
@@ -14,5 +14,8 @@ Credit for many of the color palettes: https://coolors.co/
 
 /* SITE */
 
-Last update: @@LastUpdated
-Components: RemixJS, TypeScript, Vercel, CSS, GitHub
+Last update: 2025-10-02
+Standards: HTML5, CSS3, JavaScript
+Components: Astro, TypeScript, React, Tailwind CSS
+Software: Cursor, Git
+Hosting: Cloudflare

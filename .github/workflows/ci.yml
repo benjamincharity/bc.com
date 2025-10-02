@@ -19,40 +19,34 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # Setup pnpm
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 9
-
       # Setup Node.js
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: pnpm
+          cache: npm
 
       # Install dependencies
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: npm ci
 
       # Run linting
       - name: Lint
-        run: pnpm lint
+        run: npm run lint
 
       # Run type checking
       - name: Type check
-        run: pnpm typecheck
+        run: npm run typecheck
 
       # Run unit tests
       - name: Unit tests
-        run: pnpm test
+        run: npm test
 
       # Build the project
       - name: Build
-        run: pnpm build
+        run: npm run build
 
       # Run E2E tests (only on PRs)
       - name: E2E tests
         if: github.event_name == 'pull_request'
-        run: pnpm e2e
+        run: npm run e2e
