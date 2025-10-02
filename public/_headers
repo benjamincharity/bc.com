@@ -1,0 +1,40 @@
+# Set correct MIME types for static assets
+/shared.css
+  Content-Type: text/css; charset=utf-8
+
+# CSS files in _astro directory
+/_astro/*.css
+  Content-Type: text/css; charset=utf-8
+
+# JavaScript files
+/_astro/*.js
+  Content-Type: application/javascript; charset=utf-8
+
+# Web fonts
+/fonts/*.woff2
+  Content-Type: font/woff2
+
+/fonts/*.woff
+  Content-Type: font/woff
+
+/fonts/*.ttf
+  Content-Type: font/ttf
+
+# Images
+/images/*.webp
+  Content-Type: image/webp
+
+/images/*.png
+  Content-Type: image/png
+
+/images/*.jpg
+  Content-Type: image/jpeg
+
+/images/*.jpeg
+  Content-Type: image/jpeg
+
+/images/*.svg
+  Content-Type: image/svg+xml
+
+/images/*.gif
+  Content-Type: image/gif
