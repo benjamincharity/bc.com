@@ -1,5 +1,13 @@
 # CLAUDE.md
 
+For comprehensive documentation, see:
+- @docs/README.md - Full documentation index
+- @docs/architecture.md - Technical architecture details
+- @docs/development.md - Development setup and workflows
+- @docs/deployment.md - Deployment configuration
+- @docs/testing.md - Testing guidelines
+- @prds/ - Product Requirements Documents
+
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## Project Overview
