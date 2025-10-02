@@ -1,6 +1,7 @@
 # Deployment
 
-This site deploys automatically to Cloudflare Pages when changes are pushed to the main branch.
+This site deploys automatically to Cloudflare Pages when changes are pushed to
+the main branch.
 
 ## Cloudflare Pages
 
@@ -12,6 +13,7 @@ This site deploys automatically to Cloudflare Pages when changes are pushed to t
    - Connect to GitHub repository
 
 2. **Configure Build Settings**
+
    ```
    Production branch: main
    Build command: npm run build
@@ -27,15 +29,17 @@ This site deploys automatically to Cloudflare Pages when changes are pushed to t
 
 ### Environment Variables
 
-No environment variables are required for basic deployment. The site is statically generated.
+No environment variables are required for basic deployment. The site is
+statically generated.
 
 Optional variables for enhanced features:
 
-| Variable | Purpose | Required |
-|----------|---------|----------|
-| `SITE_URL` | Canonical site URL | No |
+| Variable   | Purpose            | Required |
+| ---------- | ------------------ | -------- |
+| `SITE_URL` | Canonical site URL | No       |
 
 Set environment variables in:
+
 - Cloudflare Dashboard � Pages � Settings � Environment variables
 
 ### Build Process
@@ -120,9 +124,9 @@ The CI pipeline runs on every push and pull request:
 ```yaml
 on:
   push:
-    branches: ['**']  # All branches
+    branches: ['**'] # All branches
   pull_request:
-    branches: [main]  # PRs to main
+    branches: [main] # PRs to main
 ```
 
 ### CI Steps
@@ -206,6 +210,7 @@ Before deploying to production:
 If migrating from Vercel:
 
 1. **Remove Vercel configuration**:
+
    ```bash
    rm vercel.json .vercelignore
    ```

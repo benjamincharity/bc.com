@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 enum Theme {
   DARK = 'dark',
@@ -10,7 +10,9 @@ export default function ColorModeToggle() {
   const [mounted, setMounted] = useState(false);
 
   const getPreferredTheme = () =>
-    window.matchMedia('(prefers-color-scheme: dark)').matches ? Theme.DARK : Theme.LIGHT;
+    window.matchMedia('(prefers-color-scheme: dark)').matches
+      ? Theme.DARK
+      : Theme.LIGHT;
 
   useEffect(() => {
     setMounted(true);
@@ -53,7 +55,7 @@ export default function ColorModeToggle() {
 
   if (!mounted) {
     return (
-      <div className="absolute right-2 top-[-76px] z-50 origin-top-right scale-[.3] h-[80px] w-[200px]"></div>
+      <div className="absolute right-2 top-[-76px] z-50 h-[80px] w-[200px] origin-top-right scale-[.3]"></div>
     );
   }
 

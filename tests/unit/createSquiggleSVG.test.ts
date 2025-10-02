@@ -1,4 +1,5 @@
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
+
 import { createSquiggleSVG } from '~/utils/createSquiggleSVG';
 
 describe('createSquiggleSVG', () => {
@@ -109,7 +110,9 @@ describe('createSquiggleSVG', () => {
     it('should include squiggle path data', () => {
       const result = createSquiggleSVG('#000000');
 
-      expect(result).toContain('d="M0 3.5c5 0 5-3 10-3s5 3 10 3c5 0 5-3 10-3s5 3 10 3"');
+      expect(result).toContain(
+        'd="M0 3.5c5 0 5-3 10-3s5 3 10 3c5 0 5-3 10-3s5 3 10 3"'
+      );
     });
   });
 
@@ -145,7 +148,9 @@ describe('createSquiggleSVG', () => {
       const result = createSquiggleSVG(maliciousColor);
 
       // The malicious script should be escaped
-      expect(result).toContain('&quot;&gt;&lt;script&gt;alert(&quot;XSS&quot;)&lt;/script&gt;&lt;path d=&quot;');
+      expect(result).toContain(
+        '&quot;&gt;&lt;script&gt;alert(&quot;XSS&quot;)&lt;/script&gt;&lt;path d=&quot;'
+      );
       // Should not contain unescaped script tag
       expect(result).not.toContain('<script>');
     });
@@ -317,7 +322,9 @@ describe('createSquiggleSVG', () => {
       expect(result).not.toContain('"><svg');
       expect(result).toContain('&quot;&gt;&lt;svg onload=alert(1)&gt;');
       // The dangerous parts should be within escaped quotes, not as actual attributes
-      expect(result).toMatch(/stroke="&quot;&gt;&lt;svg onload=alert\(1\)&gt;"/);
+      expect(result).toMatch(
+        /stroke="&quot;&gt;&lt;svg onload=alert\(1\)&gt;"/
+      );
     });
 
     it('should accept invalid color formats safely', () => {
@@ -328,7 +335,9 @@ describe('createSquiggleSVG', () => {
       // Should be escaped - the onclick should be within the escaped attribute value
       expect(result).toContain('not-a-valid-color&quot; onclick=&quot;hack()');
       // Should not create an actual onclick attribute
-      expect(result).not.toContain('stroke="not-a-valid-color" onclick="hack()"');
+      expect(result).not.toContain(
+        'stroke="not-a-valid-color" onclick="hack()"'
+      );
       expect(result).toContain('&quot;');
     });
   });

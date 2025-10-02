@@ -5,6 +5,7 @@
 ## Prerequisites
 
 Before starting the migration, ensure you have:
+
 - Node.js 22+ (latest LTS)
 - pnpm package manager
 - Git repository with current Remix site
@@ -13,14 +14,16 @@ Before starting the migration, ensure you have:
 
 ## Migration Overview
 
-This guide walks through migrating from Remix 2.17 to Astro 5.x, preserving all functionality while improving performance.
+This guide walks through migrating from Remix 2.17 to Astro 5.x, preserving all
+functionality while improving performance.
 
-**Estimated Time**: 4-6 hours for complete migration
-**Risk Level**: Medium (testing required for all interactive features)
+**Estimated Time**: 4-6 hours for complete migration **Risk Level**: Medium
+(testing required for all interactive features)
 
 ## Phase 1: Project Setup (30 mins)
 
 ### 1.1 Create New Astro Project
+
 ```bash
 # Create new Astro project in migration branch
 npm create astro@latest . -- --template minimal --typescript strict
@@ -40,14 +43,15 @@ pnpm add zod date-fns reading-time
 ```
 
 ### 1.2 Configure Astro
+
 ```javascript
 // astro.config.mjs
-import { defineConfig } from 'astro/config';
+import cloudflare from '@astrojs/cloudflare';
+import mdx from '@astrojs/mdx';
 import react from '@astrojs/react';
 import tailwind from '@astrojs/tailwind';
-import mdx from '@astrojs/mdx';
-import cloudflare from '@astrojs/cloudflare';
 import { VitePWA } from '@vite-pwa/astro';
+import { defineConfig } from 'astro/config';
 
 export default defineConfig({
   output: 'static',
@@ -59,24 +63,28 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       workbox: {
-        globPatterns: ['**/*.{js,css,html,ico,png,svg}']
-      }
-    })
+        globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
+      },
+    }),
   ],
   markdown: {
     remarkPlugins: ['remark-gfm'],
     rehypePlugins: [
       'rehype-autolink-headings',
-      ['rehype-pretty-code', {
-        theme: 'github-dark',
-        keepBackground: false
-      }]
-    ]
-  }
+      [
+        'rehype-pretty-code',
+        {
+          theme: 'github-dark',
+          keepBackground: false,
+        },
+      ],
+    ],
+  },
 });
 ```
 
 ### 1.3 Update TypeScript Configuration
+
 ```json
 // tsconfig.json
 {
@@ -95,6 +103,7 @@ export default defineConfig({
 ## Phase 2: Content Migration (45 mins)
 
 ### 2.1 Set Up Content Collections
+
 ```bash
 # Create content structure
 mkdir -p src/content/blog
@@ -103,11 +112,11 @@ mkdir -p src/content/config.ts
 
 ```typescript
 // src/content/config.ts
-import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
+import { defineCollection, z } from 'astro:content';
 
 const blog = defineCollection({
-  loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/blog" }),
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/blog' }),
   schema: z.object({
     title: z.string(),
     date: z.date(),
@@ -122,6 +131,7 @@ export const collections = { blog };
 ```
 
 ### 2.2 Migrate MDX Files
+
 ```bash
 # Copy MDX files from Remix to Astro
 cp -r app/articles/* src/content/blog/
@@ -131,6 +141,7 @@ cp -r app/articles/* src/content/blog/
 ```
 
 ### 2.3 Verify Content Structure
+
 ```bash
 # Build to verify content collections work
 pnpm run build
@@ -142,6 +153,7 @@ pnpm run build
 ## Phase 3: Component Migration (90 mins)
 
 ### 3.1 Create Component Structure
+
 ```bash
 mkdir -p src/components/islands
 mkdir -p src/components/static
@@ -149,6 +161,7 @@ mkdir -p src/layouts
 ```
 
 ### 3.2 Migrate Layout Components
+
 ```astro
 ---
 // src/layouts/BaseLayout.astro
@@ -188,7 +201,8 @@ const { title, description, image } = Astro.props;
 
 ```tsx
 // src/components/islands/ThemeToggle.tsx
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
+
 import type { Theme } from '../../types';
 
 interface Props {
@@ -228,6 +242,7 @@ export default function ThemeToggle({ initialTheme = 'system' }: Props) {
 ```
 
 ### 3.4 Add Islands to Layouts
+
 ```astro
 ---
 // In layout or page files
@@ -243,6 +258,7 @@ import CanvasBackground from '~/components/islands/CanvasBackground.tsx';
 ## Phase 4: Routing Migration (30 mins)
 
 ### 4.1 Create Page Routes
+
 ```bash
 mkdir -p src/pages/blog
 ```
@@ -315,6 +331,7 @@ const { Content, headings } = await post.render();
 ## Phase 5: Deployment Setup (30 mins)
 
 ### 5.1 Configure Cloudflare Pages
+
 ```toml
 # wrangler.toml
 name = "bc-com"
@@ -333,6 +350,7 @@ name = "bc-com-preview"
 ```
 
 ### 5.2 Update GitHub Actions
+
 ```yaml
 # .github/workflows/deploy.yml
 name: Deploy to Cloudflare Pages
@@ -373,6 +391,7 @@ jobs:
 ## Phase 6: Testing & Validation (45 mins)
 
 ### 6.1 Functional Testing
+
 ```bash
 # Start development server
 pnpm run dev
@@ -388,6 +407,7 @@ pnpm run dev
 ```
 
 ### 6.2 Performance Testing
+
 ```bash
 # Build and preview production
 pnpm run build
@@ -401,6 +421,7 @@ pnpm run preview
 ```
 
 ### 6.3 E2E Testing
+
 ```bash
 # Run existing E2E tests
 pnpm run e2e
@@ -412,6 +433,7 @@ pnpm run e2e
 ## Phase 7: Go-Live (15 mins)
 
 ### 7.1 DNS Update
+
 ```bash
 # Update DNS to point to Cloudflare Pages
 # A record: @ -> Cloudflare Pages IP
@@ -419,6 +441,7 @@ pnpm run e2e
 ```
 
 ### 7.2 Final Verification
+
 ```bash
 # Test production site
 # ✓ All pages load correctly
@@ -431,6 +454,7 @@ pnpm run e2e
 ## Rollback Plan
 
 If issues arise, rollback is simple:
+
 1. Revert DNS changes to point to Vercel
 2. No data migration required (content unchanged)
 3. Monitor for 24 hours before considering migration complete
@@ -438,6 +462,7 @@ If issues arise, rollback is simple:
 ## Success Metrics
 
 After migration, verify:
+
 - [ ] Page load time improved (measure with WebPageTest)
 - [ ] Lighthouse scores maintained or improved
 - [ ] All interactive features working
@@ -448,16 +473,19 @@ After migration, verify:
 ## Troubleshooting
 
 ### Common Issues:
+
 1. **MDX not rendering**: Check frontmatter schema compliance
-2. **Islands not hydrating**: Verify client:* directives
+2. **Islands not hydrating**: Verify client:\* directives
 3. **Theme FOUC**: Ensure inline script runs before styles load
 4. **Build errors**: Check TypeScript strict mode compliance
 5. **PWA not working**: Verify service worker registration
 
 ### Performance Issues:
+
 1. **Slow builds**: Optimize content collection queries
 2. **Large bundles**: Check for unnecessary client-side code
 3. **Poor cache rates**: Verify Cloudflare caching rules
 
 ---
-*Quickstart complete - ready for implementation*
+
+_Quickstart complete - ready for implementation_

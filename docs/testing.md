@@ -1,6 +1,7 @@
 # Testing
 
-This document covers the testing strategy and how to run tests for the Astro-based project.
+This document covers the testing strategy and how to run tests for the
+Astro-based project.
 
 ## Testing Strategy
 
@@ -15,8 +16,9 @@ The project uses a multi-layered testing approach:
 
 ### Unit & Component Tests
 
-**Framework**: [Vitest](https://vitest.dev/) with Astro integration
-**Testing Library**: [@testing-library/react](https://testing-library.com/docs/react-testing-library/intro/)
+**Framework**: [Vitest](https://vitest.dev/) with Astro integration **Testing
+Library**:
+[@testing-library/react](https://testing-library.com/docs/react-testing-library/intro/)
 
 Configuration in `vitest.config.ts`:
 
@@ -47,6 +49,7 @@ export default getViteConfig({
 ```
 
 **Key Features**:
+
 - Uses Astro's `getViteConfig()` helper for proper integration
 - Configured for jsdom environment
 - Coverage reporting with v8 provider
@@ -82,6 +85,7 @@ export default defineConfig({
 ```
 
 **Key Features**:
+
 - Configured for Astro dev server (port 51346)
 - Automatic dev server startup
 - Cross-browser testing (Chromium, Firefox, WebKit)
@@ -177,7 +181,8 @@ npm run test -- --grep "Newsletter"
 
 ```typescript
 // tests/unit/email-validator.test.ts
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
+
 import { validateEmail } from '~/utils/email-validator';
 
 describe('Email Validator', () => {
@@ -221,7 +226,7 @@ describe('NewsletterForm', () => {
 
 ```typescript
 // e2e/e2e.spec.ts
-import { test, expect } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 
 test.describe('Article System', () => {
   test('users can navigate to an individual article', async ({ page }) => {
@@ -247,6 +252,7 @@ test.describe('Article System', () => {
 ### Unit Testing
 
 1. **Test behavior, not implementation**
+
    ```typescript
    // Good: Test the outcome
    expect(result.valid).toBe(true);
@@ -256,15 +262,17 @@ test.describe('Article System', () => {
    ```
 
 2. **Use descriptive test names**
+
    ```typescript
    // Good
-   test('should reject emails exceeding 254 characters')
+   test('should reject emails exceeding 254 characters');
 
    // Bad
-   test('email validation')
+   test('email validation');
    ```
 
 3. **Arrange, Act, Assert pattern**
+
    ```typescript
    test('calculates reading time correctly', () => {
      // Arrange
@@ -281,6 +289,7 @@ test.describe('Article System', () => {
 ### Component Testing
 
 1. **Test user interactions**
+
    ```typescript
    const user = userEvent.setup();
    await user.type(input, 'test@example.com');
@@ -288,13 +297,14 @@ test.describe('Article System', () => {
    ```
 
 2. **Query by accessibility attributes**
+
    ```typescript
    // Preferred
-   screen.getByRole('button', { name: /subscribe/i })
-   screen.getByLabelText('Email address')
+   screen.getByRole('button', { name: /subscribe/i });
+   screen.getByLabelText('Email address');
 
    // Avoid
-   screen.getByClassName('btn-submit')
+   screen.getByClassName('btn-submit');
    ```
 
 3. **Test accessibility**
@@ -306,6 +316,7 @@ test.describe('Article System', () => {
 ### E2E Testing
 
 1. **Use baseURL for cleaner tests**
+
    ```typescript
    // Good
    await page.goto('/articles');
@@ -321,13 +332,14 @@ test.describe('Article System', () => {
    - Tag filtering
 
 3. **Use stable selectors**
+
    ```typescript
    // Preferred
-   page.getByRole('link', { name: /articles/i })
-   page.locator('article a')
+   page.getByRole('link', { name: /articles/i });
+   page.locator('article a');
 
    // Avoid
-   page.locator('.article-card:nth-child(1) > a')
+   page.locator('.article-card:nth-child(1) > a');
    ```
 
 ## Coverage Requirements
@@ -350,17 +362,20 @@ open coverage/index.html
 ## Not Yet Covered
 
 ### High Priority
+
 - Logger utility
 - Newsletter API route (integration tests)
 - Other React islands (ThemeToggle, ViewToggle, BrowseByTags)
 - Astro components using Container API
 
 ### Medium Priority
+
 - Markdown processing utilities
 - Utility functions (shuffle, createSquiggleSVG)
 - API error handling edge cases
 
 ### Low Priority
+
 - Visual regression tests
 - Performance tests
 - PWA functionality (when enabled)
@@ -442,6 +457,7 @@ Use the Container API (Astro 4.9+):
 ```typescript
 import { experimental_AstroContainer as AstroContainer } from 'astro/container';
 import { expect, test } from 'vitest';
+
 import Card from '../src/components/Card.astro';
 
 test('Card with slots', async () => {
@@ -465,7 +481,7 @@ import { getCollection } from 'astro:content';
 test('blog collection has valid frontmatter', async () => {
   const blog = await getCollection('blog');
 
-  blog.forEach(article => {
+  blog.forEach((article) => {
     expect(article.data.title).toBeDefined();
     expect(article.data.date).toBeInstanceOf(Date);
     expect(Array.isArray(article.data.tags)).toBe(true);
@@ -476,6 +492,7 @@ test('blog collection has valid frontmatter', async () => {
 ## CI/CD Integration
 
 Tests run automatically on:
+
 - Push to any branch (unit tests)
 - Pull requests (unit + E2E tests)
 - Pre-deployment (full test suite)

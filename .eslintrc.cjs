@@ -73,7 +73,10 @@ module.exports = {
       ],
       rules: {
         '@typescript-eslint/no-unused-vars': 'warn',
-        '@typescript-eslint/triple-slash-reference': ['error', { path: 'always', types: 'never', lib: 'never' }],
+        '@typescript-eslint/triple-slash-reference': [
+          'error',
+          { path: 'always', types: 'never', lib: 'never' },
+        ],
         'import/no-unresolved': ['error', { ignore: ['^astro:'] }],
       },
     },

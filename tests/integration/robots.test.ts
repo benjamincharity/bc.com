@@ -1,5 +1,5 @@
-import { describe, it, expect } from 'vitest';
 import type { APIContext } from 'astro';
+import { describe, expect, it } from 'vitest';
 
 describe('robots.txt Generation', () => {
   describe('Basic structure', () => {
@@ -8,7 +8,9 @@ describe('robots.txt Generation', () => {
       const response = await GET({} as APIContext);
 
       expect(response.status).toBe(200);
-      expect(response.headers.get('Content-Type')).toBe('text/plain; charset=utf-8');
+      expect(response.headers.get('Content-Type')).toBe(
+        'text/plain; charset=utf-8'
+      );
     });
 
     it('should include User-agent directive', async () => {
@@ -50,7 +52,9 @@ describe('robots.txt Generation', () => {
       const response = await GET({} as APIContext);
       const text = await response.text();
 
-      expect(text).toContain('Sitemap: https://www.benjamincharity.com/sitemap.xml');
+      expect(text).toContain(
+        'Sitemap: https://www.benjamincharity.com/sitemap.xml'
+      );
     });
   });
 
@@ -135,7 +139,9 @@ describe('robots.txt Generation', () => {
       const { GET } = await import('~/pages/robots.txt');
       const response = await GET({} as APIContext);
 
-      expect(response.headers.get('Content-Type')).toBe('text/plain; charset=utf-8');
+      expect(response.headers.get('Content-Type')).toBe(
+        'text/plain; charset=utf-8'
+      );
     });
 
     it('should set Cache-Control header', async () => {
@@ -227,9 +233,16 @@ describe('robots.txt Generation', () => {
       const response = await GET({} as APIContext);
       const text = await response.text();
 
-      const lines = text.split('\n').filter((line) => line.trim() && !line.startsWith('#'));
+      const lines = text
+        .split('\n')
+        .filter((line) => line.trim() && !line.startsWith('#'));
 
-      const validDirectives = ['User-agent:', 'Allow:', 'Disallow:', 'Sitemap:'];
+      const validDirectives = [
+        'User-agent:',
+        'Allow:',
+        'Disallow:',
+        'Sitemap:',
+      ];
 
       lines.forEach((line) => {
         const hasValidDirective = validDirectives.some((directive) =>
@@ -315,7 +328,9 @@ describe('robots.txt Generation', () => {
       const response = await GET({} as APIContext);
       const text = await response.text();
 
-      const comments = text.split('\n').filter((line) => line.trim().startsWith('#'));
+      const comments = text
+        .split('\n')
+        .filter((line) => line.trim().startsWith('#'));
       expect(comments.length).toBeGreaterThan(0);
     });
   });

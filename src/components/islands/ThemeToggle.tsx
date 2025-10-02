@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 type Theme = 'light' | 'dark' | 'system';
 
@@ -17,7 +17,9 @@ export default function ThemeToggle() {
     if (!mounted) return;
 
     const root = document.documentElement;
-    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const systemPrefersDark = window.matchMedia(
+      '(prefers-color-scheme: dark)'
+    ).matches;
 
     // Remove existing theme classes
     root.classList.remove('light', 'dark');
@@ -42,7 +44,7 @@ export default function ThemeToggle() {
   if (!mounted) {
     // Return a placeholder that matches the button size
     return (
-      <div className="w-9 h-9 rounded-md border border-gray-300 dark:border-gray-600"></div>
+      <div className="h-9 w-9 rounded-md border border-gray-300 dark:border-gray-600"></div>
     );
   }
 
@@ -50,7 +52,12 @@ export default function ThemeToggle() {
     switch (theme) {
       case 'light':
         return (
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg
+            className="h-4 w-4"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -61,7 +68,12 @@ export default function ThemeToggle() {
         );
       case 'dark':
         return (
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg
+            className="h-4 w-4"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -72,7 +84,12 @@ export default function ThemeToggle() {
         );
       case 'system':
         return (
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg
+            className="h-4 w-4"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -98,7 +115,7 @@ export default function ThemeToggle() {
   return (
     <button
       onClick={handleThemeChange}
-      className="flex items-center justify-center w-9 h-9 rounded-md text-gray-700 dark:text-gray-300 hover:text-pink-600 dark:hover:text-pink-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200 border border-gray-300 dark:border-gray-600 hover:border-pink-300 dark:hover:border-pink-700"
+      className="flex h-9 w-9 items-center justify-center rounded-md border border-gray-300 text-gray-700 transition-all duration-200 hover:border-pink-300 hover:bg-gray-100 hover:text-pink-600 dark:border-gray-600 dark:text-gray-300 dark:hover:border-pink-700 dark:hover:bg-gray-800 dark:hover:text-pink-400"
       aria-label={getLabel()}
       title={getLabel()}
     >

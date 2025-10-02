@@ -58,16 +58,12 @@
       "Bash(npm run dev:*)",
       "WebFetch(domain:docs.buttondown.com)",
       "Bash(npm run lint)",
-      "Bash(npm run e2e:*)"
+      "Bash(npm run e2e:*)",
+      "Bash(lsof:*)"
     ],
     "deny": [],
     "ask": [],
-    "additionalDirectories": [
-      "/Users/bc/.claude/local",
-      "/Users/bc"
-    ]
+    "additionalDirectories": ["/Users/bc/.claude/local", "/Users/bc"]
   },
-  "enabledMcpjsonServers": [
-    "astro-docs"
-  ]
+  "enabledMcpjsonServers": ["astro-docs"]
 }

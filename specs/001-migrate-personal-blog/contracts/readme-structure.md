@@ -3,6 +3,7 @@
 ## Minimal README Structure
 
 ### README.md (Root - Minimal)
+
 ```markdown
 # benjamincharity.com
 
@@ -14,10 +15,7 @@ My personal website.
 
 ## Quick Start
 
-\`\`\`bash
-pnpm install
-pnpm dev
-\`\`\`
+\`\`\`bash pnpm install pnpm dev \`\`\`
 
 See [docs/](./docs/) for detailed documentation.
 ```
@@ -25,6 +23,7 @@ See [docs/](./docs/) for detailed documentation.
 ## Documentation Directory Structure
 
 ### docs/README.md (Documentation Index)
+
 ```markdown
 # Documentation
 
@@ -36,49 +35,46 @@ See [docs/](./docs/) for detailed documentation.
 ```
 
 ### docs/development.md
+
 ```markdown
 # Development
 
 ## Prerequisites
+
 - Node.js 20+
 - pnpm 9+
 
 ## Setup
+
 \`\`\`bash
+
 # Clone repository
-git clone <repo-url>
-cd bc.com
+
+git clone <repo-url> cd bc.com
 
 # Install dependencies
+
 pnpm install
 
 # Start dev server
-pnpm dev
-\`\`\`
+
+pnpm dev \`\`\`
 
 ## Commands
-\`\`\`bash
-pnpm dev          # Dev server on port 4321
-pnpm build        # Production build
-pnpm preview      # Preview production
-pnpm lint         # Run linter
-pnpm format       # Format code
-pnpm typecheck    # Type checking
-\`\`\`
+
+\`\`\`bash pnpm dev # Dev server on port 4321 pnpm build # Production build pnpm
+preview # Preview production pnpm lint # Run linter pnpm format # Format code
+pnpm typecheck # Type checking \`\`\`
 
 ## Project Structure
-\`\`\`
-src/
-├── content/
-│   └── blog/     # MDX articles
-├── pages/        # Astro pages
-├── components/   # React/Astro components
-├── layouts/      # Page layouts
-└── styles/       # Global styles
-\`\`\`
+
+\`\`\` src/ ├── content/ │ └── blog/ # MDX articles ├── pages/ # Astro pages ├──
+components/ # React/Astro components ├── layouts/ # Page layouts └── styles/ #
+Global styles \`\`\`
 ```
 
 ### docs/deployment.md
+
 ```markdown
 # Deployment
 
@@ -110,6 +106,7 @@ Pull requests automatically get preview URLs.
 ```
 
 ### docs/architecture.md
+
 ```markdown
 # Architecture
 
@@ -136,27 +133,28 @@ Pull requests automatically get preview URLs.
 ```
 
 ### docs/testing.md
+
 ```markdown
 # Testing
 
 ## Unit Tests
-\`\`\`bash
-pnpm test
-\`\`\`
+
+\`\`\`bash pnpm test \`\`\`
 
 ## E2E Tests
-\`\`\`bash
-pnpm e2e
-\`\`\`
+
+\`\`\`bash pnpm e2e \`\`\`
 
 ## CI Pipeline
 
 GitHub Actions runs all tests on:
+
 - Push to any branch
 - Pull requests to main
 ```
 
 ### docs/contributing.md
+
 ```markdown
 # Contributing
 
@@ -171,6 +169,7 @@ GitHub Actions runs all tests on:
 ## Commit Convention
 
 Use conventional commits:
+
 - feat: New feature
 - fix: Bug fix
 - docs: Documentation

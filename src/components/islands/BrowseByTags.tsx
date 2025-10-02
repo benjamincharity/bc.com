@@ -22,7 +22,12 @@ export default function BrowseByTags({
       aria-labelledby={heading ? headingId : undefined}
     >
       {heading && (
-        <h2 id={headingId} className={'mb-2 text-gray-600 dark:text-gray-400 text-base font-bold'}>
+        <h2
+          id={headingId}
+          className={
+            'mb-2 text-base font-bold text-gray-600 dark:text-gray-400'
+          }
+        >
           {heading}
         </h2>
       )}
@@ -50,9 +55,17 @@ export const Tags = ({
           return (
             <li key={tag + count} className={'mb-2 mr-6 inline-block text-sm'}>
               {isCurrent ? (
-                <span className={'relative inline-block text-gray-600 dark:text-gray-400'}>
+                <span
+                  className={
+                    'relative inline-block text-gray-600 dark:text-gray-400'
+                  }
+                >
                   {tag}{' '}
-                  <sup className={'left-100 absolute top-1/3 pl-[2px] text-gray-600 dark:text-gray-400'}>
+                  <sup
+                    className={
+                      'left-100 absolute top-1/3 pl-[2px] text-gray-600 dark:text-gray-400'
+                    }
+                  >
                     {count}
                   </sup>
                 </span>
@@ -62,7 +75,11 @@ export const Tags = ({
                   href={`/articles/tags/${tag}`}
                 >
                   {tag}{' '}
-                  <sup className={'left-100 absolute top-1/3 pl-[2px] text-gray-600 dark:text-gray-400'}>
+                  <sup
+                    className={
+                      'left-100 absolute top-1/3 pl-[2px] text-gray-600 dark:text-gray-400'
+                    }
+                  >
                     {count}
                   </sup>
                 </a>

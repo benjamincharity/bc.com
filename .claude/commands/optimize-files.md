@@ -13,6 +13,7 @@ description: Analyze and optimize code performance
 Analyze and optimize: @$ARGUMENTS
 
 Focus areas:
+
 1. **Algorithm efficiency**: Improve time/space complexity
 2. **Memory usage**: Reduce memory footprint
 3. **I/O operations**: Optimize file/network operations

@@ -15,17 +15,28 @@ readingTime: 8
 draft: true
 ---
 
-
-
-> <mark>This is part of the Post-Mortem series.</mark> Read the [Executive Brief](/articles/post-mortem-executive-brief) (7 min), the [Field Guide](/articles/post-mortem-field-guide) (20 min), or the [Definitive Guide](/articles/post-mortem-definitive-guide) (60 min, canonical).
+> <mark>This is part of the Post-Mortem series.</mark> Read the [Executive
+> Brief](/articles/post-mortem-executive-brief) (7 min), the [Field
+> Guide](/articles/post-mortem-field-guide) (20 min), or the [Definitive
+> Guide](/articles/post-mortem-definitive-guide) (60 min, canonical).
 
 ## If Everyone Owns It, No One Owns It
 
-You've conducted a brilliant post-mortem. The team identified three systemic issues and brainstormed five concrete improvements. Everyone nods enthusiastically about the action items. Three months later, the same incident happens again, and you realize none of the fixes were actually implemented.
+You've conducted a brilliant post-mortem. The team identified three systemic
+issues and brainstormed five concrete improvements. Everyone nods
+enthusiastically about the action items. Three months later, the same incident
+happens again, and you realize none of the fixes were actually implemented.
 
-This execution gap is where most post-mortem programs fail. Even when teams identify valuable insights and concrete improvements, follow-through often falters. Without clear ownership and systematic tracking, action items disappear into backlogs, and the underlying vulnerabilities remain.
+This execution gap is where most post-mortem programs fail. Even when teams
+identify valuable insights and concrete improvements, follow-through often
+falters. Without clear ownership and systematic tracking, action items disappear
+into backlogs, and the underlying vulnerabilities remain.
 
-The brutal reality: Less than 50% of organizations have mature incident learning processes with consistent follow-through. Those that do enjoy substantially fewer repeat outages.[²](/articles/post-mortem-definitive-guide#user-content-fn-2) The completion gap is what separates incremental learning from real resilience.
+The brutal reality: Less than 50% of organizations have mature incident learning
+processes with consistent follow-through. Those that do enjoy substantially
+fewer repeat
+outages.[²](/articles/post-mortem-definitive-guide#user-content-fn-2) The
+completion gap is what separates incremental learning from real resilience.
 
 ![A ranger's checklist at a trailhead.](incident-dive4-rangers-checklist.webp)
 
@@ -35,80 +46,138 @@ Understanding why follow-ups fail is crucial to fixing the process:
 
 ### The Action Item Void
 
-Atlassian calls this the "action item void": the black hole where good intentions go to die. Google's SRE documentation describes it as creating "unvirtuous cycles of unclosed postmortems" when organizations reward writing reports but not completing the associated fixes.[¹¹](/articles/post-mortem-definitive-guide#user-content-fn-11)
+Atlassian calls this the "action item void": the black hole where good
+intentions go to die. Google's SRE documentation describes it as creating
+"unvirtuous cycles of unclosed postmortems" when organizations reward writing
+reports but not completing the associated
+fixes.[¹¹](/articles/post-mortem-definitive-guide#user-content-fn-11)
 
-This execution gap is widely recognized across the industry. <mark>Subpar postmortems with incomplete action items make incident recurrence far more likely</mark>, and action items without clear owners are significantly less likely to be resolved.[¹⁰](/articles/post-mortem-definitive-guide#user-content-fn-10)
+This execution gap is widely recognized across the industry. <mark>Subpar
+postmortems with incomplete action items make incident recurrence far more
+likely</mark>, and action items without clear owners are significantly less
+likely to be
+resolved.[¹⁰](/articles/post-mortem-definitive-guide#user-content-fn-10)
 
 ### Two Fatal Patterns
 
 #### Vague Ownership
-Actions like "investigate X" or "add monitoring for Y" get assigned to a team or left unassigned. When everyone owns it, no one owns it. Without a single accountable person, the task never happens.
+
+Actions like "investigate X" or "add monitoring for Y" get assigned to a team or
+left unassigned. When everyone owns it, no one owns it. Without a single
+accountable person, the task never happens.
 
 #### No Deadlines or Follow-up
-In many organizations, there's no defined timeline for post-mortem fixes. Teams move on to new project work, and incident action items get deprioritized indefinitely. One report notes that teams had to implement strict 4- or 8-week SLOs for completing "priority actions" to ensure these fixes weren't endlessly postponed.[¹⁰](/articles/post-mortem-definitive-guide#user-content-fn-10)
+
+In many organizations, there's no defined timeline for post-mortem fixes. Teams
+move on to new project work, and incident action items get deprioritized
+indefinitely. One report notes that teams had to implement strict 4- or 8-week
+SLOs for completing "priority actions" to ensure these fixes weren't endlessly
+postponed.[¹⁰](/articles/post-mortem-definitive-guide#user-content-fn-10)
 
 ### The Vicious Cycle
 
-The result is predictable: the same incident (or a closely related one) will recur because the underlying vulnerability remains. Meanwhile, leadership has a false sense of security because there's a nice post-mortem document filed away.
+The result is predictable: the same incident (or a closely related one) will
+recur because the underlying vulnerability remains. Meanwhile, leadership has a
+false sense of security because there's a nice post-mortem document filed away.
 
 This is perhaps the biggest failure mode in post-incident programs.
 
 ## How Leading Teams Ensure Follow-Through
 
-Elite organizations have cracked the code on action accountability through systematic approaches:
+Elite organizations have cracked the code on action accountability through
+systematic approaches:
 
 ### Assign Clear Ownership
 
-Every single action item from a post-mortem gets assigned to an individual owner (with their agreement), not to a group or left as "TBD." That person is accountable for driving completion or escalating issues.
+Every single action item from a post-mortem gets assigned to an individual owner
+(with their agreement), not to a group or left as "TBD." That person is
+accountable for driving completion or escalating issues.
 
-Atlassian's approach: They track all post-mortem follow-up tasks in Jira, linking them to the incident ticket, with an assignee for each.[¹⁰](/articles/post-mortem-definitive-guide#user-content-fn-10) This avoids the diffusion of responsibility that plagues many follow-ups.
+Atlassian's approach: They track all post-mortem follow-up tasks in Jira,
+linking them to the incident ticket, with an assignee for
+each.[¹⁰](/articles/post-mortem-definitive-guide#user-content-fn-10) This avoids
+the diffusion of responsibility that plagues many follow-ups.
 
-Why individuals matter: Personal accountability creates ownership. When someone's name is on a task, they're more likely to drive it to completion or raise blockers early.
+Why individuals matter: Personal accountability creates ownership. When
+someone's name is on a task, they're more likely to drive it to completion or
+raise blockers early.
 
 ### Set Realistic Deadlines and SLOs
 
-Not all fixes are equal. Some might be quick (adding a missing alert), others might require multi-sprint projects (re-architecting part of a system). Set target deadlines appropriate to the size and priority:
+Not all fixes are equal. Some might be quick (adding a missing alert), others
+might require multi-sprint projects (re-architecting part of a system). Set
+target deadlines appropriate to the size and priority:
 
 - **Small fixes:** 2-week deadlines
 - **Medium improvements:** 4-8 weeks with milestones
 - **Large projects:** Break into phases with concrete deliverables
 
-Atlassian's framework: They designate "Priority 1 actions" that must be completed within 4 or 8 weeks depending on severity, with actual reporting on these deadlines.[¹⁰](/articles/post-mortem-definitive-guide#user-content-fn-10)
+Atlassian's framework: They designate "Priority 1 actions" that must be
+completed within 4 or 8 weeks depending on severity, with actual reporting on
+these deadlines.[¹⁰](/articles/post-mortem-definitive-guide#user-content-fn-10)
 
-The goal isn't micro-management but ensuring improvements don't slip into "someday." If an action will take longer than a couple of months, break it into phases or make it a formal project.
+The goal isn't micro-management but ensuring improvements don't slip into
+"someday." If an action will take longer than a couple of months, break it into
+phases or make it a formal project.
 
 ### Build Tracking and Reminder Systems
 
-What mechanism ensures the team doesn't forget? This can be lightweight but must be consistent:
+What mechanism ensures the team doesn't forget? This can be lightweight but must
+be consistent:
 
 #### Monthly Review Cadence
-Some teams set up an "Incident Action Item Kanban" visible to engineering leads and review it in staff meetings every two weeks. This creates gentle peer pressure to complete tasks and allows raising blockers.
+
+Some teams set up an "Incident Action Item Kanban" visible to engineering leads
+and review it in staff meetings every two weeks. This creates gentle peer
+pressure to complete tasks and allows raising blockers.
 
 #### Automated Reminders
-Many companies automate periodic Slack reminders about open post-mortem tasks. Atlassian built custom reporting from Jira to see how many incidents still have open "priority actions," with managers reviewing that list regularly.[¹¹](/articles/post-mortem-definitive-guide#user-content-fn-11)
+
+Many companies automate periodic Slack reminders about open post-mortem tasks.
+Atlassian built custom reporting from Jira to see how many incidents still have
+open "priority actions," with managers reviewing that list
+regularly.[¹¹](/articles/post-mortem-definitive-guide#user-content-fn-11)
 
 #### Executive Visibility
-<mark>Measure it and it will improve.</mark> If leadership tracks "action item closure rate" as a key metric, teams are more likely to follow through. High-performing teams treat that closure rate as seriously as uptime or velocity.
+
+<mark>Measure it and it will improve.</mark> If leadership tracks "action item
+closure rate" as a key metric, teams are more likely to follow through.
+High-performing teams treat that closure rate as seriously as uptime or
+velocity.
 
 ### Secure Executive Buy-In
 
-This is a force multiplier. When senior leaders (director, VP, CTO) regularly read post-mortems and ask about follow-up status, it signals this work is truly important.
+This is a force multiplier. When senior leaders (director, VP, CTO) regularly
+read post-mortems and ask about follow-up status, it signals this work is truly
+important.
 
-Google's approach: SRE leaders note that management's active participation in postmortem reviews and follow-up is crucial to reinforce the culture.[⁵](/articles/post-mortem-definitive-guide#user-content-fn-5) In practice, this might mean:
+Google's approach: SRE leaders note that management's active participation in
+postmortem reviews and follow-up is crucial to reinforce the
+culture.[⁵](/articles/post-mortem-definitive-guide#user-content-fn-5) In
+practice, this might mean:
+
 - A senior leader chairs post-mortem reviews for major incidents
-- Executives add comments like "The database timeout fix looks critical. Do you need help getting database team bandwidth?"
+- Executives add comments like "The database timeout fix looks critical. Do you
+  need help getting database team bandwidth?"
 - Public recognition for team members who implement major preventive fixes
 
-<mark>When the top sets the tone that reliability improvements are first-class work (not "maintenance chores"), engineers make time for it.</mark>
+<mark>
+  When the top sets the tone that reliability improvements are first-class work
+  (not "maintenance chores"), engineers make time for it.
+</mark>
 
 ### Keep Actions Concrete and Achievable
 
-Ensure actions are specific and within the team's scope. Avoid vague suggestions or aspirational goals that everyone knows won't happen.
+Ensure actions are specific and within the team's scope. Avoid vague suggestions
+or aspirational goals that everyone knows won't happen.
 
 - **Instead of:** "Consider doing X" or "100% test coverage"
-- **Use:** "Evaluate X tool and present findings by [date]" or "Add tests for modules A, B (which caused this outage)"
+- **Use:** "Evaluate X tool and present findings by [date]" or "Add tests for
+  modules A, B (which caused this outage)"
 
-This makes accountability clear. If something is truly a nice-to-have that likely won't get resources, don't list it: or put it in a separate "future ideas" section.
+This makes accountability clear. If something is truly a nice-to-have that
+likely won't get resources, don't list it: or put it in a separate "future
+ideas" section.
 
 ## The Systematic Approach
 
@@ -141,11 +210,13 @@ Here's how to build action accountability into your process:
 Track these metrics to ensure your accountability system works:
 
 ### Completion Metrics
+
 - **Action item closure rate** (aim for >80% within SLO)
 - **Average time to completion** (trending downward)
 - **Percentage of overdue items** (minimize this)
 
 ### Outcome Metrics
+
 - **Repeat incident rate** (should decrease as fixes accumulate)
 - **Time to resolution** (should improve as systems get more robust)
 - **Team satisfaction** with the follow-up process
@@ -153,47 +224,71 @@ Track these metrics to ensure your accountability system works:
 ## Common Accountability Failures
 
 ### The "Everything is High Priority" Trap
-If every action item is marked urgent, nothing gets the attention it deserves. Use a clear prioritization framework and accept that some improvements will wait.
+
+If every action item is marked urgent, nothing gets the attention it deserves.
+Use a clear prioritization framework and accept that some improvements will
+wait.
 
 ### The "We'll Get to It Next Sprint" Syndrome
-Without explicit deadlines and tracking, "next sprint" becomes "never." Build accountability into your existing sprint planning process.
+
+Without explicit deadlines and tracking, "next sprint" becomes "never." Build
+accountability into your existing sprint planning process.
 
 ### The "Perfect Solution" Paralysis
-Don't let the pursuit of perfect fixes prevent good incremental improvements. A quick monitoring alert is better than no alert while you design the perfect observability strategy.
+
+Don't let the pursuit of perfect fixes prevent good incremental improvements. A
+quick monitoring alert is better than no alert while you design the perfect
+observability strategy.
 
 ## Business Impact of Strong Accountability
 
 Organizations with systematic action item tracking and completion see:
 
-- **Significantly fewer repeat incidents** compared to teams with poor follow-through[¹⁰](/articles/post-mortem-definitive-guide#user-content-fn-10).
+- **Significantly fewer repeat incidents** compared to teams with poor
+  follow-through[¹⁰](/articles/post-mortem-definitive-guide#user-content-fn-10).
 - **Accumulated institutional knowledge** and resilience over time.
-- **Higher team morale** as engineers see their effort resulting in tangible improvements.
+- **Higher team morale** as engineers see their effort resulting in tangible
+  improvements.
 - **Customer trust** through demonstrated commitment to reliability.
 
-As Google acknowledges, continuous postmortem investment results in fewer outages over time and better user experiences.[⁵](/articles/post-mortem-definitive-guide#user-content-fn-5) <mark>Robust action follow-through pays off in reliability and customer trust.</mark>
+As Google acknowledges, continuous postmortem investment results in fewer
+outages over time and better user
+experiences.[⁵](/articles/post-mortem-definitive-guide#user-content-fn-5)
+<mark>Robust action follow-through pays off in reliability and customer
+trust.</mark>
 
 ## Process Guardrails
 
-- **85% closure target:** Maintain >85% action item completion rate with clear owners and deadlines
-- **Individual ownership:** Every action gets assigned to a specific person, never a team or "TBD"
-- **Weekly tracking:** Review open action items in staff meetings with visible progress updates
+- **85% closure target:** Maintain >85% action item completion rate with clear
+  owners and deadlines
+- **Individual ownership:** Every action gets assigned to a specific person,
+  never a team or "TBD"
+- **Weekly tracking:** Review open action items in staff meetings with visible
+  progress updates
 
 ## Implementation Quick Start
 
-1. **Add ownership and deadlines** to your current [post-mortem template](https://benjamincharity.notion.site/Incident-Postmortem-Template-Blameless-26e6edefd08e80c6829bfffe0e2293fe).
-2. **Create a simple tracking dashboard** (even a shared spreadsheet works initially).
+1. **Add ownership and deadlines** to your current
+   [post-mortem template](https://benjamincharity.notion.site/Incident-Postmortem-Template-Blameless-26e6edefd08e80c6829bfffe0e2293fe).
+2. **Create a simple tracking dashboard** (even a shared spreadsheet works
+   initially).
 3. **Set monthly review cadence** with engineering leadership.
 4. **Celebrate early wins** when action items prevent future incidents.
 5. **Iterate and improve** the process based on team feedback.
 
 ### Continue the series:
 
-- [Four-Phase Implementation Playbook](/articles/post-mortem-implementation-playbook) - A structured rollout approach
-- [Convincing Skeptical Leaders](/articles/post-mortem-leadership-buy-in) - Getting executive support for the investment
+- [Four-Phase Implementation Playbook](/articles/post-mortem-implementation-playbook) -
+  A structured rollout approach
+- [Convincing Skeptical Leaders](/articles/post-mortem-leadership-buy-in) -
+  Getting executive support for the investment
 
 ---
 
-> **Want the definitive framework?** Read the [Definitive Guide](/articles/post-mortem-definitive-guide) for detailed tracking templates, success metrics, and case studies from Google, Atlassian, and other leading organizations.
+> **Want the definitive framework?** Read the
+> [Definitive Guide](/articles/post-mortem-definitive-guide) for detailed
+> tracking templates, success metrics, and case studies from Google, Atlassian,
+> and other leading organizations.
 
 ---
 
@@ -201,4 +296,3 @@ As Google acknowledges, continuous postmortem investment results in fewer outage
 
 - Definitive Guide (60 min) – canonical reference
   - https://www.benjamincharity.com/articles/post-mortem-definitive-guide
-

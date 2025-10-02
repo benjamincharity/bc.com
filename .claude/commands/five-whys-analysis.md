@@ -3,16 +3,23 @@
 Apply the Five Whys root cause analysis technique to investigate issues.
 
 ## Description
-This command implements the Five Whys problem-solving methodology, iteratively asking "why" to drill down from symptoms to root causes. It helps identify the fundamental reason behind a problem rather than just addressing surface-level symptoms.
+
+This command implements the Five Whys problem-solving methodology, iteratively
+asking "why" to drill down from symptoms to root causes. It helps identify the
+fundamental reason behind a problem rather than just addressing surface-level
+symptoms.
 
 ## Usage
+
 `five [issue_description]`
 
 ## Variables
+
 - ISSUE: The problem or symptom to analyze (default: prompt for input)
 - DEPTH: Number of "why" iterations (default: 5, can be adjusted)
 
 ## Steps
+
 1. Start with the problem statement
 2. Ask "Why did this happen?" and document the answer
 3. For each answer, ask "Why?" again
@@ -21,7 +28,9 @@ This command implements the Five Whys problem-solving methodology, iteratively a
 6. Propose solutions that address the root cause
 
 ## Examples
+
 ### Example 1: Application crash analysis
+
 ```
 Problem: Application crashes on startup
 Why 1: Database connection fails
@@ -33,9 +42,12 @@ Root Cause: Missing deployment documentation
 ```
 
 ### Example 2: Performance issue investigation
-Systematically trace why a feature is running slowly by examining each contributing factor.
+
+Systematically trace why a feature is running slowly by examining each
+contributing factor.
 
 ## Notes
+
 - Don't stop at symptoms; keep digging for systemic issues
 - Multiple root causes may exist - explore different branches
 - Document each "why" for future reference

@@ -1,8 +1,8 @@
-import { test, expect } from 'vitest';
-import { readFileSync, existsSync } from 'fs';
-import { join } from 'path';
 import { execSync } from 'child_process';
+import { existsSync, readFileSync } from 'fs';
 import { glob } from 'glob';
+import { join } from 'path';
+import { expect, test } from 'vitest';
 
 const rootDir = process.cwd();
 
@@ -17,8 +17,8 @@ function extractBashCommands(content) {
     // Split by lines and filter out comments and empty lines
     const lines = blockContent
       .split('\n')
-      .map(line => line.trim())
-      .filter(line => line && !line.startsWith('#'));
+      .map((line) => line.trim())
+      .filter((line) => line && !line.startsWith('#'));
 
     commands.push(...lines);
   }
@@ -96,7 +96,8 @@ test('README.md documented commands are valid', () => {
 
   // Verify each command
   for (const command of commands) {
-    expect(commandExists(command),
+    expect(
+      commandExists(command),
       `Command "${command}" documented in README.md should be valid`
     ).toBe(true);
   }
@@ -115,7 +116,8 @@ test('development.md documented commands are valid', () => {
 
   // Verify each command
   for (const command of commands) {
-    expect(commandExists(command),
+    expect(
+      commandExists(command),
       `Command "${command}" documented in development.md should be valid`
     ).toBe(true);
   }
@@ -142,14 +144,16 @@ test('all pnpm scripts referenced in documentation exist', async () => {
     const commands = extractBashCommands(content);
 
     // Find pnpm script commands
-    const pnpmCommands = commands.filter(cmd => cmd.startsWith('pnpm '));
+    const pnpmCommands = commands.filter((cmd) => cmd.startsWith('pnpm '));
 
     for (const cmd of pnpmCommands) {
       const parts = cmd.split(' ');
       if (parts.length >= 2) {
         const scriptName = parts[1];
         // Skip basic pnpm commands
-        if (!['install', 'add', 'remove', 'list', 'info'].includes(scriptName)) {
+        if (
+          !['install', 'add', 'remove', 'list', 'info'].includes(scriptName)
+        ) {
           referencedScripts.add(scriptName);
         }
       }
@@ -158,7 +162,8 @@ test('all pnpm scripts referenced in documentation exist', async () => {
 
   // Verify all referenced scripts exist
   for (const script of referencedScripts) {
-    expect(availableScripts.includes(script),
+    expect(
+      availableScripts.includes(script),
       `pnpm script "${script}" is referenced in documentation but not defined in package.json`
     ).toBe(true);
   }
@@ -188,14 +193,14 @@ test('documented commands have consistent usage across files', async () => {
   const keyCommands = ['pnpm install', 'pnpm dev', 'pnpm build', 'pnpm test'];
 
   for (const command of keyCommands) {
-    const variations = Array.from(commandUsage.keys()).filter(cmd =>
-      cmd.includes(command.split(' ')[1]) && cmd.startsWith('pnpm')
+    const variations = Array.from(commandUsage.keys()).filter(
+      (cmd) => cmd.includes(command.split(' ')[1]) && cmd.startsWith('pnpm')
     );
 
     if (variations.length > 1) {
       // Allow some variations, but check they're reasonable
       const baseCommand = command.split(' ')[1];
-      const validVariations = variations.filter(v => {
+      const validVariations = variations.filter((v) => {
         const parts = v.split(' ');
         return parts[1] === baseCommand; // Same script name
       });
@@ -211,7 +216,8 @@ test('quick start commands work in sequence', () => {
 
   // All commands should exist
   for (const command of quickStartCommands) {
-    expect(commandExists(command),
+    expect(
+      commandExists(command),
       `Quick start command "${command}" should be valid`
     ).toBe(true);
   }

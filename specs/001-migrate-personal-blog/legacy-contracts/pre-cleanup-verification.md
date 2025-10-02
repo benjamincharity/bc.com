@@ -1,12 +1,13 @@
 # Pre-Cleanup Verification Contract
 
-**Contract**: Pre-Cleanup System Verification
-**Purpose**: Ensure Astro system is fully functional before legacy file cleanup
-**Execution**: Required before any file move operations
+**Contract**: Pre-Cleanup System Verification **Purpose**: Ensure Astro system
+is fully functional before legacy file cleanup **Execution**: Required before
+any file move operations
 
 ## Verification Requirements
 
 ### Build System Verification
+
 ```bash
 # Contract: Build must complete successfully
 pnpm build
@@ -17,6 +18,7 @@ pnpm build
 ```
 
 ### Development Server Verification
+
 ```bash
 # Contract: Dev server must start and serve content
 pnpm dev
@@ -27,6 +29,7 @@ pnpm dev
 ```
 
 ### Content Verification
+
 ```bash
 # Contract: All content must be accessible
 curl -s http://localhost:[port]/ | grep -q "expected-content"
@@ -37,6 +40,7 @@ curl -s http://localhost:[port]/articles | grep -q "article-list"
 ```
 
 ### Dependency Verification
+
 ```bash
 # Contract: All dependencies must be available
 pnpm list --depth=0
@@ -47,6 +51,7 @@ pnpm list --depth=0
 ```
 
 ### TypeScript Verification
+
 ```bash
 # Contract: TypeScript compilation must succeed
 pnpm typecheck
@@ -57,6 +62,7 @@ pnpm typecheck
 ```
 
 ### Linting Verification
+
 ```bash
 # Contract: Code quality checks must pass
 pnpm lint
@@ -69,6 +75,7 @@ pnpm lint
 ## Success Criteria
 
 ### Mandatory Checks
+
 - [ ] Build completes without errors
 - [ ] Dev server starts successfully
 - [ ] Homepage loads and renders correctly
@@ -78,12 +85,14 @@ pnpm lint
 - [ ] No console errors in browser
 
 ### Performance Checks
+
 - [ ] Build time < 60 seconds
 - [ ] Page load time < 3 seconds
 - [ ] No memory leaks in dev server
 - [ ] Asset optimization working
 
 ### Functional Checks
+
 - [ ] Navigation works correctly
 - [ ] Theme switching functional
 - [ ] Interactive features working
@@ -93,6 +102,7 @@ pnpm lint
 ## Verification Output
 
 ### Success Response
+
 ```json
 {
   "status": "PASS",
@@ -114,6 +124,7 @@ pnpm lint
 ```
 
 ### Failure Response
+
 ```json
 {
   "status": "FAIL",
@@ -141,21 +152,25 @@ pnpm lint
 ## Error Handling
 
 ### Build Failures
+
 - **Action**: Stop cleanup process
 - **Response**: Fix build errors before proceeding
 - **Documentation**: Log specific error messages
 
 ### Dependency Issues
+
 - **Action**: Resolve missing dependencies
 - **Response**: Run `pnpm install` and re-verify
 - **Documentation**: Update package.json if needed
 
 ### TypeScript Errors
+
 - **Action**: Fix type issues
 - **Response**: Resolve all TypeScript compilation errors
 - **Documentation**: Ensure strict mode compliance
 
 ### Performance Issues
+
 - **Action**: Investigate performance bottlenecks
 - **Response**: Optimize before cleanup
 - **Documentation**: Baseline performance metrics

@@ -1,6 +1,7 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+
 import NewsletterForm from '~/components/islands/NewsletterForm';
 
 describe('NewsletterForm', () => {
@@ -13,19 +14,25 @@ describe('NewsletterForm', () => {
       render(<NewsletterForm />);
 
       expect(screen.getByPlaceholderText('Your email')).toBeInTheDocument();
-      expect(screen.getByRole('button', { name: /subscribe/i })).toBeInTheDocument();
+      expect(
+        screen.getByRole('button', { name: /subscribe/i })
+      ).toBeInTheDocument();
     });
 
     it('should render with custom placeholder', () => {
       render(<NewsletterForm placeholder="Enter your email address" />);
 
-      expect(screen.getByPlaceholderText('Enter your email address')).toBeInTheDocument();
+      expect(
+        screen.getByPlaceholderText('Enter your email address')
+      ).toBeInTheDocument();
     });
 
     it('should render with custom button text', () => {
       render(<NewsletterForm buttonText="Join Newsletter" />);
 
-      expect(screen.getByRole('button', { name: /join newsletter/i })).toBeInTheDocument();
+      expect(
+        screen.getByRole('button', { name: /join newsletter/i })
+      ).toBeInTheDocument();
     });
 
     it('should render privacy notice', () => {
@@ -39,7 +46,10 @@ describe('NewsletterForm', () => {
       const { container } = render(<NewsletterForm />);
       const form = container.querySelector('form');
 
-      expect(form).toHaveAttribute('action', 'https://buttondown.com/api/emails/embed-subscribe/benjamincharity');
+      expect(form).toHaveAttribute(
+        'action',
+        'https://buttondown.com/api/emails/embed-subscribe/benjamincharity'
+      );
       expect(form).toHaveAttribute('method', 'POST');
     });
 

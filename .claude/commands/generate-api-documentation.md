@@ -5,7 +5,8 @@ description: Generate API documentation for endpoints
 
 ## Context
 
-- API routes: !`find . -path "*/routes/*" -name "*.js" -o -path "*/api/*" -name "*.js" | head -20`
+- API routes:
+  !`find . -path "*/routes/*" -name "*.js" -o -path "*/api/*" -name "*.js" | head -20`
 - Current API files: @$ARGUMENTS
 
 ## Your task

@@ -1,18 +1,21 @@
 # Legacy Cleanup Research
 
-**Feature**: Legacy Remix Code Cleanup
-**Date**: 2025-10-01
+**Feature**: Legacy Remix Code Cleanup **Date**: 2025-10-01
 
 ## Executive Summary
 
-Research conducted to identify legacy Remix and Vercel-specific files that can be safely moved to a temporary directory after the Astro migration. Analysis based on git history, Astro documentation, and current repository structure.
+Research conducted to identify legacy Remix and Vercel-specific files that can
+be safely moved to a temporary directory after the Astro migration. Analysis
+based on git history, Astro documentation, and current repository structure.
 
 ## Methodology
 
 1. **Git History Analysis**: Files existing before the Astro migration commit
-2. **Astro Documentation Review**: Confirmed Astro project structure requirements
+2. **Astro Documentation Review**: Confirmed Astro project structure
+   requirements
 3. **File Structure Analysis**: Categorized files by framework dependency
-4. **Dependency Analysis**: Identified shared vs. framework-specific dependencies
+4. **Dependency Analysis**: Identified shared vs. framework-specific
+   dependencies
 
 ## Findings
 
@@ -21,59 +24,70 @@ Research conducted to identify legacy Remix and Vercel-specific files that can b
 **Decision**: These files are Remix-specific and no longer needed for Astro
 
 #### App Directory Structure
+
 - `app/` - Entire Remix application directory
   - Contains routes, components, utilities specific to Remix architecture
   - Not used by Astro (uses `src/` instead)
 
 #### Remix Configuration Files
+
 - `remix.config.js` - Remix build configuration
 - `remix.env.d.ts` - Remix TypeScript environment definitions
 - `server.js` - Remix server entry point
 
 #### Test Configuration (Remix-specific)
+
 - `jest.config.ts` - Jest configuration for Remix tests
 - `babel.config.js` - Babel configuration for Remix/Jest
 
-**Rationale**: Astro uses a completely different architecture with `src/` directory structure. These files serve no purpose in the new implementation.
+**Rationale**: Astro uses a completely different architecture with `src/`
+directory structure. These files serve no purpose in the new implementation.
 
 ### Legacy Vercel Files (MOVE to `legacy-remix/`)
 
 **Decision**: These files are deployment-specific to the old Remix setup
 
 #### Vercel Deployment Configuration
+
 - `vercel.json` - Vercel deployment configuration for Remix
 - `.node-version` - Node.js version specification for Vercel
 
-**Rationale**: The new Astro implementation deploys to Cloudflare Pages, making these Vercel-specific configurations obsolete.
+**Rationale**: The new Astro implementation deploys to Cloudflare Pages, making
+these Vercel-specific configurations obsolete.
 
 ### Shared Configuration Files (KEEP at root level)
 
 **Decision**: These files are framework-agnostic and still needed
 
 #### Development Tools
+
 - `tailwind.config.ts` - CSS framework configuration (used by both)
 - `tsconfig.json` - TypeScript configuration (used by both)
 - `pnpm-lock.yaml` / `pnpm-workspace.yaml` - Package manager files
 - `package.json` - Dependencies (needs cleanup but structure preserved)
 
 #### Version Control & CI/CD
+
 - `.gitignore` - Version control ignore patterns
 - `.eslintignore` / `.eslintrc.js` - Code quality tools
 - `.prettierignore` / `.prettierrc.json` - Code formatting
 - `playwright.config.ts` - E2E testing (if still used)
 
 #### Project Documentation
+
 - `README.md` - Project documentation
 - `LICENSE` - Legal licensing
 - `CLAUDE.md` - AI assistant instructions
 
-**Rationale**: These files provide configuration for tools and processes that work with both frameworks or are framework-independent.
+**Rationale**: These files provide configuration for tools and processes that
+work with both frameworks or are framework-independent.
 
 ### Astro Files (KEEP at root level)
 
 **Decision**: These files are part of the new Astro implementation
 
 #### Astro Core Files
+
 - `astro.config.mjs` - Astro framework configuration
 - `src/` - Astro source directory
 - `public/` - Static assets directory (Astro standard)
@@ -85,19 +99,22 @@ Research conducted to identify legacy Remix and Vercel-specific files that can b
 **Strategy**: Clean package.json during move process
 
 #### Dependencies to Remove (Legacy)
+
 - `@remix-run/*` packages
 - `remix` framework dependencies
 - Jest testing packages (if Astro uses different testing)
 - Remix-specific utilities
 
 #### Dependencies to Keep (Shared)
+
 - `tailwindcss` and related packages
 - `typescript` and `@types/*` packages
 - `eslint` and `prettier` packages
 - Content processing packages (`unified`, `rehype`, etc.)
 - UI framework packages (`react`, etc.) if still used
 
-**Rationale**: Remove framework-specific dependencies while preserving shared tooling.
+**Rationale**: Remove framework-specific dependencies while preserving shared
+tooling.
 
 ## Git Move Strategy
 
@@ -140,15 +157,18 @@ git mv babel.config.js legacy-remix/
 ## Risk Assessment
 
 ### Low Risk
+
 - Moving `app/` directory (completely separate from Astro)
 - Moving `remix.config.js` and related configs
 - Moving `vercel.json` (different deployment platform)
 
 ### Medium Risk
+
 - Moving test configurations (need to verify Astro testing setup)
 - Cleaning `package.json` dependencies (need careful dependency analysis)
 
 ### Mitigation Strategies
+
 - **Incremental approach**: Move files in small batches
 - **Rollback plan**: Git branch allows easy reversion
 - **Testing protocol**: Verify build after each change
@@ -157,16 +177,22 @@ git mv babel.config.js legacy-remix/
 ## Alternatives Considered
 
 ### Option 1: Complete Deletion
+
 **Rejected**: Too risky, no recovery option if legacy code needed for reference
 
 ### Option 2: Separate Repository
+
 **Rejected**: Loses git history connection, more complex to manage
 
 ### Option 3: Git Branches
-**Rejected**: Creates maintenance overhead, doesn't clean current working directory
+
+**Rejected**: Creates maintenance overhead, doesn't clean current working
+directory
 
 ### Option 4: Temporary Directory (Selected)
-**Rationale**: Balances cleanup with safety, easy removal once confident in Astro implementation
+
+**Rationale**: Balances cleanup with safety, easy removal once confident in
+Astro implementation
 
 ## Implementation Recommendations
 

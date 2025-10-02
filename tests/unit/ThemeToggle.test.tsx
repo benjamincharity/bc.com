@@ -1,6 +1,7 @@
-import { describe, it, expect, beforeEach, vi, type Mock } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
+
 import ThemeToggle from '~/components/islands/ThemeToggle';
 
 describe('ThemeToggle', () => {
@@ -107,7 +108,9 @@ describe('ThemeToggle', () => {
 
       await waitFor(() => {
         expect(document.documentElement.classList.contains('dark')).toBe(true);
-        expect(document.documentElement.classList.contains('light')).toBe(false);
+        expect(document.documentElement.classList.contains('light')).toBe(
+          false
+        );
       });
     });
 
@@ -211,7 +214,10 @@ describe('ThemeToggle', () => {
       await user.click(button);
 
       await waitFor(() => {
-        expect(localStorage.setItem).toHaveBeenCalledWith('theme', expect.any(String));
+        expect(localStorage.setItem).toHaveBeenCalledWith(
+          'theme',
+          expect.any(String)
+        );
       });
     });
 
@@ -318,7 +324,9 @@ describe('ThemeToggle', () => {
       await user.click(button);
 
       await waitFor(() => {
-        expect(document.documentElement.classList.contains('light')).toBe(false);
+        expect(document.documentElement.classList.contains('light')).toBe(
+          false
+        );
         expect(document.documentElement.classList.contains('dark')).toBe(true);
       });
     });

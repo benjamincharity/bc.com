@@ -3,15 +3,19 @@
 **Date**: 2025-10-01 | **Feature**: README Update & Cloudflare Deployment
 
 ## Overview
-This feature primarily involves documentation and configuration rather than traditional data entities. The "data" consists of configuration files and documentation content.
+
+This feature primarily involves documentation and configuration rather than
+traditional data entities. The "data" consists of configuration files and
+documentation content.
 
 ## Entity Definitions
 
 ### 1. README Documentation
-**Type**: Markdown Document (Minimal)
-**Location**: `/README.md`
+
+**Type**: Markdown Document (Minimal) **Location**: `/README.md`
 
 **Structure**:
+
 ```markdown
 - Project Title
 - Deployment Badge
@@ -22,16 +26,18 @@ This feature primarily involves documentation and configuration rather than trad
 ```
 
 **Validation Rules**:
+
 - Must be concise and minimal
 - Quick start commands must work
 - Link to docs must be valid
 - Badge must show current deployment status
 
 ### 2. Documentation Files
-**Type**: Markdown Documents
-**Location**: `/docs/`
+
+**Type**: Markdown Documents **Location**: `/docs/`
 
 **Files**:
+
 ```
 docs/
 ├── README.md          # Documentation index
@@ -43,16 +49,18 @@ docs/
 ```
 
 **Validation Rules**:
+
 - All documentation files must exist
 - Internal links must be valid
 - Commands must be accurate and tested
 - Examples must be working code
 
 ### 2. CI Workflow Configuration
-**Type**: YAML Configuration
-**Location**: `.github/workflows/ci.yml`
+
+**Type**: YAML Configuration **Location**: `.github/workflows/ci.yml`
 
 **Structure**:
+
 ```yaml
 name: string (required)
 on:
@@ -67,6 +75,7 @@ jobs:
 ```
 
 **Step Structure**:
+
 ```yaml
 - name: string (optional)
   uses: string (action reference)
@@ -75,16 +84,18 @@ jobs:
 ```
 
 **Validation Rules**:
+
 - Must have at least one trigger
 - Must run on ubuntu-latest
 - Must use Node 20
 - Must run: lint, typecheck, test, build
 
 ### 3. Cloudflare Configuration
-**Type**: Platform Configuration
-**Location**: Cloudflare Dashboard (external)
+
+**Type**: Platform Configuration **Location**: Cloudflare Dashboard (external)
 
 **Properties**:
+
 - projectName: string (required, unique)
 - productionBranch: string (default: "main")
 - buildCommand: string (required)
@@ -94,6 +105,7 @@ jobs:
 - environmentVariables: Map<string, string> (optional)
 
 **Validation Rules**:
+
 - Project name must be unique in Cloudflare account
 - Build command must produce output in specified directory
 - Node version must be 20.x
@@ -101,25 +113,31 @@ jobs:
 ## State Transitions
 
 ### README State
+
 ```
 Draft -> Review -> Published
 ```
+
 - **Draft**: Initial README updates being written
 - **Review**: README complete, awaiting review
 - **Published**: README merged to main branch
 
 ### CI Workflow State
+
 ```
 Created -> Testing -> Active
 ```
+
 - **Created**: Workflow file created
 - **Testing**: Running test builds
 - **Active**: Workflow successfully running on all commits
 
 ### Cloudflare Project State
+
 ```
 Unconfigured -> Connected -> Building -> Deployed
 ```
+
 - **Unconfigured**: No Cloudflare project exists
 - **Connected**: GitHub repo connected to Cloudflare
 - **Building**: First build in progress
@@ -153,11 +171,13 @@ graph TD
 ## Migration Data
 
 ### From Vercel
+
 - Remove: `vercel.json`
 - Remove: `.vercelignore`
 - Remove: Vercel-specific env vars
 
 ### To Cloudflare
+
 - Add: Cloudflare project configuration
 - Add: Updated deployment documentation
 - Add: New deployment badge
@@ -165,22 +185,26 @@ graph TD
 ## Validation Requirements
 
 ### README Validation
+
 - [ ] All commands execute successfully
 - [ ] All links return 200 status
 - [ ] Badge displays current status
 - [ ] Structure matches template
 
 ### CI Validation
+
 - [ ] Workflow syntax is valid
 - [ ] All steps execute successfully
 - [ ] Tests pass on main branch
 - [ ] Build produces dist/ directory
 
 ### Cloudflare Validation
+
 - [ ] Site deploys successfully
 - [ ] Preview deployments work
 - [ ] Custom domain configured (if applicable)
 - [ ] Analytics enabled
 
 ---
-*Data model complete - defines all configuration entities*
+
+_Data model complete - defines all configuration entities_

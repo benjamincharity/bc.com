@@ -4,7 +4,6 @@
  * Verify SHA-256 hashes for inline scripts in built HTML
  * Extracts scripts from dist/index.html and calculates their hashes
  */
-
 import crypto from 'crypto';
 import { readFileSync } from 'fs';
 import { JSDOM } from 'jsdom';
@@ -25,7 +24,9 @@ scripts.forEach((script, index) => {
   const hashValue = hash.digest('base64');
 
   console.log(`Script ${index + 1}:`);
-  console.log(`  First 100 chars: ${content.substring(0, 100).replace(/\n/g, '\\n')}...`);
+  console.log(
+    `  First 100 chars: ${content.substring(0, 100).replace(/\n/g, '\\n')}...`
+  );
   console.log(`  Hash: 'sha256-${hashValue}'`);
   console.log();
 });

@@ -13,9 +13,8 @@
  *
  * This ensures CSP hashes are always in sync with the build output.
  */
-
 import crypto from 'crypto';
-import { readFileSync, writeFileSync, existsSync } from 'fs';
+import { existsSync, readFileSync, writeFileSync } from 'fs';
 import { JSDOM } from 'jsdom';
 
 const DIST_HTML = 'dist/index.html';
@@ -57,7 +56,9 @@ scripts.forEach((script, index) => {
   scriptHashes.push(cspHash);
 
   console.log(`Script ${index + 1}: ${cspHash}`);
-  console.log(`  Preview: ${content.substring(0, 60).replace(/\n/g, '\\n')}...`);
+  console.log(
+    `  Preview: ${content.substring(0, 60).replace(/\n/g, '\\n')}...`
+  );
 });
 
 // Generate style hashes
@@ -70,10 +71,14 @@ styles.forEach((style, index) => {
   styleHashes.push(cspHash);
 
   console.log(`\nStyle ${index + 1}: ${cspHash}`);
-  console.log(`  Preview: ${content.substring(0, 60).replace(/\n/g, '\\n')}...`);
+  console.log(
+    `  Preview: ${content.substring(0, 60).replace(/\n/g, '\\n')}...`
+  );
 });
 
-console.log(`\n✅ Found ${scripts.length} inline scripts and ${styles.length} inline styles\n`);
+console.log(
+  `\n✅ Found ${scripts.length} inline scripts and ${styles.length} inline styles\n`
+);
 
 // Read template
 const template = readFileSync(TEMPLATE_PATH, 'utf-8');

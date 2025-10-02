@@ -20,7 +20,7 @@ export default function NewsletterForm({
   const [formState, setFormState] = useState<FormState>({
     email: '',
     status: 'idle',
-    message: ''
+    message: '',
   });
 
   const isValidEmail = (email: string): boolean => {
@@ -29,11 +29,11 @@ export default function NewsletterForm({
   };
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setFormState(prev => ({
+    setFormState((prev) => ({
       ...prev,
       email: event.target.value,
       status: 'idle',
-      message: ''
+      message: '',
     }));
   };
 
@@ -43,20 +43,20 @@ export default function NewsletterForm({
     // Client-side validation only
     if (!email.trim()) {
       event.preventDefault();
-      setFormState(prev => ({
+      setFormState((prev) => ({
         ...prev,
         status: 'error',
-        message: 'Email address is required.'
+        message: 'Email address is required.',
       }));
       return;
     }
 
     if (!isValidEmail(email)) {
       event.preventDefault();
-      setFormState(prev => ({
+      setFormState((prev) => ({
         ...prev,
         status: 'error',
-        message: 'Please enter a valid email address.'
+        message: 'Please enter a valid email address.',
       }));
       return;
     }
@@ -68,8 +68,13 @@ export default function NewsletterForm({
   const { email, status, message } = formState;
 
   return (
-    <section className={`w-full max-w-md mx-auto ${className}`} aria-labelledby="newsletter-heading">
-      <h2 id="newsletter-heading" className="sr-only">Newsletter Subscription</h2>
+    <section
+      className={`mx-auto w-full max-w-md ${className}`}
+      aria-labelledby="newsletter-heading"
+    >
+      <h2 id="newsletter-heading" className="sr-only">
+        Newsletter Subscription
+      </h2>
       <form
         action="https://buttondown.com/api/emails/embed-subscribe/benjamincharity"
         method="POST"
@@ -85,7 +90,7 @@ export default function NewsletterForm({
           onChange={handleEmailChange}
           placeholder={placeholder}
           className={`
-            w-full h-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-[16px] outline-none transition
+            h-full w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-[16px] outline-none transition
             focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50
             dark:border-gray-700 dark:bg-slate-900 dark:text-gray-400 dark:focus:ring-gray-600
             ${status === 'error' ? 'border-red-500 focus:border-red-500 focus:ring-red-500 dark:border-red-300' : 'border-slate-300 focus:border-blue-500 focus:ring-blue-500'}
@@ -102,7 +107,7 @@ export default function NewsletterForm({
             focus:ring-4 focus:ring-purple-300 disabled:cursor-not-allowed disabled:opacity-60 dark:focus:ring-purple-800
           `}
         >
-          <span className="flex gap-2 justify-center items-center">
+          <span className="flex items-center justify-center gap-2">
             <svg
               className="w-[16px] fill-white"
               viewBox="0 0 512 512"
@@ -118,13 +123,17 @@ export default function NewsletterForm({
         {message && status === 'error' && (
           <div
             id="newsletter-message"
-            className="text-sm p-3 rounded-md bg-red-50 dark:bg-red-900/30 text-red-700 dark:text-red-300 border border-red-200 dark:border-red-800"
+            className="rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-700 dark:border-red-800 dark:bg-red-900/30 dark:text-red-300"
             role="alert"
             aria-live="assertive"
             aria-atomic="true"
           >
             <div className="flex items-start space-x-2">
-              <svg className="w-4 h-4 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+              <svg
+                className="mt-0.5 h-4 w-4 flex-shrink-0"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
                 <path
                   fillRule="evenodd"
                   d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"

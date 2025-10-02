@@ -1,10 +1,16 @@
 import React from 'react';
-import { siteMetadata } from '../../data/siteMetadata';
-import { ArticleTitleLink } from '~/components/ArticleTitleLink';
+
 import type { Article } from '~/types/article';
 
+import { ArticleTitleLink } from '~/components/ArticleTitleLink';
+
+import { siteMetadata } from '../../data/siteMetadata';
+
 // TagsDisplay component
-function TagsDisplay({ tags, ...divProps }: { tags: string[] } & React.HTMLProps<HTMLDivElement>) {
+function TagsDisplay({
+  tags,
+  ...divProps
+}: { tags: string[] } & React.HTMLProps<HTMLDivElement>) {
   const { className = '', ...rest } = divProps;
 
   return (
@@ -27,7 +33,12 @@ interface ArticleProps extends React.HTMLProps<HTMLDivElement> {
   hideImage?: boolean;
 }
 
-function Article({ article, layoutSize = 'large', hideImage = false, ...divProps }: ArticleProps) {
+function Article({
+  article,
+  layoutSize = 'large',
+  hideImage = false,
+  ...divProps
+}: ArticleProps) {
   const url = `/articles/${article.id}`;
   const { id, data } = article;
   const { title, description, image, tags, readingTime } = data;
@@ -38,16 +49,20 @@ function Article({ article, layoutSize = 'large', hideImage = false, ...divProps
   return (
     <article
       className={`group ${
-        layoutSize === 'small' ? '' :
-        isCompact ? 'w-full' :
-        'mb-8 w-full'
+        layoutSize === 'small' ? '' : isCompact ? 'w-full' : 'mb-8 w-full'
       }`}
       key={id}
       {...divProps}
     >
-      <div className={`flex h-full ${isCompact ? 'flex-row items-start' : 'flex-col'} overflow-hidden rounded-lg`}>
+      <div
+        className={`flex h-full ${isCompact ? 'flex-row items-start' : 'flex-col'} overflow-hidden rounded-lg`}
+      >
         {!hideImage && image && (
-          <a href={url} className={isCompact ? 'flex-shrink-0 mr-4' : ''} aria-label={`Read article: ${title}`}>
+          <a
+            href={url}
+            className={isCompact ? 'mr-4 flex-shrink-0' : ''}
+            aria-label={`Read article: ${title}`}
+          >
             <img
               alt=""
               role="presentation"
@@ -55,19 +70,23 @@ function Article({ article, layoutSize = 'large', hideImage = false, ...divProps
                 layoutSize === 'large'
                   ? 'lg:aspect-first-hero'
                   : 'lg:aspect-video'
-              } aspect-video ${isCompact ? 'w-24 h-24 object-cover rounded' : 'w-full max-w-full'} bg-gradient-to-r from-indigo-200 to-yellow-100 object-cover text-center text-xs italic leading-loose text-gray-600 outline-gray-300`}
+              } aspect-video ${isCompact ? 'h-24 w-24 rounded object-cover' : 'w-full max-w-full'} bg-gradient-to-r from-indigo-200 to-yellow-100 object-cover text-center text-xs italic leading-loose text-gray-600 outline-gray-300`}
               src={`${siteMetadata.articleImagePath}${image}`}
             />
           </a>
         )}
-        <div className={`flex-1 border-2 border-gray-500 border-opacity-20 ${isCompact ? 'p-4 rounded-lg' : 'rounded-b-lg border-t-0 p-6'} transition hover:border-opacity-50`}>
+        <div
+          className={`flex-1 border-2 border-gray-500 border-opacity-20 ${isCompact ? 'rounded-lg p-4' : 'rounded-b-lg border-t-0 p-6'} transition hover:border-opacity-50`}
+        >
           <TagsDisplay tags={tags || []} />
           <ArticleTitleLink
             title={title}
             to={url}
             className={isCompactFirst ? 'text-2xl' : isCompact ? 'text-xl' : ''}
           />
-          <p className={`my-3 ${isCompact ? 'line-clamp-2 text-base' : 'line-clamp-8 text-lg'} leading-relaxed text-slate-700 dark:text-slate-100`}>
+          <p
+            className={`my-3 ${isCompact ? 'line-clamp-2 text-base' : 'line-clamp-8 text-lg'} leading-relaxed text-slate-700 dark:text-slate-100`}
+          >
             {description}
           </p>
           <div className="flex flex-wrap items-center justify-between">
@@ -94,7 +113,7 @@ function Article({ article, layoutSize = 'large', hideImage = false, ...divProps
             <span className="inline-flex items-center gap-1 text-sm leading-none text-slate-600 dark:text-slate-200">
               <svg
                 aria-hidden="true"
-                className="w-4 h-4 opacity-60 transition-opacity group-hover:opacity-100"
+                className="h-4 w-4 opacity-60 transition-opacity group-hover:opacity-100"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -127,7 +146,9 @@ export function ArticlesList({
   isCompactView?: boolean;
 }) {
   // Filter out any invalid articles first
-  const validArticles = articles.filter(article => article && article.id && article.data && article.data.title);
+  const validArticles = articles.filter(
+    (article) => article && article.id && article.data && article.data.title
+  );
 
   if (validArticles.length === 0) {
     return (

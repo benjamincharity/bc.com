@@ -10,12 +10,6 @@ image: download-spotify-tracks.webp
 readingTime: 5
 ---
 
-
-
-
-
-
-
 Recently I ran across a Node.js library called [Spotijay][spotijay] which
 allowed you to download Spotify playlists to your hard-drive and keep them
 synced. While Spotify allows you to save tracks to your device for 'offline'
@@ -145,14 +139,15 @@ The Spotijay [documentation][spotijay_docs] references this command to begin:
 forever start app.js playlist spotify:playlistURI
 ```
 
-But this did <mark>not</mark> work for me. I had to include my username in the call:
+But this did <mark>not</mark> work for me. I had to include my username in the
+call:
 
 ```bash
 forever start app.js playlist spotify:user:MY_USERNAME:playlist:playlistURI
 ```
 
-> <mark>Note:</mark> A playlist URI will be a string of random characters like this:
-> `5uSLUnV6U9easnPRO4rNu3`. The only way I know of to find the URI for a
+> <mark>Note:</mark> A playlist URI will be a string of random characters like
+> this: `5uSLUnV6U9easnPRO4rNu3`. The only way I know of to find the URI for a
 > playlist is to open the [Spotify web player][web_player] and navigate to the
 > desired playlist. In the browser address bar you should see a URL ending with
 > the current playlist's URI such as:

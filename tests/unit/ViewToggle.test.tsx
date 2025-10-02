@@ -1,6 +1,7 @@
-import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+
 import ViewToggle from '~/components/islands/ViewToggle';
 
 describe('ViewToggle', () => {
@@ -216,7 +217,10 @@ describe('ViewToggle', () => {
       await user.click(button);
 
       await waitFor(() => {
-        expect(localStorage.setItem).toHaveBeenCalledWith('view-mode', 'compact');
+        expect(localStorage.setItem).toHaveBeenCalledWith(
+          'view-mode',
+          'compact'
+        );
       });
     });
 

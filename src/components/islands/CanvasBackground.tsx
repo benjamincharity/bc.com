@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 interface CanvasBackgroundProps {
   className?: string;
@@ -26,7 +26,7 @@ interface Particle {
 export default function CanvasBackground({
   className = '',
   fallbackColor = 'rgb(251, 113, 133)',
-  config = {}
+  config = {},
 }: CanvasBackgroundProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animationRef = useRef<number>();
@@ -40,12 +40,12 @@ export default function CanvasBackground({
     animationSpeed: 1,
     colorPalette: [
       'rgb(251, 113, 133)', // pink-400
-      'rgb(236, 72, 153)',  // pink-500
-      'rgb(219, 39, 119)',  // pink-600
-      'rgb(20, 184, 166)',  // teal-500
-      'rgb(6, 182, 212)',   // cyan-500
+      'rgb(236, 72, 153)', // pink-500
+      'rgb(219, 39, 119)', // pink-600
+      'rgb(20, 184, 166)', // teal-500
+      'rgb(6, 182, 212)', // cyan-500
     ],
-    ...config
+    ...config,
   };
 
   const createParticle = (x?: number, y?: number): Particle => {
@@ -58,10 +58,13 @@ export default function CanvasBackground({
       vx: (Math.random() - 0.5) * 2,
       vy: (Math.random() - 0.5) * 2,
       size: Math.random() * 3 + 1,
-      color: defaultConfig.colorPalette[Math.floor(Math.random() * defaultConfig.colorPalette.length)],
+      color:
+        defaultConfig.colorPalette[
+          Math.floor(Math.random() * defaultConfig.colorPalette.length)
+        ],
       alpha: Math.random() * 0.5 + 0.1,
       life: 0,
-      maxLife: Math.random() * 200 + 100
+      maxLife: Math.random() * 200 + 100,
     };
   };
 
@@ -82,14 +85,14 @@ export default function CanvasBackground({
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    particlesRef.current = particlesRef.current.filter(particle => {
+    particlesRef.current = particlesRef.current.filter((particle) => {
       // Update position
       particle.x += particle.vx * defaultConfig.animationSpeed;
       particle.y += particle.vy * defaultConfig.animationSpeed;
       particle.life++;
 
       // Fade out over time
-      particle.alpha = Math.max(0, 1 - (particle.life / particle.maxLife));
+      particle.alpha = Math.max(0, 1 - particle.life / particle.maxLife);
 
       // Wrap around edges
       if (particle.x < 0) particle.x = canvas.width;
@@ -109,7 +112,7 @@ export default function CanvasBackground({
   const drawParticles = (ctx: CanvasRenderingContext2D) => {
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
-    particlesRef.current.forEach(particle => {
+    particlesRef.current.forEach((particle) => {
       ctx.save();
       ctx.globalAlpha = particle.alpha;
       ctx.fillStyle = particle.color;
@@ -170,12 +173,14 @@ export default function CanvasBackground({
     const rect = canvas.getBoundingClientRect();
     mouseRef.current = {
       x: event.clientX - rect.left,
-      y: event.clientY - rect.top
+      y: event.clientY - rect.top,
     };
 
     // Add particles near mouse occasionally
     if (Math.random() < 0.3) {
-      particlesRef.current.push(createParticle(mouseRef.current.x, mouseRef.current.y));
+      particlesRef.current.push(
+        createParticle(mouseRef.current.x, mouseRef.current.y)
+      );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -233,7 +238,7 @@ export default function CanvasBackground({
   return (
     <canvas
       ref={canvasRef}
-      className={`fixed inset-0 pointer-events-none z-0 canvas-background ${className}`}
+      className={`canvas-background pointer-events-none fixed inset-0 z-0 ${className}`}
       aria-hidden="true"
     />
   );

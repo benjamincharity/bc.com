@@ -1,10 +1,9 @@
 #!/usr/bin/env node
-
 import { readFileSync, writeFileSync } from 'fs';
 import { globSync } from 'glob';
 import matter from 'gray-matter';
-import readingTime from 'reading-time';
 import { dirname, join } from 'path';
+import readingTime from 'reading-time';
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -26,7 +25,9 @@ function addReadingTimeToFile(filePath, dryRun = false) {
 
     // Check if reading time already exists and matches
     if (frontmatter.readingTime === readingTimeMinutes) {
-      console.log(`✓ ${filePath} - already has correct reading time (${readingTimeMinutes} min)`);
+      console.log(
+        `✓ ${filePath} - already has correct reading time (${readingTimeMinutes} min)`
+      );
       return;
     }
 
@@ -35,7 +36,9 @@ function addReadingTimeToFile(filePath, dryRun = false) {
     frontmatter.readingTime = readingTimeMinutes;
 
     if (dryRun) {
-      console.log(`[DRY RUN] ${filePath} - would update reading time: ${oldReadingTime || 'none'} → ${readingTimeMinutes} min`);
+      console.log(
+        `[DRY RUN] ${filePath} - would update reading time: ${oldReadingTime || 'none'} → ${readingTimeMinutes} min`
+      );
       return;
     }
 
@@ -43,7 +46,9 @@ function addReadingTimeToFile(filePath, dryRun = false) {
     const updatedContent = matter.stringify(content, frontmatter);
     writeFileSync(filePath, updatedContent, 'utf-8');
 
-    console.log(`✓ ${filePath} - updated reading time: ${oldReadingTime || 'none'} → ${readingTimeMinutes} min`);
+    console.log(
+      `✓ ${filePath} - updated reading time: ${oldReadingTime || 'none'} → ${readingTimeMinutes} min`
+    );
   } catch (error) {
     console.error(`✗ Error processing ${filePath}:`, error.message);
   }
@@ -55,7 +60,7 @@ function addReadingTimeToFile(filePath, dryRun = false) {
 function main() {
   const args = process.argv.slice(2);
   const dryRun = args.includes('--dry-run');
-  const specificFile = args.find(arg => !arg.startsWith('--'));
+  const specificFile = args.find((arg) => !arg.startsWith('--'));
 
   console.log('🕐 Adding reading time to MDX files...\n');
 
@@ -70,13 +75,15 @@ function main() {
 
     console.log(`Found ${files.length} MDX files\n`);
 
-    files.forEach(file => addReadingTimeToFile(file, dryRun));
+    files.forEach((file) => addReadingTimeToFile(file, dryRun));
   }
 
   console.log('\n✓ Done!');
 
   if (dryRun) {
-    console.log('\nThis was a dry run. Run without --dry-run to apply changes.');
+    console.log(
+      '\nThis was a dry run. Run without --dry-run to apply changes.'
+    );
   }
 }
 

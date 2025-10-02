@@ -1,5 +1,6 @@
 import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
+
 import { siteMetadata } from '~/data/siteMetadata';
 
 function escapeXml(unsafeString: string): string {
@@ -13,10 +14,15 @@ function escapeXml(unsafeString: string): string {
 
 export const GET: APIRoute = async () => {
   // Get all published articles
-  const articles = await getCollection('blog', ({ data }: { data: { draft: boolean } }) => !data.draft);
+  const articles = await getCollection(
+    'blog',
+    ({ data }: { data: { draft: boolean } }) => !data.draft
+  );
 
   // Sort by date descending
-  const sortedArticles = articles.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+  const sortedArticles = articles.sort(
+    (a, b) => b.data.date.getTime() - a.data.date.getTime()
+  );
 
   const feed = `<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>

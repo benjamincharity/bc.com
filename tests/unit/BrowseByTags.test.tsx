@@ -1,5 +1,6 @@
-import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
+import { describe, expect, it } from 'vitest';
+
 import BrowseByTags, { Tags } from '~/components/islands/BrowseByTags';
 
 describe('BrowseByTags', () => {
@@ -40,7 +41,9 @@ describe('BrowseByTags', () => {
     });
 
     it('should render with custom id', () => {
-      const { container } = render(<BrowseByTags tags={mockTags} id="custom-tags" />);
+      const { container } = render(
+        <BrowseByTags tags={mockTags} id="custom-tags" />
+      );
 
       const aside = container.querySelector('#custom-tags');
       expect(aside).toBeInTheDocument();
@@ -70,7 +73,9 @@ describe('BrowseByTags', () => {
 
       // Check that 'apple' comes before 'banana' which comes before 'zebra'
       const appleIndex = tagTexts.findIndex((text) => text?.includes('apple'));
-      const bananaIndex = tagTexts.findIndex((text) => text?.includes('banana'));
+      const bananaIndex = tagTexts.findIndex((text) =>
+        text?.includes('banana')
+      );
       const zebraIndex = tagTexts.findIndex((text) => text?.includes('zebra'));
 
       expect(appleIndex).toBeLessThan(bananaIndex);
@@ -90,7 +95,9 @@ describe('BrowseByTags', () => {
       const tagTexts = tagElements.map((el) => el.textContent);
 
       const appleIndex = tagTexts.findIndex((text) => text?.includes('apple'));
-      const bananaIndex = tagTexts.findIndex((text) => text?.includes('Banana'));
+      const bananaIndex = tagTexts.findIndex((text) =>
+        text?.includes('Banana')
+      );
       const zebraIndex = tagTexts.findIndex((text) => text?.includes('Zebra'));
 
       expect(appleIndex).toBeLessThan(bananaIndex);
@@ -103,14 +110,19 @@ describe('BrowseByTags', () => {
       render(<BrowseByTags tags={mockTags} currentTag="other" />);
 
       const typescriptLink = screen.getByRole('link', { name: /typescript/ });
-      expect(typescriptLink).toHaveAttribute('href', '/articles/tags/typescript');
+      expect(typescriptLink).toHaveAttribute(
+        'href',
+        '/articles/tags/typescript'
+      );
     });
 
     it('should render current tag as plain text', () => {
       render(<BrowseByTags tags={mockTags} currentTag="typescript" />);
 
       // Current tag should not be a link
-      const typescriptLink = screen.queryByRole('link', { name: /^typescript/ });
+      const typescriptLink = screen.queryByRole('link', {
+        name: /^typescript/,
+      });
       expect(typescriptLink).not.toBeInTheDocument();
 
       // But text should still be present
@@ -122,7 +134,9 @@ describe('BrowseByTags', () => {
 
       // Get the list item containing typescript
       const listItems = screen.getAllByRole('listitem');
-      const typescriptItem = listItems.find((item) => item.textContent?.includes('typescript'));
+      const typescriptItem = listItems.find((item) =>
+        item.textContent?.includes('typescript')
+      );
 
       // Current tag should be a span, not a link
       const span = typescriptItem?.querySelector('span');
@@ -143,7 +157,9 @@ describe('BrowseByTags', () => {
       render(<BrowseByTags tags={mockTags} />);
 
       const listItems = screen.getAllByRole('listitem');
-      const typescriptItem = listItems.find((item) => item.textContent?.includes('typescript'));
+      const typescriptItem = listItems.find((item) =>
+        item.textContent?.includes('typescript')
+      );
 
       const sup = typescriptItem?.querySelector('sup');
       expect(sup).toBeInTheDocument();
@@ -154,7 +170,9 @@ describe('BrowseByTags', () => {
       render(<BrowseByTags tags={mockTags} />);
 
       const listItems = screen.getAllByRole('listitem');
-      const typescriptItem = listItems.find((item) => item.textContent?.includes('typescript'));
+      const typescriptItem = listItems.find((item) =>
+        item.textContent?.includes('typescript')
+      );
 
       const sup = typescriptItem?.querySelector('sup');
       expect(sup).toHaveClass('left-100', 'absolute', 'top-1/3');
@@ -164,7 +182,9 @@ describe('BrowseByTags', () => {
       render(<BrowseByTags tags={mockTags} currentTag="typescript" />);
 
       const listItems = screen.getAllByRole('listitem');
-      const typescriptItem = listItems.find((item) => item.textContent?.includes('typescript'));
+      const typescriptItem = listItems.find((item) =>
+        item.textContent?.includes('typescript')
+      );
 
       const sup = typescriptItem?.querySelector('sup');
       expect(sup).toBeInTheDocument();
@@ -176,7 +196,9 @@ describe('BrowseByTags', () => {
     it('should have navigation landmark', () => {
       render(<BrowseByTags tags={mockTags} />);
 
-      const nav = screen.getByRole('navigation', { name: /filter articles by tag/i });
+      const nav = screen.getByRole('navigation', {
+        name: /filter articles by tag/i,
+      });
       expect(nav).toBeInTheDocument();
     });
 
@@ -188,7 +210,9 @@ describe('BrowseByTags', () => {
     });
 
     it('should associate heading with aside when provided', () => {
-      const { container } = render(<BrowseByTags tags={mockTags} heading="Browse Tags" />);
+      const { container } = render(
+        <BrowseByTags tags={mockTags} heading="Browse Tags" />
+      );
 
       const aside = container.querySelector('aside');
       const heading = screen.getByRole('heading', { level: 2 });
@@ -277,7 +301,11 @@ describe('BrowseByTags', () => {
       render(<BrowseByTags tags={mockTags} heading="Browse Tags" />);
 
       const heading = screen.getByRole('heading', { level: 2 });
-      expect(heading).toHaveClass('mb-2', 'text-gray-600', 'dark:text-gray-400');
+      expect(heading).toHaveClass(
+        'mb-2',
+        'text-gray-600',
+        'dark:text-gray-400'
+      );
     });
   });
 
@@ -322,10 +350,10 @@ describe('BrowseByTags', () => {
     });
 
     it('should handle many tags', () => {
-      const manyTags: [string, number][] = Array.from({ length: 50 }, (_, i) => [
-        `tag${i}`,
-        i + 1,
-      ]);
+      const manyTags: [string, number][] = Array.from(
+        { length: 50 },
+        (_, i) => [`tag${i}`, i + 1]
+      );
 
       render(<BrowseByTags tags={manyTags} />);
 

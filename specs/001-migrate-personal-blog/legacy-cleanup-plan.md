@@ -1,9 +1,11 @@
 # Implementation Plan: Legacy Remix Code Cleanup
 
-**Branch**: `001-migrate-personal-blog` | **Date**: 2025-10-01 | **Spec**: [legacy-cleanup-plan.md](/Users/bc/code/open-source/bc.com/specs/legacy-cleanup-plan.md)
+**Branch**: `001-migrate-personal-blog` | **Date**: 2025-10-01 | **Spec**:
+[legacy-cleanup-plan.md](/Users/bc/code/open-source/bc.com/specs/legacy-cleanup-plan.md)
 **Input**: Feature specification from `/specs/legacy-cleanup-plan.md`
 
 ## Execution Flow (/plan command scope)
+
 ```
 1. Load feature spec from Input path
    → Legacy cleanup spec loaded and analyzed
@@ -25,35 +27,47 @@
 ```
 
 ## Summary
-Legacy Remix and Vercel code cleanup to organize all old implementation files into a temporary directory structure, preserving reference access while keeping the main codebase focused on the new Astro implementation. Primary goal: maintain Astro functionality while enabling easy legacy code removal once migration is fully validated.
+
+Legacy Remix and Vercel code cleanup to organize all old implementation files
+into a temporary directory structure, preserving reference access while keeping
+the main codebase focused on the new Astro implementation. Primary goal:
+maintain Astro functionality while enabling easy legacy code removal once
+migration is fully validated.
 
 ## Technical Context
-**Language/Version**: TypeScript/JavaScript (Node.js 20+)
-**Primary Dependencies**: Astro framework, legacy Remix 2.17 dependencies
-**Storage**: File system organization, git version control
-**Testing**: Build verification, functionality testing
-**Target Platform**: Cloudflare Pages (Astro), legacy Vercel (Remix)
-**Project Type**: web - migrated from Remix to Astro
+
+**Language/Version**: TypeScript/JavaScript (Node.js 20+) **Primary
+Dependencies**: Astro framework, legacy Remix 2.17 dependencies **Storage**:
+File system organization, git version control **Testing**: Build verification,
+functionality testing **Target Platform**: Cloudflare Pages (Astro), legacy
+Vercel (Remix) **Project Type**: web - migrated from Remix to Astro
 **Performance Goals**: No performance impact on current Astro build
-**Constraints**: Zero downtime, preserve all Astro functionality, maintain git history
-**Scale/Scope**: Personal blog site with ~50-100 files to reorganize
+**Constraints**: Zero downtime, preserve all Astro functionality, maintain git
+history **Scale/Scope**: Personal blog site with ~50-100 files to reorganize
 
 ## Constitution Check
-*GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
+
+_GATE: Must pass before Phase 0 research. Re-check after Phase 1 design._
 
 ### Core Principles Compliance
-- **Content-First Development**: ✅ Cleanup preserves content delivery through Astro
-- **Progressive Enhancement**: ✅ No impact on current Astro progressive enhancement
-- **Test-Driven Development**: ✅ Will verify Astro functionality before/after cleanup
+
+- **Content-First Development**: ✅ Cleanup preserves content delivery through
+  Astro
+- **Progressive Enhancement**: ✅ No impact on current Astro progressive
+  enhancement
+- **Test-Driven Development**: ✅ Will verify Astro functionality before/after
+  cleanup
 - **Performance Budget**: ✅ No performance impact expected
 - **Simplicity Over Cleverness**: ✅ Straightforward file organization approach
 
 ### Development Standards Compliance
+
 - **Code Quality**: ✅ No code changes, only file organization
 - **Testing Standards**: ✅ Will verify existing tests continue to pass
 - **Accessibility**: ✅ No impact on accessibility features
 
 ### Deployment & Operations Compliance
+
 - **Version Control**: ✅ Using git mv operations to preserve history
 - **Deployment Process**: ✅ Astro CI/CD pipeline remains unchanged
 - **Monitoring**: ✅ No impact on existing monitoring
@@ -63,6 +77,7 @@ Legacy Remix and Vercel code cleanup to organize all old implementation files in
 ## Project Structure
 
 ### Documentation (this feature)
+
 ```
 specs/001-migrate-personal-blog/
 ├── legacy-cleanup-plan.md   # This file (/plan command output)
@@ -74,6 +89,7 @@ specs/001-migrate-personal-blog/
 ```
 
 ### Source Code (repository root)
+
 ```
 # Current mixed state
 app/                    # Remix legacy files
@@ -95,9 +111,12 @@ legacy-remix/          # NEW temporary directory
 └── ...                # All other legacy files
 ```
 
-**Structure Decision**: Single repository with temporary `legacy-remix/` subdirectory to contain all Remix and Vercel-specific files while preserving current Astro implementation in place.
+**Structure Decision**: Single repository with temporary `legacy-remix/`
+subdirectory to contain all Remix and Vercel-specific files while preserving
+current Astro implementation in place.
 
 ## Phase 0: Outline & Research
+
 1. **Extract unknowns from Technical Context** above:
    - Identify all Remix-specific files and directories
    - Identify all Vercel-specific configurations
@@ -105,6 +124,7 @@ legacy-remix/          # NEW temporary directory
    - Determine safe git operations for file moves
 
 2. **Generate and dispatch research agents**:
+
    ```
    Task: "Identify all Remix-specific files in current repository"
    Task: "Identify all Vercel-specific configuration files"
@@ -120,7 +140,8 @@ legacy-remix/          # NEW temporary directory
 **Output**: legacy-research.md with complete file inventory and move strategy
 
 ## Phase 1: Design & Contracts
-*Prerequisites: legacy-research.md complete*
+
+_Prerequisites: legacy-research.md complete_
 
 1. **Extract entities from feature spec** → `legacy-data-model.md`:
    - Legacy File Groups (Remix app, Vercel config, dependencies)
@@ -150,12 +171,16 @@ legacy-remix/          # NEW temporary directory
    - Preserve existing Astro migration context
    - Keep under 150 lines for token efficiency
 
-**Output**: legacy-data-model.md, /legacy-contracts/*, failing tests, legacy-quickstart.md, updated CLAUDE.md
+**Output**: legacy-data-model.md, /legacy-contracts/\*, failing tests,
+legacy-quickstart.md, updated CLAUDE.md
 
 ## Phase 2: Task Planning Approach
-*This section describes what the /tasks command will do - DO NOT execute during /plan*
+
+_This section describes what the /tasks command will do - DO NOT execute during
+/plan_
 
 **Task Generation Strategy**:
+
 - Load `.specify/templates/tasks-template.md` as base
 - Generate tasks from Phase 1 design docs (contracts, data model, quickstart)
 - Each file group → inventory and move task [P]
@@ -164,6 +189,7 @@ legacy-remix/          # NEW temporary directory
 - Rollback procedure documentation
 
 **Ordering Strategy**:
+
 - Pre-cleanup verification first
 - File inventory and categorization
 - Temporary directory creation
@@ -176,19 +202,25 @@ legacy-remix/          # NEW temporary directory
 **IMPORTANT**: This phase is executed by the /tasks command, NOT by /plan
 
 ## Phase 3+: Future Implementation
-*These phases are beyond the scope of the /plan command*
 
-**Phase 3**: Task execution (/tasks command creates legacy-tasks.md)
-**Phase 4**: Implementation (execute legacy-tasks.md following constitutional principles)
-**Phase 5**: Validation (run tests, execute legacy-quickstart.md, verify Astro functionality)
+_These phases are beyond the scope of the /plan command_
+
+**Phase 3**: Task execution (/tasks command creates legacy-tasks.md) **Phase
+4**: Implementation (execute legacy-tasks.md following constitutional
+principles) **Phase 5**: Validation (run tests, execute legacy-quickstart.md,
+verify Astro functionality)
 
 ## Complexity Tracking
-*No constitutional violations identified - straightforward file organization task*
+
+_No constitutional violations identified - straightforward file organization
+task_
 
 ## Progress Tracking
-*This checklist is updated during execution flow*
+
+_This checklist is updated during execution flow_
 
 **Phase Status**:
+
 - [x] Phase 0: Research complete (/plan command)
 - [x] Phase 1: Design complete (/plan command)
 - [x] Phase 2: Task planning complete (/plan command - describe approach only)
@@ -197,10 +229,12 @@ legacy-remix/          # NEW temporary directory
 - [ ] Phase 5: Validation passed
 
 **Gate Status**:
+
 - [x] Initial Constitution Check: PASS
 - [x] Post-Design Constitution Check: PASS
 - [x] All NEEDS CLARIFICATION resolved
 - [x] Complexity deviations documented (none required)
 
 ---
-*Based on Constitution v1.0.0 - See `.specify/memory/constitution.md`*
+
+_Based on Constitution v1.0.0 - See `.specify/memory/constitution.md`_

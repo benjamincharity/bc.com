@@ -3,22 +3,25 @@
 ## Edge Function Endpoints
 
 ### Newsletter Subscription
+
 **POST** `/api/newsletter/subscribe`
 
 **Request**:
+
 ```typescript
 interface NewsletterSubscribeRequest {
-  email: string;          // Required, valid email format
-  source?: string;        // Optional, referring page path
+  email: string; // Required, valid email format
+  source?: string; // Optional, referring page path
 }
 ```
 
 **Response**:
+
 ```typescript
 interface NewsletterSubscribeResponse {
   success: boolean;
   message: string;
-  subscriptionId?: string;  // If successful
+  subscriptionId?: string; // If successful
   error?: {
     code: 'INVALID_EMAIL' | 'ALREADY_SUBSCRIBED' | 'SERVICE_ERROR';
     message: string;
@@ -27,15 +30,18 @@ interface NewsletterSubscribeResponse {
 ```
 
 **Status Codes**:
+
 - 200: Success
 - 400: Invalid request (bad email format)
 - 409: Already subscribed
 - 500: Internal server error
 
 ### Theme Preference
+
 **GET/POST** `/api/theme`
 
 **GET Response**:
+
 ```typescript
 interface ThemeResponse {
   theme: 'light' | 'dark' | 'system';
@@ -44,6 +50,7 @@ interface ThemeResponse {
 ```
 
 **POST Request**:
+
 ```typescript
 interface ThemeUpdateRequest {
   theme: 'light' | 'dark' | 'system';
@@ -51,9 +58,11 @@ interface ThemeUpdateRequest {
 ```
 
 ### Performance Metrics
+
 **POST** `/api/metrics`
 
 **Request**:
+
 ```typescript
 interface MetricsRequest {
   page: string;
@@ -72,6 +81,7 @@ interface MetricsRequest {
 ## Service Worker API
 
 ### Cache Management
+
 ```typescript
 interface CacheAPI {
   // Check cache version
@@ -89,6 +99,7 @@ interface CacheAPI {
 ```
 
 ### Offline Handling
+
 ```typescript
 interface OfflineAPI {
   // Check network status
@@ -105,6 +116,7 @@ interface OfflineAPI {
 ## Content Collection API
 
 ### Article Queries
+
 ```typescript
 interface ContentAPI {
   // Get all published articles
@@ -125,6 +137,7 @@ interface ContentAPI {
 ```
 
 ### Build-time Data
+
 ```typescript
 interface BuildAPI {
   // Generate article metadata
@@ -144,6 +157,7 @@ interface BuildAPI {
 ## Component Contracts
 
 ### Interactive Island Props
+
 ```typescript
 // Theme Toggle Component
 interface ThemeToggleContract {
@@ -203,6 +217,7 @@ interface ViewToggleContract {
 ## State Management Contracts
 
 ### User Preferences Store
+
 ```typescript
 interface UserPreferencesStore {
   // State
@@ -231,6 +246,7 @@ interface UserPreferencesStore {
 ```
 
 ### Navigation Store
+
 ```typescript
 interface NavigationStore {
   // State
@@ -255,6 +271,7 @@ interface NavigationStore {
 ## Middleware Contracts
 
 ### Theme Middleware
+
 ```typescript
 interface ThemeMiddleware {
   // Extract theme from cookies/headers
@@ -269,6 +286,7 @@ interface ThemeMiddleware {
 ```
 
 ### Security Middleware
+
 ```typescript
 interface SecurityMiddleware {
   // Validate CSRF tokens
@@ -285,6 +303,7 @@ interface SecurityMiddleware {
 ## Error Handling Contracts
 
 ### Error Reporter
+
 ```typescript
 interface ErrorReporter {
   // Report client errors
@@ -303,6 +322,7 @@ interface ErrorReporter {
 ```
 
 ### Error Recovery
+
 ```typescript
 interface ErrorRecovery {
   // Attempt to recover from error
@@ -317,4 +337,5 @@ interface ErrorRecovery {
 ```
 
 ---
-*API contracts complete - ready for test generation*
+
+_API contracts complete - ready for test generation_

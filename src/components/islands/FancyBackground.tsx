@@ -1,10 +1,14 @@
 import { useReducedMotion } from '@mantine/hooks';
 import { useEffect, useState } from 'react';
 
-import { InteractiveCanvas } from '../InteractiveCanvas/InteractiveCanvas';
 import { state$ } from '../../store';
+import { InteractiveCanvas } from '../InteractiveCanvas/InteractiveCanvas';
 
-export default function FancyBackground({ isVisible = true }: { isVisible?: boolean }) {
+export default function FancyBackground({
+  isVisible = true,
+}: {
+  isVisible?: boolean;
+}) {
   const isPartyModeEnabled = state$.isPartyModeEnabled.get();
   const [localIsVisible, setLocalIsVisible] = useState(() => isVisible);
   const reduceMotion = useReducedMotion();

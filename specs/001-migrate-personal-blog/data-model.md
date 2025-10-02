@@ -5,9 +5,11 @@
 ## Entity Definitions
 
 ### Article
+
 Blog post content with associated metadata.
 
 **Fields**:
+
 - `id`: string (auto-generated from filename)
 - `slug`: string (URL-friendly identifier)
 - `title`: string (required)
@@ -21,6 +23,7 @@ Blog post content with associated metadata.
 - `Content`: Component (renderable MDX component)
 
 **Validation Rules**:
+
 - Title must be 1-100 characters
 - Description must be 50-160 characters (SEO optimal)
 - Date cannot be in the future for published posts
@@ -28,13 +31,16 @@ Blog post content with associated metadata.
 - Slug must be unique across collection
 
 **State Transitions**:
+
 - draft → published (when draft: false)
 - published → updated (when content changes)
 
 ### UserPreference
+
 Client-side preferences for personalization.
 
 **Fields**:
+
 - `theme`: 'light' | 'dark' | 'system'
 - `viewMode`: 'grid' | 'compact'
 - `reducedMotion`: boolean
@@ -42,56 +48,68 @@ Client-side preferences for personalization.
 - `partyMode`: boolean
 
 **Validation Rules**:
+
 - Theme must be valid enum value
 - ViewMode must be valid enum value
 - Preferences persist across sessions
 
 **State Transitions**:
+
 - Initialized from cookies/localStorage
 - Updated via user interaction
 - Persisted to storage on change
 
 ### NewsletterSubscription
+
 Newsletter signup data.
 
 **Fields**:
+
 - `email`: string (required)
 - `subscribedAt`: Date
 - `source`: string (page where subscribed)
 - `status`: 'pending' | 'confirmed' | 'unsubscribed'
 
 **Validation Rules**:
+
 - Email must be valid format (RFC 5322)
 - Email must be unique in system
 - Source must be valid page path
 
 **State Transitions**:
+
 - pending → confirmed (after email verification)
 - confirmed → unsubscribed (user action)
 
 ### NavigationState
+
 Browser navigation and scroll tracking.
 
 **Fields**:
+
 - `history`: string[] (visited paths)
 - `scrollPositions`: Map<string, number>
 - `currentPath`: string
 - `previousPath`: string | null
 
 **Validation Rules**:
+
 - History limited to last 50 entries
 - Paths must be valid routes
 - Scroll positions non-negative
 
 **State Transitions**:
+
 - Updated on route change
 - Scroll position saved on navigation
 - Restored on back/forward
 
 ### CacheState
+
 PWA service worker cache management.
 
 **Fields**:
+
 - `version`: string (cache version)
 - `assets`: string[] (cached asset URLs)
 - `documents`: string[] (cached HTML pages)
@@ -99,11 +117,13 @@ PWA service worker cache management.
 - `lastUpdated`: Date
 
 **Validation Rules**:
+
 - Version follows semver format
 - URLs must be valid
 - Cache size limits enforced
 
 **State Transitions**:
+
 - Initialized on service worker install
 - Updated on new deployment
 - Pruned when size exceeded
@@ -174,6 +194,7 @@ export const collections = { blog };
 ## Storage Specifications
 
 ### Local Storage
+
 ```typescript
 interface LocalStorageSchema {
   'user-preferences': UserPreference;
@@ -183,6 +204,7 @@ interface LocalStorageSchema {
 ```
 
 ### Cookie Storage
+
 ```typescript
 interface CookieSchema {
   theme: 'light' | 'dark' | 'system';
@@ -191,6 +213,7 @@ interface CookieSchema {
 ```
 
 ### IndexedDB (PWA Cache)
+
 ```typescript
 interface CacheDatabase {
   articles: Article[];
@@ -205,13 +228,13 @@ interface CacheDatabase {
 
 ### From Remix to Astro
 
-| Remix Entity | Astro Entity | Changes |
-|-------------|--------------|---------|
-| `app/articles/*.mdx` | `src/content/blog/*.mdx` | Path change, schema validation added |
-| `ArticleMetadata` type | `CollectionEntry<'blog'>` | Type-safe with Zod |
-| `useTheme()` hook | `UserPreference` store | Framework-agnostic |
-| `useFetcher()` | Edge function + fetch | Simplified API calls |
-| `MetaFunction` | Astro SEO component | Declarative approach |
+| Remix Entity           | Astro Entity              | Changes                              |
+| ---------------------- | ------------------------- | ------------------------------------ |
+| `app/articles/*.mdx`   | `src/content/blog/*.mdx`  | Path change, schema validation added |
+| `ArticleMetadata` type | `CollectionEntry<'blog'>` | Type-safe with Zod                   |
+| `useTheme()` hook      | `UserPreference` store    | Framework-agnostic                   |
+| `useFetcher()`         | Edge function + fetch     | Simplified API calls                 |
+| `MetaFunction`         | Astro SEO component       | Declarative approach                 |
 
 ## Data Integrity Rules
 
@@ -239,4 +262,5 @@ interface CacheDatabase {
 - Content collection indexes built once per build
 
 ---
-*Data model complete - ready for contract generation*
+
+_Data model complete - ready for contract generation_

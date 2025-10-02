@@ -11,15 +11,17 @@ export default function ScrollBehavior({
   showScrollToTop = true,
   threshold = 300,
   smoothScroll = true,
-  className = ''
+  className = '',
 }: ScrollBehaviorProps) {
   const [isVisible, setIsVisible] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {
     const handleScroll = () => {
-      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const scrollTop =
+        window.pageYOffset || document.documentElement.scrollTop;
+      const docHeight =
+        document.documentElement.scrollHeight - window.innerHeight;
 
       // Update visibility based on threshold
       setIsVisible(scrollTop > threshold);
@@ -51,7 +53,7 @@ export default function ScrollBehavior({
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
-      behavior: smoothScroll ? 'smooth' : 'auto'
+      behavior: smoothScroll ? 'smooth' : 'auto',
     });
   };
 
@@ -63,7 +65,7 @@ export default function ScrollBehavior({
     <>
       {/* Scroll Progress Bar */}
       <div
-        className="fixed top-0 left-0 z-50 h-1 bg-gradient-to-r from-pink-500 to-teal-500 transition-all duration-300"
+        className="fixed left-0 top-0 z-50 h-1 bg-gradient-to-r from-pink-500 to-teal-500 transition-all duration-300"
         style={{ width: `${scrollProgress}%` }}
         aria-hidden="true"
       />
@@ -73,23 +75,29 @@ export default function ScrollBehavior({
         <button
           onClick={scrollToTop}
           className={`
-            flex items-center justify-center w-12 h-12 rounded-full
-            bg-white dark:bg-gray-800 shadow-lg border border-gray-200 dark:border-gray-700
-            text-gray-700 dark:text-gray-300
-            hover:text-pink-600 dark:hover:text-pink-400
-            hover:shadow-xl hover:scale-105
-            focus:outline-none focus:ring-2 focus:ring-pink-500/50
-            transition-all duration-300
-            ${isVisible
-              ? 'opacity-100 translate-y-0 pointer-events-auto'
-              : 'opacity-0 translate-y-2 pointer-events-none'
+            flex h-12 w-12 items-center justify-center rounded-full
+            border border-gray-200 bg-white text-gray-700 shadow-lg transition-all
+            duration-300 hover:scale-105
+            hover:text-pink-600 hover:shadow-xl
+            focus:outline-none focus:ring-2
+            focus:ring-pink-500/50 dark:border-gray-700 dark:bg-gray-800
+            dark:text-gray-300 dark:hover:text-pink-400
+            ${
+              isVisible
+                ? 'pointer-events-auto translate-y-0 opacity-100'
+                : 'pointer-events-none translate-y-2 opacity-0'
             }
           `}
           title="Scroll to top"
           aria-label="Scroll to top"
           disabled={!isVisible}
         >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg
+            className="h-5 w-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -114,10 +122,11 @@ function ScrollEventHandler({ smoothScroll }: { smoothScroll: boolean }) {
       const element = document.getElementById(elementId);
 
       if (element) {
-        const elementTop = element.getBoundingClientRect().top + window.pageYOffset;
+        const elementTop =
+          element.getBoundingClientRect().top + window.pageYOffset;
         window.scrollTo({
           top: elementTop - offset,
-          behavior: smoothScroll ? 'smooth' : 'auto'
+          behavior: smoothScroll ? 'smooth' : 'auto',
         });
       }
     };
@@ -127,21 +136,34 @@ function ScrollEventHandler({ smoothScroll }: { smoothScroll: boolean }) {
       const element = document.querySelector(selector);
 
       if (element) {
-        const elementTop = element.getBoundingClientRect().top + window.pageYOffset;
+        const elementTop =
+          element.getBoundingClientRect().top + window.pageYOffset;
         window.scrollTo({
           top: elementTop - offset,
-          behavior: smoothScroll ? 'smooth' : 'auto'
+          behavior: smoothScroll ? 'smooth' : 'auto',
         });
       }
     };
 
     // Listen for custom scroll events
-    window.addEventListener('scrollToElement', handleScrollToElement as EventListener);
-    window.addEventListener('scrollToSection', handleScrollToSection as EventListener);
+    window.addEventListener(
+      'scrollToElement',
+      handleScrollToElement as EventListener
+    );
+    window.addEventListener(
+      'scrollToSection',
+      handleScrollToSection as EventListener
+    );
 
     return () => {
-      window.removeEventListener('scrollToElement', handleScrollToElement as EventListener);
-      window.removeEventListener('scrollToSection', handleScrollToSection as EventListener);
+      window.removeEventListener(
+        'scrollToElement',
+        handleScrollToElement as EventListener
+      );
+      window.removeEventListener(
+        'scrollToSection',
+        handleScrollToSection as EventListener
+      );
     };
   }, [smoothScroll]);
 
@@ -150,13 +172,17 @@ function ScrollEventHandler({ smoothScroll }: { smoothScroll: boolean }) {
 
 // Utility functions to trigger scroll behaviors from other components
 export const scrollToElement = (elementId: string, offset = 0) => {
-  window.dispatchEvent(new CustomEvent('scrollToElement', {
-    detail: { elementId, offset }
-  }));
+  window.dispatchEvent(
+    new CustomEvent('scrollToElement', {
+      detail: { elementId, offset },
+    })
+  );
 };
 
 export const scrollToSection = (selector: string, offset = 0) => {
-  window.dispatchEvent(new CustomEvent('scrollToSection', {
-    detail: { selector, offset }
-  }));
+  window.dispatchEvent(
+    new CustomEvent('scrollToSection', {
+      detail: { selector, offset },
+    })
+  );
 };

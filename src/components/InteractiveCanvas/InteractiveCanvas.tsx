@@ -7,16 +7,11 @@ import React, {
   useState,
 } from 'react';
 
-import {
-  Canvas,
-  MOUSE_OFF,
-  PaletteDirection,
-} from './canvas';
-import { Row } from './row';
 import { state$ } from '../../store';
 import { shuffle } from '../../utils/shuffle';
-
+import { Canvas, MOUSE_OFF, PaletteDirection } from './canvas';
 import { PALETTES } from './palettes.data';
+import { Row } from './row';
 
 // Define a dummy window object for SSR
 const dummyWindow = {

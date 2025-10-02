@@ -1,8 +1,10 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import ArticlesPageWrapper from '~/components/islands/ArticlesPageWrapper';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+
 import type { Article } from '~/types/article';
+
+import ArticlesPageWrapper from '~/components/islands/ArticlesPageWrapper';
 
 // Mock articles data
 const mockArticles: Article[] = Array.from({ length: 25 }, (_, i) => ({
@@ -175,7 +177,9 @@ describe('ArticlesPageWrapper - Pagination', () => {
       const user = userEvent.setup();
       render(<ArticlesPageWrapper articles={mockArticles} />);
 
-      const toggleButton = screen.getByRole('button', { name: /switch to (list|grid) view/i });
+      const toggleButton = screen.getByRole('button', {
+        name: /switch to (list|grid) view/i,
+      });
       await user.click(toggleButton);
 
       await waitFor(() => {
@@ -190,7 +194,9 @@ describe('ArticlesPageWrapper - Pagination', () => {
       render(<ArticlesPageWrapper articles={mockArticles} />);
 
       // When compact view is enabled, button should say "Switch to grid view"
-      const toggleButton = screen.getByRole('button', { name: /switch to grid view/i });
+      const toggleButton = screen.getByRole('button', {
+        name: /switch to grid view/i,
+      });
       expect(toggleButton).toBeInTheDocument();
     });
   });

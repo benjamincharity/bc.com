@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { z } from 'zod';
 
 describe('Content Collections Schema', () => {
@@ -19,7 +19,8 @@ describe('Content Collections Schema', () => {
         title: 'Test Article',
         date: new Date('2024-01-01'),
         tags: ['test', 'article'],
-        description: 'This is a test article description that meets the requirements.',
+        description:
+          'This is a test article description that meets the requirements.',
         draft: false,
         readingTime: 5,
       };

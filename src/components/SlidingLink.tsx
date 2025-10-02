@@ -1,11 +1,16 @@
 import React from 'react';
 
-interface SlidingLinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
+interface SlidingLinkProps
+  extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
   to: string;
   children: React.ReactNode;
 }
 
-export default function SlidingLink({ to, children, ...props }: SlidingLinkProps) {
+export default function SlidingLink({
+  to,
+  children,
+  ...props
+}: SlidingLinkProps) {
   return (
     <a
       href={to}

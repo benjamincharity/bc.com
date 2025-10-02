@@ -1,7 +1,7 @@
-import { test, expect } from 'vitest';
-import { readFileSync, existsSync } from 'fs';
-import { join } from 'path';
+import { existsSync, readFileSync } from 'fs';
 import { load } from 'js-yaml';
+import { join } from 'path';
+import { expect, test } from 'vitest';
 
 const workflowPath = join(process.cwd(), '.github/workflows/ci.yml');
 
@@ -61,17 +61,17 @@ test('CI workflow includes all required steps', () => {
   const workflow = load(content);
 
   const steps = workflow.jobs.test.steps;
-  const stepNames = steps.map(step => step.name || step.uses);
+  const stepNames = steps.map((step) => step.name || step.uses);
 
   // Required steps
-  expect(stepNames.some(name => name.includes('checkout'))).toBe(true);
-  expect(stepNames.some(name => name.includes('pnpm'))).toBe(true);
-  expect(stepNames.some(name => name.includes('node'))).toBe(true);
+  expect(stepNames.some((name) => name.includes('checkout'))).toBe(true);
+  expect(stepNames.some((name) => name.includes('pnpm'))).toBe(true);
+  expect(stepNames.some((name) => name.includes('node'))).toBe(true);
 
   // Required commands
   const runCommands = steps
-    .filter(step => step.run)
-    .map(step => step.run)
+    .filter((step) => step.run)
+    .map((step) => step.run)
     .join(' ');
 
   expect(runCommands).toMatch(/pnpm install/);
@@ -86,7 +86,7 @@ test('CI workflow uses Node.js 20', () => {
   const workflow = load(content);
 
   const nodeStep = workflow.jobs.test.steps.find(
-    step => step.uses && step.uses.includes('setup-node')
+    (step) => step.uses && step.uses.includes('setup-node')
   );
 
   expect(nodeStep).toBeDefined();
@@ -99,7 +99,7 @@ test('CI workflow uses pnpm version 9', () => {
   const workflow = load(content);
 
   const pnpmStep = workflow.jobs.test.steps.find(
-    step => step.uses && step.uses.includes('pnpm/action-setup')
+    (step) => step.uses && step.uses.includes('pnpm/action-setup')
   );
 
   expect(pnpmStep).toBeDefined();
@@ -112,7 +112,7 @@ test('CI workflow has E2E tests conditional on pull requests', () => {
   const workflow = load(content);
 
   const e2eStep = workflow.jobs.test.steps.find(
-    step => step.run && step.run.includes('e2e')
+    (step) => step.run && step.run.includes('e2e')
   );
 
   expect(e2eStep).toBeDefined();

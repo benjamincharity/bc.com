@@ -3,9 +3,9 @@ name: CI
 # Trigger configuration
 on:
   push:
-    branches: ['**']  # Run on all branches
+    branches: ['**'] # Run on all branches
   pull_request:
-    branches: [main]  # Run on PRs targeting main
+    branches: [main] # Run on PRs targeting main
 
 # Job definitions
 jobs:

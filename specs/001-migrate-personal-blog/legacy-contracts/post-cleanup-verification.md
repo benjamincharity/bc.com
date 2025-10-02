@@ -1,12 +1,13 @@
 # Post-Cleanup Verification Contract
 
-**Contract**: Post-Cleanup System Verification
-**Purpose**: Ensure Astro system remains fully functional after legacy file cleanup
-**Execution**: Required after each batch of file move operations
+**Contract**: Post-Cleanup System Verification **Purpose**: Ensure Astro system
+remains fully functional after legacy file cleanup **Execution**: Required after
+each batch of file move operations
 
 ## Verification Requirements
 
 ### Build System Re-verification
+
 ```bash
 # Contract: Build must still complete successfully
 pnpm build
@@ -18,6 +19,7 @@ pnpm build
 ```
 
 ### File System Integrity
+
 ```bash
 # Contract: No broken imports or missing files
 find src/ -name "*.astro" -o -name "*.ts" -o -name "*.tsx" | xargs grep -l "from.*app/" || echo "No legacy imports found"
@@ -28,6 +30,7 @@ find src/ -name "*.astro" -o -name "*.ts" -o -name "*.tsx" | xargs grep -l "from
 ```
 
 ### Asset Availability
+
 ```bash
 # Contract: All required assets must be accessible
 ls public/ | wc -l
@@ -39,6 +42,7 @@ find src/ -name "*.astro" | xargs grep -h "src.*public" | wc -l
 ```
 
 ### Configuration Validation
+
 ```bash
 # Contract: All configuration files must be valid
 pnpm astro check
@@ -51,6 +55,7 @@ npx tailwindcss --help > /dev/null
 ```
 
 ### Dependency Cleanup Verification
+
 ```bash
 # Contract: Only required dependencies remain
 pnpm list --depth=0 | grep -v "remix\|vercel" || echo "No legacy deps found"
@@ -61,6 +66,7 @@ pnpm list --depth=0 | grep -v "remix\|vercel" || echo "No legacy deps found"
 ```
 
 ### Runtime Verification
+
 ```bash
 # Contract: Application must start and function correctly
 timeout 30s pnpm dev &
@@ -76,6 +82,7 @@ pkill -f "astro dev"
 ## Comparison Checks
 
 ### Performance Comparison
+
 ```bash
 # Contract: Performance must be maintained or improved
 # Pre-cleanup baseline required for comparison
@@ -91,6 +98,7 @@ du -sh dist/
 ```
 
 ### Functionality Parity
+
 ```bash
 # Contract: All features must work as before cleanup
 
@@ -110,6 +118,7 @@ curl -s http://localhost:4321/ | grep -q "theme"
 ## Archive Verification
 
 ### Legacy Files Accessibility
+
 ```bash
 # Contract: Legacy files must be accessible in archive
 ls legacy-remix/app/ | wc -l
@@ -122,6 +131,7 @@ test -f legacy-remix/deployment/vercel.json
 ```
 
 ### Archive Organization
+
 ```bash
 # Contract: Archive must be properly organized
 find legacy-remix/ -type f | wc -l
@@ -135,6 +145,7 @@ find . -maxdepth 1 -name "remix*" -o -name "vercel*" | wc -l
 ## Success Criteria
 
 ### Mandatory Post-Cleanup Checks
+
 - [ ] Build completes successfully (same as pre-cleanup)
 - [ ] Dev server starts without errors
 - [ ] No broken imports or missing modules
@@ -145,6 +156,7 @@ find . -maxdepth 1 -name "remix*" -o -name "vercel*" | wc -l
 - [ ] All interactive features working
 
 ### Archive Validation Checks
+
 - [ ] All legacy files moved to archive
 - [ ] Archive structure properly organized
 - [ ] Legacy files accessible for reference
@@ -152,6 +164,7 @@ find . -maxdepth 1 -name "remix*" -o -name "vercel*" | wc -l
 - [ ] Git history preserved for moved files
 
 ### Performance Validation Checks
+
 - [ ] Build time within acceptable range
 - [ ] Bundle size not significantly increased
 - [ ] Page load times maintained
@@ -160,6 +173,7 @@ find . -maxdepth 1 -name "remix*" -o -name "vercel*" | wc -l
 ## Verification Output
 
 ### Success Response
+
 ```json
 {
   "status": "PASS",
@@ -179,6 +193,7 @@ find . -maxdepth 1 -name "remix*" -o -name "vercel*" | wc -l
 ```
 
 ### Failure Response
+
 ```json
 {
   "status": "FAIL",
@@ -199,6 +214,7 @@ find . -maxdepth 1 -name "remix*" -o -name "vercel*" | wc -l
 ## Rollback Procedures
 
 ### Git-based Rollback
+
 ```bash
 # Contract: Must be able to rollback to pre-cleanup state
 git log --oneline -5
@@ -209,6 +225,7 @@ git reset --hard <pre-cleanup-commit>
 ```
 
 ### File Restoration
+
 ```bash
 # Contract: Individual files can be restored if needed
 git mv legacy-remix/specific-file.js ./

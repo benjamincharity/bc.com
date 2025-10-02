@@ -1,13 +1,17 @@
-import { useState, useEffect } from 'react';
-import { ViewToggle } from '../ViewToggle';
-import { ArticlesList } from '../Articles/ArticlesList';
+import { useEffect, useState } from 'react';
+
 import type { Article } from '~/types/article';
+
+import { ArticlesList } from '../Articles/ArticlesList';
+import { ViewToggle } from '../ViewToggle';
 
 interface ViewToggleWrapperProps {
   articles: Article[];
 }
 
-export default function ViewToggleWrapper({ articles }: ViewToggleWrapperProps) {
+export default function ViewToggleWrapper({
+  articles,
+}: ViewToggleWrapperProps) {
   const [isCompactView, setIsCompactView] = useState(false);
   const [visibleCount, setVisibleCount] = useState(7);
 
@@ -31,7 +35,7 @@ export default function ViewToggleWrapper({ articles }: ViewToggleWrapperProps) 
   };
 
   const loadMore = () => {
-    setVisibleCount(prev => prev + 6);
+    setVisibleCount((prev) => prev + 6);
   };
 
   const visibleArticles = articles.slice(0, visibleCount);
@@ -45,12 +49,12 @@ export default function ViewToggleWrapper({ articles }: ViewToggleWrapperProps) 
       <ArticlesList articles={visibleArticles} isCompactView={isCompactView} />
 
       {/* Load More Section */}
-      <div className="text-center px-4 pt-4">
+      <div className="px-4 pt-4 text-center">
         {hasMore ? (
           <div className="inline-block">
             <button
               onClick={loadMore}
-              className="bg-pink-400 text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-pink-500 transition-colors"
+              className="rounded-full bg-pink-400 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-pink-500"
             >
               Load More ({remainingCount} more articles)
             </button>

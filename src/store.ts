@@ -20,7 +20,8 @@ export const navigationState$ = observable(initialState);
 
 // ARTICLES VIEW STATE
 export const articlesViewState$ = observable({
-  isCompactView: typeof window !== 'undefined'
-    ? localStorage.getItem('articlesCompactView') === 'true'
-    : false,
+  isCompactView:
+    typeof window !== 'undefined'
+      ? localStorage.getItem('articlesCompactView') === 'true'
+      : false,
 });

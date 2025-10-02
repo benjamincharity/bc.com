@@ -1,25 +1,27 @@
 # PRD: Complete Security Audit Remediation & Hardening
 
-**Status:** Ready for Implementation
-**Priority:** Critical
-**Est. Effort:** 6-8 hours
-**Target Release:** Immediate (within 1 week)
-**Owner:** Engineering Team
-**Created:** 2025-10-02
-**Audit Date:** 2025-10-02
+**Status:** Ready for Implementation **Priority:** Critical **Est. Effort:** 6-8
+hours **Target Release:** Immediate (within 1 week) **Owner:** Engineering Team
+**Created:** 2025-10-02 **Audit Date:** 2025-10-02
 
 ---
 
 ## Executive Summary
 
-This PRD provides a complete, actionable plan to remediate **all security findings** from the October 2025 comprehensive security audit. The audit identified 8 vulnerabilities and 3 configuration improvements needed to achieve a production-ready security posture.
+This PRD provides a complete, actionable plan to remediate **all security
+findings** from the October 2025 comprehensive security audit. The audit
+identified 8 vulnerabilities and 3 configuration improvements needed to achieve
+a production-ready security posture.
 
 ### Current Security Status
+
 - ✅ **Good:** No hardcoded secrets, proper .gitignore, React XSS protection
-- ⚠️ **Needs Attention:** Missing security headers, no rate limiting, weak validation
+- ⚠️ **Needs Attention:** Missing security headers, no rate limiting, weak
+  validation
 - 🔴 **Critical:** 1 dependency vulnerability (but already fixed), missing CSP
 
 ### Target Security Status (Post-Implementation)
+
 - 🎯 **Zero high/critical vulnerabilities**
 - 🎯 **Complete security header implementation**
 - 🎯 **Production-grade input validation and rate limiting**
@@ -46,26 +48,26 @@ This PRD provides a complete, actionable plan to remediate **all security findin
 
 ### Vulnerability Distribution
 
-| Severity | Count | Status |
-|----------|-------|--------|
-| CRITICAL | 0 | N/A |
-| HIGH | 2 | 1 Fixed, 1 To Do |
-| MEDIUM | 4 | All To Do |
-| LOW | 2 | All To Do |
+| Severity  | Count | Status               |
+| --------- | ----- | -------------------- |
+| CRITICAL  | 0     | N/A                  |
+| HIGH      | 2     | 1 Fixed, 1 To Do     |
+| MEDIUM    | 4     | All To Do            |
+| LOW       | 2     | All To Do            |
 | **Total** | **8** | **1 Fixed, 7 To Do** |
 
 ### Detailed Findings
 
-| ID | Severity | Issue | Current Status | Est. Fix Time |
-|---|---|---|---|---|
-| VULN-001 | ✅ HIGH | esbuild vulnerability (CVE) | **FIXED** - v0.25.9 | 0h (done) |
-| VULN-002 | 🔴 HIGH | Missing security headers (CSP, X-Frame-Options, etc.) | Open | 1h |
-| VULN-003 | 🟠 MEDIUM | Weak email validation | Open | 1h |
-| VULN-004 | 🟠 MEDIUM | No API rate limiting | Open | 2h |
-| VULN-005 | 🟠 MEDIUM | Information disclosure in logs | Open | 1h |
-| VULN-006 | 🟠 MEDIUM | Astro output config mismatch | Open | 0.5h |
-| VULN-007 | 🟡 LOW | Unused SESSION_SECRET env var | Open | 0.25h |
-| VULN-008 | 🟡 LOW | Outdated dependencies (non-security) | Open | 0.25h |
+| ID       | Severity  | Issue                                                 | Current Status      | Est. Fix Time |
+| -------- | --------- | ----------------------------------------------------- | ------------------- | ------------- |
+| VULN-001 | ✅ HIGH   | esbuild vulnerability (CVE)                           | **FIXED** - v0.25.9 | 0h (done)     |
+| VULN-002 | 🔴 HIGH   | Missing security headers (CSP, X-Frame-Options, etc.) | Open                | 1h            |
+| VULN-003 | 🟠 MEDIUM | Weak email validation                                 | Open                | 1h            |
+| VULN-004 | 🟠 MEDIUM | No API rate limiting                                  | Open                | 2h            |
+| VULN-005 | 🟠 MEDIUM | Information disclosure in logs                        | Open                | 1h            |
+| VULN-006 | 🟠 MEDIUM | Astro output config mismatch                          | Open                | 0.5h          |
+| VULN-007 | 🟡 LOW    | Unused SESSION_SECRET env var                         | Open                | 0.25h         |
+| VULN-008 | 🟡 LOW    | Outdated dependencies (non-security)                  | Open                | 0.25h         |
 
 **Total Estimated Remediation Time:** 6 hours
 
@@ -75,13 +77,13 @@ This PRD provides a complete, actionable plan to remediate **all security findin
 
 ### 🔴 ITEM-001: Implement Comprehensive Security Headers
 
-**Priority:** CRITICAL
-**Estimated Time:** 1 hour
-**Risk if not fixed:** Clickjacking, XSS, MIME-sniffing attacks
+**Priority:** CRITICAL **Estimated Time:** 1 hour **Risk if not fixed:**
+Clickjacking, XSS, MIME-sniffing attacks
 
 #### Problem Statement
 
-The current `public/_headers` file only contains basic MIME type headers. Critical security headers are missing:
+The current `public/_headers` file only contains basic MIME type headers.
+Critical security headers are missing:
 
 ```nginx
 # Current (public/_headers) - INCOMPLETE
@@ -90,7 +92,8 @@ The current `public/_headers` file only contains basic MIME type headers. Critic
 # ... more MIME types only
 ```
 
-Legacy Vercel configuration had proper security headers but they're not deployed to Cloudflare Pages.
+Legacy Vercel configuration had proper security headers but they're not deployed
+to Cloudflare Pages.
 
 #### Solution
 
@@ -166,17 +169,17 @@ Legacy Vercel configuration had proper security headers but they're not deployed
 
 #### CSP Directive Breakdown
 
-| Directive | Value | Reason |
-|-----------|-------|--------|
-| `default-src` | `'self'` | Only load resources from same origin by default |
-| `script-src` | `'self' 'unsafe-inline' fonts.googleapis.com` | Allow inline scripts for Astro hydration, Google Fonts |
-| `style-src` | `'self' 'unsafe-inline' fonts.googleapis.com` | Allow inline styles, Google Fonts |
-| `img-src` | `'self' res.cloudinary.com data: blob:` | Article images from Cloudinary, data URIs |
-| `font-src` | `'self' fonts.gstatic.com data:` | Google Fonts, embedded fonts |
-| `connect-src` | `'self' api.buttondown.email` | Newsletter API calls |
-| `frame-ancestors` | `'none'` | Prevent embedding (same as X-Frame-Options: DENY) |
-| `base-uri` | `'self'` | Prevent base tag injection |
-| `form-action` | `'self'` | Forms only submit to same origin |
+| Directive         | Value                                         | Reason                                                 |
+| ----------------- | --------------------------------------------- | ------------------------------------------------------ |
+| `default-src`     | `'self'`                                      | Only load resources from same origin by default        |
+| `script-src`      | `'self' 'unsafe-inline' fonts.googleapis.com` | Allow inline scripts for Astro hydration, Google Fonts |
+| `style-src`       | `'self' 'unsafe-inline' fonts.googleapis.com` | Allow inline styles, Google Fonts                      |
+| `img-src`         | `'self' res.cloudinary.com data: blob:`       | Article images from Cloudinary, data URIs              |
+| `font-src`        | `'self' fonts.gstatic.com data:`              | Google Fonts, embedded fonts                           |
+| `connect-src`     | `'self' api.buttondown.email`                 | Newsletter API calls                                   |
+| `frame-ancestors` | `'none'`                                      | Prevent embedding (same as X-Frame-Options: DENY)      |
+| `base-uri`        | `'self'`                                      | Prevent base tag injection                             |
+| `form-action`     | `'self'`                                      | Forms only submit to same origin                       |
 
 #### Implementation Steps
 
@@ -188,6 +191,7 @@ Legacy Vercel configuration had proper security headers but they're not deployed
    - ✅ Newsletter subscription works
    - ✅ No CSP violations in console
 4. **Validate with external tools:**
+
    ```bash
    # Check headers are live
    curl -I https://preview.benjamincharity.com
@@ -195,6 +199,7 @@ Legacy Vercel configuration had proper security headers but they're not deployed
    # Validate CSP
    # Visit: https://csp-evaluator.withgoogle.com/
    ```
+
 5. **Deploy to production**
 
 #### Testing Checklist
@@ -206,7 +211,8 @@ Legacy Vercel configuration had proper security headers but they're not deployed
 - [ ] Test newsletter signup form works
 - [ ] Verify Google Fonts load correctly
 - [ ] Verify Cloudinary images load
-- [ ] Check all security headers present: `curl -I https://domain.com | grep -E "(X-Frame|CSP|X-Content|Referrer|Permissions)"`
+- [ ] Check all security headers present:
+      `curl -I https://domain.com | grep -E "(X-Frame|CSP|X-Content|Referrer|Permissions)"`
 - [ ] Validate CSP at https://csp-evaluator.withgoogle.com/
 - [ ] Test in multiple browsers (Chrome, Firefox, Safari)
 - [ ] Deploy to production
@@ -223,6 +229,7 @@ Legacy Vercel configuration had proper security headers but they're not deployed
 #### Rollback Plan
 
 If CSP breaks functionality:
+
 1. Comment out CSP header in `public/_headers`
 2. Redeploy (Cloudflare Pages picks up changes immediately)
 3. Investigate specific violation
@@ -234,19 +241,20 @@ If CSP breaks functionality:
 
 ### 🟠 ITEM-002: Implement API Rate Limiting
 
-**Priority:** HIGH
-**Estimated Time:** 2 hours
-**Risk if not fixed:** API abuse, DoS, cost escalation from Buttondown API calls
+**Priority:** HIGH **Estimated Time:** 2 hours **Risk if not fixed:** API abuse,
+DoS, cost escalation from Buttondown API calls
 
 #### Problem Statement
 
 The `/api/newsletter` endpoint has zero rate limiting. An attacker could:
+
 - Spam newsletter subscriptions
 - Exhaust Buttondown API quota
 - Cause service degradation
 - Perform email enumeration attacks
 
 **Current Code (src/pages/api/newsletter.ts):**
+
 ```typescript
 export const POST: APIRoute = async ({ request }) => {
   // NO RATE LIMITING - accepts unlimited requests
@@ -260,6 +268,7 @@ export const POST: APIRoute = async ({ request }) => {
 
 1. **Navigate to:** Cloudflare Dashboard → Security → WAF → Rate limiting rules
 2. **Create rule:**
+
    ```yaml
    Rule name: Newsletter API Rate Limit
 
@@ -276,13 +285,15 @@ export const POST: APIRoute = async ({ request }) => {
      - Action: Block
      - Duration: 60 seconds
      - Response code: 429
-     - Custom response body: {"error": "Too many requests. Please try again in 1 minute."}
+     - Custom response body:
+         { 'error': 'Too many requests. Please try again in 1 minute.' }
 
    HTTP response headers:
      - Retry-After: 60
    ```
 
 **Benefits:**
+
 - ✅ No code changes required
 - ✅ Runs at edge (faster, lower latency)
 - ✅ Doesn't consume compute resources
@@ -310,14 +321,17 @@ interface RateLimitRecord {
 const store = new Map<string, RateLimitRecord>();
 
 // Clean up expired entries every 5 minutes
-setInterval(() => {
-  const now = Date.now();
-  for (const [key, record] of store.entries()) {
-    if (now > record.resetAt) {
-      store.delete(key);
+setInterval(
+  () => {
+    const now = Date.now();
+    for (const [key, record] of store.entries()) {
+      if (now > record.resetAt) {
+        store.delete(key);
+      }
     }
-  }
-}, 5 * 60 * 1000);
+  },
+  5 * 60 * 1000
+);
 
 export interface RateLimitResult {
   allowed: boolean;
@@ -357,7 +371,9 @@ export function rateLimit(
 
   const allowed = current.count <= maxRequests;
   const remaining = Math.max(0, maxRequests - current.count);
-  const retryAfter = allowed ? undefined : Math.ceil((current.resetAt - now) / 1000);
+  const retryAfter = allowed
+    ? undefined
+    : Math.ceil((current.resetAt - now) / 1000);
 
   return {
     allowed,
@@ -440,6 +456,7 @@ try {
 #### Testing
 
 **Manual Testing:**
+
 ```bash
 # Send 6 rapid requests
 for i in {1..6}; do
@@ -459,7 +476,7 @@ done
 Create: `tests/api/rate-limit.test.ts`
 
 ```typescript
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 
 describe('Newsletter API Rate Limiting', () => {
   it('should allow 5 requests within 1 minute', async () => {
@@ -472,10 +489,10 @@ describe('Newsletter API Rate Limiting', () => {
     );
 
     const responses = await Promise.all(requests);
-    const statuses = responses.map(r => r.status);
+    const statuses = responses.map((r) => r.status);
 
     // All should succeed or return validation error (400), not rate limited
-    expect(statuses.every(s => s !== 429)).toBe(true);
+    expect(statuses.every((s) => s !== 429)).toBe(true);
   });
 
   it('should return 429 after exceeding rate limit', async () => {
@@ -510,9 +527,8 @@ describe('Newsletter API Rate Limiting', () => {
 
 ### 🟠 ITEM-003: Strengthen Email Validation
 
-**Priority:** HIGH
-**Estimated Time:** 1 hour
-**Risk if not fixed:** Invalid subscriptions, potential injection attacks
+**Priority:** HIGH **Estimated Time:** 1 hour **Risk if not fixed:** Invalid
+subscriptions, potential injection attacks
 
 #### Problem Statement
 
@@ -529,6 +545,7 @@ const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;  // ALLOWS EDGE CASES
 ```
 
 **Problems:**
+
 - ❌ Backend only checks for '@' (allows `test@` or `@domain.com`)
 - ❌ No length validation (allows 1000+ character emails)
 - ❌ No normalization consistency
@@ -539,6 +556,7 @@ const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;  // ALLOWS EDGE CASES
 #### Solution
 
 **Install validator library:**
+
 ```bash
 npm install validator
 npm install --save-dev @types/validator
@@ -575,7 +593,10 @@ export function validateEmail(email: unknown): EmailValidationResult {
   }
 
   if (trimmed.length > 254) {
-    return { valid: false, error: 'Email address is too long (max 254 characters)' };
+    return {
+      valid: false,
+      error: 'Email address is too long (max 254 characters)',
+    };
   }
 
   // Normalize to lowercase
@@ -679,7 +700,8 @@ export const POST: APIRoute = async ({ request }) => {
     // ... rest of existing code
 ```
 
-**Update:** `src/components/islands/NewsletterForm.tsx` (Optional but recommended)
+**Update:** `src/components/islands/NewsletterForm.tsx` (Optional but
+recommended)
 
 ```typescript
 import { validateEmail } from '~/utils/email-validator';
@@ -717,7 +739,8 @@ const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 **Create:** `tests/utils/email-validator.test.ts`
 
 ```typescript
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
+
 import { validateEmail } from '~/utils/email-validator';
 
 describe('Email Validation', () => {
@@ -730,7 +753,7 @@ describe('Email Validation', () => {
       'user123@test-domain.com',
     ];
 
-    validEmails.forEach(email => {
+    validEmails.forEach((email) => {
       it(`should accept ${email}`, () => {
         const result = validateEmail(email);
         expect(result.valid).toBe(true);
@@ -793,9 +816,8 @@ describe('Email Validation', () => {
 
 ### 🟡 ITEM-004: Implement Structured Logging
 
-**Priority:** MEDIUM
-**Estimated Time:** 1 hour
-**Risk if not fixed:** Sensitive data exposure in logs, difficult debugging
+**Priority:** MEDIUM **Estimated Time:** 1 hour **Risk if not fixed:** Sensitive
+data exposure in logs, difficult debugging
 
 #### Problem Statement
 
@@ -803,12 +825,13 @@ Current logging exposes sensitive data and lacks structure:
 
 ```typescript
 // src/pages/api/newsletter.ts
-console.error('BUTTONDOWN_API_KEY not configured');  // OK but unstructured
-console.error('Buttondown API error:', errorData);    // MAY CONTAIN SECRETS!
+console.error('BUTTONDOWN_API_KEY not configured'); // OK but unstructured
+console.error('Buttondown API error:', errorData); // MAY CONTAIN SECRETS!
 console.error('Newsletter subscription error:', error); // FULL ERROR OBJECT!
 ```
 
 **Problems:**
+
 - ❌ Full error objects logged (may contain sensitive data)
 - ❌ No differentiation between dev and production logging
 - ❌ Unstructured output (hard to parse/search)
@@ -873,9 +896,10 @@ class Logger {
       timestamp: new Date().toISOString(),
       level,
       message,
-      ...(sanitizedContext && Object.keys(sanitizedContext).length > 0 && {
-        context: sanitizedContext
-      }),
+      ...(sanitizedContext &&
+        Object.keys(sanitizedContext).length > 0 && {
+          context: sanitizedContext,
+        }),
       ...(this.isDevelopment && { environment: this.environment }),
     };
 
@@ -913,7 +937,7 @@ class Logger {
       const lowerKey = key.toLowerCase();
 
       // Redact sensitive keys
-      if (sensitiveKeys.some(sk => lowerKey.includes(sk))) {
+      if (sensitiveKeys.some((sk) => lowerKey.includes(sk))) {
         sanitized[key] = '[REDACTED]';
         continue;
       }
@@ -943,6 +967,7 @@ export const logger = new Logger();
 
 ```typescript
 import type { APIRoute } from 'astro';
+
 import { logger } from '~/utils/logger';
 
 export const POST: APIRoute = async ({ request, clientAddress }) => {
@@ -962,18 +987,21 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     }
 
     // Subscribe to Buttondown
-    const buttondownResponse = await fetch('https://api.buttondown.email/v1/subscribers', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Token ${apiKey}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        email: normalizedEmail,
-        tags: source ? [source] : ['website'],
-        referrer_url: source || 'website'
-      }),
-    });
+    const buttondownResponse = await fetch(
+      'https://api.buttondown.email/v1/subscribers',
+      {
+        method: 'POST',
+        headers: {
+          Authorization: `Token ${apiKey}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: normalizedEmail,
+          tags: source ? [source] : ['website'],
+          referrer_url: source || 'website',
+        }),
+      }
+    );
 
     if (buttondownResponse.status === 409) {
       logger.info('Duplicate newsletter subscription attempt', {
@@ -1001,13 +1029,15 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     });
 
     return new Response(/* ... */);
-
   } catch (error) {
     logger.error('Newsletter subscription error', {
-      error: error instanceof Error ? {
-        message: error.message,
-        name: error.name,
-      } : 'Unknown error',
+      error:
+        error instanceof Error
+          ? {
+              message: error.message,
+              name: error.name,
+            }
+          : 'Unknown error',
       // Stack trace only in development (handled by logger)
     });
 
@@ -1021,7 +1051,8 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
 **Create:** `tests/utils/logger.test.ts`
 
 ```typescript
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+
 import { logger } from '~/utils/logger';
 
 describe('Logger', () => {
@@ -1075,9 +1106,8 @@ describe('Logger', () => {
 
 ### 🟡 ITEM-005: Fix Astro Output Configuration
 
-**Priority:** MEDIUM
-**Estimated Time:** 30 minutes
-**Risk if not fixed:** Configuration confusion, potential deployment issues
+**Priority:** MEDIUM **Estimated Time:** 30 minutes **Risk if not fixed:**
+Configuration confusion, potential deployment issues
 
 #### Problem Statement
 
@@ -1086,17 +1116,19 @@ Configuration mismatch between Astro config and API route:
 ```javascript
 // astro.config.mjs
 export default defineConfig({
-  output: 'static',  // Pure static site
+  output: 'static', // Pure static site
   // No adapter configured!
 });
 
 // src/pages/api/newsletter.ts
-export const prerender = false;  // Requires SSR!
+export const prerender = false; // Requires SSR!
 ```
 
 The Cloudflare adapter is imported but not used:
+
 ```javascript
 import cloudflare from '@astrojs/cloudflare';
+
 // But NOT using: adapter: cloudflare()
 ```
 
@@ -1106,15 +1138,16 @@ import cloudflare from '@astrojs/cloudflare';
 
 ```javascript
 // @ts-check
-import { defineConfig } from 'astro/config';
-import react from '@astrojs/react';
-import tailwind from '@astrojs/tailwind';
-import mdx from '@astrojs/mdx';
 import cloudflare from '@astrojs/cloudflare';
+import mdx from '@astrojs/mdx';
+import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
-import remarkGfm from 'remark-gfm';
+import tailwind from '@astrojs/tailwind';
+import { defineConfig } from 'astro/config';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypePrettyCode from 'rehype-pretty-code';
+import remarkGfm from 'remark-gfm';
+
 import rehypeCloudinaryImages from './src/utils/rehype-cloudinary-images.ts';
 
 // https://astro.build/config
@@ -1147,28 +1180,30 @@ export default defineConfig({
           theme: 'github-dark',
           keepBackground: false,
           tokensMap: {
-            fn: 'entity.name.function'
-          }
-        }
-      ]
-    ]
+            fn: 'entity.name.function',
+          },
+        },
+      ],
+    ],
   },
   vite: {
     resolve: {
       alias: {
-        '~': '/src'
-      }
-    }
-  }
+        '~': '/src',
+      },
+    },
+  },
 });
 ```
 
 **Key Changes:**
+
 1. `output: 'static'` → `output: 'hybrid'`
 2. Added `adapter: cloudflare()` configuration
 3. Specified `mode: 'directory'` for Cloudflare Pages
 
 **Why "hybrid" mode?**
+
 - Static pages are pre-rendered at build time (fast!)
 - API routes run server-side on Cloudflare Pages Functions
 - Best of both worlds: fast static content + dynamic API
@@ -1209,13 +1244,13 @@ npm run preview
 
 ### 🟢 ITEM-006: Environment Variable Cleanup
 
-**Priority:** LOW
-**Estimated Time:** 15 minutes
-**Risk if not fixed:** Configuration confusion
+**Priority:** LOW **Estimated Time:** 15 minutes **Risk if not fixed:**
+Configuration confusion
 
 #### Problem Statement
 
-`.env.example` references `SESSION_SECRET` but it's not used anywhere in the codebase.
+`.env.example` references `SESSION_SECRET` but it's not used anywhere in the
+codebase.
 
 #### Solution
 
@@ -1253,13 +1288,13 @@ git grep -i "SESSION_SECRET" src/
 
 ### 🟢 ITEM-007: Update Non-Security Dependencies
 
-**Priority:** LOW
-**Estimated Time:** 15 minutes
-**Risk if not fixed:** Missing features, potential compatibility issues
+**Priority:** LOW **Estimated Time:** 15 minutes **Risk if not fixed:** Missing
+features, potential compatibility issues
 
 #### Problem Statement
 
 Some dependencies are outdated (non-security):
+
 - `@mantine/hooks`: 7.4.2 → 8.3.2
 - `@types/react`: 18.2.20 → 19.2.0
 - `@types/react-dom`: 18.2.7 → 19.2.0
@@ -1285,6 +1320,7 @@ npm test
 #### Testing
 
 After each update:
+
 ```bash
 npm run typecheck  # Check for type errors
 npm run build      # Verify build works
@@ -1306,6 +1342,7 @@ npm test           # Run test suite
 ### Week 1: Critical Items
 
 #### Day 1 (2 hours)
+
 - [ ] **Morning:** ITEM-001 - Security Headers
   - Update `public/_headers`
   - Deploy to preview
@@ -1318,6 +1355,7 @@ npm test           # Run test suite
   - If app-level: Implement rate-limiter.ts
 
 #### Day 2 (2 hours)
+
 - [ ] **Morning:** ITEM-002 - Rate Limiting (Part 2)
   - Update API route
   - Update frontend error handling
@@ -1330,6 +1368,7 @@ npm test           # Run test suite
   - Write tests
 
 #### Day 3 (2 hours)
+
 - [ ] **Morning:** ITEM-004 - Structured Logging
   - Create logger.ts utility
   - Update newsletter API
@@ -1342,6 +1381,7 @@ npm test           # Run test suite
   - Final testing
 
 #### Day 4 (1 hour)
+
 - [ ] **Production Deployment**
   - Deploy all changes to production
   - Monitor for issues
@@ -1352,21 +1392,25 @@ npm test           # Run test suite
 ### Success Checkpoints
 
 **After Day 1:**
+
 - ✅ Security headers live in production
 - ✅ CSP evaluator shows A+ score
 - ✅ All functionality working
 
 **After Day 2:**
+
 - ✅ Rate limiting active and tested
 - ✅ Email validation strengthened
 - ✅ Zero invalid subscriptions
 
 **After Day 3:**
+
 - ✅ Structured logging implemented
 - ✅ Astro config corrected
 - ✅ Configuration cleaned up
 
 **After Day 4:**
+
 - ✅ All items deployed to production
 - ✅ Zero security vulnerabilities
 - ✅ Monitoring active
@@ -1378,6 +1422,7 @@ npm test           # Run test suite
 ### 7.1 Pre-Deployment Testing
 
 **Security Headers Validation:**
+
 ```bash
 # Local testing (preview)
 curl -I https://preview.benjamincharity.com
@@ -1391,12 +1436,14 @@ curl -I https://preview.benjamincharity.com
 ```
 
 **CSP Validation:**
+
 1. Visit https://csp-evaluator.withgoogle.com/
 2. Paste CSP policy
 3. Verify no critical issues
 4. Target: "No issues found" or minor warnings only
 
 **Rate Limiting Test:**
+
 ```bash
 # Automated rate limit test
 for i in {1..10}; do
@@ -1412,6 +1459,7 @@ done
 ```
 
 **Email Validation Test:**
+
 ```bash
 # Test invalid emails
 curl -X POST https://your-site.com/api/newsletter \
@@ -1423,6 +1471,7 @@ curl -X POST https://your-site.com/api/newsletter \
 ```
 
 **Logging Test:**
+
 ```bash
 # Trigger error in production
 # Check Cloudflare Pages logs
@@ -1436,6 +1485,7 @@ curl -X POST https://your-site.com/api/newsletter \
 ### 7.2 Regression Testing
 
 **Functionality Checklist:**
+
 - [ ] Home page loads correctly
 - [ ] Article pages render with images
 - [ ] Newsletter form works (valid submission)
@@ -1450,6 +1500,7 @@ curl -X POST https://your-site.com/api/newsletter \
 - [ ] Sitemap generates
 
 **Browser Compatibility:**
+
 - [ ] Chrome (latest)
 - [ ] Firefox (latest)
 - [ ] Safari (latest)
@@ -1460,6 +1511,7 @@ curl -X POST https://your-site.com/api/newsletter \
 ### 7.3 Performance Testing
 
 **Lighthouse Audit:**
+
 ```bash
 # Run Lighthouse
 npx lighthouse https://www.benjamincharity.com --view
@@ -1472,6 +1524,7 @@ npx lighthouse https://www.benjamincharity.com --view
 ```
 
 **Core Web Vitals:**
+
 - LCP (Largest Contentful Paint): < 2.5s
 - FID (First Input Delay): < 100ms
 - CLS (Cumulative Layout Shift): < 0.1
@@ -1479,13 +1532,16 @@ npx lighthouse https://www.benjamincharity.com --view
 ### 7.4 Security Testing
 
 **External Security Scans:**
+
 1. **securityheaders.com**
+
    ```
    https://securityheaders.com/?q=benjamincharity.com
    Target: A+ rating
    ```
 
 2. **Mozilla Observatory**
+
    ```
    https://observatory.mozilla.org/analyze/benjamincharity.com
    Target: A+ rating
@@ -1498,6 +1554,7 @@ npx lighthouse https://www.benjamincharity.com --view
    ```
 
 **Penetration Testing (Manual):**
+
 - [ ] XSS attempts (script injection in newsletter form)
 - [ ] CSRF attempts (cross-origin form submission)
 - [ ] Rate limit bypass attempts
@@ -1510,33 +1567,34 @@ npx lighthouse https://www.benjamincharity.com --view
 
 ### 8.1 Before Implementation
 
-| Metric | Current State |
-|--------|---------------|
-| Security Vulnerabilities | 8 (2 High, 4 Medium, 2 Low) |
-| Security Headers | 0/7 critical headers |
-| CSP | Not implemented |
-| Rate Limiting | None |
-| Email Validation | Basic (only checks for @) |
-| Logging | Unstructured, may expose secrets |
-| securityheaders.com | F rating (estimated) |
-| npm audit (production) | 2 moderate (esbuild/vite) |
+| Metric                   | Current State                    |
+| ------------------------ | -------------------------------- |
+| Security Vulnerabilities | 8 (2 High, 4 Medium, 2 Low)      |
+| Security Headers         | 0/7 critical headers             |
+| CSP                      | Not implemented                  |
+| Rate Limiting            | None                             |
+| Email Validation         | Basic (only checks for @)        |
+| Logging                  | Unstructured, may expose secrets |
+| securityheaders.com      | F rating (estimated)             |
+| npm audit (production)   | 2 moderate (esbuild/vite)        |
 
 ### 8.2 After Implementation
 
-| Metric | Target State |
-|--------|--------------|
-| Security Vulnerabilities | 0 high/medium, 0 low |
-| Security Headers | 7/7 implemented |
-| CSP | Comprehensive policy, 0 violations |
-| Rate Limiting | Active (5 req/min) |
-| Email Validation | RFC 5322 compliant |
-| Logging | Structured, sanitized |
-| securityheaders.com | A+ rating |
-| npm audit (production) | 0 vulnerabilities |
+| Metric                   | Target State                       |
+| ------------------------ | ---------------------------------- |
+| Security Vulnerabilities | 0 high/medium, 0 low               |
+| Security Headers         | 7/7 implemented                    |
+| CSP                      | Comprehensive policy, 0 violations |
+| Rate Limiting            | Active (5 req/min)                 |
+| Email Validation         | RFC 5322 compliant                 |
+| Logging                  | Structured, sanitized              |
+| securityheaders.com      | A+ rating                          |
+| npm audit (production)   | 0 vulnerabilities                  |
 
 ### 8.3 Operational Metrics (Post-Deployment)
 
 **Week 1 Monitoring:**
+
 - CSP violation rate: < 0.1%
 - Rate limit trigger rate: < 1%
 - Newsletter API error rate: < 0.5%
@@ -1545,6 +1603,7 @@ npx lighthouse https://www.benjamincharity.com --view
 - User-reported issues: 0
 
 **Month 1 Goals:**
+
 - Zero security incidents
 - Zero false-positive rate limit blocks
 - Maintained Lighthouse scores
@@ -1557,6 +1616,7 @@ npx lighthouse https://www.benjamincharity.com --view
 ### Immediate Rollback Procedures
 
 **If CSP breaks functionality:**
+
 ```nginx
 # Option 1: Disable CSP only
 # Edit public/_headers, comment out CSP line:
@@ -1567,6 +1627,7 @@ npx lighthouse https://www.benjamincharity.com --view
 ```
 
 **If rate limiting blocks legitimate users:**
+
 ```nginx
 # Cloudflare Dashboard:
 # 1. Navigate to: Security → WAF → Rate limiting rules
@@ -1579,6 +1640,7 @@ npx lighthouse https://www.benjamincharity.com --view
 ```
 
 **If email validation is too strict:**
+
 ```typescript
 // src/pages/api/newsletter.ts
 // Temporarily revert to basic validation:
@@ -1588,6 +1650,7 @@ if (!email || !email.includes('@') || email.length > 254) {
 ```
 
 **Full Rollback (Nuclear Option):**
+
 ```bash
 # Revert to previous Git commit
 git log --oneline  # Find commit before security changes
@@ -1600,6 +1663,7 @@ git push origin main
 ### Rollback Decision Criteria
 
 **Trigger rollback if:**
+
 - Critical functionality broken (newsletter, images, fonts)
 - CSP violations prevent normal usage
 - Rate limiting blocks > 5% of traffic
@@ -1607,6 +1671,7 @@ git push origin main
 - Page load time increases > 20%
 
 **Do NOT rollback for:**
+
 - Minor CSP violations (< 0.1%)
 - Individual rate limit triggers (expected)
 - Non-critical console warnings
@@ -1634,15 +1699,15 @@ git push origin main
 
 ## 10. Risk Assessment
 
-| Risk | Likelihood | Impact | Mitigation | Contingency |
-|------|-----------|--------|------------|-------------|
-| CSP breaks Google Fonts | Medium | High | Test in preview; gradual rollout | Rollback CSP only |
-| Rate limiting blocks legitimate users | Low | Medium | Start with generous limits (5/min) | Adjust limits in Cloudflare |
-| Email validation too strict | Low | Medium | Test with edge cases; user feedback | Temporarily relax validation |
-| Performance regression | Low | Medium | Performance testing before deploy | Optimize or rollback |
-| Cloudflare Pages deployment delay | Medium | Low | Deploy during low-traffic hours | Manual retry |
-| Dependency conflicts | Low | Medium | Test all updates individually | Revert specific dependency |
-| Logger breaks in production | Low | High | Test prod mode locally | Fallback to console.error |
+| Risk                                  | Likelihood | Impact | Mitigation                          | Contingency                  |
+| ------------------------------------- | ---------- | ------ | ----------------------------------- | ---------------------------- |
+| CSP breaks Google Fonts               | Medium     | High   | Test in preview; gradual rollout    | Rollback CSP only            |
+| Rate limiting blocks legitimate users | Low        | Medium | Start with generous limits (5/min)  | Adjust limits in Cloudflare  |
+| Email validation too strict           | Low        | Medium | Test with edge cases; user feedback | Temporarily relax validation |
+| Performance regression                | Low        | Medium | Performance testing before deploy   | Optimize or rollback         |
+| Cloudflare Pages deployment delay     | Medium     | Low    | Deploy during low-traffic hours     | Manual retry                 |
+| Dependency conflicts                  | Low        | Medium | Test all updates individually       | Revert specific dependency   |
+| Logger breaks in production           | Low        | High   | Test prod mode locally              | Fallback to console.error    |
 
 ---
 
@@ -1651,26 +1716,31 @@ git push origin main
 ### Internal Communication
 
 **Before Implementation:**
+
 - [ ] Review PRD with team
 - [ ] Assign tasks
 - [ ] Set deployment window
 - [ ] Prepare rollback plan
 
 **During Implementation:**
+
 - [ ] Daily standup updates
 - [ ] Share preview links for testing
 - [ ] Document any blockers
 
 **After Deployment:**
+
 - [ ] Announce completion
 - [ ] Share monitoring dashboard
 - [ ] Document lessons learned
 
 ### External Communication
 
-**Not required** - These are backend security improvements with no user-facing changes.
+**Not required** - These are backend security improvements with no user-facing
+changes.
 
 **If issues occur:**
+
 - Post status update if newsletter is down > 5 minutes
 - Email subscribers if data breach suspected (extremely unlikely)
 
@@ -1681,6 +1751,7 @@ git push origin main
 ### Cloudflare Analytics
 
 **Metrics to monitor:**
+
 1. **WAF Events** (Rate limiting triggers)
    - Location: Security → Overview → WAF Events
    - Alert if: > 100 blocks/hour
@@ -1696,6 +1767,7 @@ git push origin main
 ### Application Metrics
 
 **Newsletter API:**
+
 ```typescript
 // Track in logger:
 logger.info('Newsletter metrics', {
@@ -1707,6 +1779,7 @@ logger.info('Newsletter metrics', {
 ```
 
 **CSP Violations:**
+
 ```javascript
 // Add CSP violation reporting (future enhancement)
 // Add to CSP header:
@@ -1715,14 +1788,14 @@ logger.info('Newsletter metrics', {
 
 ### Alert Thresholds
 
-| Metric | Warning | Critical |
-|--------|---------|----------|
-| Rate limit blocks | > 50/hour | > 200/hour |
-| Newsletter API errors | > 1% | > 5% |
-| CSP violations | > 10/hour | > 100/hour |
-| Page load time | > 3s | > 5s |
-| 4xx error rate | > 2% | > 10% |
-| 5xx error rate | > 0.1% | > 1% |
+| Metric                | Warning   | Critical   |
+| --------------------- | --------- | ---------- |
+| Rate limit blocks     | > 50/hour | > 200/hour |
+| Newsletter API errors | > 1%      | > 5%       |
+| CSP violations        | > 10/hour | > 100/hour |
+| Page load time        | > 3s      | > 5s       |
+| 4xx error rate        | > 2%      | > 10%      |
+| 5xx error rate        | > 0.1%    | > 1%       |
 
 ---
 
@@ -1749,6 +1822,7 @@ logger.info('Newsletter metrics', {
 ### Continuous Improvement
 
 **Future Enhancements (Post-MVP):**
+
 1. Implement nonce-based CSP (eliminate 'unsafe-inline')
 2. Add CSP violation reporting endpoint
 3. Implement distributed rate limiting (Cloudflare KV)
@@ -1761,11 +1835,11 @@ logger.info('Newsletter metrics', {
 
 ## 14. Sign-off & Approval
 
-| Role | Name | Approval | Date |
-|------|------|----------|------|
-| Engineering Lead | | ☐ Approved ☐ Changes Requested | |
-| Product Owner | | ☐ Approved ☐ Changes Requested | |
-| DevOps/Security | | ☐ Approved ☐ Changes Requested | |
+| Role             | Name | Approval                       | Date |
+| ---------------- | ---- | ------------------------------ | ---- |
+| Engineering Lead |      | ☐ Approved ☐ Changes Requested |      |
+| Product Owner    |      | ☐ Approved ☐ Changes Requested |      |
+| DevOps/Security  |      | ☐ Approved ☐ Changes Requested |      |
 
 ---
 
@@ -1774,19 +1848,23 @@ logger.info('Newsletter metrics', {
 ### Appendix A: Security Resources
 
 **CSP Resources:**
+
 - [CSP Evaluator](https://csp-evaluator.withgoogle.com/)
 - [MDN CSP Documentation](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP)
 - [CSP Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Content_Security_Policy_Cheat_Sheet.html)
 
 **Rate Limiting:**
+
 - [Cloudflare Rate Limiting Docs](https://developers.cloudflare.com/waf/rate-limiting-rules/)
 - [OWASP API Security](https://owasp.org/www-project-api-security/)
 
 **Email Validation:**
+
 - [RFC 5322 Email Spec](https://tools.ietf.org/html/rfc5322)
 - [validator.js Documentation](https://github.com/validatorjs/validator.js)
 
 **Security Headers:**
+
 - [OWASP Secure Headers Project](https://owasp.org/www-project-secure-headers/)
 - [securityheaders.com](https://securityheaders.com/)
 - [Mozilla Observatory](https://observatory.mozilla.org/)
@@ -1794,6 +1872,7 @@ logger.info('Newsletter metrics', {
 ### Appendix B: Testing Scripts
 
 **Security Header Test Script:**
+
 ```bash
 #!/bin/bash
 # test-security-headers.sh
@@ -1823,6 +1902,7 @@ done
 ```
 
 **Rate Limit Test Script:**
+
 ```bash
 #!/bin/bash
 # test-rate-limit.sh
@@ -1846,6 +1926,7 @@ done
 ### Appendix C: File Checklist
 
 **Files to Create:**
+
 - [ ] `src/utils/email-validator.ts`
 - [ ] `src/utils/logger.ts`
 - [ ] `src/utils/rate-limiter.ts` (if app-level rate limiting)
@@ -1854,6 +1935,7 @@ done
 - [ ] `tests/api/rate-limit.test.ts`
 
 **Files to Modify:**
+
 - [ ] `public/_headers`
 - [ ] `astro.config.mjs`
 - [ ] `src/pages/api/newsletter.ts`
@@ -1863,11 +1945,10 @@ done
 - [ ] `package.json` (via npm install)
 
 **Files to Delete:**
+
 - None (all are configuration cleanups)
 
 ---
 
-**Document Version:** 2.0 (Complete)
-**Last Updated:** 2025-10-02
-**Next Review:** Post-implementation (1 week)
-**Status:** Ready for Implementation ✅
+**Document Version:** 2.0 (Complete) **Last Updated:** 2025-10-02 **Next
+Review:** Post-implementation (1 week) **Status:** Ready for Implementation ✅

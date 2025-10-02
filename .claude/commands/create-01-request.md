@@ -1,16 +1,21 @@
 ---
-description: Start the idea refinement process for developing or refining a project/feature concept
+description:
+  Start the idea refinement process for developing or refining a project/feature
+  concept
 ---
 
 # Idea Refinement
 
-Your task is to **collaborate on developing or refining a project or feature concept**. This prompt solicits iterative feedback to expand a basic idea into a comprehensive, well-structured request.
+Your task is to **collaborate on developing or refining a project or feature
+concept**. This prompt solicits iterative feedback to expand a basic idea into a
+comprehensive, well-structured request.
 
 ---
 
 ## **Required Inputs**
 
-1. **PROJECT_REQUEST**: A short description of the project or feature's initial concept.
+1. **PROJECT_REQUEST**: A short description of the project or feature's initial
+   concept.
 
 ---
 
@@ -30,9 +35,12 @@ This ensures you iterate toward a final, clear "Project Request" doc.
 ## **Detailed Process Outline**
 
 1. **User Provides Concept**: User supplies the idea.
-2. **AI Gathers Clarifications**: The AI asks targeted questions to flesh out missing details, such as feature scope or user needs.
-3. **AI Updates the Specification**: After each round of questions/answers, the AI returns a new version of the Markdown-based request format.
-4. **Repeat** until the request is complete, well-defined, and you are satisfied.
+2. **AI Gathers Clarifications**: The AI asks targeted questions to flesh out
+   missing details, such as feature scope or user needs.
+3. **AI Updates the Specification**: After each round of questions/answers, the
+   AI returns a new version of the Markdown-based request format.
+4. **Repeat** until the request is complete, well-defined, and you are
+   satisfied.
 
 ---
 
@@ -68,4 +76,5 @@ This ensures you iterate toward a final, clear "Project Request" doc.
 
 ## **Process**
 
-Please provide your initial project or feature concept, and I'll help refine it through targeted questions and iterative specification development.
+Please provide your initial project or feature concept, and I'll help refine it
+through targeted questions and iterative specification development.

@@ -1,12 +1,13 @@
 # File Move Operations Contract
 
-**Contract**: Safe File Movement with Git History Preservation
-**Purpose**: Define procedures for moving legacy files while preserving git history
+**Contract**: Safe File Movement with Git History Preservation **Purpose**:
+Define procedures for moving legacy files while preserving git history
 **Execution**: Used for each batch of file move operations
 
 ## File Movement Procedures
 
 ### Git Move Operations
+
 ```bash
 # Contract: All file moves must preserve git history
 git mv source_file destination_file
@@ -18,6 +19,7 @@ git commit -m "move: relocate [file] to legacy archive"
 ```
 
 ### Batch Move Operations
+
 ```bash
 # Contract: Related files moved together in logical batches
 # Batch 1: Remix Application Files
@@ -37,6 +39,7 @@ git commit -m "move: relocate Remix configuration files to legacy archive"
 ```
 
 ### Directory Structure Creation
+
 ```bash
 # Contract: Create organized directory structure in archive
 mkdir -p legacy-remix/{app,config,deployment,testing}
@@ -49,6 +52,7 @@ mkdir -p legacy-remix/{app,config,deployment,testing}
 ## Move Validation Procedures
 
 ### Pre-Move Validation
+
 ```bash
 # Contract: Verify source files exist and are Git-tracked
 test -f source_file || exit 1
@@ -59,6 +63,7 @@ git ls-files source_file | grep -q source_file || exit 1
 ```
 
 ### Post-Move Validation
+
 ```bash
 # Contract: Verify file successfully moved with history
 test -f destination_file || exit 1
@@ -70,6 +75,7 @@ git log --follow --oneline destination_file | head -5
 ```
 
 ### Build Validation After Move
+
 ```bash
 # Contract: System must build successfully after each move batch
 pnpm build
@@ -82,6 +88,7 @@ pnpm build
 ## File Classification and Move Targets
 
 ### Remix Application Files
+
 ```bash
 # Contract: Move entire app directory structure
 git mv app legacy-remix/app
@@ -92,6 +99,7 @@ git mv app legacy-remix/app
 ```
 
 ### Configuration Files
+
 ```bash
 # Contract: Move framework-specific configuration
 git mv remix.config.js legacy-remix/config/
@@ -104,6 +112,7 @@ git mv server.js legacy-remix/config/
 ```
 
 ### Deployment Files
+
 ```bash
 # Contract: Move platform-specific deployment configs
 git mv vercel.json legacy-remix/deployment/
@@ -115,6 +124,7 @@ git mv .node-version legacy-remix/deployment/
 ```
 
 ### Test Configuration
+
 ```bash
 # Contract: Move testing framework configuration
 git mv jest.config.ts legacy-remix/testing/
@@ -128,6 +138,7 @@ git mv babel.config.js legacy-remix/testing/
 ## Package.json Special Handling
 
 ### Dependency Cleanup
+
 ```bash
 # Contract: Remove legacy dependencies while preserving shared ones
 cp package.json legacy-remix/package-backup.json
@@ -141,6 +152,7 @@ cp package.json legacy-remix/package-backup.json
 ```
 
 ### Scripts Cleanup
+
 ```bash
 # Contract: Update npm scripts to remove Remix commands
 # Remove: build:remix, dev:remix, etc.
@@ -154,6 +166,7 @@ cp package.json legacy-remix/package-backup.json
 ## Error Handling and Rollback
 
 ### Move Operation Failures
+
 ```bash
 # Contract: Handle file move failures gracefully
 if ! git mv source_file destination_file; then
@@ -169,6 +182,7 @@ fi
 ```
 
 ### Build Failure Response
+
 ```bash
 # Contract: Rollback on build failures
 if ! pnpm build; then
@@ -185,6 +199,7 @@ fi
 ```
 
 ### Partial Move Recovery
+
 ```bash
 # Contract: Handle partial move operations
 # If some files in batch moved successfully but others failed:
@@ -200,6 +215,7 @@ fi
 ## Move Operation Logging
 
 ### Operation Documentation
+
 ```bash
 # Contract: Document each move operation
 cat > move_log.md << EOF
@@ -218,6 +234,7 @@ EOF
 ```
 
 ### Progress Tracking
+
 ```json
 {
   "move_operations": [
@@ -238,6 +255,7 @@ EOF
 ## Success Criteria
 
 ### Individual Move Success
+
 - [ ] Source file successfully moved
 - [ ] Git history preserved through move
 - [ ] Destination directory properly organized
@@ -245,6 +263,7 @@ EOF
 - [ ] No broken imports or references
 
 ### Batch Move Success
+
 - [ ] All files in batch moved successfully
 - [ ] Logical organization maintained
 - [ ] Single commit per batch
@@ -252,6 +271,7 @@ EOF
 - [ ] Progress documented
 
 ### Overall Move Success
+
 - [ ] All legacy files relocated
 - [ ] Archive properly organized
 - [ ] Git history preserved for all files

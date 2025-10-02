@@ -1,9 +1,12 @@
 # Quickstart: Update README and Prepare Cloudflare Deployment
 
 ## Objective
-Update README documentation for Astro stack and configure Cloudflare Pages deployment with GitHub Actions CI pipeline.
+
+Update README documentation for Astro stack and configure Cloudflare Pages
+deployment with GitHub Actions CI pipeline.
 
 ## Prerequisites
+
 - [ ] GitHub repository access
 - [ ] Cloudflare account
 - [ ] Node.js 20+ and pnpm 9+ installed locally
@@ -11,6 +14,7 @@ Update README documentation for Astro stack and configure Cloudflare Pages deplo
 ## Quick Validation Steps
 
 ### Step 1: Create Documentation Structure
+
 ```bash
 # 1. Clone the repository
 git clone <repo-url>
@@ -43,6 +47,7 @@ npx markdownlint README.md docs/*.md
 **Expected Result**: Minimal README with comprehensive docs directory
 
 ### Step 2: Create CI Workflow
+
 ```bash
 # 1. Create workflow directory
 mkdir -p .github/workflows
@@ -61,6 +66,7 @@ act push --dry-run
 **Expected Result**: Valid CI workflow file in place
 
 ### Step 3: Test CI Pipeline
+
 ```bash
 # 1. Commit changes
 git add .
@@ -79,6 +85,7 @@ gh run list --workflow=ci.yml
 **Expected Result**: CI pipeline runs successfully with all tests passing
 
 ### Step 4: Configure Cloudflare Pages
+
 ```bash
 # Using Cloudflare Dashboard:
 
@@ -102,6 +109,7 @@ npx wrangler pages project create bc-com \
 **Expected Result**: Cloudflare Pages project created and connected
 
 ### Step 5: Verify Deployment
+
 ```bash
 # 1. Merge to main branch
 git checkout main
@@ -123,18 +131,21 @@ curl -I https://bc-com.pages.dev
 ## Success Criteria Checklist
 
 ### Documentation
+
 - [ ] README includes all required sections
 - [ ] All commands documented and tested
 - [ ] Project structure accurately described
 - [ ] Deployment instructions clear and complete
 
 ### CI/CD Pipeline
+
 - [ ] GitHub Actions workflow created
 - [ ] All tests run on push
 - [ ] E2E tests run on PRs only
 - [ ] Build succeeds without errors
 
 ### Cloudflare Deployment
+
 - [ ] Cloudflare Pages project created
 - [ ] GitHub repository connected
 - [ ] Auto-deploy on push to main works
@@ -142,6 +153,7 @@ curl -I https://bc-com.pages.dev
 - [ ] Deployment badge displays status
 
 ### Validation
+
 - [ ] Site loads at Cloudflare URL
 - [ ] All features work as expected
 - [ ] Performance metrics maintained
@@ -150,6 +162,7 @@ curl -I https://bc-com.pages.dev
 ## Troubleshooting
 
 ### Issue: CI workflow fails
+
 ```bash
 # Check workflow syntax
 yamllint .github/workflows/ci.yml
@@ -160,6 +173,7 @@ pnpm build
 ```
 
 ### Issue: Cloudflare build fails
+
 ```bash
 # Check build output locally
 pnpm build
@@ -170,6 +184,7 @@ node --version  # Should be 20.x
 ```
 
 ### Issue: Deployment badge not working
+
 ```bash
 # Update badge URL in README
 # Format: ![Deploy](https://img.shields.io/badge/deploy-cloudflare-orange)
@@ -178,6 +193,7 @@ node --version  # Should be 20.x
 ## Rollback Plan
 
 If deployment fails:
+
 1. Cloudflare Pages maintains previous deployment
 2. Use Cloudflare dashboard to rollback
 3. GitHub Actions logs show failure reason
@@ -186,10 +202,12 @@ If deployment fails:
 ## Next Steps
 
 After successful deployment:
+
 1. Remove Vercel configuration files
 2. Update DNS if using custom domain
 3. Configure Cloudflare Web Analytics
 4. Set up deployment notifications
 
 ---
-*Quickstart complete - follow these steps to implement the feature*
+
+_Quickstart complete - follow these steps to implement the feature_

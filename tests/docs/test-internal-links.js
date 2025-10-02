@@ -1,7 +1,7 @@
-import { test, expect } from 'vitest';
-import { readFileSync, existsSync } from 'fs';
-import { join } from 'path';
+import { existsSync, readFileSync } from 'fs';
 import { glob } from 'glob';
+import { join } from 'path';
+import { expect, test } from 'vitest';
 
 const rootDir = process.cwd();
 
@@ -14,7 +14,7 @@ function extractMarkdownLinks(content) {
   while ((match = linkRegex.exec(content)) !== null) {
     links.push({
       text: match[1],
-      href: match[2]
+      href: match[2],
     });
   }
 
@@ -45,7 +45,7 @@ test('All documentation files exist', async () => {
     'docs/deployment.md',
     'docs/architecture.md',
     'docs/testing.md',
-    'docs/contributing.md'
+    'docs/contributing.md',
   ];
 
   for (const file of expectedFiles) {
@@ -60,7 +60,7 @@ test('README.md links to docs directory correctly', () => {
   const links = extractMarkdownLinks(content);
 
   // Should link to docs directory
-  const docsLink = links.find(link => link.href.includes('docs'));
+  const docsLink = links.find((link) => link.href.includes('docs'));
   expect(docsLink).toBeDefined();
 
   // Verify the docs directory exists
@@ -82,8 +82,8 @@ test('docs/README.md navigation links are valid', () => {
   const links = extractMarkdownLinks(content);
 
   // Filter internal documentation links
-  const internalLinks = links.filter(link =>
-    link.href.endsWith('.md') && !link.href.startsWith('http')
+  const internalLinks = links.filter(
+    (link) => link.href.endsWith('.md') && !link.href.startsWith('http')
   );
 
   // Verify each internal link resolves to an existing file
@@ -107,14 +107,18 @@ test('All documentation files have valid internal links', async () => {
     const links = extractMarkdownLinks(content);
 
     // Check internal markdown links
-    const internalLinks = links.filter(link =>
-      link.href.endsWith('.md') && !link.href.startsWith('http')
+    const internalLinks = links.filter(
+      (link) => link.href.endsWith('.md') && !link.href.startsWith('http')
     );
 
     for (const link of internalLinks) {
-      const resolvedPath = resolveRelativePath(join(rootDir, 'docs'), link.href);
+      const resolvedPath = resolveRelativePath(
+        join(rootDir, 'docs'),
+        link.href
+      );
       if (resolvedPath) {
-        expect(existsSync(resolvedPath),
+        expect(
+          existsSync(resolvedPath),
           `Link "${link.text}" -> "${link.href}" in ${docFile} points to non-existent file`
         ).toBe(true);
       }
@@ -135,8 +139,10 @@ test('Cross-references between documentation files are bidirectional', async () 
     const links = extractMarkdownLinks(content);
 
     const internalLinks = links
-      .filter(link => link.href.endsWith('.md') && !link.href.startsWith('http'))
-      .map(link => resolveRelativePath(join(rootDir, 'docs'), link.href))
+      .filter(
+        (link) => link.href.endsWith('.md') && !link.href.startsWith('http')
+      )
+      .map((link) => resolveRelativePath(join(rootDir, 'docs'), link.href))
       .filter(Boolean);
 
     linkMap.set(filePath, internalLinks);
@@ -153,12 +159,13 @@ test('Cross-references between documentation files are bidirectional', async () 
       join(rootDir, 'docs/deployment.md'),
       join(rootDir, 'docs/architecture.md'),
       join(rootDir, 'docs/testing.md'),
-      join(rootDir, 'docs/contributing.md')
+      join(rootDir, 'docs/contributing.md'),
     ];
 
     for (const target of expectedTargets) {
       if (existsSync(target)) {
-        expect(links.includes(target),
+        expect(
+          links.includes(target),
           `docs/README.md should link to ${target.split('/').pop()}`
         ).toBe(true);
       }

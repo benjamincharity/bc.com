@@ -1,13 +1,12 @@
 # Legacy Cleanup Quickstart Guide
 
-**Feature**: Legacy Remix Code Cleanup
-**Date**: 2025-10-01
-**Estimated Time**: 2-3 hours
-**Prerequisites**: Astro migration completed and functional
+**Feature**: Legacy Remix Code Cleanup **Date**: 2025-10-01 **Estimated Time**:
+2-3 hours **Prerequisites**: Astro migration completed and functional
 
 ## Quick Setup (5 minutes)
 
 ### 1. Pre-Flight Check
+
 ```bash
 # Verify Astro is working
 pnpm build
@@ -21,6 +20,7 @@ git checkout 001-migrate-personal-blog
 ```
 
 ### 2. Create Archive Structure
+
 ```bash
 # Set up organized archive directory
 mkdir -p legacy-remix/{app,config,deployment,testing}
@@ -29,6 +29,7 @@ mkdir -p legacy-remix/{app,config,deployment,testing}
 ## Phase 1: Core Application Files (30 minutes)
 
 ### Move Remix App Directory
+
 ```bash
 # Move entire Remix application
 git mv app legacy-remix/app
@@ -53,6 +54,7 @@ pnpm build
 ## Phase 2: Configuration Files (20 minutes)
 
 ### Move Remix Configuration
+
 ```bash
 # Move Remix build and server configs
 git mv remix.config.js legacy-remix/config/ 2>/dev/null || echo "remix.config.js not found"
@@ -75,6 +77,7 @@ pnpm build
 ```
 
 ### Move Test Configuration
+
 ```bash
 # Move Jest and Babel configs (if they exist)
 git mv jest.config.ts legacy-remix/testing/ 2>/dev/null || echo "jest.config.ts not found"
@@ -97,6 +100,7 @@ pnpm build
 ## Phase 3: Deployment Files (15 minutes)
 
 ### Move Vercel Configuration
+
 ```bash
 # Move Vercel-specific files
 git mv vercel.json legacy-remix/deployment/ 2>/dev/null || echo "vercel.json not found"
@@ -121,6 +125,7 @@ pnpm build
 ## Phase 4: Package Cleanup (30 minutes)
 
 ### Backup and Clean Dependencies
+
 ```bash
 # Backup original package.json
 cp package.json legacy-remix/package-backup.json
@@ -152,6 +157,7 @@ Co-Authored-By: Happy <yesreply@happy.engineering>"
 ## Phase 5: Final Verification (20 minutes)
 
 ### Complete System Test
+
 ```bash
 # Full verification suite
 echo "=== Pre-deployment verification ==="
@@ -179,7 +185,8 @@ echo "✓ All verification checks passed"
 ```
 
 ### Document Archive Structure
-```bash
+
+````bash
 # Create archive documentation
 cat > legacy-remix/README.md << 'EOF'
 # Legacy Remix Code Archive
@@ -209,21 +216,23 @@ Migration Branch: 001-migrate-personal-blog
 This entire directory can be safely removed once confident in the Astro implementation:
 ```bash
 rm -rf legacy-remix/
-```
+````
+
 EOF
 
-git add legacy-remix/README.md
-git commit -m "docs: add documentation for legacy code archive
+git add legacy-remix/README.md git commit -m "docs: add documentation for legacy
+code archive
 
 Added README.md to legacy-remix/ directory explaining:
+
 - Archive contents and structure
 - Purpose and migration context
 - Safe removal instructions
 
-🤖 Generated with Claude Code via Happy
-Co-Authored-By: Claude <noreply@anthropic.com>
-Co-Authored-By: Happy <yesreply@happy.engineering>"
-```
+🤖 Generated with Claude Code via Happy Co-Authored-By: Claude
+<noreply@anthropic.com> Co-Authored-By: Happy <yesreply@happy.engineering>"
+
+````
 
 ## Troubleshooting
 
@@ -237,9 +246,10 @@ find src/ -name "*.astro" -o -name "*.ts" -o -name "*.tsx" | xargs grep -l "from
 
 # If found, update imports or rollback
 git reset --hard HEAD~1
-```
+````
 
 ### Missing Dependencies
+
 ```bash
 # If dependencies are missing
 pnpm install
@@ -250,6 +260,7 @@ pnpm install
 ```
 
 ### Performance Issues
+
 ```bash
 # Check bundle size
 du -sh dist/
@@ -281,6 +292,7 @@ time pnpm build
 ## Rollback Plan
 
 If issues arise, restore from backup:
+
 ```bash
 git checkout legacy-cleanup-backup
 git branch -D 001-migrate-personal-blog
@@ -297,4 +309,5 @@ git checkout -b 001-migrate-personal-blog legacy-cleanup-backup
 
 **Total**: ~2 hours (plus testing time)
 
-This quickstart provides a safe, incremental approach to cleaning up legacy code while maintaining the ability to reference or restore files if needed.
+This quickstart provides a safe, incremental approach to cleaning up legacy code
+while maintaining the ability to reference or restore files if needed.

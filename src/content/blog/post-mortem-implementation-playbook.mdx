@@ -14,25 +14,35 @@ readingTime: 10
 draft: true
 ---
 
-
-
-> <mark>This is part of the Post-Mortem series.</mark> Read the [Executive Brief](/articles/post-mortem-executive-brief) (7 min), the [Field Guide](/articles/post-mortem-field-guide) (20 min), or the [Definitive Guide](/articles/post-mortem-definitive-guide) (60 min, canonical).
+> <mark>This is part of the Post-Mortem series.</mark> Read the [Executive
+> Brief](/articles/post-mortem-executive-brief) (7 min), the [Field
+> Guide](/articles/post-mortem-field-guide) (20 min), or the [Definitive
+> Guide](/articles/post-mortem-definitive-guide) (60 min, canonical).
 
 ## D0 to D+14: What Great Teams Actually Do
 
-Improving your post-mortem process doesn't happen by accident: it requires a systematic approach from the moment an incident occurs through long-term organizational learning. Elite teams like Google, Netflix, and Atlassian have refined this into a proven four-phase playbook that spans from immediate incident response through ongoing improvement.
+Improving your post-mortem process doesn't happen by accident: it requires a
+systematic approach from the moment an incident occurs through long-term
+organizational learning. Elite teams like Google, Netflix, and Atlassian have
+refined this into a proven four-phase playbook that spans from immediate
+incident response through ongoing improvement.
 
-This isn't just about writing better reports. It's about creating a closed-loop system where every incident becomes fuel for making your systems more resilient.
+This isn't just about writing better reports. It's about creating a closed-loop
+system where every incident becomes fuel for making your systems more resilient.
 
 ![A trail sign with four arrows pointing in different directions.](incident-dive5-phases.webp)
 
 ## Phase 1: Immediate Response (0-48 hours) - Stabilize and Record
 
-The first 48 hours after an incident are critical for both resolution and learning. What you do immediately sets up everything that follows.
+The first 48 hours after an incident are critical for both resolution and
+learning. What you do immediately sets up everything that follows.
 
 ### Speed Matters: The 5-Minute Rule
 
-Elite SRE teams mobilize response within minutes. <mark>Aim to have your on-call engineer respond and assemble a response team within 5 minutes.</mark> This quick engagement can cut downtime significantly: teams that wait 30+ minutes to respond invariably suffer longer MTTR.
+Elite SRE teams mobilize response within minutes. <mark>Aim to have your on-call
+engineer respond and assemble a response team within 5 minutes.</mark> This
+quick engagement can cut downtime significantly: teams that wait 30+ minutes to
+respond invariably suffer longer MTTR.
 
 Prerequisites for speed:
 
@@ -43,7 +53,9 @@ Prerequisites for speed:
 
 ### Communication Cadence: The 15-20 Minute Update Rule
 
-During the incident, establish a rhythm for updates: even if nothing has changed. <mark>Post an update every 15-20 minutes in your public Slack channel or bridge line</mark>, even if it's just "investigating still."
+During the incident, establish a rhythm for updates: even if nothing has
+changed. <mark>Post an update every 15-20 minutes in your public Slack channel
+or bridge line</mark>, even if it's just "investigating still."
 
 Why this matters:
 
@@ -52,22 +64,29 @@ Why this matters:
 - Prevents stakeholder anxiety and speculation
 - Enables responders to focus on resolution instead of fielding questions
 
-As PagerDuty notes, building a communication strategy to update stakeholders enables on-call responders to spend more time resolving the incident.[²](/articles/post-mortem-definitive-guide#user-content-fn-2)
+As PagerDuty notes, building a communication strategy to update stakeholders
+enables on-call responders to spend more time resolving the
+incident.[²](/articles/post-mortem-definitive-guide#user-content-fn-2)
 
 ### Real-Time Logging: Facts First, Analysis Later
 
-As the incident unfolds, <mark>encourage responders to log key events and decisions</mark>: time, action, outcome. Capture this either in a shared document or directly in Slack.
+As the incident unfolds, <mark>encourage responders to log key events and
+decisions</mark>: time, action, outcome. Capture this either in a shared
+document or directly in Slack.
 
 Use blame-neutral language:
 
 - **Good:** "18:42 - Deployment of version 1.2 initiated"
 - **Bad:** "Dev deployed bad code at 18:42"
 
-Google's postmortem guide emphasizes factual timelines to anchor the investigation.[¹⁸](/articles/post-mortem-definitive-guide#user-content-fn-18) <mark>Facts first, analysis later.</mark>
+Google's postmortem guide emphasizes factual timelines to anchor the
+investigation.[¹⁸](/articles/post-mortem-definitive-guide#user-content-fn-18)
+<mark>Facts first, analysis later.</mark>
 
 ### The 48-Hour Draft Rule
 
-While the incident is fresh, get a draft post-mortem started within 48 hours. It doesn't need to be final, but document the basics:
+While the incident is fresh, get a draft post-mortem started within 48 hours. It
+doesn't need to be final, but document the basics:
 
 - Timeline of events
 - Impact assessment
@@ -81,15 +100,21 @@ Why 48 hours matters:
 - Prevents speculation from filling the information void
 - Memory degrades quickly: capture details while they're vivid
 
-Google and other best-in-class organizations often publish postmortems within 24-48 hours of an outage. A senior engineer at Google put it: the longer you wait, the more people fill the void with speculation, which "seldom works in your favor."[¹⁸](/articles/post-mortem-definitive-guide#user-content-fn-18)
+Google and other best-in-class organizations often publish postmortems within
+24-48 hours of an outage. A senior engineer at Google put it: the longer you
+wait, the more people fill the void with speculation, which "seldom works in
+your favor."[¹⁸](/articles/post-mortem-definitive-guide#user-content-fn-18)
 
 ## Phase 2: Deep Analysis (48 hours - 7 days) - Investigate Thoroughly
 
-Once the fire is out and a preliminary document exists, invest time in deeper analysis before finalizing the report.
+Once the fire is out and a preliminary document exists, invest time in deeper
+analysis before finalizing the report.
 
 ### Multidisciplinary Review: Gather All Perspectives
 
-Schedule a post-mortem meeting within a week that includes people from all relevant areas: not just the directly involved engineers. Include QA, support, operations, and anyone else with insight.
+Schedule a post-mortem meeting within a week that includes people from all
+relevant areas: not just the directly involved engineers. Include QA, support,
+operations, and anyone else with insight.
 
 Why diverse perspectives matter:
 
@@ -98,34 +123,50 @@ Why diverse perspectives matter:
 - Support might reveal customer-facing symptoms that weren't obvious
 - Different viewpoints ensure nothing is missed
 
-This is where psychological safety becomes crucial: <mark>the facilitator must set a tone that all questions are welcome and it's a blameless discussion.</mark>
+This is where psychological safety becomes crucial: <mark>the facilitator must
+set a tone that all questions are welcome and it's a blameless
+discussion.</mark>
 
 ### "5 Whys" and Beyond: Systematic Root Cause Analysis
 
 Use structured techniques to get past surface symptoms:
 
 1. **Ask "Why" iteratively** until you uncover process or design flaws
-2. **Counter hindsight bias** by asking "Could we realistically have detected X before? If not, why not?"
+2. **Counter hindsight bias** by asking "Could we realistically have detected X
+   before? If not, why not?"
 3. **Look for systemic patterns** by reviewing past incidents for similarities
-4. **Apply human factors analysis** examining documentation quality, training gaps, and environmental pressures
+4. **Apply human factors analysis** examining documentation quality, training
+   gaps, and environmental pressures
 
-Pattern recognition example: Teams often discover that 3 different incidents all stemmed from similar configuration mistakes, pointing to a tooling deficiency that wouldn't be obvious from any single incident.
+Pattern recognition example: Teams often discover that 3 different incidents all
+stemmed from similar configuration mistakes, pointing to a tooling deficiency
+that wouldn't be obvious from any single incident.
 
-<mark>High-maturity organizations perform periodic incident trend analysis</mark>: Google aggregates postmortems to spot common themes across products.[⁵](/articles/post-mortem-definitive-guide#user-content-fn-5)
+<mark>
+  High-maturity organizations perform periodic incident trend analysis
+</mark>
+: Google aggregates postmortems to spot common themes across
+products.[⁵](/articles/post-mortem-definitive-guide#user-content-fn-5)
 
 ### Human Factors Investigation
 
-Don't just focus on technical root causes. Investigate human and organizational factors:
+Don't just focus on technical root causes. Investigate human and organizational
+factors:
+
 - Was the runbook misleading or incomplete?
 - Did alert fatigue cause warnings to be ignored?
 - Was the engineer new or under pressure?
 - Were procedures tested under realistic conditions?
 
-These factors often point to training needs or process improvements that are just as important as technical fixes.
+These factors often point to training needs or process improvements that are
+just as important as technical fixes.
 
 ### Peer Review and Validation
 
-By day 5-7, have a solid understanding of what went wrong, documented in the post-mortem. Ensure the analysis is reviewed by senior engineers or managers: Google requires peer review of postmortems for completeness.[⁵](/articles/post-mortem-definitive-guide#user-content-fn-5)
+By day 5-7, have a solid understanding of what went wrong, documented in the
+post-mortem. Ensure the analysis is reviewed by senior engineers or managers:
+Google requires peer review of postmortems for
+completeness.[⁵](/articles/post-mortem-definitive-guide#user-content-fn-5)
 
 Review checklist:
 
@@ -140,7 +181,8 @@ With causes identified, decide what to do about them.
 
 ### Brainstorm and Prioritize Actions
 
-The post-mortem team brainstorms specific preventative or corrective actions for each root cause, then prioritizes them using a systematic approach:
+The post-mortem team brainstorms specific preventative or corrective actions for
+each root cause, then prioritizes them using a systematic approach:
 
 Prioritization methods:
 
@@ -157,11 +199,13 @@ Categorize by effort:
 ### Assign Owners and Set Deadlines
 
 As covered in the Action Accountability pillar, every action gets:
+
 - **Individual owner** (with their agreement)
 - **Target completion date** appropriate to scope
 - **Tracking** in your project management system
 
-SLO examples from Atlassian:[¹⁰](/articles/post-mortem-definitive-guide#user-content-fn-10)
+SLO examples from
+Atlassian:[¹⁰](/articles/post-mortem-definitive-guide#user-content-fn-10)
 
 - Priority 1 actions: 4-8 weeks depending on severity
 - Medium actions: 8-12 weeks with milestones
@@ -169,32 +213,43 @@ SLO examples from Atlassian:[¹⁰](/articles/post-mortem-definitive-guide#user-
 
 ### Resource Commitment for Big Changes
 
-Sometimes fixes require significant resources: budget, staffing, or architecture changes. Phase 3 is when you escalate to leadership if needed.
+Sometimes fixes require significant resources: budget, staffing, or architecture
+changes. Phase 3 is when you escalate to leadership if needed.
 
 Make the business case:
+
 - Frame it as preventing similar costly outages
 - Use incident impact data (revenue loss, SLA penalties)
 - Show how investment in prevention pays off
 
-<mark>Companies like Google and Amazon explicitly budget engineering time for post-incident improvements</mark> as part of "keeping the lights on."
+<mark>
+  Companies like Google and Amazon explicitly budget engineering time for
+  post-incident improvements
+</mark>
+as part of "keeping the lights on."
 
 ### Documentation and Communication
 
 Document the action plan clearly in the post-mortem report with a table showing:
+
 - Action description
 - Owner
 - Due date
 - Current status
 
-Also communicate the plan to stakeholders: "We've identified 5 follow-up actions; two are already done, three will be completed by next month, and here's how they'll mitigate the risk."
+Also communicate the plan to stakeholders: "We've identified 5 follow-up
+actions; two are already done, three will be completed by next month, and here's
+how they'll mitigate the risk."
 
 ## Phase 4: Learning Integration (Ongoing) - Make Improvement Continuous
 
-This phase institutionalizes the process so the organization continuously gets safer and more efficient.
+This phase institutionalizes the process so the organization continuously gets
+safer and more efficient.
 
 ### Monthly Tracking and Review
 
-At least once monthly, leadership should review open post-mortem actions. This could be:
+At least once monthly, leadership should review open post-mortem actions. This
+could be:
 
 - A spreadsheet or Linear filter of "all postmortem tickets not done"
 - A 30-minute "post-mortem review" meeting where teams update on open items
@@ -211,11 +266,17 @@ Why regular review matters:
 
 Every quarter, analyze trends across incidents:
 
-- **Categorize root causes:** How many due to deployments? Scaling issues? Third-party outages?
-- **Track improvement metrics:** Are numbers getting better quarter over quarter?
-- **Identify systemic needs:** "Half our incidents this quarter involved microservice A: maybe we need to refactor it"
+- **Categorize root causes:** How many due to deployments? Scaling issues?
+  Third-party outages?
+- **Track improvement metrics:** Are numbers getting better quarter over
+  quarter?
+- **Identify systemic needs:** "Half our incidents this quarter involved
+  microservice A: maybe we need to refactor it"
 
-This is essentially an operations retrospective at a higher level. <mark>Google's SRE organization has working groups that coordinate postmortem efforts and perform cross-incident analysis</mark>.[⁵](/articles/post-mortem-definitive-guide#user-content-fn-5)
+This is essentially an operations retrospective at a higher level.
+<mark>Google's SRE organization has working groups that coordinate postmortem
+efforts and perform cross-incident
+analysis</mark>.[⁵](/articles/post-mortem-definitive-guide#user-content-fn-5)
 
 Pattern recognition tools:
 
@@ -227,9 +288,12 @@ Pattern recognition tools:
 
 Assess the post-mortem process itself annually:
 
-- **Survey the engineering organization:** Do people feel the process is valuable? Safe?
-- **Review completion rates:** What % of incidents had post-mortems? What % of actions got done?
-- **Adjust based on feedback:** Maybe templates are too heavy, or certain teams aren't participating
+- **Survey the engineering organization:** Do people feel the process is
+  valuable? Safe?
+- **Review completion rates:** What % of incidents had post-mortems? What % of
+  actions got done?
+- **Adjust based on feedback:** Maybe templates are too heavy, or certain teams
+  aren't participating
 
 Meta-metrics to track:
 
@@ -309,16 +373,23 @@ Feed improvements back into the process:
 
 ---
 
-> **Quick Reference:** Bookmark this [Post-Mortem Cheat Sheet](https://benjamincharity.notion.site/Post-Mortem-Cheat-Sheet-27b6edefd08e807ab127d93c09411e63) for facilitating your first post-mortems.
+> **Quick Reference:** Bookmark this
+> [Post-Mortem Cheat Sheet](https://benjamincharity.notion.site/Post-Mortem-Cheat-Sheet-27b6edefd08e807ab127d93c09411e63)
+> for facilitating your first post-mortems.
 
-> **Want the definitive implementation roadmap?** Read the [Definitive Guide](/articles/post-mortem-definitive-guide) for 90-day and 12-month transformation plans, success metrics, and detailed templates for each phase.
+> **Want the definitive implementation roadmap?** Read the
+> [Definitive Guide](/articles/post-mortem-definitive-guide) for 90-day and
+> 12-month transformation plans, success metrics, and detailed templates for
+> each phase.
 
 ---
 
 ## Process Guardrails
 
-- **48-hour draft rule:** Complete initial post-mortem draft within 48 hours while details are fresh
-- **85% closure target:** Maintain >85% action item completion rate within defined deadlines
+- **48-hour draft rule:** Complete initial post-mortem draft within 48 hours
+  while details are fresh
+- **85% closure target:** Maintain >85% action item completion rate within
+  defined deadlines
 
 ---
 
@@ -326,13 +397,16 @@ Feed improvements back into the process:
 
 - Definitive Guide (60 min) – canonical reference
   - https://www.benjamincharity.com/articles/post-mortem-definitive-guide
-- [Post-Mortem Cheat Sheet](https://benjamincharity.notion.site/Post-Mortem-Cheat-Sheet-27b6edefd08e807ab127d93c09411e63) – free quick-reference checklist
-- [Post-Mortem Template](https://benjamincharity.notion.site/Incident-Postmortem-Template-Blameless-26e6edefd08e80c6829bfffe0e2293fe) – free, ready-to-use Notion template
-- [Blameless Post-Mortem Policy](https://benjamincharity.notion.site/Blameless-Post-Mortem-Policy-26e6edefd08e80dbbcffce0093471840) – ready-to-implement blameless policy framework
+- [Post-Mortem Cheat Sheet](https://benjamincharity.notion.site/Post-Mortem-Cheat-Sheet-27b6edefd08e807ab127d93c09411e63)
+  – free quick-reference checklist
+- [Post-Mortem Template](https://benjamincharity.notion.site/Incident-Postmortem-Template-Blameless-26e6edefd08e80c6829bfffe0e2293fe)
+  – free, ready-to-use Notion template
+- [Blameless Post-Mortem Policy](https://benjamincharity.notion.site/Blameless-Post-Mortem-Policy-26e6edefd08e80dbbcffce0093471840)
+  – ready-to-implement blameless policy framework
 
 ---
 
 ### Continue the series:
 
-[Convincing Skeptical Leaders](/articles/post-mortem-leadership-buy-in) - Getting executive support for systematic incident learning
-
+[Convincing Skeptical Leaders](/articles/post-mortem-leadership-buy-in) -
+Getting executive support for systematic incident learning

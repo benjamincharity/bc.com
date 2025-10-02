@@ -3,7 +3,6 @@
 /**
  * Calculate SHA-256 hashes for inline scripts to use in Content Security Policy
  */
-
 import crypto from 'crypto';
 
 // Theme script - exact content as appears in BaseLayout.astro

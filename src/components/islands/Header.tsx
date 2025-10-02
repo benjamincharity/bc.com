@@ -8,16 +8,16 @@ const largeState = `${shared} pointer-events-none text-white text-title py-10 te
 const smallState = `${shared} h-[84px] pointer-events-auto text-gray-700 dark:text-white text-titleSmall pt-6 transition-duration-200`;
 const transition = `transition-all duration-200`;
 
-export default function Header({
-  children,
-}: {
-  children?: ReactNode;
-}) {
+export default function Header({ children }: { children?: ReactNode }) {
   const [isAnimationEnabled, setIsAnimationEnabled] = useState(false);
   const [currentPath, setCurrentPath] = useState('');
 
   // Determine if background should be visible based on current path
-  const backgroundIsVisible = currentPath === '/' || currentPath === '' || currentPath === '/404' || currentPath === '/404/';
+  const backgroundIsVisible =
+    currentPath === '/' ||
+    currentPath === '' ||
+    currentPath === '/404' ||
+    currentPath === '/404/';
   const [isSmall, setIsSmall] = useState(!backgroundIsVisible);
 
   const transitionClasses = useMemo(() => {
@@ -34,7 +34,8 @@ export default function Header({
   useEffect(() => {
     const updatePath = () => {
       // Check for canvas layout via data attribute
-      const hasCanvasLayout = document.body.getAttribute('data-canvas-layout') === 'true';
+      const hasCanvasLayout =
+        document.body.getAttribute('data-canvas-layout') === 'true';
       if (hasCanvasLayout) {
         setCurrentPath('/'); // Treat as homepage for styling (large title, no scroll)
       } else {
@@ -84,11 +85,10 @@ export default function Header({
       <div>
         {/* Your site title - this should match your existing design */}
         <h1 className="uppercase">
-          <a
-            href="/"
-            className="text-inherit hover:text-inherit no-underline"
-          >
-            Benjamin<br />Charity
+          <a href="/" className="text-inherit no-underline hover:text-inherit">
+            Benjamin
+            <br />
+            Charity
           </a>
         </h1>
         {children}

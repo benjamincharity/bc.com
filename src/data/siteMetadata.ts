@@ -2,7 +2,8 @@ export const CLOUDINARY_ACCOUNT = 'da2exoho7';
 
 export const siteMetadata = {
   title: 'BenjaminCharity.com',
-  description: 'Engineering leader & team builder at high-growth startups & scale-ups.',
+  description:
+    'Engineering leader & team builder at high-growth startups & scale-ups.',
   domain: 'www.benjamincharity.com',
   url: 'https://www.benjamincharity.com',
   image: `/images/pwa/apple-splash-2732-2048.jpg`,
@@ -16,7 +17,8 @@ export const siteMetadata = {
   twitter: 'benjamincharity',
   github: 'benjamincharity',
   linkedIn: 'benjamincharity',
-  professionalTitle: 'Engineering leader & team builder at high-growth startups & scale-ups.',
+  professionalTitle:
+    'Engineering leader & team builder at high-growth startups & scale-ups.',
   professionalTitleSplit: [
     'Engineering leader',
     '& team builder at high-growth',

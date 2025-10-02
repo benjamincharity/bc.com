@@ -1,6 +1,6 @@
-import { test, expect } from 'vitest';
-import { readFileSync, existsSync } from 'fs';
+import { existsSync, readFileSync } from 'fs';
 import { join } from 'path';
+import { expect, test } from 'vitest';
 
 const rootDir = join(process.cwd());
 const readmePath = join(rootDir, 'README.md');
@@ -60,10 +60,11 @@ test('README badge URL is functional format', () => {
   expect(badgeMatches.length).toBeGreaterThan(0);
 
   // At least one should be a deployment badge
-  const hasBadge = badgeMatches.some(badge =>
-    badge.includes('cloudflare') ||
-    badge.includes('deploy') ||
-    badge.includes('badge')
+  const hasBadge = badgeMatches.some(
+    (badge) =>
+      badge.includes('cloudflare') ||
+      badge.includes('deploy') ||
+      badge.includes('badge')
   );
   expect(hasBadge).toBe(true);
 });

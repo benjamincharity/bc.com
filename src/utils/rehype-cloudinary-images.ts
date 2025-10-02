@@ -1,5 +1,5 @@
+import type { Element, Root } from 'hast';
 import { visit } from 'unist-util-visit';
-import type { Root, Element } from 'hast';
 
 const CLOUDINARY_ACCOUNT = 'da2exoho7';
 
@@ -87,7 +87,7 @@ export default function rehypeCloudinaryImages() {
               loading: 'lazy',
             };
             // Remove undefined properties
-            Object.keys(node.properties).forEach(key => {
+            Object.keys(node.properties).forEach((key) => {
               if (node.properties![key] === undefined) {
                 delete node.properties![key];
               }
@@ -112,7 +112,8 @@ export default function rehypeCloudinaryImages() {
             customWidth
           );
           const hString = customHeight ? `h_${customHeight},` : '';
-          const w = customWidth ?? imageBreakpoints[imageBreakpoints.length - 1];
+          const w =
+            customWidth ?? imageBreakpoints[imageBreakpoints.length - 1];
           const finalSrc = `https://res.cloudinary.com/${CLOUDINARY_ACCOUNT}/image/upload/c_scale,${hString}w_${w}/f_auto/article-content/${src}`;
           const sizes = generateSizes(imageBreakpoints);
 

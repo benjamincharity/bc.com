@@ -12,7 +12,6 @@ tags:
 readingTime: 3
 ---
 
-
 Back in 2011 I decided to try hosting my personal website on [Amazon S3][aws].
 The thought of never dealing with shared hosting (my personal site doesn't have
 enough going on to warrant spinning up a server) again while serving all my
@@ -55,7 +54,12 @@ to S3. Or maybe just no one that cared about optimization. <sup>[1]</sup>
 
 ![Fred Jones solves the case](unmasked_csgtrs.webp)
 
-Come to find out, it was all about the content-encoding. The tricky part is that <mark>while Amazon offers handy dropdowns with values for both `content-type` and `content-encoding`, the options we need are not in the lists by default.</mark> So it comes across as though those options are not valid. But, we are rebels and don't care. (Honestly I am amazed that these options have not been added after all this time.)
+Come to find out, it was all about the content-encoding. The tricky part is that
+<mark>while Amazon offers handy dropdowns with values for both `content-type`
+and `content-encoding`, the options we need are not in the lists by
+default.</mark> So it comes across as though those options are not valid. But,
+we are rebels and don't care. (Honestly I am amazed that these options have not
+been added after all this time.)
 
 Head to your bucket and highlight your gzipped file and click on the
 'Properties' tab. Then expand the metadata section.
@@ -83,4 +87,3 @@ dramatic. [Original StackOverflow Question][so-question]
 [so]: https://stackoverflow.com
 [so-question]:
   https://stackoverflow.com/questions/8080824/how-to-serve-gzipped-assets-from-amazon-s3/15117310#15117310
-

@@ -1,15 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import { ViewToggle } from '../ViewToggle';
-import { ArticlesList } from '../Articles/ArticlesList';
-import { Badge } from '../Badge';
-import { BackToLink } from '../BackToLink';
+import React, { useEffect, useState } from 'react';
+
 import type { Article } from '~/types/article';
+
+import { ArticlesList } from '../Articles/ArticlesList';
+import { BackToLink } from '../BackToLink';
+import { Badge } from '../Badge';
+import { ViewToggle } from '../ViewToggle';
 
 interface ArticlesPageWrapperProps {
   articles: Article[];
 }
 
-export default function ArticlesPageWrapper({ articles }: ArticlesPageWrapperProps) {
+export default function ArticlesPageWrapper({
+  articles,
+}: ArticlesPageWrapperProps) {
   const [isCompactView, setIsCompactView] = useState(false);
   const [visibleCount, setVisibleCount] = useState(7);
 
@@ -45,7 +49,7 @@ export default function ArticlesPageWrapper({ articles }: ArticlesPageWrapperPro
   };
 
   const loadMore = () => {
-    setVisibleCount(prev => {
+    setVisibleCount((prev) => {
       const newCount = prev + 6;
 
       // Update URL with new page number
@@ -66,7 +70,10 @@ export default function ArticlesPageWrapper({ articles }: ArticlesPageWrapperPro
 
   return (
     <>
-      <nav className="relative flex items-center justify-between mb-4" aria-label="Article navigation controls">
+      <nav
+        className="relative mb-4 flex items-center justify-between"
+        aria-label="Article navigation controls"
+      >
         <BackToLink to="/" className="text-left">
           Home
         </BackToLink>
@@ -77,7 +84,12 @@ export default function ArticlesPageWrapper({ articles }: ArticlesPageWrapperPro
 
         <button
           className="animated-link-underline text-sm font-normal"
-          onClick={() => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })}
+          onClick={() =>
+            window.scrollTo({
+              top: document.body.scrollHeight,
+              behavior: 'smooth',
+            })
+          }
         >
           Jump to tags ↓
         </button>
@@ -85,7 +97,7 @@ export default function ArticlesPageWrapper({ articles }: ArticlesPageWrapperPro
 
       <ArticlesList articles={visibleArticles} isCompactView={isCompactView} />
 
-      <div className="text-center px-4 pt-4">
+      <div className="px-4 pt-4 text-center">
         {hasMore ? (
           <Badge
             color="#f184a8"

@@ -1,6 +1,6 @@
+import { createSquiggleSVG } from '../../utils/createSquiggleSVG';
 import { Palette } from './palettes.data';
 import { Row } from './row';
-import { createSquiggleSVG } from '../../utils/createSquiggleSVG';
 
 export const PaletteDirection = {
   NEXT: 'next',
