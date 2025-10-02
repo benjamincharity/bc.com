@@ -1,0 +1,71 @@
+# Security Headers - Apply to all routes
+/*
+  # Prevent clickjacking
+  X-Frame-Options: DENY
+
+  # Prevent MIME-sniffing
+  X-Content-Type-Options: nosniff
+
+  # Control referrer information
+  Referrer-Policy: strict-origin-when-cross-origin
+
+  # Restrict browser features
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), gyroscope=(), magnetometer=(), payment=(), usb=()
+
+  # Enable HSTS (force HTTPS)
+  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+
+  # XSS Protection (legacy but still useful)
+  X-XSS-Protection: 1; mode=block
+
+  # Content Security Policy (auto-generated hashes)
+  # Hashes are calculated during build from dist/index.html
+  # To regenerate: npm run build
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'sha256-EwvUlCwhXJVe8sxdupA2kKzxAAklA9vWBuwDHFrR7CI=' 'sha256-QzWFZi+FLIx23tnm9SBU4aEgx4x8DsuASP07mfqol/c=' 'sha256-p9VbHs/ClkQc+x63XdUjvCAgeWxA4ZGvpebJtMn9jbs=' 'sha256-WOgiF58Macen5AccbF2DLCB5DGIm7ErRixgwEc88Wvs=' https://static.cloudflareinsights.com; style-src 'self' 'sha256-vv9IoKo7BSLbWcUHr3tNmfNVmm5L/9Cfn2H6LMk7/ow='; img-src 'self' https://res.cloudinary.com data: blob:; font-src 'self' data:; connect-src 'self' https://api.buttondown.email https://cloudflareinsights.com; object-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'
+
+# API endpoint - stricter CSP
+/api/*
+  Content-Security-Policy: default-src 'none'
+  X-Robots-Tag: noindex
+
+# Static assets - long cache + immutable
+/_astro/*.css
+  Content-Type: text/css; charset=utf-8
+  Cache-Control: public, max-age=31536000, immutable
+
+/_astro/*.js
+  Content-Type: application/javascript; charset=utf-8
+  Cache-Control: public, max-age=31536000, immutable
+
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Images - long cache
+/images/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Fonts - long cache
+/fonts/*.woff2
+  Content-Type: font/woff2
+  Cache-Control: public, max-age=31536000, immutable
+
+/fonts/*.woff
+  Content-Type: font/woff
+  Cache-Control: public, max-age=31536000, immutable
+
+/fonts/*.ttf
+  Content-Type: font/ttf
+  Cache-Control: public, max-age=31536000, immutable
+
+# Manifest and robots
+/manifest.json
+  Content-Type: application/json
+  Cache-Control: public, max-age=86400
+
+/robots.txt
+  Content-Type: text/plain
+  Cache-Control: public, max-age=86400
+
+# Shared CSS
+/shared.css
+  Content-Type: text/css; charset=utf-8

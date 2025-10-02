@@ -49,7 +49,10 @@
       "Bash(npm run test:*)",
       "Bash(npm test)",
       "Bash(npm test:*)",
-      "WebFetch(domain:fonts.googleapis.com)"
+      "WebFetch(domain:fonts.googleapis.com)",
+      "Bash(git rev-parse:*)",
+      "Bash(gh pr create:*)",
+      "WebFetch(domain:docs.astro.build)"
     ],
     "deny": [],
     "ask": [],

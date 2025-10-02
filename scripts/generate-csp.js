@@ -20,7 +20,7 @@ import { JSDOM } from 'jsdom';
 
 const DIST_HTML = 'dist/index.html';
 const TEMPLATE_PATH = 'public/_headers.template';
-const OUTPUT_PATH = 'public/_headers';
+const OUTPUT_PATH = 'dist/_headers';
 
 console.log('\n🔒 Generating CSP headers with hashes...\n');
 
