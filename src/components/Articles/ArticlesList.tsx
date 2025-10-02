@@ -46,7 +46,7 @@ function Article({ article, layoutSize = 'large', hideImage = false, ...divProps
     >
       <div className={`flex h-full ${isCompact ? 'flex-row items-start' : 'flex-col'} overflow-hidden rounded-lg`}>
         {!hideImage && image && (
-          <a href={url} className={isCompact ? 'flex-shrink-0 mr-4' : ''}>
+          <a href={url} className={isCompact ? 'flex-shrink-0 mr-4' : ''} aria-label={`Read article: ${title}`}>
             <img
               alt=""
               role="presentation"
