@@ -1,4 +1,6 @@
 ---
+export const prerender = false; // Enable server-side rendering for draft param support
+
 import BaseLayout from '~/layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 import NewsletterForm from '~/components/islands/NewsletterForm';
@@ -10,8 +12,12 @@ import { BackToLink } from '~/components/BackToLink';
 // Get all articles from the blog collection
 const articles = await getCollection('blog');
 
-// Filter out drafts
-const publishedArticles = articles.filter(article => !article.data.draft);
+// Check for draft query param
+const url = new URL(Astro.request.url);
+const showDrafts = url.searchParams.get('draft') === 'true';
+
+// Filter out drafts (unless ?draft=true)
+const publishedArticles = articles.filter(article => showDrafts || !article.data.draft);
 
 // Get all tags and their counts
 const tagCounts = new Map<string, number>();

@@ -1,24 +1,26 @@
 ---
+export const prerender = false; // Enable server-side rendering for draft param support
+
 import BaseLayout from '~/layouts/BaseLayout.astro';
 import { getCollection, getEntry } from 'astro:content';
 import { processMarkdown } from '~/utils/markdown-processor';
 import NewsletterForm from '~/components/islands/NewsletterForm';
 import BrowseByTags from '~/components/islands/BrowseByTags';
 
-export async function getStaticPaths() {
-  const articles = await getCollection('blog');
-  return articles
-    .filter(article => !article.data.draft && article.id)
-    .map((article) => ({
-      params: { slug: article.id },
-    }));
-}
-
 const { slug } = Astro.params;
 const entry = await getEntry('blog', slug);
 
 if (!entry) {
   throw new Error(`Article not found: ${slug}`);
+}
+
+// Check for draft query param
+const url = new URL(Astro.request.url);
+const showDrafts = url.searchParams.get('draft') === 'true';
+
+// If article is a draft and we're not showing drafts, return 404
+if (entry.data.draft && !showDrafts) {
+  return Astro.redirect('/404');
 }
 
 const article = entry.data;

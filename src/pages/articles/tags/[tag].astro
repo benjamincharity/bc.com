@@ -1,4 +1,6 @@
 ---
+export const prerender = false; // Enable server-side rendering for draft param support
+
 import BaseLayout from '~/layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 import type { GetStaticPaths } from 'astro';
@@ -7,35 +9,23 @@ import NewsletterForm from '~/components/islands/NewsletterForm';
 import BrowseByTags from '~/components/islands/BrowseByTags';
 import { BackToLink } from '~/components/BackToLink';
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  const articles = await getCollection('blog');
-  const publishedArticles = articles.filter(article => !article.data.draft);
-
-  // Get all unique tags
-  const tags = new Set<string>();
-  publishedArticles.forEach(article => {
-    const articleTags = article.data.tags || [];
-    articleTags.forEach(tag => tags.add(tag));
-  });
-
-  return Array.from(tags).map(tag => ({
-    params: { tag },
-  }));
-};
-
 const { tag } = Astro.params;
 
 // Get all articles from the blog collection
 const articles = await getCollection('blog');
 
-// Filter articles by tag and remove drafts
+// Check for draft query param
+const url = new URL(Astro.request.url);
+const showDrafts = url.searchParams.get('draft') === 'true';
+
+// Filter articles by tag and remove drafts (unless ?draft=true)
 const filteredArticles = articles
-  .filter(article => !article.data.draft)
+  .filter(article => showDrafts || !article.data.draft)
   .filter(article => article.data.tags?.includes(tag as string))
   .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
 
 // Get all tags for the browse section
-const allArticles = articles.filter(article => !article.data.draft);
+const allArticles = articles.filter(article => showDrafts || !article.data.draft);
 const tagCounts = new Map<string, number>();
 allArticles.forEach(article => {
   const tags = article.data.tags || [];
