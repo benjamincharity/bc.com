@@ -29,16 +29,18 @@ export const POST: APIRoute = async ({ request }) => {
     // Check for Buttondown API key
     const apiKey = import.meta.env.BUTTONDOWN_API_KEY;
     if (!apiKey) {
-      console.error('BUTTONDOWN_API_KEY not configured');
-      // For development/testing, return a success response
+      console.error('BUTTONDOWN_API_KEY not configured - newsletter subscription failed');
       return new Response(
         JSON.stringify({
-          success: true,
-          message: 'Successfully subscribed! (Demo mode - no actual subscription created)',
-          subscriptionId: 'demo-' + Date.now()
+          success: false,
+          message: 'Newsletter service is currently unavailable. Please try again later.',
+          error: {
+            code: 'SERVICE_UNAVAILABLE',
+            message: 'API key not configured'
+          }
         }),
         {
-          status: 200,
+          status: 503,
           headers: {
             'Content-Type': 'application/json',
           },
