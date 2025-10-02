@@ -7,6 +7,7 @@ import ColorModeToggle from '~/components/islands/ColorModeToggle';
 export interface Props {
   title?: string;
   description?: string;
+  image?: string;
   theme?: 'light' | 'dark' | null;
   showBackground?: boolean;
   canvasLayout?: boolean;
@@ -15,6 +16,7 @@ export interface Props {
 const {
   title = 'Benjamin Charity',
   description = 'Building products & Engineering teams',
+  image = 'https://www.benjamincharity.com/images/og-default.png',
   theme = null,
   showBackground = true,
   canvasLayout = false,
@@ -49,18 +51,27 @@ const fullTitle = title === siteMetadata.title ? title : `${title} | ${siteMetad
     <meta property="og:url" content={siteMetadata.siteUrl + Astro.url.pathname} />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
+    <meta property="og:image" content={image} />
 
     <!-- Twitter -->
-    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:url" content={siteMetadata.siteUrl + Astro.url.pathname} />
     <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={image} />
 
     <!-- Favicons -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
 
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json" />
+
+    <!-- RSS Feed -->
+    <link rel="alternate" type="application/rss+xml" title="Benjamin Charity RSS Feed" href="/feed.xml" />
+
     <!-- Theme meta -->
     <meta name="color-scheme" content="dark light" />
+    <meta name="theme-color" content="#2262a1" />
 
     <!-- Fonts - VT323 is key to your design -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -71,8 +82,6 @@ const fullTitle = title === siteMetadata.title ? title : `${title} | ${siteMetad
 
     <!-- Allow pages to inject additional head elements -->
     <slot name="head" />
-
-    <ViewTransitions />
 
     <!-- Theme handling (matching your existing theme provider) -->
     <script is:inline>

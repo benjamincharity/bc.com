@@ -4,6 +4,8 @@
     "@astrojs/cloudflare": "^12.6.9",
     "@astrojs/mdx": "^4.3.6",
     "@astrojs/react": "^4.4.0",
+    "@astrojs/rss": "^4.0.12",
+    "@astrojs/sitemap": "^3.6.0",
     "@astrojs/tailwind": "^6.0.2",
     "@benjc/rehype-enhanced-tables": "0.1.1",
     "@benjc/rehype-gif-controls": "^1.0.0",

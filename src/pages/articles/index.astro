@@ -1,6 +1,4 @@
 ---
-export const prerender = false; // Enable server-side rendering for draft param support
-
 import BaseLayout from '~/layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 import ArticlesPageWrapper from '~/components/islands/ArticlesPageWrapper';
@@ -10,13 +8,9 @@ import BrowseByTags from '~/components/islands/BrowseByTags';
 // Get all articles from the blog collection
 const articles = await getCollection('blog');
 
-// Check for draft query param
-const url = new URL(Astro.request.url);
-const showDrafts = url.searchParams.get('draft') === 'true';
-
-// Filter out drafts (unless ?draft=true) and sort by date (newest first)
+// Filter out drafts at build time and sort by date (newest first)
 const sortedArticles = articles
-  .filter(article => showDrafts || !article.data.draft)
+  .filter(article => !article.data.draft)
   .sort((a, b) => {
     return new Date(b.data.date).getTime() - new Date(a.data.date).getTime();
   });

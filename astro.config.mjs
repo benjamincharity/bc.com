@@ -3,7 +3,7 @@ import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
 import tailwind from '@astrojs/tailwind';
 import mdx from '@astrojs/mdx';
-import cloudflare from '@astrojs/cloudflare';
+import sitemap from '@astrojs/sitemap';
 // import { VitePWA } from '@vite-pwa/astro'; // TODO: Fix PWA setup later
 import remarkGfm from 'remark-gfm';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
@@ -14,7 +14,6 @@ import rehypeCloudinaryImages from './src/utils/rehype-cloudinary-images.ts';
 export default defineConfig({
   site: 'https://www.benjamincharity.com',
   output: 'static',
-  adapter: cloudflare(),
   integrations: [
     react(),
     tailwind({
@@ -22,9 +21,10 @@ export default defineConfig({
       applyBaseStyles: true,
     }),
     mdx({
-      optimize: false,
+      optimize: true,
       extendMarkdownConfig: true,
     }),
+    sitemap(),
     // TODO: Add PWA integration after basic setup is working
   ],
   markdown: {

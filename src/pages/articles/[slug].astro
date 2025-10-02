@@ -1,30 +1,25 @@
 ---
-export const prerender = false; // Enable server-side rendering for draft param support
-
 import BaseLayout from '~/layouts/BaseLayout.astro';
-import { getCollection, getEntry } from 'astro:content';
+import { getCollection } from 'astro:content';
 import { processMarkdown } from '~/utils/markdown-processor';
 import NewsletterForm from '~/components/islands/NewsletterForm';
 import BrowseByTags from '~/components/islands/BrowseByTags';
+import type { GetStaticPaths } from 'astro';
 
-const { slug } = Astro.params;
-const entry = await getEntry('blog', slug);
+export const getStaticPaths = (async () => {
+  const articles = await getCollection('blog');
 
-if (!entry) {
-  throw new Error(`Article not found: ${slug}`);
-}
+  // Filter out drafts at build time
+  const publishedArticles = articles.filter(article => !article.data.draft);
 
-// Check for draft query param
-const url = new URL(Astro.request.url);
-const showDrafts = url.searchParams.get('draft') === 'true';
+  return publishedArticles.map((article) => ({
+    params: { slug: article.id },
+    props: { article },
+  }));
+}) satisfies GetStaticPaths;
 
-// If article is a draft and we're not showing drafts, return 404
-if (entry.data.draft && !showDrafts) {
-  return Astro.redirect('/404');
-}
-
-const article = entry.data;
-const body = entry.body || '';
+const { article } = Astro.props;
+const body = article.body || '';
 
 // Process markdown with our custom processor that includes Cloudinary transformation
 const htmlContent = await processMarkdown(body);
@@ -43,7 +38,7 @@ publishedArticles.forEach(a => {
 });
 
 // Filter to only show tags from this article
-const articleTags = article.tags || [];
+const articleTags = article.data.tags || [];
 const tagsWithCounts = articleTags
   .map(tag => [tag, tagCounts.get(tag) || 0] as [string, number])
   .filter(([_, count]) => count > 0);
@@ -52,13 +47,38 @@ const siteMetadata = {
   title: 'Benjamin Charity',
   description: 'Building products & Engineering teams',
 };
+
+// JSON-LD structured data for article
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: article.data.title,
+  description: article.data.description,
+  image: article.data.image,
+  datePublished: article.data.date.toISOString(),
+  author: {
+    '@type': 'Person',
+    name: 'Benjamin Charity',
+    url: 'https://www.benjamincharity.com',
+  },
+  publisher: {
+    '@type': 'Person',
+    name: 'Benjamin Charity',
+    url: 'https://www.benjamincharity.com',
+  },
+  keywords: article.data.tags.join(', '),
+};
 ---
 
 <BaseLayout
-  title={`${article.title} | Benjamin Charity`}
-  description={article.description || `Article: ${article.title}`}
+  title={`${article.data.title} | Benjamin Charity`}
+  description={article.data.description || `Article: ${article.data.title}`}
+  image={article.data.image}
   showBackground={false}
 >
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </Fragment>
   <div class="prose-wrapper">
     <main>
       <nav class="mb-6 text-center">
@@ -73,7 +93,7 @@ const siteMetadata = {
       <header class="mb-4">
         <div class="flex gap-x-2 leading-tight text-gray-600 dark:text-gray-400 mb-1">
           <div class="font-mono text-[10px] italic">
-            Published: {new Date(article.date).toLocaleDateString('en-US', {
+            Published: {new Date(article.data.date).toLocaleDateString('en-US', {
               year: 'numeric',
               month: 'long',
               day: 'numeric'
@@ -82,11 +102,11 @@ const siteMetadata = {
         </div>
 
         <h1 class="my-1 font-sourceSerif4 text-3xl font-bold leading-tight text-gray-700 dark:text-gray-300">
-          {article.title}
+          {article.data.title}
         </h1>
 
         <p class="reading-time text-gray-600 dark:text-gray-400 text-sm mb-4">
-          Reading time: {article.readingTime || '5'}min
+          Reading time: {article.data.readingTime || '5'}min
         </p>
       </header>
 
