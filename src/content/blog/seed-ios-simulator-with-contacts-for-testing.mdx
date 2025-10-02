@@ -30,7 +30,7 @@ I came across an article by [Adam Harris][adam] who had devised a [clever
 way][20000] to build a VCard with 20,000 contacts. He even offers that VCard for
 download. Unfortunately, importing 20,000 contacts locked up my simulator.
 
-**Below I have outlined how I created a 2000 contact VCard for import** (heavily
+<mark>Below I have outlined how I created a 2000 contact VCard for import</mark> (heavily
 based off of Adam's work). Full Plunkr can be found [here][plunkr].
 
 > A full list of resources along with downloadable VCards containing various
@@ -68,13 +68,13 @@ This is what the template and results would look like:
 An open source project called [VCard to JSON][vcard] will allow us to convert a
 contacts object into the VCard format.
 
-**NOTE:** This library expects `n.families` and `n.givens` to contain arrays.
+<mark>NOTE:</mark> This library expects `n.families` and `n.givens` to contain arrays.
 However, at the time of this writing, the JSON Generator outputs the same name
 over and over again across all objects when inside an array. You can find a
 modified version of this library as part of the [full gist][fullGist] of this
 process.
 
-**NOTE #2:** For some reason, the output always seems to have `undefined` at the
+<mark>NOTE #2:</mark> For some reason, the output always seems to have `undefined` at the
 beginning. I didn't have the time to debug it, so in the Plunkr, I am simply
 stripping out the first 9 characters of the string. Hacky, but it gets it done.
 If anyone takes the time to find a fix, I'll be more than happy to update the

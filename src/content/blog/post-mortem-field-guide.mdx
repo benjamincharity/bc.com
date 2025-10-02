@@ -18,7 +18,7 @@ readingTime: 8
 
 Most post-mortems are just blame theater. Teams write detailed reports, assign action items that never get completed, then act surprised when the same incident happens again. But the best engineering organizations have cracked the code on incident learning: they've built cultures where failures become fuel for improvement and the same incident almost never happens twice.
 
-> **Need just the big picture?** Start with the [Executive Brief](/articles/post-mortem-executive-brief) (7 min). **Want the complete research and success stories?** Read the [Definitive Guide](/articles/post-mortem-definitive-guide) (60 min, canonical).
+> <mark>Need just the big picture?</mark> Start with the [Executive Brief](/articles/post-mortem-executive-brief) (7 min). <mark>Want the complete research and success stories?</mark> Read the [Definitive Guide](/articles/post-mortem-definitive-guide) (60 min, canonical).
 
 ![Ranger bear packing a backpack with compass, map, and tools.](incidents-b-supplies.webp)
 
@@ -26,7 +26,7 @@ Most post-mortems are just blame theater. Teams write detailed reports, assign a
 
 A director explained the same database timeout issue for the third time in six months. Each incident write-up blamed a different team member, but the root cause never changed. This isn't rare; it's common when post-mortems are treated as formality or finger-pointing exercises.
 
-The brutal data: **80% of incidents stem from internal changes** that weren't tested properly, and **69% lack proactive alerts**.[¹](/articles/post-mortem-definitive-guide#user-content-fn-1) Most outages are self-inflicted and caught too late. Elite teams prevent ~95% of repeat incidents, while average teams get stuck in costly blame-fix-repeat cycles.
+The brutal data: <mark>80% of incidents stem from internal changes</mark> that weren't tested properly, and <mark>69% lack proactive alerts</mark>.[¹](/articles/post-mortem-definitive-guide#user-content-fn-1) Most outages are self-inflicted and caught too late. Elite teams prevent ~95% of repeat incidents, while average teams get stuck in costly blame-fix-repeat cycles.
 
 ## Why Smart Teams Keep Making Dumb Mistakes
 
@@ -34,7 +34,7 @@ Even capable teams fall into traps that render post-mortems ineffective. Three s
 
 ### Silent Killer 1: Lack of Psychological Safety
 
-When engineers fear blame, post-mortems become superficial exercises. Google's research found that **psychological safety was the #1 predictor of team performance**.[³](/articles/post-mortem-definitive-guide#user-content-fn-3) Without it, incidents turn into information warfare: people hide crucial facts to avoid embarrassment.
+When engineers fear blame, post-mortems become superficial exercises. Google's research found that <mark>psychological safety was the #1 predictor of team performance</mark>.[³](/articles/post-mortem-definitive-guide#user-content-fn-3) Without it, incidents turn into information warfare: people hide crucial facts to avoid embarrassment.
 
 In high-safety teams, members report significantly more errors, not because they make more mistakes, but because they feel safe admitting them.[⁴](/articles/post-mortem-definitive-guide#user-content-fn-4) This openness surfaces problems early, while blame-driven cultures drive them underground.
 
@@ -56,7 +56,7 @@ Leading organizations transform post-mortems through three fundamental shifts:
 
 ### Pillar 1: Psychological Safety Infrastructure
 
-**Design blamelessness into the process**: Focus on what went wrong in the system, not who to blame. Avoid language like "Engineer X didn't follow procedure" and instead phrase it as "The procedure was unclear, and safeguards failed to catch the issue."
+<mark>Design blamelessness into the process</mark>: Focus on what went wrong in the system, not who to blame. Avoid language like "Engineer X didn't follow procedure" and instead phrase it as "The procedure was unclear, and safeguards failed to catch the issue."
 
 Learn from Etsy's transparency model: Etsy implemented a "Just Culture" where engineers publicly share mistakes in company-wide emails so everyone can learn.[⁶](/articles/post-mortem-definitive-guide#user-content-fn-6) These emails describe what happened, why the engineer made their choices, and lessons learned, all without punishment. The result? A highly proactive culture where people aren't afraid to surface problems.
 
@@ -66,7 +66,7 @@ Establish ground rules before incidents happen: Set blamelessness expectations _
 
 Shift from "who" to "how" questions: Instead of "Why did Bob deploy a bug?", ask "What testing or review process failed such that a bug made it to production? What conditions led Bob to think it was okay?"
 
-**Apply structured analysis frameworks**: Use techniques like "5 Whys" (asking "Why did the system allow this?" each time) or Fishbone diagrams to map contributing causes across categories. Look for systemic patterns: are multiple incidents related to similar issues?
+<mark>Apply structured analysis frameworks</mark>: Use techniques like "5 Whys" (asking "Why did the system allow this?" each time) or Fishbone diagrams to map contributing causes across categories. Look for systemic patterns: are multiple incidents related to similar issues?
 
 Learn from aviation's transformation: Aviation achieved 95%+ incident reporting rates by adopting a systemic, non-blame approach.[²²](/articles/post-mortem-definitive-guide#user-content-fn-22) When people aren't punished for mistakes, they report problems freely, and the organization gets safer.
 
@@ -76,7 +76,7 @@ Assign clear ownership: Every action item gets assigned to an individual owner (
 
 Set realistic deadlines and SLOs: Small fixes get 2-week deadlines; bigger items might get 4-8 weeks with milestones. The goal isn't micro-management but ensuring improvements don't slip into "someday."
 
-Build tracking and reminder systems: Create lightweight tracking visible to engineering leads. Review open action items monthly. **High-performing teams treat closure rates as seriously as uptime metrics.**
+Build tracking and reminder systems: Create lightweight tracking visible to engineering leads. Review open action items monthly. <mark>High-performing teams treat closure rates as seriously as uptime metrics.</mark>
 
 Secure executive buy-in: When senior leaders regularly read post-mortems and ask about follow-up status, it signals this work is truly important. Organizations where executives publicly recognize preventive fixes see higher completion rates.
 

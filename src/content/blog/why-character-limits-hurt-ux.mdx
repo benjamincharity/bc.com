@@ -14,11 +14,6 @@ readingTime: 8
 ---
 
 
-
-
-
-
-
 ## Why Enforcing Character Limits in UIs is a Bad Idea (and What to Do Instead)
 
 Character limits can feel like a neat solution for keeping your UI clean and
@@ -27,12 +22,7 @@ diverse languages to the endless variety of screen sizes, rigid character limits
 don’t scale. Worse, they often lead to usability and accessibility issues,
 leaving users frustrated and your product looking inflexible.
 
-And let’s be honest—**truncating text is rarely a solution with the customer in
-mind**. More often than not, it’s about making the UI look “pretty” or adhering
-to a specific design aesthetic. While a clean layout is important, prioritizing
-aesthetics over usability ends up doing a disservice to your users. The goal of
-a UI is to serve your audience, not to cram content into a box for the sake of
-visual tidiness.
+And let’s be honest—<mark>truncating text is rarely a solution with the customer in mind</mark>. More often than not, it’s about making the UI look “pretty” or adhering to a specific design aesthetic. While a clean layout is important, prioritizing aesthetics over usability ends up doing a disservice to your users. The goal of a UI is to serve your audience, not to cram content into a box for the sake of visual tidiness.
 
 ![Text spilling out of a computer monitor.](text-truncation-hero.webp)
 
@@ -75,12 +65,7 @@ Imagine a scenario where a user with a screen reader is navigating a long list
 of truncated items—if they need to interact with each one individually to get
 the full context, their experience becomes slow and frustrating.
 
-In high-frequency or high-stakes workflows, like reviewing medical records,
-processing financial transactions, or searching for a specific document in a
-long list, these extra steps can compound into significant inefficiencies. **A
-design that forces users to repeatedly “dig” for full information isn’t just
-inconvenient—it actively undermines productivity and can lead to errors or
-oversights.**
+In high-frequency or high-stakes workflows, like reviewing medical records, processing financial transactions, or searching for a specific document in a long list, these extra steps can compound into significant inefficiencies. <mark>A design that forces users to repeatedly “dig” for full information isn’t just inconvenient—it actively undermines productivity and can lead to errors or oversights.</mark>
 
 Accessibility isn’t just about making content available—it’s about making it
 available _easily_. Truncating text without careful consideration can turn what
@@ -139,12 +124,7 @@ This approach reduces clutter without sacrificing functionality.
 
 ### 2. Managing User-Generated Content: A Real-World Example
 
-Here’s an example from my own experience: I once worked on a piece of software
-where users had a habit of naming documents with absurdly long titles—50+ words,
-in some cases. While our ideal solution would have been to retrain users to
-adopt shorter, more descriptive titles, it wasn’t feasible. **Changing ingrained
-user behavior wouldn’t have provided enough benefit to justify the effort, and
-forcing new limits would have risked alienating users.**
+Here’s an example from my own experience: I once worked on a piece of software where users had a habit of naming documents with absurdly long titles—50+ words, in some cases. While our ideal solution would have been to retrain users to adopt shorter, more descriptive titles, it wasn’t feasible. <mark>Changing ingrained user behavior wouldn’t have provided enough benefit to justify the effort, and forcing new limits would have risked alienating users.</mark>
 
 Instead, we opted to truncate titles in the middle, showing the first and last
 portions of the text. Since the app was used exclusively on desktop (not
@@ -153,7 +133,7 @@ locate the document they needed. The design balanced usability for the users
 while maintaining consistency across the interface, which kept our product team
 sane.
 
-**Sometimes, real-world constraints force you to adapt.** While it wasn’t a
+<mark>Sometimes, real-world constraints force you to adapt.</mark> While it wasn’t a
 perfect solution, it was the best compromise given the context and user
 behavior.
 
@@ -181,10 +161,7 @@ Truncation should never block screen reader users or assistive technologies:
 
 ### 3. Preserve Full Text for Searching and Filtering
 
-When truncating identifiers like UUIDs, **truncate the display, not the actual
-data**. This ensures users can still search, filter, or copy-paste the complete
-information. Avoid APIs that truncate text before returning it—this almost
-always creates issues for both developers and users.
+When truncating identifiers like UUIDs, <mark>truncate the display, not the actual data</mark>. This ensures users can still search, filter, or copy-paste the complete information. Avoid APIs that truncate text before returning it—this almost always creates issues for both developers and users.
 
 ## Truncation: Almost Always the Wrong Choice
 
@@ -209,10 +186,7 @@ content to breathe and adapt.
 
 ## Final Thoughts: Truncate Wisely, Design Smarter
 
-Enforcing character limits or truncating text should never be your default
-approach. Instead, **focus on designing UIs that scale gracefully—across
-devices, languages, and use cases**. When truncation is necessary, implement it
-thoughtfully, with clear access to the full content and accessibility in mind.
+Enforcing character limits or truncating text should never be your default approach. Instead, <mark>focus on designing UIs that scale gracefully—across devices, languages, and use cases</mark>. When truncation is necessary, implement it thoughtfully, with clear access to the full content and accessibility in mind.
 
 ## Further reading
 
@@ -220,3 +194,4 @@ thoughtfully, with clear access to the full content and accessibility in mind.
   by Geoff Graham.
 - [Taming Long Text: The Art of Truncation with CSS](https://medium.com/@tejeswar_79802/taming-long-text-the-art-of-truncation-with-css-499e33a7276e)
   by Tejeswar Reddy
+

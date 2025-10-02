@@ -16,11 +16,11 @@ draft: true
 
 
 
-> **This is part of the Post-Mortem series.** Read the [Executive Brief](/articles/post-mortem-executive-brief) (7 min), the [Field Guide](/articles/post-mortem-field-guide) (20 min), or the [Definitive Guide](/articles/post-mortem-definitive-guide) (60 min, canonical).
+> <mark>This is part of the Post-Mortem series.</mark> Read the [Executive Brief](/articles/post-mortem-executive-brief) (7 min), the [Field Guide](/articles/post-mortem-field-guide) (20 min), or the [Definitive Guide](/articles/post-mortem-definitive-guide) (60 min, canonical).
 
 ## Major Incidents Are Swiss Cheese, Not Single Bullets
 
-When a major outage happens, human nature seeks a simple explanation. We want to find the one person or one decision that "caused" the problem. But in complex systems like our production environments, **failures are almost never due to one person or one glitch in isolation**: they result from multiple contributing factors aligning perfectly.
+When a major outage happens, human nature seeks a simple explanation. We want to find the one person or one decision that "caused" the problem. But in complex systems like our production environments, <mark>failures are almost never due to one person or one glitch in isolation</mark>: they result from multiple contributing factors aligning perfectly.
 
 It's like Swiss cheese: each slice has holes, but you only see through when several holes line up. Similarly, most incidents require multiple things to go wrong simultaneously. A code bug _and_ a missing alert _and_ a slow rollback procedure _and_ unclear documentation all conspire together.
 
@@ -42,7 +42,7 @@ Once we know the outcome, we conclude we "should have known" things that were ac
 
 Studies show that even experienced investigators can be led astray by their preconceived theories. They seek evidence to fit a favorite hypothesis and overlook contrary facts.[⁹](/articles/post-mortem-definitive-guide#user-content-fn-9) In practice, this means a post-mortem might pin the cause on an easy scapegoat when reality involves multiple contributing factors.
 
-Dave Zwieback points out that **hindsight and blame create a "comfortable story" that satisfies our need for closure but prevents real learning**.[⁷](/articles/post-mortem-definitive-guide#user-content-fn-7) We prematurely decide "Susan deployed bad code, that's the root cause," and stop analyzing deeper systemic issues.
+Dave Zwieback points out that <mark>hindsight and blame create a "comfortable story" that satisfies our need for closure but prevents real learning</mark>.[⁷](/articles/post-mortem-definitive-guide#user-content-fn-7) We prematurely decide "Susan deployed bad code, that's the root cause," and stop analyzing deeper systemic issues.
 
 ### The Fundamental Attribution Error
 
@@ -98,7 +98,7 @@ When someone makes a mistake, resist the urge to focus on their individual faili
 - Were procedures tested under realistic conditions?
 - Did tooling make the wrong action easy and the right action difficult?
 
-As Dave Zwieback puts it: **"Human error is a symptom, never the cause, of deeper trouble in the system."**[⁷](/articles/post-mortem-definitive-guide#user-content-fn-7) If someone made a mistake, ask what made that mistake possible and how the system could catch or prevent it.
+As Dave Zwieback puts it: <mark>"Human error is a symptom, never the cause, of deeper trouble in the system."</mark>[⁷](/articles/post-mortem-definitive-guide#user-content-fn-7) If someone made a mistake, ask what made that mistake possible and how the system could catch or prevent it.
 
 ## Learning from Aviation's Transformation
 
@@ -106,7 +106,7 @@ The aviation industry provides a powerful example of systems thinking in action.
 
 Through programs like NASA's Aviation Safety Reporting System, pilots receive immunity when they voluntarily report errors or near-misses. This created an enormous database of systemic issues and fixes. The result: aviation's fatal accident rate kept dropping despite increasing complexity.[²²](/articles/post-mortem-definitive-guide#user-content-fn-22)
 
-The key insight: **When people aren't punished for mistakes, they report problems freely, and the organization as a whole gets safer.** Nearly all incidents get reported, providing a rich dataset for systematic improvement.
+The key insight: <mark>When people aren't punished for mistakes, they report problems freely, and the organization as a whole gets safer.</mark> Nearly all incidents get reported, providing a rich dataset for systematic improvement.
 
 ## Practical Systems Analysis Techniques
 
@@ -151,7 +151,7 @@ Remember to examine organizational, process, and human factors alongside technic
 
 ### Making Fixes Too Specific
 
-If your incident was caused by "missing validation in the user registration service," don't just add validation to that one service. Ask: "How many other services have similar validation gaps? **How do we prevent this class of problem systematically?**"
+If your incident was caused by "missing validation in the user registration service," don't just add validation to that one service. Ask: "How many other services have similar validation gaps? <mark>How do we prevent this class of problem systematically?</mark>"
 
 ## The Business Value of Systems Thinking
 

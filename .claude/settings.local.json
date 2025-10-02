@@ -39,7 +39,8 @@
       "Bash(done)",
       "Bash(do sed -i '' '/^draft: false$/d' \"$file\")",
       "Bash(git log:*)",
-      "Bash(xargs:*)"
+      "Bash(xargs:*)",
+      "Bash(chmod:*)"
     ],
     "deny": [],
     "ask": [],

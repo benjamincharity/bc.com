@@ -145,13 +145,13 @@ The Spotijay [documentation][spotijay_docs] references this command to begin:
 forever start app.js playlist spotify:playlistURI
 ```
 
-But this did **not** work for me. I had to include my username in the call:
+But this did <mark>not</mark> work for me. I had to include my username in the call:
 
 ```bash
 forever start app.js playlist spotify:user:MY_USERNAME:playlist:playlistURI
 ```
 
-> **Note:** A playlist URI will be a string of random characters like this:
+> <mark>Note:</mark> A playlist URI will be a string of random characters like this:
 > `5uSLUnV6U9easnPRO4rNu3`. The only way I know of to find the URI for a
 > playlist is to open the [Spotify web player][web_player] and navigate to the
 > desired playlist. In the browser address bar you should see a URL ending with
