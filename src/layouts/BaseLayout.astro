@@ -9,6 +9,7 @@ export interface Props {
   description?: string;
   theme?: 'light' | 'dark' | null;
   showBackground?: boolean;
+  canvasLayout?: boolean;
 }
 
 const {
@@ -16,10 +17,11 @@ const {
   description = 'Building products & Engineering teams',
   theme = null,
   showBackground = true,
+  canvasLayout = false,
 } = Astro.props;
 
-// Check if this is the homepage
-const isHomepage = Astro.url.pathname === '/';
+// Pages with canvas background get special layout treatment
+const hasCanvas = showBackground && canvasLayout;
 
 // This should match your existing siteMetadata structure
 const siteMetadata = {
@@ -71,8 +73,6 @@ const fullTitle = title === siteMetadata.title ? title : `${title} | ${siteMetad
     <slot name="head" />
 
     <ViewTransitions />
-    <!-- Keep the original shared.css for now to ensure existing styles work -->
-    <link rel="stylesheet" href="/shared.css" />
 
     <!-- Theme handling (matching your existing theme provider) -->
     <script is:inline>
@@ -115,11 +115,11 @@ const fullTitle = title === siteMetadata.title ? title : `${title} | ${siteMetad
 
     <ViewTransitions />
   </head>
-  <body class="h-dvh transition-colors duration-100 flex flex-col">
+  <body class="h-dvh transition-colors duration-100 flex flex-col" data-canvas-layout={canvasLayout ? 'true' : 'false'}>
     <Header client:load transition:persist />
 
-    <!-- Add ColorModeToggle to all pages except homepage -->
-    {!isHomepage && (
+    <!-- Add ColorModeToggle to all pages except those with canvas background -->
+    {!hasCanvas && (
       <div style="position: relative;">
         <ColorModeToggle client:load />
       </div>

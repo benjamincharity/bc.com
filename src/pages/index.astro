@@ -61,6 +61,7 @@ const latestArticles = articles
   title="Benjamin Charity"
   description="Engineering leader & team builder at high-growth startups & scale-ups."
   showBackground={showBackground}
+  canvasLayout={true}
 >
   <!-- Preload latest article images with low priority (won't block page load) -->
   <Fragment slot="head">
@@ -82,7 +83,7 @@ const latestArticles = articles
   <div class="bc-home pointer-events-none relative z-20 text-center font-vt323 h-full flex flex-col justify-between">
     <main class="flex flex-col items-center pt-8">
       <!-- Subtitle below the Header (which contains the title) -->
-      <h2 class="mx-2 mt-4 mb-6 inline-block hyphens-none text-center font-vt323 text-subTitle uppercase leading-tight text-white text-shadow-title sm:leading-none">
+      <h2 class="mx-2 mt-2 mb-6 inline-block hyphens-none text-center font-vt323 text-subTitle uppercase leading-tight text-white text-shadow-title sm:leading-none">
         <span class="inline-block whitespace-nowrap">
           {siteMetadata.professionalTitleSplit[0]}
         </span>{' '}

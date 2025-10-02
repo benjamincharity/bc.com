@@ -17,7 +17,7 @@ export default function Header({
   const [currentPath, setCurrentPath] = useState('');
 
   // Determine if background should be visible based on current path
-  const backgroundIsVisible = currentPath === '/' || currentPath === '';
+  const backgroundIsVisible = currentPath === '/' || currentPath === '' || currentPath === '/404' || currentPath === '/404/';
   const [isSmall, setIsSmall] = useState(!backgroundIsVisible);
 
   const transitionClasses = useMemo(() => {
@@ -33,7 +33,13 @@ export default function Header({
   // Track current path and listen for navigation changes
   useEffect(() => {
     const updatePath = () => {
-      setCurrentPath(window.location.pathname);
+      // Check for canvas layout via data attribute
+      const hasCanvasLayout = document.body.getAttribute('data-canvas-layout') === 'true';
+      if (hasCanvasLayout) {
+        setCurrentPath('/'); // Treat as homepage for styling (large title, no scroll)
+      } else {
+        setCurrentPath(window.location.pathname);
+      }
     };
 
     // Set initial path
