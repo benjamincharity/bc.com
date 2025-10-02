@@ -10,28 +10,28 @@ This is a personal website for Benjamin Charity built with Remix, TypeScript, an
 
 ```bash
 # Development with hot reload on port 51346
-pnpm dev
+npm run dev
 
 # Build for production
-pnpm build
+npm run build
 
 # Start production server
-pnpm start
+npm run start
 
 # Type checking
-pnpm typecheck
+npm run typecheck
 
 # Linting
-pnpm lint
+npm run lint
 
 # Code formatting
-pnpm format
+npm run format
 
 # Run tests
-pnpm test
+npm test
 
 # Run E2E tests
-pnpm e2e
+npm run e2e
 ```
 
 ## Key Build Process
@@ -97,10 +97,10 @@ Required environment variables (see `.env.example`):
 
 ## Testing
 
-- **Unit Tests**: Jest with React Testing Library (`pnpm test`)
+- **Unit Tests**: Jest with React Testing Library (`npm test`)
   - Tests located in `app/tests/` with `*.spec.tsx` pattern
   - JSDOM environment with path alias support
-- **E2E Tests**: Playwright across Chrome, Firefox, Safari (`pnpm e2e`)
+- **E2E Tests**: Playwright across Chrome, Firefox, Safari (`npm run e2e`)
   - Tests in `e2e/` directory, runs against localhost:3000
 
 ## Git Hooks & Code Quality
@@ -126,5 +126,5 @@ Required environment variables (see `.env.example`):
 ## Environment
 
 - Node.js ^20.0.0
-- Uses pnpm as package manager
+- Uses npm as package manager
 - Deployed on Vercel with `@vercel/remix` adapter
