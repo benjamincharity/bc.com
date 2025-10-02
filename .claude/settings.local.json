@@ -43,7 +43,8 @@
       "Bash(chmod:*)",
       "Bash(npm run typecheck:*)",
       "Bash(npm outdated:*)",
-      "Bash(npm prune:*)"
+      "Bash(npm prune:*)",
+      "Bash(npm run build:*)"
     ],
     "deny": [],
     "ask": [],

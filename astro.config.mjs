@@ -1,5 +1,6 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
+import cloudflare from '@astrojs/cloudflare';
 import react from '@astrojs/react';
 import tailwind from '@astrojs/tailwind';
 import mdx from '@astrojs/mdx';
@@ -13,7 +14,8 @@ import rehypeCloudinaryImages from './src/utils/rehype-cloudinary-images.ts';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://www.benjamincharity.com',
-  output: 'static',
+  output: 'server', // Server mode but pages will be prerendered
+  adapter: cloudflare(),
   integrations: [
     react(),
     tailwind({
