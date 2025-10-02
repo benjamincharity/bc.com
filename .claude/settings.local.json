@@ -37,7 +37,9 @@
       "Bash(then)",
       "Bash(fi)",
       "Bash(done)",
-      "Bash(do sed -i '' '/^draft: false$/d' \"$file\")"
+      "Bash(do sed -i '' '/^draft: false$/d' \"$file\")",
+      "Bash(git log:*)",
+      "Bash(xargs:*)"
     ],
     "deny": [],
     "ask": [],
