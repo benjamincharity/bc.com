@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 type ViewMode = 'grid' | 'compact';
 
@@ -19,6 +19,13 @@ export default function ViewToggle({
   const [mounted, setMounted] = useState(false);
   const [announcement, setAnnouncement] = useState('');
 
+  // Use ref to store latest callback without re-rendering
+  const onViewChangeRef = useRef(onViewChange);
+
+  useEffect(() => {
+    onViewChangeRef.current = onViewChange;
+  }, [onViewChange]);
+
   useEffect(() => {
     // Get saved view preference from localStorage
     const savedView = localStorage.getItem('view-mode') as ViewMode;
@@ -28,24 +35,20 @@ export default function ViewToggle({
     setMounted(true);
   }, []);
 
-  useEffect(() => {
-    if (!mounted) return;
-
-    // Save view preference to localStorage
-    localStorage.setItem('view-mode', currentView);
-
-    // Call callback if provided
-    onViewChange?.(currentView);
-
-    // Dispatch custom event for other components to listen to
-    window.dispatchEvent(new CustomEvent('viewModeChanged', {
-      detail: { view: currentView }
-    }));
-  }, [currentView, mounted, onViewChange]);
-
   const handleToggle = () => {
     const newView = currentView === 'grid' ? 'compact' : 'grid';
     setCurrentView(newView);
+
+    // Save view preference to localStorage
+    localStorage.setItem('view-mode', newView);
+
+    // Call callback if provided
+    onViewChangeRef.current?.(newView);
+
+    // Dispatch custom event for other components to listen to
+    window.dispatchEvent(new CustomEvent('viewModeChanged', {
+      detail: { view: newView }
+    }));
 
     // Announce view change to screen readers
     const message = `View changed to ${newView} mode`;
