@@ -97,6 +97,7 @@
   "private": false,
   "scripts": {
     "build": "astro build",
+    "postbuild": "node scripts/generate-csp.js",
     "dev": "astro dev --port 51346",
     "preview": "astro preview",
     "check": "astro check",

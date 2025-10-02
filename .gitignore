@@ -13,6 +13,7 @@ node_modules
 /public/sw.js
 /public/shared.css
 /shared.css
+/public/_headers
 /api/index.js
 /api/index.js.map
 /api/_assets
