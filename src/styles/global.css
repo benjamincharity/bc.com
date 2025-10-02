@@ -81,6 +81,12 @@
   body ::selection a {
     @apply text-blue-700;
   }
+
+  /* Global focus styles */
+  a:focus-visible,
+  button:focus-visible {
+    @apply outline-dashed outline-2 outline-offset-2 outline-blue-500;
+  }
 }
 
 @layer utilities {
