@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 
 interface CanvasBackgroundProps {
   className?: string;
@@ -33,7 +33,6 @@ export default function CanvasBackground({
   const particlesRef = useRef<Particle[]>([]);
   const mouseRef = useRef({ x: 0, y: 0 });
   const [isVisible, setIsVisible] = useState(true);
-  const [isPaused, setIsPaused] = useState(false);
 
   const defaultConfig = {
     width: 800,
@@ -66,7 +65,7 @@ export default function CanvasBackground({
     };
   };
 
-  const initializeParticles = () => {
+  const initializeParticles = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
@@ -76,7 +75,8 @@ export default function CanvasBackground({
     for (let i = 0; i < particleCount; i++) {
       particlesRef.current.push(createParticle());
     }
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const updateParticles = () => {
     const canvas = canvasRef.current;
@@ -147,11 +147,11 @@ export default function CanvasBackground({
     ctx.restore();
   };
 
-  const animate = () => {
+  const animate = useCallback(() => {
     const canvas = canvasRef.current;
     const ctx = canvas?.getContext('2d');
 
-    if (!canvas || !ctx || isPaused || !isVisible) {
+    if (!canvas || !ctx || !isVisible) {
       animationRef.current = requestAnimationFrame(animate);
       return;
     }
@@ -160,9 +160,10 @@ export default function CanvasBackground({
     drawParticles(ctx);
 
     animationRef.current = requestAnimationFrame(animate);
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isVisible]);
 
-  const handleMouseMove = (event: MouseEvent) => {
+  const handleMouseMove = useCallback((event: MouseEvent) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
@@ -176,16 +177,17 @@ export default function CanvasBackground({
     if (Math.random() < 0.3) {
       particlesRef.current.push(createParticle(mouseRef.current.x, mouseRef.current.y));
     }
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  const handleResize = () => {
+  const handleResize = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     initializeParticles();
-  };
+  }, [initializeParticles]);
 
   const handleVisibilityChange = () => {
     setIsVisible(!document.hidden);
@@ -219,14 +221,14 @@ export default function CanvasBackground({
       canvas.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
-  }, []);
+  }, [animate, handleMouseMove, handleResize, initializeParticles]);
 
-  // Pause/resume based on visibility and pause state
+  // Pause/resume based on visibility
   useEffect(() => {
-    if (!animationRef.current && (isVisible && !isPaused)) {
+    if (!animationRef.current && isVisible) {
       animationRef.current = requestAnimationFrame(animate);
     }
-  }, [isVisible, isPaused]);
+  }, [isVisible, animate]);
 
   return (
     <canvas

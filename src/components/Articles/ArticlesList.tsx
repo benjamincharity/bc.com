@@ -1,9 +1,10 @@
 import React from 'react';
 import { siteMetadata } from '../../data/siteMetadata';
 import { ArticleTitleLink } from '~/components/ArticleTitleLink';
+import type { Article } from '~/types/article';
 
 // TagsDisplay component
-function TagsDisplay({ tags, ...divProps }: { tags: string[]; [key: string]: any }) {
+function TagsDisplay({ tags, ...divProps }: { tags: string[] } & React.HTMLProps<HTMLDivElement>) {
   const { className = '', ...rest } = divProps;
 
   return (
@@ -21,7 +22,7 @@ function TagsDisplay({ tags, ...divProps }: { tags: string[]; [key: string]: any
 }
 
 interface ArticleProps extends React.HTMLProps<HTMLDivElement> {
-  article: any;
+  article: Article;
   layoutSize?: 'small' | 'large' | 'compact' | 'compact-first';
   hideImage?: boolean;
 }
@@ -121,7 +122,7 @@ export function ArticlesList({
   className = '',
   isCompactView = false,
 }: {
-  articles: any[];
+  articles: Article[];
   className?: string;
   isCompactView?: boolean;
 }) {

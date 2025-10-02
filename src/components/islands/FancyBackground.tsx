@@ -1,5 +1,5 @@
 import { useReducedMotion } from '@mantine/hooks';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { InteractiveCanvas } from '../InteractiveCanvas/InteractiveCanvas';
 import { state$ } from '../../store';

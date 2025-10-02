@@ -1,5 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 import { getCollection } from 'astro:content';
+import type { APIContext } from 'astro';
 
 // Mock astro:content
 vi.mock('astro:content', () => ({
@@ -22,10 +23,10 @@ describe('RSS Feed Generation', () => {
         },
       ];
 
-      vi.mocked(getCollection).mockResolvedValueOnce(mockArticles as any);
+      vi.mocked(getCollection).mockResolvedValueOnce(mockArticles as Awaited<ReturnType<typeof getCollection>>);
 
       const { GET } = await import('~/pages/feed.xml');
-      const response = await GET({} as any);
+      const response = await GET({} as APIContext);
 
       expect(response.status).toBe(200);
       expect(response.headers.get('Content-Type')).toBe('application/xml; charset=utf-8');
@@ -40,10 +41,10 @@ describe('RSS Feed Generation', () => {
     });
 
     it('should include required feed metadata', async () => {
-      vi.mocked(getCollection).mockResolvedValueOnce([] as any);
+      vi.mocked(getCollection).mockResolvedValueOnce([] as Awaited<ReturnType<typeof getCollection>>);
 
       const { GET } = await import('~/pages/feed.xml');
-      const response = await GET({} as any);
+      const response = await GET({} as APIContext);
       const feedText = await response.text();
 
       expect(feedText).toContain('<title>');
@@ -55,10 +56,10 @@ describe('RSS Feed Generation', () => {
     });
 
     it('should include self-referencing atom:link', async () => {
-      vi.mocked(getCollection).mockResolvedValueOnce([] as any);
+      vi.mocked(getCollection).mockResolvedValueOnce([] as Awaited<ReturnType<typeof getCollection>>);
 
       const { GET } = await import('~/pages/feed.xml');
-      const response = await GET({} as any);
+      const response = await GET({} as APIContext);
       const feedText = await response.text();
 
       expect(feedText).toContain(
@@ -95,13 +96,13 @@ describe('RSS Feed Generation', () => {
       // Mock the filtering behavior
       vi.mocked(getCollection).mockImplementationOnce(async (collection: string, filter?: (entry: { data: { draft: boolean } }) => boolean) => {
         if (filter) {
-          return mockArticles.filter((article) => filter({ data: article.data })) as any;
+          return mockArticles.filter((article) => filter({ data: article.data })) as Awaited<ReturnType<typeof getCollection>>;
         }
-        return mockArticles as any;
+        return mockArticles as Awaited<ReturnType<typeof getCollection>>;
       });
 
       const { GET } = await import('~/pages/feed.xml');
-      const response = await GET({} as any);
+      const response = await GET({} as APIContext);
       const feedText = await response.text();
 
       expect(feedText).toContain('Published Article');
@@ -132,10 +133,10 @@ describe('RSS Feed Generation', () => {
         },
       ];
 
-      vi.mocked(getCollection).mockResolvedValueOnce(mockArticles as any);
+      vi.mocked(getCollection).mockResolvedValueOnce(mockArticles as Awaited<ReturnType<typeof getCollection>>);
 
       const { GET } = await import('~/pages/feed.xml');
-      const response = await GET({} as any);
+      const response = await GET({} as APIContext);
       const feedText = await response.text();
 
       expect(feedText).toContain('Article 1');
@@ -168,10 +169,10 @@ describe('RSS Feed Generation', () => {
         },
       ];
 
-      vi.mocked(getCollection).mockResolvedValueOnce(mockArticles as any);
+      vi.mocked(getCollection).mockResolvedValueOnce(mockArticles as Awaited<ReturnType<typeof getCollection>>);
 
       const { GET } = await import('~/pages/feed.xml');
-      const response = await GET({} as any);
+      const response = await GET({} as APIContext);
       const feedText = await response.text();
 
       const newIndex = feedText.indexOf('New Article');
@@ -196,10 +197,10 @@ describe('RSS Feed Generation', () => {
         },
       ];
 
-      vi.mocked(getCollection).mockResolvedValueOnce(mockArticles as any);
+      vi.mocked(getCollection).mockResolvedValueOnce(mockArticles as Awaited<ReturnType<typeof getCollection>>);
 
       const { GET } = await import('~/pages/feed.xml');
-      const response = await GET({} as any);
+      const response = await GET({} as APIContext);
       const feedText = await response.text();
 
       expect(feedText).toContain('<item>');
@@ -226,10 +227,10 @@ describe('RSS Feed Generation', () => {
         },
       ];
 
-      vi.mocked(getCollection).mockResolvedValueOnce(mockArticles as any);
+      vi.mocked(getCollection).mockResolvedValueOnce(mockArticles as Awaited<ReturnType<typeof getCollection>>);
 
       const { GET } = await import('~/pages/feed.xml');
-      const response = await GET({} as any);
+      const response = await GET({} as APIContext);
       const feedText = await response.text();
 
       expect(feedText).toContain('<category>typescript</category>');
@@ -253,10 +254,10 @@ describe('RSS Feed Generation', () => {
         },
       ];
 
-      vi.mocked(getCollection).mockResolvedValueOnce(mockArticles as any);
+      vi.mocked(getCollection).mockResolvedValueOnce(mockArticles as Awaited<ReturnType<typeof getCollection>>);
 
       const { GET } = await import('~/pages/feed.xml');
-      const response = await GET({} as any);
+      const response = await GET({} as APIContext);
       const feedText = await response.text();
 
       expect(feedText).toContain('Test &amp; &lt;Special&gt; &quot;Characters&quot;');
@@ -277,10 +278,10 @@ describe('RSS Feed Generation', () => {
         },
       ];
 
-      vi.mocked(getCollection).mockResolvedValueOnce(mockArticles as any);
+      vi.mocked(getCollection).mockResolvedValueOnce(mockArticles as Awaited<ReturnType<typeof getCollection>>);
 
       const { GET } = await import('~/pages/feed.xml');
-      const response = await GET({} as any);
+      const response = await GET({} as APIContext);
       const feedText = await response.text();
 
       expect(feedText).toContain('&lt;html&gt; &amp; &quot;quotes&quot; and &apos;apostrophes&apos;');
@@ -300,10 +301,10 @@ describe('RSS Feed Generation', () => {
         },
       ];
 
-      vi.mocked(getCollection).mockResolvedValueOnce(mockArticles as any);
+      vi.mocked(getCollection).mockResolvedValueOnce(mockArticles as Awaited<ReturnType<typeof getCollection>>);
 
       const { GET } = await import('~/pages/feed.xml');
-      const response = await GET({} as any);
+      const response = await GET({} as APIContext);
       const feedText = await response.text();
 
       expect(feedText).toContain('<category>&lt;tag&gt;</category>');
@@ -328,10 +329,10 @@ describe('RSS Feed Generation', () => {
         },
       ];
 
-      vi.mocked(getCollection).mockResolvedValueOnce(mockArticles as any);
+      vi.mocked(getCollection).mockResolvedValueOnce(mockArticles as Awaited<ReturnType<typeof getCollection>>);
 
       const { GET } = await import('~/pages/feed.xml');
-      const response = await GET({} as any);
+      const response = await GET({} as APIContext);
       const feedText = await response.text();
 
       // RFC 822 format (used by RSS)
@@ -339,10 +340,10 @@ describe('RSS Feed Generation', () => {
     });
 
     it('should include lastBuildDate in correct format', async () => {
-      vi.mocked(getCollection).mockResolvedValueOnce([] as any);
+      vi.mocked(getCollection).mockResolvedValueOnce([] as Awaited<ReturnType<typeof getCollection>>);
 
       const { GET } = await import('~/pages/feed.xml');
-      const response = await GET({} as any);
+      const response = await GET({} as APIContext);
       const feedText = await response.text();
 
       // Should contain lastBuildDate in RFC 822 format
@@ -352,19 +353,19 @@ describe('RSS Feed Generation', () => {
 
   describe('HTTP headers', () => {
     it('should set correct Content-Type header', async () => {
-      vi.mocked(getCollection).mockResolvedValueOnce([] as any);
+      vi.mocked(getCollection).mockResolvedValueOnce([] as Awaited<ReturnType<typeof getCollection>>);
 
       const { GET } = await import('~/pages/feed.xml');
-      const response = await GET({} as any);
+      const response = await GET({} as APIContext);
 
       expect(response.headers.get('Content-Type')).toBe('application/xml; charset=utf-8');
     });
 
     it('should set cache control header', async () => {
-      vi.mocked(getCollection).mockResolvedValueOnce([] as any);
+      vi.mocked(getCollection).mockResolvedValueOnce([] as Awaited<ReturnType<typeof getCollection>>);
 
       const { GET } = await import('~/pages/feed.xml');
-      const response = await GET({} as any);
+      const response = await GET({} as APIContext);
 
       expect(response.headers.get('Cache-Control')).toBe('public, max-age=3600');
     });
@@ -385,10 +386,10 @@ describe('RSS Feed Generation', () => {
         },
       ];
 
-      vi.mocked(getCollection).mockResolvedValueOnce(mockArticles as any);
+      vi.mocked(getCollection).mockResolvedValueOnce(mockArticles as Awaited<ReturnType<typeof getCollection>>);
 
       const { GET } = await import('~/pages/feed.xml');
-      const response = await GET({} as any);
+      const response = await GET({} as APIContext);
       const feedText = await response.text();
 
       expect(feedText).toContain('/articles/test-article');
@@ -409,10 +410,10 @@ describe('RSS Feed Generation', () => {
         },
       ];
 
-      vi.mocked(getCollection).mockResolvedValueOnce(mockArticles as any);
+      vi.mocked(getCollection).mockResolvedValueOnce(mockArticles as Awaited<ReturnType<typeof getCollection>>);
 
       const { GET } = await import('~/pages/feed.xml');
-      const response = await GET({} as any);
+      const response = await GET({} as APIContext);
       const feedText = await response.text();
 
       expect(feedText).toContain('/articles/test-article');
@@ -422,10 +423,10 @@ describe('RSS Feed Generation', () => {
 
   describe('Empty feed', () => {
     it('should handle empty article collection', async () => {
-      vi.mocked(getCollection).mockResolvedValueOnce([] as any);
+      vi.mocked(getCollection).mockResolvedValueOnce([] as Awaited<ReturnType<typeof getCollection>>);
 
       const { GET } = await import('~/pages/feed.xml');
-      const response = await GET({} as any);
+      const response = await GET({} as APIContext);
 
       expect(response.status).toBe(200);
 
@@ -449,10 +450,10 @@ describe('RSS Feed Generation', () => {
         },
       }));
 
-      vi.mocked(getCollection).mockResolvedValueOnce(mockArticles as any);
+      vi.mocked(getCollection).mockResolvedValueOnce(mockArticles as Awaited<ReturnType<typeof getCollection>>);
 
       const { GET } = await import('~/pages/feed.xml');
-      const response = await GET({} as any);
+      const response = await GET({} as APIContext);
       const feedText = await response.text();
 
       // Check all articles are included

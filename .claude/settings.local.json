@@ -56,7 +56,8 @@
       "Bash(gh pr view:*)",
       "WebSearch",
       "Bash(npm run dev:*)",
-      "WebFetch(domain:docs.buttondown.com)"
+      "WebFetch(domain:docs.buttondown.com)",
+      "Bash(npm run lint)"
     ],
     "deny": [],
     "ask": [],

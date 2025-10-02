@@ -55,13 +55,6 @@ export default function ScrollBehavior({
     });
   };
 
-  const scrollToBottom = () => {
-    window.scrollTo({
-      top: document.documentElement.scrollHeight,
-      behavior: smoothScroll ? 'smooth' : 'auto'
-    });
-  };
-
   if (!showScrollToTop) {
     return null;
   }

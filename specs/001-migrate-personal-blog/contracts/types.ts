@@ -25,7 +25,7 @@ export interface Article {
   body: string;
   readingTime: number;
   render(): Promise<{
-    Content: any;
+    Content: React.ComponentType;
     headings: { depth: number; slug: string; text: string }[];
   }>;
 }
@@ -250,7 +250,7 @@ export interface LighthouseReport {
 
 export interface ValidationRule<T> {
   field: keyof T;
-  validator: (value: any) => boolean;
+  validator: (value: unknown) => boolean;
   message: string;
 }
 
@@ -294,7 +294,7 @@ export interface AppError {
   code: string;
   message: string;
   stack?: string;
-  context?: Record<string, any>;
+  context?: Record<string, unknown>;
 }
 
 export interface ErrorBoundaryState {
@@ -320,5 +320,5 @@ export interface SeoData {
 export interface JsonLd {
   '@context': string;
   '@type': string;
-  [key: string]: any;
+  [key: string]: unknown;
 }

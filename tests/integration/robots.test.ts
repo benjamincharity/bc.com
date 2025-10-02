@@ -1,10 +1,11 @@
 import { describe, it, expect } from 'vitest';
+import type { APIContext } from 'astro';
 
 describe('robots.txt Generation', () => {
   describe('Basic structure', () => {
     it('should return plain text response', async () => {
       const { GET } = await import('~/pages/robots.txt');
-      const response = await GET({} as any);
+      const response = await GET({} as APIContext);
 
       expect(response.status).toBe(200);
       expect(response.headers.get('Content-Type')).toBe('text/plain; charset=utf-8');
@@ -12,7 +13,7 @@ describe('robots.txt Generation', () => {
 
     it('should include User-agent directive', async () => {
       const { GET } = await import('~/pages/robots.txt');
-      const response = await GET({} as any);
+      const response = await GET({} as APIContext);
       const text = await response.text();
 
       expect(text).toContain('User-agent: *');
@@ -20,7 +21,7 @@ describe('robots.txt Generation', () => {
 
     it('should include Allow directive', async () => {
       const { GET } = await import('~/pages/robots.txt');
-      const response = await GET({} as any);
+      const response = await GET({} as APIContext);
       const text = await response.text();
 
       expect(text).toContain('Allow: /');
@@ -28,7 +29,7 @@ describe('robots.txt Generation', () => {
 
     it('should include reference comment', async () => {
       const { GET } = await import('~/pages/robots.txt');
-      const response = await GET({} as any);
+      const response = await GET({} as APIContext);
       const text = await response.text();
 
       expect(text).toContain('# https://www.robotstxt.org/robotstxt.html');
@@ -38,7 +39,7 @@ describe('robots.txt Generation', () => {
   describe('Sitemap', () => {
     it('should include Sitemap directive', async () => {
       const { GET } = await import('~/pages/robots.txt');
-      const response = await GET({} as any);
+      const response = await GET({} as APIContext);
       const text = await response.text();
 
       expect(text).toContain('Sitemap:');
@@ -46,7 +47,7 @@ describe('robots.txt Generation', () => {
 
     it('should include correct sitemap URL', async () => {
       const { GET } = await import('~/pages/robots.txt');
-      const response = await GET({} as any);
+      const response = await GET({} as APIContext);
       const text = await response.text();
 
       expect(text).toContain('Sitemap: https://www.benjamincharity.com/sitemap.xml');
@@ -56,7 +57,7 @@ describe('robots.txt Generation', () => {
   describe('Disallow rules', () => {
     it('should block utility pages', async () => {
       const { GET } = await import('~/pages/robots.txt');
-      const response = await GET({} as any);
+      const response = await GET({} as APIContext);
       const text = await response.text();
 
       expect(text).toContain('Disallow: /subscribe-success/');
@@ -64,7 +65,7 @@ describe('robots.txt Generation', () => {
 
     it('should block utility directories', async () => {
       const { GET } = await import('~/pages/robots.txt');
-      const response = await GET({} as any);
+      const response = await GET({} as APIContext);
       const text = await response.text();
 
       expect(text).toContain('Disallow: /cgi-bin/');
@@ -74,7 +75,7 @@ describe('robots.txt Generation', () => {
 
     it('should block script files', async () => {
       const { GET } = await import('~/pages/robots.txt');
-      const response = await GET({} as any);
+      const response = await GET({} as APIContext);
       const text = await response.text();
 
       expect(text).toContain('Disallow: /*.js$');
@@ -82,7 +83,7 @@ describe('robots.txt Generation', () => {
 
     it('should block CSS files', async () => {
       const { GET } = await import('~/pages/robots.txt');
-      const response = await GET({} as any);
+      const response = await GET({} as APIContext);
       const text = await response.text();
 
       expect(text).toContain('Disallow: /*.css$');
@@ -90,7 +91,7 @@ describe('robots.txt Generation', () => {
 
     it('should have comments for disallow sections', async () => {
       const { GET } = await import('~/pages/robots.txt');
-      const response = await GET({} as any);
+      const response = await GET({} as APIContext);
       const text = await response.text();
 
       expect(text).toContain('# Block utility pages');
@@ -102,7 +103,7 @@ describe('robots.txt Generation', () => {
   describe('Formatting', () => {
     it('should have proper line structure', async () => {
       const { GET } = await import('~/pages/robots.txt');
-      const response = await GET({} as any);
+      const response = await GET({} as APIContext);
       const text = await response.text();
 
       // Should have multiple lines
@@ -112,7 +113,7 @@ describe('robots.txt Generation', () => {
 
     it('should not have leading/trailing whitespace', async () => {
       const { GET } = await import('~/pages/robots.txt');
-      const response = await GET({} as any);
+      const response = await GET({} as APIContext);
       const text = await response.text();
 
       // Text is trimmed
@@ -121,7 +122,7 @@ describe('robots.txt Generation', () => {
 
     it('should have blank lines between sections', async () => {
       const { GET } = await import('~/pages/robots.txt');
-      const response = await GET({} as any);
+      const response = await GET({} as APIContext);
       const text = await response.text();
 
       // Check for empty lines as section separators
@@ -132,14 +133,14 @@ describe('robots.txt Generation', () => {
   describe('HTTP headers', () => {
     it('should set correct Content-Type', async () => {
       const { GET } = await import('~/pages/robots.txt');
-      const response = await GET({} as any);
+      const response = await GET({} as APIContext);
 
       expect(response.headers.get('Content-Type')).toBe('text/plain; charset=utf-8');
     });
 
     it('should set Cache-Control header', async () => {
       const { GET } = await import('~/pages/robots.txt');
-      const response = await GET({} as any);
+      const response = await GET({} as APIContext);
 
       const cacheControl = response.headers.get('Cache-Control');
       expect(cacheControl).toContain('public');
@@ -148,7 +149,7 @@ describe('robots.txt Generation', () => {
 
     it('should cache for 5 minutes', async () => {
       const { GET } = await import('~/pages/robots.txt');
-      const response = await GET({} as any);
+      const response = await GET({} as APIContext);
 
       const cacheControl = response.headers.get('Cache-Control');
       // 5 minutes = 300 seconds
@@ -159,7 +160,7 @@ describe('robots.txt Generation', () => {
   describe('robots.txt spec compliance', () => {
     it('should follow robots.txt format', async () => {
       const { GET } = await import('~/pages/robots.txt');
-      const response = await GET({} as any);
+      const response = await GET({} as APIContext);
       const text = await response.text();
 
       // Basic validation of robots.txt format
@@ -172,7 +173,7 @@ describe('robots.txt Generation', () => {
 
     it('should use correct directive syntax', async () => {
       const { GET } = await import('~/pages/robots.txt');
-      const response = await GET({} as any);
+      const response = await GET({} as APIContext);
       const text = await response.text();
 
       // Directives should have format "Directive: value"
@@ -184,7 +185,7 @@ describe('robots.txt Generation', () => {
 
     it('should apply to all user agents', async () => {
       const { GET } = await import('~/pages/robots.txt');
-      const response = await GET({} as any);
+      const response = await GET({} as APIContext);
       const text = await response.text();
 
       // Wildcard user agent
@@ -195,7 +196,7 @@ describe('robots.txt Generation', () => {
   describe('SEO considerations', () => {
     it('should allow root path', async () => {
       const { GET } = await import('~/pages/robots.txt');
-      const response = await GET({} as any);
+      const response = await GET({} as APIContext);
       const text = await response.text();
 
       expect(text).toContain('Allow: /');
@@ -203,7 +204,7 @@ describe('robots.txt Generation', () => {
 
     it('should provide sitemap for discovery', async () => {
       const { GET } = await import('~/pages/robots.txt');
-      const response = await GET({} as any);
+      const response = await GET({} as APIContext);
       const text = await response.text();
 
       expect(text).toMatch(/Sitemap:\s+https:\/\/[^\s]+\/sitemap\.xml/);
@@ -211,7 +212,7 @@ describe('robots.txt Generation', () => {
 
     it('should block non-content resources', async () => {
       const { GET } = await import('~/pages/robots.txt');
-      const response = await GET({} as any);
+      const response = await GET({} as APIContext);
       const text = await response.text();
 
       // JS and CSS should be blocked
@@ -223,7 +224,7 @@ describe('robots.txt Generation', () => {
   describe('Content validation', () => {
     it('should only contain valid robots.txt directives', async () => {
       const { GET } = await import('~/pages/robots.txt');
-      const response = await GET({} as any);
+      const response = await GET({} as APIContext);
       const text = await response.text();
 
       const lines = text.split('\n').filter((line) => line.trim() && !line.startsWith('#'));
@@ -240,7 +241,7 @@ describe('robots.txt Generation', () => {
 
     it('should not contain HTML', async () => {
       const { GET } = await import('~/pages/robots.txt');
-      const response = await GET({} as any);
+      const response = await GET({} as APIContext);
       const text = await response.text();
 
       expect(text).not.toContain('<html>');
@@ -250,7 +251,7 @@ describe('robots.txt Generation', () => {
 
     it('should not contain JSON', async () => {
       const { GET } = await import('~/pages/robots.txt');
-      const response = await GET({} as any);
+      const response = await GET({} as APIContext);
       const text = await response.text();
 
       expect(text).not.toContain('{');
@@ -263,17 +264,18 @@ describe('robots.txt Generation', () => {
   describe('Character encoding', () => {
     it('should specify UTF-8 encoding', async () => {
       const { GET } = await import('~/pages/robots.txt');
-      const response = await GET({} as any);
+      const response = await GET({} as APIContext);
 
       expect(response.headers.get('Content-Type')).toContain('charset=utf-8');
     });
 
     it('should only contain ASCII characters', async () => {
       const { GET } = await import('~/pages/robots.txt');
-      const response = await GET({} as any);
+      const response = await GET({} as APIContext);
       const text = await response.text();
 
       // robots.txt should typically only use ASCII
+      // eslint-disable-next-line no-control-regex
       const isAscii = /^[\x00-\x7F]*$/.test(text);
       expect(isAscii).toBe(true);
     });
@@ -282,7 +284,7 @@ describe('robots.txt Generation', () => {
   describe('Size and performance', () => {
     it('should be reasonably small', async () => {
       const { GET } = await import('~/pages/robots.txt');
-      const response = await GET({} as any);
+      const response = await GET({} as APIContext);
       const text = await response.text();
 
       // Should be under 1KB for efficient crawling
@@ -291,7 +293,7 @@ describe('robots.txt Generation', () => {
 
     it('should not have excessive blank lines', async () => {
       const { GET } = await import('~/pages/robots.txt');
-      const response = await GET({} as any);
+      const response = await GET({} as APIContext);
       const text = await response.text();
 
       // Should not have triple blank lines
@@ -302,7 +304,7 @@ describe('robots.txt Generation', () => {
   describe('Documentation', () => {
     it('should have reference to robots.txt spec', async () => {
       const { GET } = await import('~/pages/robots.txt');
-      const response = await GET({} as any);
+      const response = await GET({} as APIContext);
       const text = await response.text();
 
       expect(text).toContain('robotstxt.org');
@@ -310,7 +312,7 @@ describe('robots.txt Generation', () => {
 
     it('should have descriptive comments', async () => {
       const { GET } = await import('~/pages/robots.txt');
-      const response = await GET({} as any);
+      const response = await GET({} as APIContext);
       const text = await response.text();
 
       const comments = text.split('\n').filter((line) => line.trim().startsWith('#'));
@@ -322,10 +324,10 @@ describe('robots.txt Generation', () => {
     it('should produce same output on multiple calls', async () => {
       const { GET } = await import('~/pages/robots.txt');
 
-      const response1 = await GET({} as any);
+      const response1 = await GET({} as APIContext);
       const text1 = await response1.text();
 
-      const response2 = await GET({} as any);
+      const response2 = await GET({} as APIContext);
       const text2 = await response2.text();
 
       expect(text1).toBe(text2);

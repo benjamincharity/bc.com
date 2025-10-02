@@ -1,4 +1,4 @@
-import React from 'react';
+// React import not needed in React 19
 
 // Your exact NAVIGATION_LINKS data
 const NAVIGATION_LINKS = [

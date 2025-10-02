@@ -3,9 +3,10 @@ import { ViewToggle } from '../ViewToggle';
 import { ArticlesList } from '../Articles/ArticlesList';
 import { Badge } from '../Badge';
 import { BackToLink } from '../BackToLink';
+import type { Article } from '~/types/article';
 
 interface ArticlesPageWrapperProps {
-  articles: any[];
+  articles: Article[];
 }
 
 export default function ArticlesPageWrapper({ articles }: ArticlesPageWrapperProps) {
@@ -37,7 +38,6 @@ export default function ArticlesPageWrapper({ articles }: ArticlesPageWrapperPro
 
   const visibleArticles = articles.slice(0, visibleCount);
   const hasMore = visibleCount < articles.length;
-  const remainingCount = articles.length - visibleCount;
 
   return (
     <>
@@ -75,7 +75,7 @@ export default function ArticlesPageWrapper({ articles }: ArticlesPageWrapperPro
         ) : (
           <div>
             <p className="mb-2 text-sm italic text-gray-700 dark:text-gray-200">
-              You've reached the end!
+              You&rsquo;ve reached the end!
             </p>
             <img
               className="mx-auto w-80 max-w-full animate-gentleRotate rounded-full shadow-md"

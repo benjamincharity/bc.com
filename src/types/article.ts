@@ -29,7 +29,7 @@ export interface Article {
   body: string;
   readingTime: number;
   render(): Promise<{
-    Content: any;
+    Content: React.ComponentType;
     headings: { depth: number; slug: string; text: string }[];
   }>;
 }

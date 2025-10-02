@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect, useMemo, useState } from 'react';
+import { type ReactNode, useEffect, useMemo, useState } from 'react';
 
 // This should exactly match your existing app/components/Header.tsx
 // but adapted to work as an Astro island
