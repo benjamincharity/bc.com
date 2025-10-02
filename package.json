@@ -116,6 +116,8 @@
     "e2e": "playwright test",
     "format": "npx prettier --log-level warn --write .",
     "lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint .",
+    "reading-time": "node scripts/add-reading-time.js",
+    "reading-time:dry": "node scripts/add-reading-time.js --dry-run",
     "test": "vitest",
     "typecheck": "tsc"
   },

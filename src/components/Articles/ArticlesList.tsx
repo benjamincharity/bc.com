@@ -29,10 +29,7 @@ interface ArticleProps extends React.HTMLProps<HTMLDivElement> {
 function Article({ article, layoutSize = 'large', hideImage = false, ...divProps }: ArticleProps) {
   const url = `/articles/${article.id}`;
   const { id, data } = article;
-  const { title, description, image, tags } = data;
-
-  // Calculate reading time from description (rough estimate)
-  const readingTime = Math.ceil((description?.length || 100) / 1000) || 1;
+  const { title, description, image, tags, readingTime } = data;
 
   const isCompact = layoutSize === 'compact' || layoutSize === 'compact-first';
   const isCompactFirst = layoutSize === 'compact-first';
