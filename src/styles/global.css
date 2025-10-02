@@ -133,6 +133,7 @@
 
   .highlight {
     @apply rounded-br-2xl rounded-tl-2xl bg-strongBg font-semibold text-gray-800 dark:bg-strongBgDark dark:text-white;
+    background-color: transparent; /* Override browser default mark background */
   }
   .highlight code {
     @apply bg-mark;
@@ -348,7 +349,10 @@ a.animated-gradient-text {
   @apply cursor-help;
   text-underline-offset: 2px;
 }
-.rendered-markdown strong:not(li strong) {
+.rendered-markdown strong {
+  @apply font-semibold;
+}
+.rendered-markdown mark {
   @apply highlight;
 }
 

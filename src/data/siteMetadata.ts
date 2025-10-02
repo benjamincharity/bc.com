@@ -12,6 +12,7 @@ export const siteMetadata = {
   twitterImage: `/images/social.Twitter.png`,
   linkedInImage: `/images/social.LinkedIn.png`,
   author: 'Benjamin Charity',
+  email: 'ben@benjamincharity.com',
   twitter: 'benjamincharity',
   github: 'benjamincharity',
   linkedIn: 'benjamincharity',
