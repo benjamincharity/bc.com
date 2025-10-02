@@ -19,7 +19,9 @@
   X-XSS-Protection: 1; mode=block
 
   # Content Security Policy (comprehensive)
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.gstatic.com; img-src 'self' https://res.cloudinary.com data: blob:; font-src 'self' https://fonts.gstatic.com data:; connect-src 'self' https://api.buttondown.email; frame-ancestors 'none'; base-uri 'self'; form-action 'self'
+  # Script hashes: theme init, Astro loader, Astro island hydration, console game
+  # To regenerate hashes after changes: npm run build && node scripts/verify-csp-hashes.js
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'sha256-EwvUlCwhXJVe8sxdupA2kKzxAAklA9vWBuwDHFrR7CI=' 'sha256-QzWFZi+FLIx23tnm9SBU4aEgx4x8DsuASP07mfqol/c=' 'sha256-p9VbHs/ClkQc+x63XdUjvCAgeWxA4ZGvpebJtMn9jbs=' 'sha256-WOgiF58Macen5AccbF2DLCB5DGIm7ErRixgwEc88Wvs='; style-src 'self'; img-src 'self' https://res.cloudinary.com data: blob:; font-src 'self' data:; connect-src 'self' https://api.buttondown.email; object-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'
 
 # API endpoint - stricter CSP
 /api/*
