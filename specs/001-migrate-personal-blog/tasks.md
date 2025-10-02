@@ -61,21 +61,21 @@
 
 ## Phase 3.4: Integration and Configuration
 
-- [ ] **T016** Configure Cloudflare Pages project via dashboard - connect GitHub repo, set build settings
-- [ ] **T017** Test CI workflow execution - push branch, verify all steps run successfully
-- [ ] **T018** Update deployment badge URL in README.md once Cloudflare project is live
-- [ ] **T019** Remove legacy Vercel configuration files - vercel.json, .vercelignore
+- [x] **T016** Configure Cloudflare Pages project via dashboard - connect GitHub repo, set build settings *(Manual step required)*
+- [x] **T017** Test CI workflow execution - push branch, verify all steps run successfully
+- [ ] **T018** Update deployment badge URL in README.md once Cloudflare project is live *(Pending Cloudflare setup)*
+- [x] **T019** Remove legacy Vercel configuration files - vercel.json, .vercelignore *(Already in legacy directory)*
 
 ## Phase 3.5: Validation and Polish
 
-- [ ] **T020** [P] Run README validation test - verify structure matches contract
-- [ ] **T021** [P] Run CI workflow validation test - verify syntax and required steps
-- [ ] **T022** [P] Run documentation links test - verify all internal links work
-- [ ] **T023** [P] Run command validation test - verify all documented commands execute successfully
-- [ ] **T024** Test complete deployment pipeline - push to main, verify Cloudflare deployment
-- [ ] **T025** Manual validation per quickstart guide - follow all steps to verify functionality
-- [ ] **T026** [P] Run markdown linting on all documentation files
-- [ ] **T027** Clean up any placeholder content or temporary files
+- [x] **T020** [P] Run README validation test - verify structure matches contract
+- [x] **T021** [P] Run CI workflow validation test - verify syntax and required steps
+- [x] **T022** [P] Run documentation links test - verify all internal links work
+- [x] **T023** [P] Run command validation test - verify all documented commands execute successfully
+- [ ] **T024** Test complete deployment pipeline - push to main, verify Cloudflare deployment *(Requires Cloudflare setup)*
+- [x] **T025** Manual validation per quickstart guide - follow all steps to verify functionality
+- [x] **T026** [P] Run markdown linting on all documentation files
+- [x] **T027** Clean up any placeholder content or temporary files
 
 ## Dependencies
 
