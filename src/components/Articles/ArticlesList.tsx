@@ -48,7 +48,8 @@ function Article({ article, layoutSize = 'large', hideImage = false, ...divProps
         {!hideImage && image && (
           <a href={url} className={isCompact ? 'flex-shrink-0 mr-4' : ''}>
             <img
-              alt={title}
+              alt=""
+              role="presentation"
               className={`inline-block ${
                 layoutSize === 'large'
                   ? 'lg:aspect-first-hero'
@@ -89,7 +90,22 @@ function Article({ article, layoutSize = 'large', hideImage = false, ...divProps
               </svg>
             </a>
 
-            <span className="inline-block items-center text-sm leading-none text-slate-600 before:mr-1 before:inline-block before:opacity-60 before:transition-opacity before:content-['⌚'] group-hover:before:opacity-100 dark:text-slate-200">
+            <span className="inline-flex items-center gap-1 text-sm leading-none text-slate-600 dark:text-slate-200">
+              <svg
+                aria-hidden="true"
+                className="w-4 h-4 opacity-60 transition-opacity group-hover:opacity-100"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
               {readingTime}min
             </span>
           </div>

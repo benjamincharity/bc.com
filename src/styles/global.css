@@ -212,19 +212,20 @@ strong {
 }
 
 /*Add any custom utility classes here*/
-@keyframes gradient-animation {
-  0% {
-    background-position: 0% 50%;
-  }
-  100% {
-    background-position: 100% 50%;
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes gradient-animation {
+    0% {
+      background-position: 0% 50%;
+    }
+    100% {
+      background-position: 100% 50%;
+    }
   }
 }
 
 a.animated-gradient-text {
   position: relative;
   -webkit-background-clip: text;
-  animation: gradient-animation 16s linear infinite;
   background-image: linear-gradient(
     90deg,
     #f43f5e,
@@ -239,8 +240,15 @@ a.animated-gradient-text {
   transform: translateZ(0);
   backface-visibility: hidden;
   perspective: 1000;
-  will-change: background-position;
 }
+
+@media (prefers-reduced-motion: no-preference) {
+  a.animated-gradient-text {
+    animation: gradient-animation 16s linear infinite;
+    will-change: background-position;
+  }
+}
+
 .dark a.animated-gradient-text {
   background-image: linear-gradient(
     90deg,
@@ -291,13 +299,21 @@ a.animated-gradient-text {
 
 .squiggle-link:focus,
 .squiggle-link:hover {
-  @apply bg-left-bottom no-underline motion-safe:bg-wavyBg;
+  @apply bg-left-bottom no-underline;
   background-size: auto 6px;
   background-repeat: repeat-x;
 }
 
+@media (prefers-reduced-motion: no-preference) {
+  .squiggle-link:focus,
+  .squiggle-link:hover {
+    @apply bg-wavyBg;
+  }
+}
+
 .squiggle-link:focus {
   outline: 2px dashed;
+  outline-color: var(--highlight-color-1); /* Matches text color */
 }
 
 .squiggle-link > svg {
@@ -837,6 +853,18 @@ a.animated-gradient-text {
 .dark .color-mode-toggle .toggle .star {
   transform: rotate(10deg);
   top: 20%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .color-mode-toggle .star::after,
+  .color-mode-toggle .star::before,
+  .color-mode-toggle .star,
+  .color-mode-toggle .toggle::before,
+  .color-mode-toggle .toggle::after,
+  .color-mode-toggle .mountains,
+  .color-mode-toggle .sea {
+    transition: none !important;
+  }
 }
 
 .color-mode-toggle.no-motion,

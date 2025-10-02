@@ -140,7 +140,7 @@ export default function NewsletterForm({
             dark:border-gray-700 dark:bg-slate-900 dark:text-gray-400 dark:focus:ring-gray-600
             ${status === 'error' ? 'border-red-500 focus:border-red-500 focus:ring-red-500 dark:border-red-300' : 'border-slate-300 focus:border-blue-500 focus:ring-blue-500'}
           `}
-          aria-describedby={message ? 'newsletter-message' : undefined}
+          aria-describedby="newsletter-message"
           aria-invalid={status === 'error'}
         />
 
@@ -164,18 +164,27 @@ export default function NewsletterForm({
           </span>
         </button>
 
-        {message && (
-          <div
-            id="newsletter-message"
-            className={`
-              text-sm p-3 rounded-md
-              ${status === 'success'
-                ? 'bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-300 border border-green-200 dark:border-green-800'
-                : 'bg-red-50 dark:bg-red-900/30 text-red-700 dark:text-red-300 border border-red-200 dark:border-red-800'
-              }
-            `}
-            role={status === 'error' ? 'alert' : 'status'}
-          >
+        {/* Always render message container for stable aria-describedby */}
+        <div
+          id="newsletter-message"
+          className={`
+            text-sm p-3 rounded-md transition-opacity
+            ${message
+              ? 'opacity-100'
+              : 'opacity-0 h-0 p-0 overflow-hidden'
+            }
+            ${status === 'success'
+              ? 'bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-300 border border-green-200 dark:border-green-800'
+              : status === 'error'
+              ? 'bg-red-50 dark:bg-red-900/30 text-red-700 dark:text-red-300 border border-red-200 dark:border-red-800'
+              : ''
+            }
+          `}
+          role={status === 'error' ? 'alert' : 'status'}
+          aria-live={status === 'error' ? 'assertive' : 'polite'}
+          aria-atomic="true"
+        >
+          {message && (
             <div className="flex items-start space-x-2">
               {status === 'success' ? (
                 <svg className="w-4 h-4 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
@@ -185,7 +194,7 @@ export default function NewsletterForm({
                     clipRule="evenodd"
                   />
                 </svg>
-              ) : (
+              ) : status === 'error' ? (
                 <svg className="w-4 h-4 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                   <path
                     fillRule="evenodd"
@@ -193,11 +202,11 @@ export default function NewsletterForm({
                     clipRule="evenodd"
                   />
                 </svg>
-              )}
+              ) : null}
               <span>{message}</span>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </form>
 
       <p className="py-2 text-center text-xs text-slate-500 dark:text-slate-300">

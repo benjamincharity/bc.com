@@ -17,6 +17,7 @@ export default function ViewToggle({
 }: ViewToggleProps) {
   const [currentView, setCurrentView] = useState<ViewMode>(defaultView);
   const [mounted, setMounted] = useState(false);
+  const [announcement, setAnnouncement] = useState('');
 
   useEffect(() => {
     // Get saved view preference from localStorage
@@ -43,7 +44,15 @@ export default function ViewToggle({
   }, [currentView, mounted, onViewChange]);
 
   const handleToggle = () => {
-    setCurrentView(prev => prev === 'grid' ? 'compact' : 'grid');
+    const newView = currentView === 'grid' ? 'compact' : 'grid';
+    setCurrentView(newView);
+
+    // Announce view change to screen readers
+    const message = `View changed to ${newView} mode`;
+    setAnnouncement(message);
+
+    // Clear announcement after 3 seconds
+    setTimeout(() => setAnnouncement(''), 3000);
   };
 
   const sizeClasses = {
@@ -88,24 +97,36 @@ export default function ViewToggle({
   );
 
   return (
-    <button
-      onClick={handleToggle}
-      className={`
-        flex items-center justify-center ${sizeClasses[size]} rounded-md
-        text-gray-700 dark:text-gray-300
-        hover:text-pink-600 dark:hover:text-pink-400
-        hover:bg-gray-100 dark:hover:bg-gray-800
-        border border-gray-300 dark:border-gray-600
-        hover:border-pink-300 dark:hover:border-pink-700
-        transition-all duration-200
-        focus:outline-none focus:ring-2 focus:ring-pink-500/50
-        ${className}
-      `}
-      title={`Switch to ${currentView === 'grid' ? 'compact' : 'grid'} view`}
-      aria-label={`Switch to ${currentView === 'grid' ? 'compact' : 'grid'} view`}
-      aria-pressed={currentView === 'compact'}
-    >
-      {currentView === 'grid' ? <GridIcon /> : <CompactIcon />}
-    </button>
+    <>
+      {/* Screen reader announcement for view changes */}
+      <div
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
+        className="sr-only"
+      >
+        {announcement}
+      </div>
+
+      <button
+        onClick={handleToggle}
+        className={`
+          flex items-center justify-center ${sizeClasses[size]} rounded-md
+          text-gray-700 dark:text-gray-300
+          hover:text-pink-600 dark:hover:text-pink-400
+          hover:bg-gray-100 dark:hover:bg-gray-800
+          border border-gray-300 dark:border-gray-600
+          hover:border-pink-300 dark:hover:border-pink-700
+          transition-all duration-200
+          focus:outline-none focus:ring-2 focus:ring-pink-500/50
+          ${className}
+        `}
+        title={`Switch to ${currentView === 'grid' ? 'compact' : 'grid'} view`}
+        aria-label={`Switch to ${currentView === 'grid' ? 'compact' : 'grid'} view`}
+        aria-pressed={currentView === 'compact'}
+      >
+        {currentView === 'grid' ? <GridIcon /> : <CompactIcon />}
+      </button>
+    </>
   );
 }

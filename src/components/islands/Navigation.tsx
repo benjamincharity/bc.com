@@ -43,7 +43,9 @@ export default function Navigation() {
                     target="_blank"
                   >
                     {link.display}
+                    <span className="sr-only"> (opens in new tab)</span>
                     <svg
+                      aria-hidden="true"
                       clipRule="evenodd"
                       fillRule="evenodd"
                       height="24"

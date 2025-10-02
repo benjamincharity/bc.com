@@ -16,15 +16,20 @@ export default function BrowseByTags({
   heading,
   id,
 }: BrowseByTagsProps) {
+  const headingId = 'tag-navigation-heading';
+
   return (
     <aside
       className={'text-center font-sourceSerif4 text-base font-bold'}
       id={id}
+      aria-labelledby={heading ? headingId : undefined}
     >
       {heading && (
-        <div className={'mb-2 text-gray-600 dark:text-gray-400'}>{heading}</div>
+        <h2 id={headingId} className={'mb-2 text-gray-600 dark:text-gray-400 text-base font-bold'}>
+          {heading}
+        </h2>
       )}
-      <nav>
+      <nav aria-label="Filter articles by tag">
         <Tags tags={tags} currentTag={currentTag} />
       </nav>
     </aside>
@@ -48,9 +53,9 @@ export const Tags = ({
           return (
             <li key={tag + count} className={'mb-2 mr-6 inline-block text-sm'}>
               {isCurrent ? (
-                <span className={'relative inline-block dark:text-gray-500'}>
+                <span className={'relative inline-block text-gray-600 dark:text-gray-400'}>
                   {tag}{' '}
-                  <sup className={'left-100 absolute top-1/3 pl-[2px]'}>
+                  <sup className={'left-100 absolute top-1/3 pl-[2px] text-gray-600 dark:text-gray-400'}>
                     {count}
                   </sup>
                 </span>
@@ -60,7 +65,7 @@ export const Tags = ({
                   href={`/articles/tags/${tag}`}
                 >
                   {tag}{' '}
-                  <sup className={'left-100 absolute top-1/3 pl-[2px]'}>
+                  <sup className={'left-100 absolute top-1/3 pl-[2px] text-gray-600 dark:text-gray-400'}>
                     {count}
                   </sup>
                 </a>
