@@ -83,6 +83,9 @@ const fullTitle = title === siteMetadata.title ? title : `${title} | ${siteMetad
     <!-- Allow pages to inject additional head elements -->
     <slot name="head" />
 
+    <!-- Cloudflare Web Analytics -->
+    <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "f45bf2c5e25e432588cde61a06a2e646"}'></script>
+
     <!-- Theme handling (matching your existing theme provider) -->
     <script is:inline>
       // This matches the legacy Remix theme.provider.tsx logic
