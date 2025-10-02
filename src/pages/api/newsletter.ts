@@ -1,35 +1,81 @@
 import type { APIRoute } from 'astro';
+import { validateEmail } from '~/utils/email-validator';
+import { rateLimit } from '~/utils/rate-limiter';
+import { logger } from '~/utils/logger';
 
 export const prerender = false;
 
-export const POST: APIRoute = async ({ request }) => {
+export const POST: APIRoute = async ({ request, clientAddress }) => {
   try {
-    const { email, source } = await request.json();
+    // Rate limiting
+    const identifier = clientAddress || request.headers.get('CF-Connecting-IP') || 'unknown';
+    const limit = rateLimit(identifier, 5, 60000); // 5 requests per minute
 
-    // Basic email validation
-    if (!email || !email.includes('@')) {
+    if (!limit.allowed) {
+      logger.warn('Rate limit exceeded for newsletter subscription', {
+        identifier,
+        retryAfter: limit.retryAfter,
+      });
+
       return new Response(
         JSON.stringify({
           success: false,
-          message: 'Please enter a valid email address.',
+          message: 'Too many subscription attempts. Please try again in a moment.',
           error: {
-            code: 'INVALID_EMAIL',
-            message: 'Invalid email format'
-          }
+            code: 'RATE_LIMIT_EXCEEDED',
+            retryAfter: limit.retryAfter,
+            resetAt: new Date(limit.resetAt).toISOString(),
+          },
         }),
         {
-          status: 400,
+          status: 429,
           headers: {
             'Content-Type': 'application/json',
+            'Retry-After': String(limit.retryAfter || 60),
+            'X-RateLimit-Limit': '5',
+            'X-RateLimit-Remaining': String(limit.remaining),
+            'X-RateLimit-Reset': new Date(limit.resetAt).toISOString(),
           },
         }
       );
     }
 
+    const { email, source } = await request.json();
+
+    // Validate email
+    const validation = validateEmail(email);
+    if (!validation.valid) {
+      logger.debug('Invalid email submission', {
+        error: validation.error,
+      });
+
+      return new Response(
+        JSON.stringify({
+          success: false,
+          message: validation.error,
+          error: {
+            code: 'INVALID_EMAIL',
+            message: validation.error,
+          },
+        }),
+        {
+          status: 400,
+          headers: { 'Content-Type': 'application/json' },
+        }
+      );
+    }
+
+    // Use normalized email
+    const normalizedEmail = validation.normalized!;
+
     // Check for Buttondown API key
     const apiKey = import.meta.env.BUTTONDOWN_API_KEY;
     if (!apiKey) {
-      console.error('BUTTONDOWN_API_KEY not configured - newsletter subscription failed');
+      logger.warn('Newsletter API key not configured', {
+        endpoint: '/api/newsletter',
+        action: 'subscription_attempt',
+      });
+
       return new Response(
         JSON.stringify({
           success: false,
@@ -56,14 +102,18 @@ export const POST: APIRoute = async ({ request }) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        email: email.trim().toLowerCase(),
+        email: normalizedEmail,
         tags: source ? [source] : ['website'],
         referrer_url: source || 'website'
       }),
     });
 
     if (buttondownResponse.status === 409) {
-      // Email already exists
+      logger.info('Duplicate newsletter subscription attempt', {
+        email: normalizedEmail,
+        source,
+      });
+
       return new Response(
         JSON.stringify({
           success: false,
@@ -83,8 +133,12 @@ export const POST: APIRoute = async ({ request }) => {
     }
 
     if (!buttondownResponse.ok) {
-      const errorData = await buttondownResponse.text();
-      console.error('Buttondown API error:', errorData);
+      logger.error('External newsletter service error', {
+        service: 'buttondown',
+        statusCode: buttondownResponse.status,
+        statusText: buttondownResponse.statusText,
+      });
+
       return new Response(
         JSON.stringify({
           success: false,
@@ -105,6 +159,12 @@ export const POST: APIRoute = async ({ request }) => {
 
     const subscriberData = await buttondownResponse.json();
 
+    logger.info('Newsletter subscription successful', {
+      email: normalizedEmail,
+      source,
+      subscriberId: subscriberData.id,
+    });
+
     return new Response(
       JSON.stringify({
         success: true,
@@ -120,7 +180,13 @@ export const POST: APIRoute = async ({ request }) => {
     );
 
   } catch (error) {
-    console.error('Newsletter subscription error:', error);
+    logger.error('Newsletter subscription error', {
+      error: error instanceof Error ? {
+        message: error.message,
+        name: error.name,
+      } : 'Unknown error',
+    });
+
     return new Response(
       JSON.stringify({
         success: false,
