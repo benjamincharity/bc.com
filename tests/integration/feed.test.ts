@@ -93,9 +93,9 @@ describe('RSS Feed Generation', () => {
       ];
 
       // Mock the filtering behavior
-      vi.mocked(getCollection).mockImplementationOnce(async (collection, filter) => {
+      vi.mocked(getCollection).mockImplementationOnce(async (collection: string, filter?: (entry: { data: { draft: boolean } }) => boolean) => {
         if (filter) {
-          return mockArticles.filter((article) => filter({ data: article.data } as any)) as any;
+          return mockArticles.filter((article) => filter({ data: article.data })) as any;
         }
         return mockArticles as any;
       });

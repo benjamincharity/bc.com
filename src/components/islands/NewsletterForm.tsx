@@ -4,13 +4,11 @@ interface NewsletterFormProps {
   className?: string;
   placeholder?: string;
   buttonText?: string;
-  successMessage?: string;
-  apiEndpoint?: string;
 }
 
 interface FormState {
   email: string;
-  status: 'idle' | 'loading' | 'success' | 'error';
+  status: 'idle' | 'error';
   message: string;
 }
 
@@ -18,8 +16,6 @@ export default function NewsletterForm({
   className = '',
   placeholder = 'Your email',
   buttonText = 'Subscribe',
-  successMessage = 'Thanks for subscribing!',
-  apiEndpoint = '/api/newsletter'
 }: NewsletterFormProps) {
   const [formState, setFormState] = useState<FormState>({
     email: '',
@@ -41,13 +37,12 @@ export default function NewsletterForm({
     }));
   };
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     const { email } = formState;
 
-    // Validation
+    // Client-side validation only
     if (!email.trim()) {
+      event.preventDefault();
       setFormState(prev => ({
         ...prev,
         status: 'error',
@@ -57,6 +52,7 @@ export default function NewsletterForm({
     }
 
     if (!isValidEmail(email)) {
+      event.preventDefault();
       setFormState(prev => ({
         ...prev,
         status: 'error',
@@ -65,75 +61,26 @@ export default function NewsletterForm({
       return;
     }
 
-    // Submit
-    setFormState(prev => ({
-      ...prev,
-      status: 'loading',
-      message: ''
-    }));
-
-    try {
-      const response = await fetch(apiEndpoint, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email: email.trim() }),
-      });
-
-      // Handle rate limiting
-      if (response.status === 429) {
-        const data = await response.json().catch(() => ({}));
-        const retryAfter = data.error?.retryAfter || 60;
-        setFormState(prev => ({
-          ...prev,
-          status: 'error',
-          message: `Too many attempts. Please try again in ${retryAfter} seconds.`
-        }));
-        return;
-      }
-
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.message || 'Failed to subscribe. Please try again.');
-      }
-
-      setFormState(prev => ({
-        ...prev,
-        email: '',
-        status: 'success',
-        message: successMessage
-      }));
-
-      // Reset success message after 5 seconds
-      setTimeout(() => {
-        setFormState(prev => ({
-          ...prev,
-          status: 'idle',
-          message: ''
-        }));
-      }, 5000);
-
-    } catch (error) {
-      setFormState(prev => ({
-        ...prev,
-        status: 'error',
-        message: error instanceof Error ? error.message : 'Something went wrong. Please try again.'
-      }));
-    }
+    // If validation passes, let the form submit naturally to Buttondown
+    // This will redirect to Buttondown's success page
   };
 
   const { email, status, message } = formState;
 
   return (
     <div className={`w-full max-w-md mx-auto ${className}`}>
-      <form onSubmit={handleSubmit} className="space-y-2">
+      <form
+        action="https://buttondown.com/api/emails/embed-subscribe/benjamincharity"
+        method="POST"
+        onSubmit={handleSubmit}
+        className="space-y-2"
+      >
         <input
           type="email"
+          name="email"
           value={email}
           onChange={handleEmailChange}
           placeholder={placeholder}
-          disabled={status === 'loading'}
           className={`
             w-full h-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-[16px] outline-none transition
             focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50
@@ -146,7 +93,7 @@ export default function NewsletterForm({
 
         <button
           type="submit"
-          disabled={status === 'loading' || !email.trim()}
+          disabled={!email.trim()}
           className={`
             animate-gradient w-full justify-center rounded-lg bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 px-5 py-4 text-center text-sm font-medium text-white
             focus:ring-4 focus:ring-purple-300 disabled:cursor-not-allowed disabled:opacity-60 dark:focus:ring-purple-800
@@ -154,59 +101,37 @@ export default function NewsletterForm({
         >
           <span className="flex gap-2 justify-center items-center">
             <svg
-              className={`w-[16px] fill-white ${status === 'loading' ? 'animate-wobble' : ''}`}
+              className="w-[16px] fill-white"
               viewBox="0 0 512 512"
               xmlns="http://www.w3.org/2000/svg"
             >
               <path d="M16.1 260.2c-22.6 12.9-20.5 47.3 3.6 57.3L160 376V479.3c0 18.1 14.6 32.7 32.7 32.7c9.7 0 18.9-4.3 25.1-11.8l62-74.3 123.9 51.6c18.9 7.9 40.8-4.5 43.9-24.7l64-416c1.9-12.1-3.4-24.3-13.5-31.2s-23.3-7.5-34-1.4l-448 256zm52.1 25.5L409.7 90.6 190.1 336l1.2 1L68.2 285.7zM403.3 425.4L236.7 355.9 450.8 116.6 403.3 425.4z" />
             </svg>
-            {status === 'loading' ? 'Subscribing...' : buttonText}
+            {buttonText}
           </span>
         </button>
 
-        {/* Always render message container for stable aria-describedby */}
-        <div
-          id="newsletter-message"
-          className={`
-            text-sm p-3 rounded-md transition-opacity
-            ${message
-              ? 'opacity-100'
-              : 'opacity-0 h-0 p-0 overflow-hidden'
-            }
-            ${status === 'success'
-              ? 'bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-300 border border-green-200 dark:border-green-800'
-              : status === 'error'
-              ? 'bg-red-50 dark:bg-red-900/30 text-red-700 dark:text-red-300 border border-red-200 dark:border-red-800'
-              : ''
-            }
-          `}
-          role={status === 'error' ? 'alert' : 'status'}
-          aria-live={status === 'error' ? 'assertive' : 'polite'}
-          aria-atomic="true"
-        >
-          {message && (
+        {/* Error message */}
+        {message && status === 'error' && (
+          <div
+            id="newsletter-message"
+            className="text-sm p-3 rounded-md bg-red-50 dark:bg-red-900/30 text-red-700 dark:text-red-300 border border-red-200 dark:border-red-800"
+            role="alert"
+            aria-live="assertive"
+            aria-atomic="true"
+          >
             <div className="flex items-start space-x-2">
-              {status === 'success' ? (
-                <svg className="w-4 h-4 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                  <path
-                    fillRule="evenodd"
-                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              ) : status === 'error' ? (
-                <svg className="w-4 h-4 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                  <path
-                    fillRule="evenodd"
-                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              ) : null}
+              <svg className="w-4 h-4 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <path
+                  fillRule="evenodd"
+                  d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                  clipRule="evenodd"
+                />
+              </svg>
               <span>{message}</span>
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </form>
 
       <p className="py-2 text-center text-xs text-slate-500 dark:text-slate-300">

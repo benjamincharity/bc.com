@@ -1,6 +1,6 @@
 import React from 'react';
 
-interface SlidingLinkProps {
+interface SlidingLinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
   to: string;
   children: React.ReactNode;
   prefetch?: string;

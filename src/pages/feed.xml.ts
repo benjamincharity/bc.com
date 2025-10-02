@@ -13,7 +13,7 @@ function escapeXml(unsafeString: string): string {
 
 export const GET: APIRoute = async () => {
   // Get all published articles
-  const articles = await getCollection('blog', ({ data }) => !data.draft);
+  const articles = await getCollection('blog', ({ data }: { data: { draft: boolean } }) => !data.draft);
 
   // Sort by date descending
   const sortedArticles = articles.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
@@ -29,7 +29,15 @@ export const GET: APIRoute = async () => {
         <atom:link href="${siteMetadata.url}/feed.xml" rel="self" type="application/rss+xml"/>
         ${sortedArticles
           .map(
-            (article) => {
+            (article: {
+              id: string;
+              data: {
+                title: string;
+                description: string;
+                date: Date;
+                tags: string[];
+              };
+            }) => {
               const slug = article.id.replace(/\.mdx?$/, '');
               return `<item>
                 <guid>${siteMetadata.url}/articles/${slug}</guid>
@@ -38,7 +46,7 @@ export const GET: APIRoute = async () => {
                 <description>${escapeXml(article.data.description)}</description>
                 <pubDate>${article.data.date.toUTCString()}</pubDate>
                 <author>${escapeXml(siteMetadata.email)} (${escapeXml(siteMetadata.author)})</author>
-                ${article.data.tags.map((tag) => `<category>${escapeXml(tag)}</category>`).join('')}
+                ${article.data.tags.map((tag: string) => `<category>${escapeXml(tag)}</category>`).join('')}
             </item>
             `;
             }

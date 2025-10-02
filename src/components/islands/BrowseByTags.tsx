@@ -1,7 +1,4 @@
-interface TagsPayload {
-  [0]: string; // tag name
-  [1]: number; // count
-}
+type TagsPayload = [string, number]; // [tag name, count]
 
 interface BrowseByTagsProps {
   tags: TagsPayload[];

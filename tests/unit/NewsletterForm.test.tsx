@@ -76,11 +76,10 @@ describe('NewsletterForm', () => {
   });
 
   describe('Form submission', () => {
-    it('should call API with valid email', async () => {
+    it('should call Buttondown API with valid email', async () => {
       const user = userEvent.setup();
       (global.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
         ok: true,
-        json: async () => ({ success: true }),
       } as Response);
 
       render(<NewsletterForm />);
@@ -91,35 +90,11 @@ describe('NewsletterForm', () => {
 
       await waitFor(() => {
         expect(global.fetch).toHaveBeenCalledWith(
-          '/api/newsletter',
+          'https://buttondown.com/api/emails/embed-subscribe/benjamincharity',
           expect.objectContaining({
             method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ email: 'test@example.com' }),
+            body: expect.any(FormData),
           })
-        );
-      });
-    });
-
-    it('should use custom API endpoint when provided', async () => {
-      const user = userEvent.setup();
-      (global.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
-        ok: true,
-        json: async () => ({ success: true }),
-      } as Response);
-
-      render(<NewsletterForm apiEndpoint="/api/custom-newsletter" />);
-
-      const input = screen.getByPlaceholderText('Your email');
-      await user.type(input, 'test@example.com');
-      await user.click(screen.getByRole('button', { name: /subscribe/i }));
-
-      await waitFor(() => {
-        expect(global.fetch).toHaveBeenCalledWith(
-          '/api/custom-newsletter',
-          expect.anything()
         );
       });
     });
@@ -128,7 +103,6 @@ describe('NewsletterForm', () => {
       const user = userEvent.setup();
       (global.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
         ok: true,
-        json: async () => ({ success: true }),
       } as Response);
 
       render(<NewsletterForm />);
@@ -149,7 +123,6 @@ describe('NewsletterForm', () => {
       const user = userEvent.setup();
       (global.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
         ok: true,
-        json: async () => ({ success: true }),
       } as Response);
 
       render(<NewsletterForm successMessage="You're on the list!" />);
@@ -189,35 +162,15 @@ describe('NewsletterForm', () => {
       // Resolve the promise to clean up
       resolvePromise!({
         ok: true,
-        json: async () => ({ success: true }),
       });
     });
   });
 
   describe('Error handling', () => {
-    it('should show error message from API', async () => {
+    it('should show error message on API failure', async () => {
       const user = userEvent.setup();
       (global.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
         ok: false,
-        json: async () => ({ message: 'Server error' }),
-      } as Response);
-
-      render(<NewsletterForm />);
-
-      const input = screen.getByPlaceholderText('Your email');
-      await user.type(input, 'test@example.com');
-      await user.click(screen.getByRole('button', { name: /subscribe/i }));
-
-      await waitFor(() => {
-        expect(screen.getByText(/server error/i)).toBeInTheDocument();
-      });
-    });
-
-    it('should show generic error message when API response has no message', async () => {
-      const user = userEvent.setup();
-      (global.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
-        ok: false,
-        json: async () => ({}),
       } as Response);
 
       render(<NewsletterForm />);
@@ -252,7 +205,6 @@ describe('NewsletterForm', () => {
       const user = userEvent.setup();
       (global.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
         ok: false,
-        json: async () => ({ message: 'Error occurred' }),
       } as Response);
 
       render(<NewsletterForm />);
@@ -262,14 +214,14 @@ describe('NewsletterForm', () => {
       await user.click(screen.getByRole('button', { name: /subscribe/i }));
 
       await waitFor(() => {
-        expect(screen.getByText(/error occurred/i)).toBeInTheDocument();
+        expect(screen.getByText(/failed to subscribe/i)).toBeInTheDocument();
       });
 
       // Start typing again to clear error
       await user.clear(input);
       await user.type(input, 'new@example.com');
 
-      expect(screen.queryByText(/error occurred/i)).not.toBeInTheDocument();
+      expect(screen.queryByText(/failed to subscribe/i)).not.toBeInTheDocument();
     });
   });
 
@@ -278,7 +230,6 @@ describe('NewsletterForm', () => {
       const user = userEvent.setup();
       (global.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
         ok: true,
-        json: async () => ({ success: true }),
       } as Response);
 
       render(<NewsletterForm />);

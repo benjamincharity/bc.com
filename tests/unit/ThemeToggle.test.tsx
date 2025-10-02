@@ -1,11 +1,11 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { describe, it, expect, beforeEach, vi, type Mock } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import ThemeToggle from '~/components/islands/ThemeToggle';
 
 describe('ThemeToggle', () => {
   let mockLocalStorage: { [key: string]: string };
-  let mockMatchMedia: vi.Mock;
+  let mockMatchMedia: Mock;
 
   beforeEach(() => {
     // Mock localStorage
