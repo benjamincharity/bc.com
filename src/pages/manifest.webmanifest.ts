@@ -161,6 +161,20 @@ export const GET: APIRoute = () => {
         type: 'image/jpeg',
       },
     ],
+    screenshots: [
+      {
+        src: '/images/pwa/apple-splash-2732-2048.jpg',
+        sizes: '2732x2048',
+        type: 'image/jpeg',
+        form_factor: 'wide',
+      },
+      {
+        src: '/images/pwa/apple-splash-1284-2778.jpg',
+        sizes: '1284x2778',
+        type: 'image/jpeg',
+        form_factor: 'narrow',
+      },
+    ],
   };
 
   return new Response(JSON.stringify(manifest), {
