@@ -60,7 +60,8 @@
       "Bash(npm run lint)",
       "Bash(npm run e2e:*)",
       "Bash(lsof:*)",
-      "WebFetch(domain:developers.cloudflare.com)"
+      "WebFetch(domain:developers.cloudflare.com)",
+      "Bash(file:*)"
     ],
     "deny": [],
     "ask": [],
