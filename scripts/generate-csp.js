@@ -83,13 +83,9 @@ console.log(
 // Read template
 const template = readFileSync(TEMPLATE_PATH, 'utf-8');
 
-// Replace placeholders with actual hashes
-const scriptHashString = scriptHashes.join(' ');
-const styleHashString = styleHashes.join(' ');
-
-let output = template
-  .replace('{{SCRIPT_HASHES}}', scriptHashString)
-  .replace('{{STYLE_HASHES}}', styleHashString);
+// Template no longer uses placeholders - just copy it directly
+// (hashes were removed in favor of 'unsafe-inline' for Astro islands compatibility)
+let output = template;
 
 // Write final _headers file
 writeFileSync(OUTPUT_PATH, output, 'utf-8');
