@@ -1,0 +1,52 @@
+name: CI
+
+# Trigger configuration
+on:
+  push:
+    branches: ['**'] # Run on all branches
+  pull_request:
+    branches: [main] # Run on PRs targeting main
+
+# Job definitions
+jobs:
+  # Main test job
+  test:
+    name: Test Suite
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout repository
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Setup Node.js
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      # Install dependencies
+      - name: Install dependencies
+        run: npm ci
+
+      # Run linting
+      - name: Lint
+        run: npm run lint
+
+      # Run type checking
+      - name: Type check
+        run: npm run typecheck
+
+      # Run unit tests
+      - name: Unit tests
+        run: npm test
+
+      # Build the project
+      - name: Build
+        run: npm run build
+
+      # Run E2E tests (only on PRs)
+      - name: E2E tests
+        if: github.event_name == 'pull_request'
+        run: npm run e2e

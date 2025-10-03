@@ -1,130 +1,236 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+For comprehensive documentation, see:
+
+- @docs/README.md - Full documentation index
+- @docs/architecture.md - Technical architecture details
+- @docs/development.md - Development setup and workflows
+- @docs/deployment.md - Deployment configuration
+- @docs/testing.md - Testing guidelines
+- @prds/ - Product Requirements Documents
+
+This file provides guidance to Claude Code (claude.ai/code) when working with
+code in this repository.
 
 ## Project Overview
 
-This is a personal website for Benjamin Charity built with Remix, TypeScript, and Tailwind CSS. The site features articles/blog posts written in MDX, a progressive web app (PWA) setup, and is deployed to Vercel.
+This is a personal website for Benjamin Charity built with **Astro**,
+TypeScript, and Tailwind CSS. The site features articles/blog posts written in
+MDX, supports draft articles with query parameter visibility, and is deployed to
+Cloudflare Pages.
+
+**Recent Migration**: The project was migrated from Remix to Astro for improved
+static site generation and content management. Legacy Remix code is archived in
+the `legacy-remix/` directory.
 
 ## Development Commands
 
 ```bash
-# Development with hot reload on port 51346
-pnpm dev
+# Development with hot reload on port 4321
+npm run dev
 
 # Build for production
-pnpm build
+npm run build
 
-# Start production server
-pnpm start
+# Preview production build
+npm run preview
 
 # Type checking
-pnpm typecheck
+npm run typecheck
 
 # Linting
-pnpm lint
+npm run lint
 
 # Code formatting
-pnpm format
+npm run format
 
-# Run tests
-pnpm test
-
-# Run E2E tests
-pnpm e2e
+# Add reading time to articles
+npm run add-reading-time
 ```
 
 ## Key Build Process
 
-The build process has dependencies:
-1. `build:metadata` - Generates article metadata cache from MDX files
-2. `build:remix` - Builds the Remix app
-3. `build:worker` - Builds the PWA service worker
-4. CSS compilation happens via Tailwind CSS
+The build process generates a static site with:
+
+1. Content collections processed from `src/content/blog/` MDX files
+2. Astro static site generation with SSR capabilities
+3. CSS compilation via Tailwind CSS
+4. Automated reading time calculation for articles
 
 ## Architecture
 
 ### Core Structure
-- **Remix App Router**: File-based routing in `app/routes/`
-- **MDX Articles**: Content stored in `app/articles/` as `.mdx` files
-- **Component System**: Reusable UI components in `app/components/`
-- **Theme System**: Dark/light mode with server-side persistence via cookies
-- **PWA**: Service worker and caching via `@remix-pwa` packages
+
+- **Astro Framework**: Static site generation with optional SSR
+- **Content Collections**: Blog articles stored in `src/content/blog/` as `.mdx`
+  files
+- **Component System**: Mix of Astro components and React islands
+- **Draft System**: Articles support `draft: true` frontmatter, visible with
+  `?showDrafts=true` query parameter
+- **Color Mode**: Dark/light theme support with client-side toggles
 
 ### Key Directories
-- `app/articles/` - MDX blog posts with frontmatter
-- `app/components/` - React components
-- `app/routes/` - Remix routes (file-based routing)
-- `app/utils/` - Utility functions and server-side code
-- `app/data/` - Static data files
-- `app/styles/` - Tailwind CSS source
 
-### State Management
-- Uses `@legendapp/state` for client-side state
-- Theme state managed via cookies and context providers
-- Navigation history tracked in global state
+- `src/content/blog/` - MDX blog articles with frontmatter metadata
+- `src/components/` - Astro and React components
+- `src/components/islands/` - Interactive React islands (ArticlesPageWrapper,
+  NewsletterForm, etc.)
+- `src/pages/` - Astro pages and routes
+- `src/layouts/` - Layout components (BaseLayout.astro)
+- `src/utils/` - Utility functions
+- `src/data/` - Static data files (colors.ts)
+- `src/styles/` - Tailwind CSS source
+- `legacy-remix/` - Archived Remix application code
+- `prds/` - Product Requirements Documents
+- `specs/` - Technical specifications and planning documents
 
 ### Article System
-- Articles are MDX files with frontmatter metadata
-- Server-side processing with rehype/remark plugins
-- Metadata caching system for production builds
-- Reading time calculation and image optimization
-- Tag-based categorization
+
+- Articles are MDX files in `src/content/blog/` with frontmatter metadata
+- Schema defined in `src/content/config.ts` includes:
+  - `title`, `date`, `tags[]`, `description`, `image`, `draft`, `readingTime`
+- Draft articles hidden by default, shown with `?showDrafts=true` query
+  parameter
+- Reading time automatically calculated via `scripts/add-reading-time.js`
+- Tag-based categorization with dedicated tag pages
+- Articles accessible at `/articles/[slug]` and filterable by tag at
+  `/articles/tags/[tag]`
 
 ### Styling
-- Tailwind CSS with custom design system
-- Custom color palette (pink, teal, blue themes)
-- Typography using Source Serif 4 and VT323 fonts
-- CSS-in-JS for dynamic background animations
-- Responsive design with custom breakpoints
 
-### Performance Features
-- Image preloading for article images
-- Font preloading
-- Service worker caching
-- Vercel Analytics and Speed Insights integration
+- Tailwind CSS with custom design system
+- Custom color palette defined in `src/data/colors.ts`
+- Typography using Source Serif 4 and VT323 fonts (preloaded)
+- Responsive design with custom breakpoints
+- Global styles in `src/styles/global.css`
+
+### Interactive Features
+
+- React islands for client-side interactivity
+- Newsletter subscription form
+- Article list with view toggles
+- Color mode toggle
+- Console easter egg: Rock Paper Scissors game
 
 ## Path Aliases
 
-- `~/*` maps to `./app/*` (configured in tsconfig.json)
+- No special path aliases configured (standard Astro imports)
 
 ## Environment Variables
 
-Required environment variables (see `.env.example`):
-- `SESSION_SECRET` - Required for session encryption in production
-- `BUTTONDOWN_API_KEY` - Optional newsletter integration
+See `.env.example` for required variables:
+
+- `SESSION_SECRET` - For session encryption (if using sessions)
+- `BUTTONDOWN_API_KEY` - Newsletter integration (optional)
 - `NODE_ENV` - Environment setting (development/production)
+
+## Package Management
+
+This project uses **npm** (switched from pnpm). Configuration:
+
+- Node.js version specified in `.nvmrc` (v20)
+- npm settings in `.npmrc`
+
+## Deployment (Cloudflare Pages)
+
+- Deployed on Cloudflare Pages with Astro Cloudflare adapter
+- Custom headers configured in `public/_headers`:
+  - MIME type headers for fonts, images, scripts
+  - Security headers and CSP policies
+  - Caching policies: 1 year for static assets
+- Edge delivery via Cloudflare's global CDN
+- Node.js ^20.0.0 required
+- Automatic deployments on push to main branch
+
+## Security & Accessibility
+
+Two PRDs document planned improvements:
+
+- `prds/security-hardening-improvements.md` - Security vulnerability remediation
+- `prds/accessibility-wcag-compliance.md` - WCAG 2.1 AA accessibility compliance
+
+## Recent Updates (Updated: 2025-10-01)
+
+### Draft Article Visibility (Latest)
+
+- Articles can now be marked with `draft: true` in frontmatter
+- Draft articles hidden from listings by default
+- Show drafts by adding `?showDrafts=true` to article list URLs
+- Implemented across all article pages and tag filters
+
+### Content Organization
+
+- Updated all article frontmatter with standardized metadata
+- Added reading time calculation script
+- Removed legacy migration scripts (fix-descriptions.js, migrate-frontmatter.js)
+- Cleaned up `draft: false` declarations (now implicit)
+
+### Platform Migration (Recent)
+
+- **Migrated from Remix to Astro** for static site generation
+- Legacy Remix code archived in `legacy-remix/` directory
+- Switched from pnpm to npm for package management
+- Updated all article paths from `app/articles/` to `src/content/blog/`
+
+### UI Enhancements
+
+- Improved article page layout and tag display
+- Enhanced newsletter form component
+- Added BrowseByTags component
+- Replaced console easter egg with Rock Paper Scissors game
+
+### Configuration Updates
+
+- Enhanced Claude Code command permissions in `.claude/settings.local.json`
+- Added MIME type headers in `public/_headers`
+- Added `.npmrc` and `.nvmrc` for environment consistency
+
+## File Structure Notes
+
+```
+/
+├── src/
+│   ├── content/
+│   │   └── blog/          # MDX articles (migrated from app/articles/)
+│   ├── components/        # Astro components
+│   │   └── islands/       # React islands for interactivity
+│   ├── layouts/           # Layout components
+│   ├── pages/             # Astro pages/routes
+│   │   └── articles/      # Article listing and detail pages
+│   ├── data/              # Static data (colors, etc.)
+│   ├── styles/            # Global styles
+│   └── utils/             # Utility functions
+├── legacy-remix/          # Archived Remix application
+├── prds/                  # Product Requirements Documents
+├── specs/                 # Technical specifications
+├── public/                # Static assets
+│   └── _headers           # Custom HTTP headers
+└── scripts/               # Build and utility scripts
+```
+
+## Important Notes
+
+- **Draft articles**: Use `draft: true` in frontmatter and view with
+  `?showDrafts=true`
+- **Reading time**: Run `npm run add-reading-time` to update article reading
+  times
+- **Legacy code**: Original Remix implementation preserved in `legacy-remix/`
+- **Environment**: Requires Node.js v20 (specified in `.nvmrc`)
+- **Session storage**: Configured for Cloudflare KV binding (see session config
+  in source)
+
+## Development Workflow
+
+1. Create new articles in `src/content/blog/` as `.mdx` files
+2. Include required frontmatter: `title`, `date`, `tags`, `description`, `image`
+3. Optional frontmatter: `draft: true` (hides from production), `readingTime`
+4. Test locally with `npm run dev`
+5. Preview production build with `npm run preview`
+6. Deploy automatically via Cloudflare Pages on push to main branch
 
 ## Testing
 
-- **Unit Tests**: Jest with React Testing Library (`pnpm test`)
-  - Tests located in `app/tests/` with `*.spec.tsx` pattern
-  - JSDOM environment with path alias support
-- **E2E Tests**: Playwright across Chrome, Firefox, Safari (`pnpm e2e`)
-  - Tests in `e2e/` directory, runs against localhost:3000
-
-## Git Hooks & Code Quality
-
-- Husky pre-commit hooks run `pretty-quick --staged`
-- Prettier with Tailwind CSS plugin for consistent formatting
-- ESLint configuration with TypeScript and React rules
-
-## PWA Service Worker
-
-- Custom service worker with multi-cache strategy at `app/entry.worker.ts`
-- Caches assets, data, and documents separately
-- Supports offline fallback with network-first approach
-- Handles Cloudinary images and CodePen embeds
-
-## Deployment (Vercel)
-
-- Comprehensive security headers and CSP policies in `vercel.json`
-- Aggressive caching: 1 year for static assets, 1 week for articles
-- Image optimization with WebP format and multiple sizes
-- Framework detection with Remix adapter
-
-## Environment
-
-- Node.js ^20.0.0
-- Uses pnpm as package manager
-- Deployed on Vercel with `@vercel/remix` adapter
+- Type checking: `npm run typecheck`
+- Linting: `npm run lint`
+- No test suite currently configured (legacy Jest/Playwright removed during
+  migration)

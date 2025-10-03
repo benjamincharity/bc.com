@@ -1,0 +1,208 @@
+---
+import { ClientRouter } from 'astro:transitions';
+import '../styles/global.css';
+import Header from '~/components/islands/Header';
+import ColorModeToggle from '~/components/islands/ColorModeToggle';
+import Footer from '~/components/Footer.astro';
+import { siteMetadata } from '~/data/siteMetadata';
+
+export interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  theme?: 'light' | 'dark' | null;
+  showBackground?: boolean;
+  canvasLayout?: boolean;
+}
+
+const {
+  title = siteMetadata.title,
+  description = siteMetadata.tagline,
+  image = siteMetadata.url + siteMetadata.image,
+  theme = null,
+  showBackground = true,
+  canvasLayout = false,
+} = Astro.props;
+
+// Pages with canvas background get special layout treatment
+const hasCanvas = showBackground && canvasLayout;
+
+const keywords = ['engineering', 'products', 'leadership', 'technology'];
+const fullTitle = title === siteMetadata.title ? title : `${title} | ${siteMetadata.title}`;
+---
+
+<!DOCTYPE html>
+<html lang="en" class={`h-dvh ${theme || 'dark'}`}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="keywords" content={keywords.join(', ')} />
+    <meta name="author" content={siteMetadata.author} />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href={siteMetadata.url + Astro.url.pathname} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={siteMetadata.url + Astro.url.pathname} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={image} />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={siteMetadata.url + Astro.url.pathname} />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={image} />
+    <meta name="twitter:creator" content={`@${siteMetadata.twitter}`} />
+    <meta name="twitter:site" content={`@${siteMetadata.twitter}`} />
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json" />
+
+    <!-- RSS Feed -->
+    <link rel="alternate" type="application/rss+xml" title="Benjamin Charity RSS Feed" href="/feed.xml" />
+
+    <!-- Theme meta -->
+    <meta name="color-scheme" content="dark light" />
+    <meta name="theme-color" content="#2262a1" />
+
+    <!-- Performance: Preconnect to external domains -->
+    <link rel="preconnect" href="https://res.cloudinary.com" />
+    <link rel="dns-prefetch" href="https://res.cloudinary.com" />
+
+    <!-- Fonts: Self-hosted for performance -->
+    <!-- Preload critical fonts to reduce LCP -->
+    <link rel="preload" href="/fonts/source-serif-4-normal-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/vt323-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="/fonts/fonts.css" />
+
+    <!-- Astro Tailwind CSS will be injected automatically -->
+
+    <!-- Allow pages to inject additional head elements -->
+    <slot name="head" />
+
+    <!-- Cloudflare Web Analytics - async for non-blocking load -->
+    <script async src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "f45bf2c5e25e432588cde61a06a2e646"}'></script>
+
+    <!-- Theme handling (matching your existing theme provider) -->
+    <script is:inline>
+      // This matches the legacy Remix theme.provider.tsx logic
+      (function() {
+        function getPreferredTheme() {
+          return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+
+        function getTheme() {
+          if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark' || savedTheme === 'light') {
+              return savedTheme;
+            }
+          }
+          return getPreferredTheme();
+        }
+
+        const theme = getTheme();
+        const cl = document.documentElement.classList;
+
+        // Remove existing theme classes
+        cl.remove('light', 'dark');
+
+        // Apply theme
+        cl.add(theme);
+
+        // Update meta theme-color
+        const meta = document.querySelector('meta[name=color-scheme]');
+        if (meta) {
+          if (theme === 'dark') {
+            meta.content = 'dark light';
+          } else {
+            meta.content = 'light dark';
+          }
+        }
+      })();
+    </script>
+
+    <ClientRouter />
+  </head>
+  <body class="h-dvh transition-colors duration-100 flex flex-col" data-canvas-layout={canvasLayout ? 'true' : 'false'}>
+    <!-- Skip Navigation Link for keyboard users (WCAG 2.4.1) -->
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-blue-600 focus:text-white focus:rounded focus:outline-dashed focus:outline-2 focus:outline-offset-2 focus:outline-blue-500"
+    >
+      Skip to main content
+    </a>
+
+    <Header client:load transition:persist />
+
+    <!-- Add ColorModeToggle to all pages except those with canvas background -->
+    {!hasCanvas && (
+      <div class="relative">
+        <ColorModeToggle client:load />
+      </div>
+    )}
+
+    <main id="main-content" tabindex="-1" class="flex-grow">
+      <slot />
+    </main>
+
+    <!-- Footer - only show on pages without canvas background -->
+    {!hasCanvas && <Footer />}
+
+    <!-- Rock Paper Scissors Console Art -->
+    <script is:inline>
+      // Rock Paper Scissors console game
+      (function() {
+        const rock = `
+    _______
+---'   ____)
+      (_____)
+      (_____)
+      (____)
+---.__(___)
+(rock)
+`;
+
+        const paper = `
+    _______
+---'   ____)____
+          ______)
+          _______)
+         _______)
+---.__________)
+(paper)
+`;
+
+        const scissors = `
+    _______
+---'   ____)____
+          ______)
+       __________)
+      (____)
+---.__(___)
+(scissors)
+`;
+
+        const hands = [rock, paper, scissors];
+        const result = Math.floor(Math.random() * 3);
+
+        console.log(`
+Welcome! 👋🏼
+
+Think you can outsmart me?
+
+${hands[result]}
+
+Refresh to play again!
+        `);
+      })();
+    </script>
+  </body>
+</html>

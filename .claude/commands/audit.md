@@ -7,7 +7,8 @@ description: Perform security audit on codebase
 
 - Package.json dependencies: @package.json
 - Environment files: !`find . -name ".env*" -o -name "config.*" | head -10`
-- Potential security files: !`find . -name "*secret*" -o -name "*key*" -o -name "*password*" | head -10`
+- Potential security files:
+  !`find . -name "*secret*" -o -name "*key*" -o -name "*password*" | head -10`
 
 ## Your task
 

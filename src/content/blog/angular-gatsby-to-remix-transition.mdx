@@ -1,0 +1,212 @@
+---
+title: Transitioning from Angular 12 and GatsbyJS to Remix
+date: 2024-01-26
+description: >-
+  I share my experience transitioning a web project from Angular 12 and GatsbyJS
+  to Remix, using Vite and PNPM, and moving from Netlify to Vercel. Discover
+  les...
+tags:
+  - angular
+  - javascript
+  - remix
+  - vite
+  - tailwind
+  - vercel
+image: snail-and-leopard.webp
+readingTime: 9
+---
+
+In addition to the technical details of the transition, I also want to share
+some of the challenges and benefits of using Remix. With Remix, I found it
+easier to manage my content and present it in a more organized and visually
+appealing way. The platform also allowed me to integrate various tools and
+services that improve user experience and streamline development. One of the
+most exciting features of Remix is its support for server-side rendering, which
+significantly enhances the website's performance and SEO.
+
+![A 16x9 neo-brutalist image showcasing a scale with a snail on one side and a leopard in a snail shell on the other. Predominantly black and white, with pops of color highlighting key elements. The background features abstract geometric shapes, enhancing the minimalist, modern design.](snail-and-leopard.webp)
+
+With all these advantages, my website is now better positioned to serve its
+intended audience. So, without further ado, let's dive into the details of how I
+made the switch and what I learned along the way.
+
+## Choosing Remix for SSR and BFF Solutions
+
+While deciding which framework to use for my website, I found server-side
+rendering (SSR) a crucial feature. It significantly improves website load times
+and overall performance, especially for content-heavy websites. After thorough
+research, I found that Remix's inherent SSR design makes it the perfect choice
+for my needs.
+
+I have found the need for a dedicated backend for the front end (BFF) in
+multiple projects. What drew me towards Remix was its capability to simplify the
+creation of specific client APIs and optimize other front-end elements. With its
+ability to handle server-side rendering (SSR) and provide a flexible BFF
+framework, I realized that Remix was a choice and a strategic solution for my
+website.
+
+## The Shift to Vite
+
+As a web developer, I fully comprehend performance's crucial role in achieving
+success while building tools. That's why I was impressed with Vite. Its
+reputation for being fast was not just empty talk; I experienced it, and it was
+genuinely unique.
+
+Over the years, I have used various build tools, but using Vite felt like a
+breath of fresh air. Its speed was not just noticeable - it was
+transformational. <mark>Processes like compiling and bundling, which once took
+significant time, were now happening almost instantly.</mark> This improved
+efficiency fundamentally changed my workflow, making the development process
+more fluid.
+
+What I loved most about Vite was how easily it integrated with my workflow and
+how much it improved my productivity. The difference in speed was glaring, and
+going back to slower tools felt like a step backward. Vite proved to be a
+game-changer for my project in a world where development cycles are constantly
+under pressure to be shorter.
+
+## Transitioning to PNPM from NPM and Yarn
+
+![Isometric graphic of a software development lifecycle with package managers, version control, and programming tools ascending along a growth arrow in yellow and blue tones.](angular-to-remix-2_agoerm.webp)
+
+I have switched from using NPM to Yarn and now to PNPM. This change was not just
+out of curiosity but was driven by recognizing the capabilities of PNPM.
+
+What initially impressed me about PNPM was its speed, which has been a recurring
+theme in my recent tech stack updates. <mark>I found PNPM's efficiency almost
+startling,</mark> much like my experience with Vite. Package installation and
+management, which used to be a routine chore, suddenly became faster and more
+streamlined.
+
+In my career, I have used NPM in the first half and Yarn in the second half,
+witnessing the evolution of package management in the JavaScript ecosystem. PNPM
+stood out not only because of its speed but also because of its familiar command
+structure. This familiarity made the transition feel less like learning a new
+tool and more like upgrading to a better version of an old one.
+
+But it wasn't just about comfort; it was about performance. In the fast-paced
+world of web development, every second saved in package management translates to
+more time focusing on actual development. Therefore, PNPM has become an integral
+part of my tech stack.
+
+## Exploring SSR for the First Time with RemixJS
+
+I used to have a static website but wanted to try server-side rendering (SSR)
+with a single-page application (SPA). After learning about RemixJS and its
+robustness in a React-based ecosystem, I decided to use it.
+
+Initially, I hesitated about SSR, but RemixJS helped me appreciate its benefits.
+The framework's implementation of SSR was particularly impressive in terms of
+performance and user experience, especially for sites with rich content.
+
+Choosing RemixJS for my first deep dive into SSR wasn't just about trying a new
+technology. It represented a significant step in my development practice, where
+I embraced a more integrated approach, balancing server-side efficiency with a
+dynamic front-end experience.
+
+In my previous roles, I gained expertise in managing performance and designing
+attractive user interfaces in a Single Page Application (SPA) environment. This
+experience made me confident in handling data dynamically and efficiently.
+However, I faced a new challenge when I switched to using Server-Side Rendering
+(SSR) with RemixJS. It required a change in mindset, especially regarding how
+initial data is handled.
+
+With SSR, the approach to data delivery is fundamentally different. Loading
+initial data is not only a matter of client-side requests but also involves a
+server-side process that was new territory for me. This shift was not just a
+technical transition but a conceptual one, requiring me to rethink the
+strategies I had previously accustomed to in a SPA context. RemixJS, therefore,
+was not just a tool but a new paradigm for managing data and UI performance.
+
+## Transitioning to Tailwind CSS
+
+My journey with Tailwind CSS has been one of gradual understanding and
+adaptation. Initially, I wasn't a fan. Despite several attempts to engage with
+it and hearing passionate arguments from its proponents, my stance remained
+skeptical.
+
+My previous projects used Tailwind, but I was never involved in the initial
+setup or pattern establishment. This lack of deep involvement contributed to my
+reservations. When I finally decided to give Tailwind a proper chance,
+particularly in setting it up from scratch, I was looking for a change in
+perspective.
+
+One of the first things I realized was that Tailwind didn't significantly reduce
+the amount of CSS I wrote. The argument that Tailwind eliminates the need to
+write CSS didn't hold up in practice; I still recall and apply CSS principles
+regularly. The comparison with my previous experience, where IDEs converted
+shorthand into full CSS rules, was stark. Tailwind didn't save me from typing;
+it just changed the syntax.
+
+In addition, even though Tailwind CSS might be good enough for simple user
+interface requirements, I faced certain restrictions when dealing with more
+intricate designs, particularly those that involve pseudo-elements that I often
+utilize. Consequently, I was advised to create custom CSS to address these
+limitations, which was unexpected.
+
+Having spent most of my career using pre-processed languages like SASS, which
+have been game-changers regarding organization and composability, I appreciate
+frameworks that leverage native CSS capabilities. Tailwind presented a mixed bag
+in this regard - while it encouraged using underlying language features, its API
+and shortcuts felt less intuitive than other frameworks like Chakra UI.
+
+## Porting Angular 12 and GatsbyJS to Remix
+
+I decided to rewrite my website, which was previously built using Angular 12 and
+GatsbyJS, to Remix. The main reason behind this decision was to learn new
+frameworks and development approaches. My website features interactive canvas,
+listing, and article detail pages, providing a practical ground for my
+exploration.
+
+![Isometric digital illustration of a multilayered data center with cloud computing icons, data blocks, and connectivity symbols in a blue color scheme.](angular-to-remix-3_nt6pcf.webp)
+
+While rewriting the interactive canvas, I had to adopt a more complex approach.
+Initially, I developed the canvas in Angular and converted the class-based logic
+to React's functional components without considering the unique requirements of
+the interactive canvas. Therefore, I isolated the canvas into a class, which
+enabled the canvas to redraw without causing a re-render and maintaining the
+same color palette for returning users. This aspect of the rewrite highlighted
+the importance of understanding framework-specific nuances.
+
+I significantly improved build and compile times by switching to Remix and Vite.
+While <mark>GatsbyJS took about one and a half minutes for a build, Remix took
+under 30 seconds</mark>, with Vite further reducing the initial local compile
+time.
+
+This project wasn't just about using a new framework. It was a practical
+experiment in adapting to different web technologies and methodologies.
+
+## Moving from Netlify to Vercel
+
+I have been using Netlify for years, both personally and professionally.
+However, I recently tried Vercel due to the hype around the platform. My
+experience with Netlify has been primarily positive, with easy deployment and
+reliability, but I wanted to see what Vercel had to offer.
+
+Vercel and Netlify have similar functionality, including easy rollbacks, simple
+configuration, and various templates. However, Vercel's user interface and
+interaction design were slightly better than Netlify's. Remember that this
+preference is subjective and based on my experience and requirements, which
+might differ from others.
+
+Switching to Vercel was more about exploring an alternative than being
+unsatisfied with Netlify. Both platforms offer solid solutions for modern web
+deployments, but Vercel's approach was more suited to my current project needs.
+
+---
+
+I rewrote my website using Remix and experimented with various tools such as
+Vite, PNPM, and Vercel during this process. Each step taught me practical skills
+and knowledge, from tackling SSR with RemixJS to integrating Tailwind CSS and
+evaluating different hosting platforms.
+
+This journey involved keeping up with the latest trends and understanding how
+these technologies could benefit my work. It reinforced the idea that in web
+development, staying open to new tools and approaches is essential for
+continuous improvement and keeping pace with the industry's evolution.
+
+Ultimately, this project was as instructive as it was functional, providing
+insights that could be valuable to others navigating similar paths in web
+development.
+
+And that new build time… 🐎

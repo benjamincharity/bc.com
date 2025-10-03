@@ -1,0 +1,16 @@
+{
+  "name": "Benjamin Charity",
+  "short_name": "BC",
+  "description": "Building products & Engineering teams",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2262a1",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "any",
+      "type": "image/x-icon"
+    }
+  ]
+}

@@ -73,6 +73,11 @@ module.exports = {
       ],
       rules: {
         '@typescript-eslint/no-unused-vars': 'warn',
+        '@typescript-eslint/triple-slash-reference': [
+          'error',
+          { path: 'always', types: 'never', lib: 'never' },
+        ],
+        'import/no-unresolved': ['error', { ignore: ['^astro:'] }],
       },
     },
 
@@ -81,6 +86,22 @@ module.exports = {
       files: ['.eslintrc.js'],
       env: {
         node: true,
+      },
+    },
+
+    // Type declaration files - allow triple slash references
+    {
+      files: ['src/env.d.ts', 'vitest.config.ts'],
+      rules: {
+        '@typescript-eslint/triple-slash-reference': 'off',
+      },
+    },
+
+    // Test files - allow userEvent default import
+    {
+      files: ['tests/**/*.test.tsx', 'tests/**/*.test.ts'],
+      rules: {
+        'import/no-named-as-default': 'off',
       },
     },
   ],

@@ -1,0 +1,282 @@
+---
+title: 'Effective Post-Mortems: Systems Thinking'
+date: 2026-01-20
+description: >-
+  Shift from person-hunting to finding root causes in complex systems using
+  structured analysis frameworks.
+tags:
+  - engineering
+  - systems-thinking
+  - root-cause-analysis
+  - incidents
+image: incident-dive3-tree-down.webp
+readingTime: 8
+draft: true
+---
+
+> <mark>This is part of the Post-Mortem series.</mark> Read the [Executive
+> Brief](/articles/post-mortem-executive-brief) (7 min), the [Field
+> Guide](/articles/post-mortem-field-guide) (20 min), or the [Definitive
+> Guide](/articles/post-mortem-definitive-guide) (60 min, canonical).
+
+## Major Incidents Are Swiss Cheese, Not Single Bullets
+
+When a major outage happens, human nature seeks a simple explanation. We want to
+find the one person or one decision that "caused" the problem. But in complex
+systems like our production environments, <mark>failures are almost never due to
+one person or one glitch in isolation</mark>: they result from multiple
+contributing factors aligning perfectly.
+
+It's like Swiss cheese: each slice has holes, but you only see through when
+several holes line up. Similarly, most incidents require multiple things to go
+wrong simultaneously. A code bug _and_ a missing alert _and_ a slow rollback
+procedure _and_ unclear documentation all conspire together.
+
+If we only blame the engineer who pushed the code, we miss the other three
+factors that made the incident possible - and inevitable.
+
+![A fallen tree blocking a forest trail.](incident-dive3-tree-down.webp)
+
+## The Trap of Human Nature
+
+Even veteran incident investigators fall into predictable cognitive traps:
+
+### Hindsight Bias Makes Everything "Obvious"
+
+After an incident, it's human nature to ask "who missed the warning signs?" and
+"how did we not see this coming?" This falls victim to hindsight bias: the
+tendency for past events to seem more predictable than they actually were.
+
+Once we know the outcome, we conclude we "should have known" things that were
+actually unknowable beforehand. This makes us judge decisions based on their
+outcomes rather than the information available when they were made.
+
+### Confirmation Bias Seeks Easy Answers
+
+Studies show that even experienced investigators can be led astray by their
+preconceived theories. They seek evidence to fit a favorite hypothesis and
+overlook contrary
+facts.[⁹](/articles/post-mortem-definitive-guide#user-content-fn-9) In practice,
+this means a post-mortem might pin the cause on an easy scapegoat when reality
+involves multiple contributing factors.
+
+Dave Zwieback points out that <mark>hindsight and blame create a "comfortable
+story" that satisfies our need for closure but prevents real
+learning</mark>.[⁷](/articles/post-mortem-definitive-guide#user-content-fn-7) We
+prematurely decide "Susan deployed bad code, that's the root cause," and stop
+analyzing deeper systemic issues.
+
+### The Fundamental Attribution Error
+
+When something goes wrong, we tend to attribute others' actions to their
+character ("Bob is careless") while attributing our own actions to circumstances
+("I was under pressure"). This bias leads us to focus on individual traits
+rather than the contextual factors that influenced behavior.
+
+## The Systems Thinking Alternative
+
+Leading organizations shift their analysis from "who" to "how" by examining the
+system of conditions that made failure possible:
+
+### Ask Better Questions
+
+Transform your incident investigation language:
+
+- **Instead of:** "Why did Bob deploy a bug on Friday?" **Ask:** "What testing
+  or review process failed such that a bug made it to production? What pressures
+  or assumptions led Bob to think deployment was safe?"
+- **Instead of:** "Who missed the alert?" **Ask:** "How could our alerting
+  system be designed so critical issues are impossible to miss?"
+- **Instead of:** "Why didn't Sarah follow the runbook?" **Ask:** "What made the
+  runbook difficult to follow? How could we make the correct path the easy
+  path?"
+
+This shift reveals systemic fixes rather than individual blame.
+
+### Apply Structured Analysis Frameworks
+
+Use proven techniques to systematically explore contributing factors:
+
+#### The "5 Whys" with a Twist
+
+Traditional 5 Whys asks "Why did this happen?" five times. Systems-focused 5
+Whys asks "Why did the _system_ allow this to happen?" each time:
+
+1. **Why did the database timeout?** - The connection pool was exhausted
+2. **Why did the system allow the connection pool to be exhausted?** - No
+   monitoring alerts fired
+3. **Why did the system allow alerts to not fire?** - The threshold was set too
+   high
+4. **Why did the system allow incorrect thresholds?** - No process for
+   validating alert configurations
+5. **Why did the system allow missing validation processes?** - No ownership
+   model for infrastructure reliability
+
+Each "why" reveals a layer of systemic opportunity for improvement.
+
+#### Fishbone (Ishikawa) Diagrams
+
+Map contributing causes across categories:
+
+- **Human factors:** Was someone new? Under pressure? Missing training?
+- **Process issues:** Were procedures unclear? Missing steps? Conflicting
+  guidance?
+- **Technology problems:** Tool failures? Missing capabilities? Poor interfaces?
+- **Environmental factors:** Time pressure? Resource constraints? External
+  dependencies?
+
+This structured approach ensures you don't miss entire categories of
+contributing factors.
+
+### Examine Human Factors as System Issues
+
+When someone makes a mistake, resist the urge to focus on their individual
+failings. Instead, examine the conditions that made the mistake possible:
+
+- Was documentation misleading or incomplete?
+- Did alert fatigue cause an alarm to be ignored?
+- Was the engineer new to this system or under time pressure?
+- Were procedures tested under realistic conditions?
+- Did tooling make the wrong action easy and the right action difficult?
+
+As Dave Zwieback puts it: <mark>"Human error is a symptom, never the cause, of
+deeper trouble in the
+system."</mark>[⁷](/articles/post-mortem-definitive-guide#user-content-fn-7) If
+someone made a mistake, ask what made that mistake possible and how the system
+could catch or prevent it.
+
+## Learning from Aviation's Transformation
+
+The aviation industry provides a powerful example of systems thinking in action.
+Aviation achieved a 95%+ incident reporting rate and dramatically reduced
+accidents by adopting a systemic, non-blame
+approach.[²²](/articles/post-mortem-definitive-guide#user-content-fn-22)
+
+Through programs like NASA's Aviation Safety Reporting System, pilots receive
+immunity when they voluntarily report errors or near-misses. This created an
+enormous database of systemic issues and fixes. The result: aviation's fatal
+accident rate kept dropping despite increasing
+complexity.[²²](/articles/post-mortem-definitive-guide#user-content-fn-22)
+
+The key insight: <mark>When people aren't punished for mistakes, they report
+problems freely, and the organization as a whole gets safer.</mark> Nearly all
+incidents get reported, providing a rich dataset for systematic improvement.
+
+## Practical Systems Analysis Techniques
+
+### Look for Patterns Across Incidents
+
+Don't analyze incidents in isolation. Review past incidents to identify systemic
+trends:
+
+- Are multiple incidents related to the same microservice?
+- Do several outages stem from similar configuration mistakes?
+- Is there a pattern of incidents happening at specific times or under specific
+  conditions?
+
+Pattern recognition reveals system-level weaknesses that might not be obvious
+from single incidents.
+
+### Include Multiple Perspectives
+
+Gather input from all relevant areas during post-mortem discussions:
+
+- **Operations** might spot monitoring gaps
+- **QA** might note missing test cases
+- **Support** might reveal customer-facing symptoms that weren't obvious
+- **Security** might identify broader vulnerability patterns
+
+Different perspectives ensure nothing gets missed and reveal the full system
+context.
+
+### Document Alternative Hypotheses
+
+Force yourself to consider multiple possible explanations:
+
+- What other factors could have contributed?
+- What nearly went right that prevented worse outcomes?
+- What assumptions are we making that might be wrong?
+
+This counteracts the tendency to settle on the first plausible explanation.
+
+## Common Systems Thinking Mistakes
+
+### Stopping at the First Reasonable Cause
+
+Just because you found _a_ cause doesn't mean you found _all_ the causes.
+Complex incidents typically have 3-4 significant contributing factors. Keep
+digging until you understand the full system context.
+
+### Focusing Only on Technical Factors
+
+Remember to examine organizational, process, and human factors alongside
+technical ones. Often the most impactful fixes involve clarifying procedures,
+improving training, or adjusting team structures.
+
+### Making Fixes Too Specific
+
+If your incident was caused by "missing validation in the user registration
+service," don't just add validation to that one service. Ask: "How many other
+services have similar validation gaps? <mark>How do we prevent this class of
+problem systematically?</mark>"
+
+## The Business Value of Systems Thinking
+
+Organizations that adopt systems thinking in incident analysis see multiple
+benefits:
+
+### Prevents Entire Classes of Incidents
+
+Instead of fixing one specific bug, you fix the conditions that allow similar
+bugs to reach production. This dramatically reduces repeat incidents.
+
+### Improves Team Morale
+
+Engineers appreciate analyses that focus on improving systems rather than
+assigning blame. This leads to better retention and more willing participation
+in incident reviews.
+
+### Builds Antifragile Systems
+
+By understanding how failures propagate through your system, you can design
+resilience that actually improves under stress. Companies like Netflix have
+embraced this through chaos
+engineering.[¹⁷](/articles/post-mortem-definitive-guide#user-content-fn-17)
+
+## Your Implementation Checklist
+
+1. **Modify your
+   [post-mortem template](https://benjamincharity.notion.site/Incident-Postmortem-Template-Blameless-26e6edefd08e80c6829bfffe0e2293fe)**
+   to include a "Contributing Factors" section (plural)
+2. **Train facilitators** to ask "how" and "what" questions instead of "who" and
+   "why"
+3. **Include "What went well" sections** to balance the analysis
+4. **Require multiple perspectives** in every significant incident review
+5. **Look for patterns** across incidents rather than treating each as isolated
+
+### Continue the series:
+
+- [Action Accountability That Sticks](/articles/post-mortem-action-accountability) -
+  Ensuring your systemic insights lead to actual improvements
+- [Four-Phase Implementation Playbook](/articles/post-mortem-implementation-playbook) -
+  A structured approach to rollout
+
+---
+
+> **Want the definitive framework?** Read the
+> [Definitive Guide](/articles/post-mortem-definitive-guide) for detailed
+> implementation steps, aviation case studies, and structured analysis
+> templates.
+
+---
+
+## Resources
+
+- Definitive Guide (60 min) – canonical reference
+  - https://www.benjamincharity.com/articles/post-mortem-definitive-guide
+- [Post-Mortem Cheat Sheet](https://benjamincharity.notion.site/Post-Mortem-Cheat-Sheet-27b6edefd08e807ab127d93c09411e63)
+  – free quick-reference checklist
+- [Post-Mortem Template](https://benjamincharity.notion.site/Incident-Postmortem-Template-Blameless-26e6edefd08e80c6829bfffe0e2293fe)
+  – free, ready-to-use Notion template
+- [Blameless Post-Mortem Policy](https://benjamincharity.notion.site/Blameless-Post-Mortem-Policy-26e6edefd08e80dbbcffce0093471840)
+  – ready-to-implement blameless policy framework

@@ -1,0 +1,475 @@
+---
+title:
+  'The Why, What, and How of Performance Budgets: Build Faster, Better Products'
+date: 2025-02-09
+description: >-
+  Learn how performance budgets can transform your web or app experience.
+  Discover actionable steps, success stories, and tools to optimize performance
+  without...
+tags:
+  - measurement
+  - optimization
+  - product
+  - pwa
+  - resources
+  - tools
+  - ui
+  - ux
+image: rocket-laptop.webp
+readingTime: 14
+---
+
+Creating a fast, seamless web experience isn’t just a nice-to-have—it’s the
+backbone of user satisfaction and business success. But how do you consistently
+ensure blazing performance without sacrificing features or breaking your team’s
+workflow? Enter <mark>performance budgets</mark>: your secret weapon for staying
+lean, fast, and effective in a digital world where milliseconds can make or
+break user engagement. In this guide, we’ll dive into the why, what, and how of
+performance budgets, offering actionable steps and real-world success stories to
+show you just how transformative they can be.
+
+![A rocket launching from a laptop.](rocket-laptop.webp)
+
+## Why Do You Need a Budget? 🤔
+
+Think of a performance budget as a diet plan for your app. Without it, things
+can spiral out of control—hello, bloated pages and slow load times! Here’s why a
+budget is your website’s best friend:
+
+### 1. Clarity and Accountability
+
+- **Streamlines Communication:** Performance budgets provide a shared language
+  for all stakeholders, reducing misunderstandings about priorities.
+- **Data-Driven Decision-Making:** Teams can make adjustments based on
+  measurable benchmarks rather than subjective opinions.
+- **Enables Iterative Improvements:** Continuous tracking helps identify
+  incremental improvements that align with long-term goals.
+
+### 2. Maintain Gains and Avoid Regressions
+
+- **Facilitates Version Comparisons:** Helps compare performance between
+  versions to ensure updates don't compromise speed.
+- **Monitors Third-Party Scripts:** Tracks the impact of third-party
+  integrations, which can often cause regressions.
+- **Integrates with CI/CD Pipelines:** Automated checks in pipelines ensure
+  performance budgets are consistently enforced during development.
+
+### 3. Holistic Decision-Making
+
+- **Fosters a User-Centric Approach:** Encourages teams to prioritize decisions
+  that benefit end-users without sacrificing functionality.
+- **Supports Budget Trade-Offs:** Provides clear metrics to weigh the pros and
+  cons of adding features versus maintaining performance.
+
+### 4. Improved User Experience
+
+- **Reduces Bounce Rates:** Faster load times correlate with users staying
+  longer on the site.
+- **Enhances Accessibility:** Optimizing performance benefits users on slower
+  networks or older devices.
+- **Builds Brand Trust:** A fast and seamless experience fosters trust and
+  loyalty among users.
+
+### 5. Supports Business Goals
+
+- **Improves Customer Satisfaction:** A smooth experience directly impacts how
+  users perceive your brand.
+- **Provides a Competitive Edge:** Sites with better performance often outshine
+  competitors, leading to higher conversions.
+- **Reduces Operational Costs:** Optimized performance often leads to reduced
+  server costs and bandwidth usage.
+
+## Real-World Wins: Case Studies That Prove It Works
+
+### 1. Pinterest: Progressive Web App (PWA) Optimization
+
+#### Primary Changes:
+
+Pinterest revamped their web experience by adopting a Progressive Web App (PWA)
+approach. They focused on optimizing core web vitals such as Time to Interactive
+(TTI) and Largest Contentful Paint (LCP) through performance budgets and
+resource prioritization. Techniques included prefetching, lazy loading, and
+optimizing JavaScript bundles.
+
+#### Benefits:
+
+These optimizations reduced <mark>time to load by 40%</mark>, increased core
+engagement metrics (e.g., longer session times), and resulted in a <mark>44%
+increase in user-generated ad revenue</mark>. Pinterest’s case highlights the
+direct business benefits of prioritizing performance.
+
+#### Source:
+
+[A Pinterest Progressive Web App Performance Case Study](https://medium.com/dev-channel/a-pinterest-progressive-web-app-performance-case-study-3bd6ed2e6154)
+
+### 2. Zillow: Scaling Performance with Budgets
+
+#### Primary Changes:
+
+Zillow implemented performance budgets to manage key metrics, particularly
+focusing on image sizes and JavaScript payloads. They leveraged automated
+monitoring tools to enforce these budgets and ensure scalable improvements
+across their platform.
+
+#### Benefits:
+
+This approach led to <mark>30% faster load times</mark> on mobile devices and a
+more engaging user experience. Zillow’s proactive use of performance budgets
+also helped them future-proof their platform by preventing performance
+regressions.
+
+#### Source:
+
+[Bigger, Faster, and More Engaging while on a Budget](https://www.zillow.com/tech/bigger-faster-more-engaging-budget/)
+
+### 3. Casper: Speed Gains by Self-Hosting Optimizely
+
+#### Primary Changes:
+
+Casper identified that the reliance on a third-party A/B testing platform
+(Optimizely) introduced significant delays in page load times. To combat this,
+they switched to self-hosting Optimizely's JavaScript instead of relying on the
+external delivery network.
+
+#### Benefits:
+
+This change shaved <mark>1.7 seconds off Casper’s page load times</mark>,
+dramatically improving the user experience. The result was a faster, more
+responsive site that maintained A/B testing functionality while enhancing
+performance.
+
+#### Source:
+
+[How we shaved 1.7 seconds off casper.com by self-hosting Optimizely](https://medium.com/caspertechteam/we-shaved-1-7-seconds-off-casper-com-by-self-hosting-optimizely-2704bcbff8ec)
+
+## Key Metrics to Track (and When to Track Them) 📊
+
+Performance isn’t one-size-fits-all. Here are the must-track metrics based on
+use cases:
+
+### Core Metrics
+
+- **LCP:** When users see the main content.
+- **CLS:** Tracks layout shifts (nobody likes jumping buttons).
+- **TTFB:** Checks backend response times.
+- **TBT:** Measures interactivity delays.
+
+### Use-Case-Specific Metrics
+
+- **Blogs:** First Contentful Paint (FCP) for fast reading.
+- **E-commerce:** LCP and TTI for quick product browsing.
+- **Mobile Apps:** Smaller JavaScript and images for low bandwidth.
+
+## Tracking Metrics: Tools for the Job
+
+### During Development
+
+These tools help you catch performance issues early, before they make it to
+production:
+
+- **Webpack:**
+
+  Helps you keep an eye on bundle sizes by issuing warnings when limits are
+  exceeded. Plugins like `webpack-bundle-analyzer` give a visual breakdown of
+  what’s in your bundles.
+
+- **Lighthouse CI:**
+
+  Automates audits for performance budgets and integrates seamlessly into your
+  CI/CD pipeline. It ensures your builds meet defined thresholds for key metrics
+  like LCP and CLS.
+
+- **Bundlesize:**
+
+  A straightforward tool to keep asset sizes lean by enforcing size limits. It
+  integrates into your CI/CD process to block builds if limits are breached.
+
+- **Source Map Explorer:**
+
+  Analyzes your JavaScript bundles to identify which parts of your code
+  contribute to the size. This is particularly useful for debugging oversized
+  bundles.
+
+- **Parcel:**
+
+  Another popular bundler that emphasizes fast builds and smaller output sizes.
+  It’s a lightweight alternative to Webpack with a focus on speed.
+
+- **esbuild:**
+
+  A blazing-fast JavaScript bundler and minifier that makes optimizing your
+  development process a breeze.
+
+- **PerfBudget CLI:**
+
+  A command-line tool to define and monitor performance budgets during
+  development. It integrates with Lighthouse and provides actionable insights.
+
+---
+
+### In Production
+
+Once your app is live, these tools ensure you’re delivering a stellar user
+experience:
+
+- **SpeedCurve:**
+
+  Combines Real User Monitoring (RUM) with synthetic metrics to track
+  performance over time. Its visual dashboards and budget alerts make it easy to
+  monitor trends.
+
+- **Cloudinary:**
+
+  Streamlines image and video delivery with adaptive transformations,
+  compression, and responsive resizing. Integrated CDN support ensures fast,
+  high-quality media loading worldwide.
+
+- **Calibre:**
+
+  Provides robust budget alerts, historical data, and actionable recommendations
+  for staying within performance budgets. It integrates well with GitHub for
+  tracking changes.
+
+- **New Relic:**
+
+  Monitors real-time interactions and gives deep insights into performance
+  bottlenecks. It’s particularly helpful for backend monitoring alongside
+  frontend metrics.
+
+- **Google Analytics (GA4):**
+
+  Tracks user behavior and provides custom dashboards to correlate performance
+  metrics (e.g., page load times) with engagement or bounce rates.
+
+- **WebPageTest:**
+
+  Offers detailed reports on performance metrics, waterfall charts, and
+  resource-level insights. Its advanced testing options include scripting and
+  geographic testing.
+
+- **Dynatrace:**
+
+  Focuses on application performance management (APM) with RUM and synthetic
+  monitoring. It’s particularly useful for large-scale enterprise applications.
+
+- **Pingdom:**
+
+  A user-friendly tool for monitoring uptime and website performance. It
+  provides real-time alerts and historical performance data.
+
+- **AWS CloudWatch or Azure Monitor:**
+
+  Cloud-native monitoring tools that provide insights into server performance,
+  application logs, and user interactions.
+
+- **Sentry:**
+
+  Tracks errors and performance issues in real-time. It’s a must-have for
+  debugging slow pages and monitoring client-side JavaScript performance.
+
+- **AppDynamics:**
+
+  Monitors the full application stack, giving visibility into both frontend and
+  backend performance. Ideal for correlating server issues with user impact.
+
+- **Chrome User Experience Report (CrUX):**
+
+  Aggregates real-world performance data collected from Chrome users. It’s a
+  valuable resource for benchmarking your site against industry standards.
+
+## Industry Standards: Benchmarks by Product Type
+
+### Mobile Apps
+
+- **Time to Interactive (TTI):** < 5 seconds on a 3G network.
+- **JavaScript Payload:** < 170 KB for fast execution on low-bandwidth networks.
+- **First Input Delay (FID):** < 100ms to ensure responsiveness.
+- **Largest Contentful Paint (LCP):** < 2.5 seconds to deliver meaningful
+  content quickly.
+
+### B2B SaaS
+
+- **API Response Time:** < 500ms for smooth user interactions with dashboards
+  and services.
+- **Cumulative Layout Shift (CLS):** < 0.1 to ensure visual stability,
+  especially for content-heavy tools.
+- **Time to First Byte (TTFB):** < 300ms to ensure backend responsiveness for
+  data-heavy applications.
+- **Memory Usage per Session:** Monitor and optimize to prevent browser crashes
+  during extended usage.
+
+### E-Commerce
+
+- **Total Page Weight:** < 2 MB to ensure fast load times across varying
+  internet speeds.
+- **Time to First Byte (TTFB):** < 300ms for quicker initial responses.
+  - **Note:** For heavily cached e-commerce sites using CDNs, TTFB may be less
+    impactful compared to metrics like LCP or FID. However, for dynamic,
+    server-rendered pages, optimizing TTFB becomes critical to user experience.
+- **First Contentful Paint (FCP):** < 1 second to display critical content like
+  product images.
+- **Largest Contentful Paint (LCP):** < 2.5 seconds to prioritize the visibility
+  of hero images and product descriptions.
+- **Conversion-Critical Actions:** Ensure user actions (e.g., "Add to Cart") are
+  processed in < 100ms.
+
+### Media and Content Platforms
+
+- **First Contentful Paint (FCP):** < 1 second to start displaying text or
+  content.
+- **LCP:** < 2.5 seconds for engaging users with primary content (e.g.,
+  headlines, featured images).
+- **Cumulative Layout Shift (CLS):** < 0.1 to ensure smooth reading without
+  content jumping around.
+- **Video Streaming Start Time:** < 2 seconds to engage users immediately.
+- **Adaptive Bitrate Streaming:** Dynamically adjust quality based on the user’s
+  bandwidth to minimize buffering.
+
+### Gaming and Interactive Apps
+
+- **Time to Playable (TTP):** < 3 seconds for simple games; < 10 seconds for
+  complex ones.
+- **Frame Rate:** 60 FPS for smooth animations and interactions.
+- **Latency (for Online Games):** < 50ms to ensure responsive gameplay.
+- **Download Size:** < 200 MB for mobile; < 1 GB for desktop to avoid long
+  download times.
+
+### Progressive Web Apps (PWAs)
+
+- **Offline Load Time:** < 1 second using cached assets.
+- **App Shell Rendering:** < 1 second to display the basic structure.
+- **Service Worker Activation Time:** < 50ms for efficient offline
+  functionality.
+
+### Educational Platforms
+
+- **LCP:** < 2.5 seconds for displaying critical learning materials like videos
+  or text.
+- **Interactive Content Latency:** < 100ms for quizzes or learning simulations.
+- **Resource Loading Time:** Ensure lesson modules load within 3 seconds.
+
+### Government and Public Sector Websites
+
+- **Total Page Weight:** < 1.5 MB to cater to users with limited bandwidth.
+- **FCP:** < 1.5 seconds to ensure accessibility of critical information.
+- **Accessibility Compliance:** Meet WCAG 2.1 AA standards for usability across
+  diverse user groups.
+
+### Healthcare Apps
+
+- **Data Submission Latency:** < 500ms for critical forms like symptom trackers
+  or appointment scheduling.
+- **Secure Connection Establishment:** < 200ms to ensure seamless HTTPS
+  connections.
+- **LCP:** < 2.5 seconds for displaying essential health information or
+  dashboards.
+
+## Optimizing Without Compromising Features
+
+Balancing blazing-fast performance with feature-rich functionality might seem
+like juggling fire while walking a tightrope, but it’s absolutely doable. Here’s
+a closer look at strategies that let you have your cake (features) and eat it
+too (performance):
+
+### 1. Loading Strategies: Timing Is Everything
+
+Not everything on your site needs to load at the same time. Strategic loading
+ensures users get what they need quickly without waiting for the kitchen sink to
+arrive.
+
+- **Lazy Loading:** Only load non-critical resources (like below-the-fold images
+  or videos) when they’re needed. For instance, images further down the page
+  should load only as the user scrolls toward them. This saves bandwidth and
+  speeds up initial page rendering. However, be careful with crucial content
+  like hero images or key elements affecting Largest Contentful Paint (LCP). For
+  such elements, consider using **eager loading** (`loading="eager"`) to ensure
+  they load immediately and enhance perceived performance without compromising
+  the user experience.
+- **Preloading:** Think of preloading as setting the table before dinner. Use it
+  for essential resources like fonts, hero images, or main CSS files so they’re
+  ready to display as soon as needed. A simple
+  `<link rel="preload" as="image" href="hero.jpg">` can make a big difference.
+- **Prefetching:** This is your crystal ball for user behavior. If you know
+  users are likely to navigate to a certain page, prefetch the resources for
+  that page in advance. It’s like preparing a shortcut to the next room before
+  the user even steps through the first door.
+
+### 2. Resource Optimization: Cut the Fat
+
+Bloated code and oversized resources slow everything down. Slimming them down is
+like switching from a gas-guzzling SUV to a sleek electric car—better for
+everyone.
+
+- **Code Splitting:** Instead of serving all your JavaScript in one gigantic
+  file, break it into smaller chunks that load on demand. For example, load only
+  the code necessary for the current page or feature, leaving other chunks to
+  load later when needed. Popular frameworks like React and Vue support this
+  natively.
+- **Tree Shaking:** Why carry unused luggage? Tree shaking removes unused
+  JavaScript from your bundles, ensuring your app serves only the code it
+  actually uses. Tools like Webpack or Rollup are pros at this.
+- **Responsive Images:** Serve images optimized for different screen sizes using
+  the `<picture>` element or `srcset`. Why serve a massive 4K image to someone
+  browsing on a smartphone? Responsive images deliver the perfect size for the
+  right device, saving bandwidth and improving load times.
+
+### 3. Reduce Blocking: Get Out of the User’s Way
+
+Nothing kills the user experience like scripts or stylesheets that block page
+rendering. Minimizing these interruptions ensures a smoother and faster
+experience.
+
+- **Critical CSS:** Extract and inline only the CSS necessary to render
+  above-the-fold content, while deferring non-critical styles to load later.
+  This ensures users see something useful as quickly as possible.
+- **Service Workers:** Cache assets locally in the user’s browser with service
+  workers. This not only reduces load times on repeat visits but also makes your
+  app feel lightning-fast when offline or on slow networks.
+
+### 4. Network Upgrades: Faster Delivery, Everywhere
+
+Even the most optimized resources need a fast highway to travel on. Upgrading
+your network protocols and delivery methods ensures your assets get to users
+quickly and efficiently.
+
+- **HTTP/2 and HTTP/3:** These modern protocols allow browsers to fetch multiple
+  resources in parallel, reducing wait times caused by older HTTP bottlenecks.
+  HTTP/3, powered by the QUIC protocol, is particularly beneficial in scenarios
+  with high packet loss, such as mobile networks or public Wi-Fi. It also
+  improves connection times for users in distant regions by eliminating multiple
+  round trips during handshake processes, making it ideal for global audiences.
+- **Content Delivery Network (CDN):** Think of a CDN as a network of express
+  delivery hubs. By serving resources from servers geographically closer to
+  users, a CDN reduces latency and ensures snappy load times. Bonus: CDNs also
+  handle high traffic volumes like a champ.
+
+### 5. Progressive Rendering: Perception Is Reality
+
+Sometimes, speeding up perceived load times is just as important as improving
+actual load times. Progressive rendering techniques give users something to
+interact with sooner, even if the rest of the page is still loading.
+
+- **Skeleton Screens:** Replace blank spaces with lightweight placeholders (like
+  a grayed-out version of the UI) while the real content loads. This reassures
+  users that progress is happening and keeps them engaged.
+- **Progressive Images:** Start with a low-resolution placeholder, such as a
+  blurred or SVG version of the image, and swap it out for the high-resolution
+  version once it’s ready. Tools like [BlurHash](https://blurha.sh/) make this a
+  breeze.
+
+## Wrapping It Up
+
+Performance budgets aren’t just about hitting metrics—they’re about creating
+websites and apps that users love and trust. By defining clear benchmarks,
+optimizing intelligently, and tracking results, you’re setting your product up
+for long-term success. Start small: **pick a key metric, implement a budget, and
+iterate**. With the right tools and strategies, you can deliver exceptional
+experiences that drive engagement and boost your bottom line. What’s your first
+step? Share your challenges or wins in the comments, and let’s continue the
+conversation about making the web faster and better for everyone. 🚀
+
+## Further reading
+
+- [awesome-web-performance-budget](https://github.com/pajaydev/awesome-web-performance-budget?tab=readme-ov-file)
+- [awesome-wpo](https://github.com/davidsonfellipe/awesome-wpo)
+- [awesome-web-performance](https://github.com/d4rkr00t/awesome-web-performance)

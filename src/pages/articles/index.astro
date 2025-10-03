@@ -1,0 +1,65 @@
+---
+export const prerender = true;
+
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import ArticlesPageWrapper from '~/components/islands/ArticlesPageWrapper';
+import NewsletterForm from '~/components/islands/NewsletterForm';
+import BrowseByTags from '~/components/islands/BrowseByTags';
+import { siteMetadata } from '~/data/siteMetadata';
+
+// Get all articles from the blog collection
+const articles = await getCollection('blog');
+
+// Filter out drafts at build time and sort by date (newest first)
+const sortedArticles = articles
+  .filter(article => !article.data.draft)
+  .sort((a, b) => {
+    return new Date(b.data.date).getTime() - new Date(a.data.date).getTime();
+  });
+
+// Get all tags and their counts for BrowseByTags component
+const tagCounts = new Map<string, number>();
+sortedArticles.forEach(article => {
+  const tags = article.data.tags || [];
+  tags.forEach(tag => {
+    tagCounts.set(tag, (tagCounts.get(tag) || 0) + 1);
+  });
+});
+const tagsForBrowse = Array.from(tagCounts.entries());
+---
+
+<BaseLayout
+  title={`Articles on startups and engineering, by ${siteMetadata.author}`}
+  description="Explore expert articles on engineering leadership in startups and scale-ups. Discover guides on career paths, team dynamics, and innovation in tech."
+  showBackground={false}
+>
+  <section class="prose-wrapper prose-wrapper--large">
+    <ArticlesPageWrapper articles={sortedArticles} client:load />
+
+    <div class="max-w-screen-2xl mx-auto px-8 py-12">
+      <div class="max-w-xl mx-auto text-center">
+        <h2 class="mb-1 text-2xl font-semibold font-sourceSerif4 text-gray-800 dark:text-white">
+          Build, Scale, Succeed
+        </h2>
+        <p class="mb-6 leading-tight text-gray-600 dark:text-gray-300">
+          Join others receiving expert advice on<br /> engineering and product development.
+        </p>
+        <NewsletterForm
+          className="mx-auto"
+          successMessage="Boom! You're in the club! 🎉 Expect a warm welcome in your inbox soon!"
+          client:load
+        />
+      </div>
+    </div>
+
+    <hr class="fancy" />
+
+    <BrowseByTags
+      tags={tagsForBrowse}
+      heading="Browse by tags:"
+      id="tags-section"
+      client:load
+    />
+  </section>
+</BaseLayout>

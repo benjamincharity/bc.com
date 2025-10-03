@@ -1,0 +1,119 @@
+---
+export const prerender = true;
+
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import FancyBackground from '~/components/islands/FancyBackground';
+import Navigation from '~/components/islands/Navigation';
+import { getCollection } from 'astro:content';
+import { siteMetadata } from '~/data/siteMetadata';
+
+// Site metadata for professional title
+const professionalTitleSplit = [
+  'Engineering leader &',
+  'team builder at high-growth',
+  'startups & scale-ups.',
+];
+
+// Your existing companies list (copied exactly)
+const COMPANIES = [
+  'Alternative Apparel',
+  'Apiture',
+  'Baker Hughes',
+  'Case-Mate',
+  'Drive Clutch',
+  'InComm',
+  'Kenzie Lane Innovation',
+  'Lamar Advertising Company',
+  'NBA',
+  'NCAA',
+  'NCR',
+  'NFL',
+  'Revelation Pharma',
+  'Showcase IDX',
+  'Terminus Software',
+  'The Home Depot',
+  'Tourbuzz',
+  'Turner Broadcasting System',
+];
+
+// Shuffle function (simple version)
+function shuffle<T>(array: T[]): T[] {
+  const result = [...array];
+  for (let i = result.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [result[i], result[j]] = [result[j], result[i]];
+  }
+  return result;
+}
+
+const companies = shuffle([...COMPANIES]);
+const showBackground = true;
+
+// Get latest 4 articles for image preloading
+const articles = await getCollection('blog');
+const latestArticles = articles
+  .filter(article => !article.data.draft)
+  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
+  .slice(0, 4)
+  .filter(article => article.data.image);
+---
+
+<BaseLayout
+  title="Benjamin Charity"
+  description="Engineering leader & team builder at high-growth startups & scale-ups."
+  showBackground={showBackground}
+  canvasLayout={true}
+>
+  <!-- Preload latest article images with low priority (won't block page load) -->
+  <Fragment slot="head">
+    {latestArticles.map(article => (
+      <link
+        rel="preload"
+        as="image"
+        href={siteMetadata.articleImagePath + article.data.image}
+        fetchpriority="low"
+      />
+    ))}
+  </Fragment>
+
+  <!-- Your existing FancyBackground component -->
+  <FancyBackground client:load isVisible={showBackground} />
+
+
+  <!-- Home page layout - needs to work with the persistent Header from BaseLayout -->
+  <div class="bc-home pointer-events-none relative z-20 text-center font-vt323 h-full flex flex-col justify-between">
+    <main class="flex flex-col items-center pt-8">
+      <!-- Subtitle below the Header (which contains the title) -->
+      <h2 class="mx-2 mt-2 mb-6 inline-block hyphens-none text-center font-vt323 text-subTitle uppercase leading-tight text-white text-shadow-title sm:leading-none">
+        <span class="inline-block whitespace-nowrap">
+          {professionalTitleSplit[0]}
+        </span>{' '}
+        <span class="inline-block whitespace-nowrap">
+          {professionalTitleSplit[1]}
+        </span>
+        <br />
+        <span class="inline-block whitespace-nowrap">
+          {professionalTitleSplit[2]}
+        </span>
+      </h2>
+
+      <!-- Navigation -->
+      <Navigation client:load />
+    </main>
+
+    <!-- Companies section at bottom -->
+    <section class="mx-auto max-w-xl text-sm leading-tight text-gray-800 sm:text-base pb-4 sm:pb-6 text-center">
+      <h3 class="trusted-title mb-1 text-xs opacity-60 sm:text-sm uppercase">Trusted by</h3>
+      <ul class="pointer-events-auto list-none leading-none">
+        {companies.map((c, i) => (
+          <li
+            class={`px-1 py-0 mr-2 inline-block whitespace-nowrap leading-none sm:py-0 sm:mr-3 sm:text-base lg:text-lg ${i === companies.length - 1 ? 'last' : ''}`}
+            key={c}
+          >
+            {c}
+          </li>
+        ))}
+      </ul>
+    </section>
+  </div>
+</BaseLayout>

@@ -1,0 +1,41 @@
+export const CLOUDINARY_ACCOUNT = 'da2exoho7';
+
+export const siteMetadata = {
+  title: 'BenjaminCharity.com',
+  description:
+    'Engineering leader & team builder at high-growth startups & scale-ups.',
+  domain: 'www.benjamincharity.com',
+  url: 'https://www.benjamincharity.com',
+  image: `/images/pwa/apple-splash-2732-2048.jpg`,
+  articleImagePath: `https://res.cloudinary.com/${CLOUDINARY_ACCOUNT}/image/upload/f_auto,q_auto,w_auto,dpr_auto,c_scale,w_2560/article-content/`,
+  articleThinImagePath: `https://res.cloudinary.com/${CLOUDINARY_ACCOUNT}/image/upload/f_auto,q_auto,w_auto,dpr_auto,c_scale,w_2560,ar_3.1,c_lfill/article-content/`,
+  websiteImagePath: `https://res.cloudinary.com/${CLOUDINARY_ACCOUNT}/image/upload/f_auto,q_auto,w_auto,dpr_auto,c_scale,w_2560/website/`,
+  twitterImage: `/images/social.Twitter.png`,
+  linkedInImage: `/images/social.LinkedIn.png`,
+  author: 'Benjamin Charity',
+  email: 'ben@benjamincharity.com',
+  twitter: 'benjamincharity',
+  github: 'benjamincharity',
+  linkedIn: 'benjamincharity',
+  professionalTitle:
+    'Engineering leader & team builder at high-growth startups & scale-ups.',
+  professionalTitleSplit: [
+    'Engineering leader',
+    '& team builder at high-growth',
+    'startups & scale-ups.',
+  ],
+  workTitle: 'Staff Software Engineer',
+  slogan: 'Building products & Engineering teams',
+  tagline: 'Building products & Engineering teams',
+  companies: [
+    'Elastic',
+    'Expel',
+    'Apto',
+    'Terminal',
+    'Density',
+    'Clarity Money',
+    'Standard Treasury',
+    'Drizly',
+  ],
+  website: 'https://www.benjamincharity.com',
+};

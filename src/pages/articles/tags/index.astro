@@ -1,0 +1,95 @@
+---
+export const prerender = true;
+
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import NewsletterForm from '~/components/islands/NewsletterForm';
+import { Badge } from '~/components/Badge';
+import { colors } from '~/data/colors';
+import BrowseByTags from '~/components/islands/BrowseByTags';
+import { BackToLink } from '~/components/BackToLink';
+import { siteMetadata } from '~/data/siteMetadata';
+
+// Get all articles from the blog collection
+const articles = await getCollection('blog');
+
+// Filter out drafts at build time
+const publishedArticles = articles.filter(article => !article.data.draft);
+
+// Get all tags and their counts
+const tagCounts = new Map<string, number>();
+publishedArticles.forEach(article => {
+  const tags = article.data.tags || [];
+  tags.forEach(tag => {
+    tagCounts.set(tag, (tagCounts.get(tag) || 0) + 1);
+  });
+});
+
+// Convert to array and sort by tag name
+const sortedTags = Array.from(tagCounts.entries()).sort((a, b) => a[0].localeCompare(b[0]));
+
+// Create summary for meta
+const summaryTags = sortedTags.slice(0, 3).map(([tag]) => tag);
+const metaDescription = `Explore our comprehensive list of tags to easily find the topics that interest you. From ${summaryTags.join(', ')}, and more – dive into a world of insightful articles tailored to your interests.`;
+---
+
+<BaseLayout
+  title="Browse articles by tags"
+  description={metaDescription}
+  showBackground={false}
+>
+  <section class="prose-wrapper prose-wrapper--large">
+    <!-- Header with navigation similar to articles page -->
+    <div class="relative flex items-center justify-between mb-4">
+      <BackToLink to="/">
+        Home
+      </BackToLink>
+
+      <div class="absolute left-1/2 -translate-x-1/2">
+        <h1 class="text-xl font-bold font-sourceSerif4 text-gray-900 dark:text-white">
+          Tags
+        </h1>
+      </div>
+
+      <a
+        href="/articles"
+        class="animated-link-underline text-sm font-normal"
+      >
+        All articles ↗
+      </a>
+    </div>
+
+    <!-- Tags grid -->
+    <nav
+      aria-label="Article tags"
+      class="flex flex-wrap justify-center gap-8 pt-8 pb-8 text-base"
+    >
+      {sortedTags.map(([tag, count], i) => (
+        <Badge
+          color={colors[i % colors.length]}
+          count={count}
+          linkTo={`/articles/tags/${tag}`}
+          tag={tag}
+        />
+      ))}
+    </nav>
+
+    <hr class="fancy" />
+
+    <!-- Newsletter section matching articles page -->
+    <div class="max-w-screen-2xl mx-auto px-8 py-12">
+      <div class="max-w-xl mx-auto text-center">
+        <h2 class="mb-1 text-2xl font-semibold font-sourceSerif4 text-gray-800 dark:text-white">
+          Build, Scale, Succeed
+        </h2>
+        <p class="mb-6 leading-tight text-gray-600 dark:text-gray-300">
+          Join others receiving expert advice on<br /> engineering and product development.
+        </p>
+        <NewsletterForm
+          className="mx-auto"
+          client:load
+        />
+      </div>
+    </div>
+  </section>
+</BaseLayout>
