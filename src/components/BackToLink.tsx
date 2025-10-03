@@ -9,7 +9,7 @@ interface BackToLinkProps {
 }
 
 export const BackToLink = ({
-  to,
+  to = '/articles',
   children = 'Back to all articles',
   className = '',
 }: BackToLinkProps) => {
