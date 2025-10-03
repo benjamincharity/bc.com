@@ -18,10 +18,11 @@
   # XSS Protection (legacy but still useful)
   X-XSS-Protection: 1; mode=block
 
-  # Content Security Policy (auto-generated hashes)
+  # Content Security Policy (auto-generated hashes with unsafe-inline fallback)
   # Hashes are calculated during build from dist/index.html
-  # To regenerate: npm run build
-  Content-Security-Policy: default-src 'self'; script-src 'self' {{SCRIPT_HASHES}} https://static.cloudflareinsights.com; style-src 'self' {{STYLE_HASHES}}; img-src 'self' https://res.cloudinary.com data: blob:; font-src 'self' data:; connect-src 'self' https://api.buttondown.email https://cloudflareinsights.com; object-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self' https://buttondown.com
+  # 'unsafe-inline' is needed because different pages have different inline styles/scripts
+  # Modern browsers will ignore 'unsafe-inline' when hashes are present
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' {{SCRIPT_HASHES}} https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' {{STYLE_HASHES}}; img-src 'self' https://res.cloudinary.com data: blob:; font-src 'self' data:; connect-src 'self' https://api.buttondown.email https://cloudflareinsights.com; object-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self' https://buttondown.com
 
 # API endpoint - stricter CSP
 /api/*
