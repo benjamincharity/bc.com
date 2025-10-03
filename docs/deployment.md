@@ -9,7 +9,7 @@ the main branch.
 
 1. **Create Cloudflare Pages Project**
    - Log in to Cloudflare Dashboard
-   - Go to Pages � Create a project
+   - Go to Pages → Create a project
    - Connect to GitHub repository
 
 2. **Configure Build Settings**
@@ -40,7 +40,7 @@ Optional variables for enhanced features:
 
 Set environment variables in:
 
-- Cloudflare Dashboard � Pages � Settings � Environment variables
+- Cloudflare Dashboard → Pages → Settings → Environment variables
 
 ### Build Process
 
@@ -65,7 +65,7 @@ Every pull request gets a preview deployment:
 To use a custom domain:
 
 1. **Add Domain in Cloudflare**
-   - Pages � Custom domains � Set up a custom domain
+   - Pages → Custom domains → Set up a custom domain
    - Enter your domain name
 
 2. **Update DNS**
