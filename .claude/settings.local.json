@@ -61,7 +61,10 @@
       "Bash(npm run e2e:*)",
       "Bash(lsof:*)",
       "WebFetch(domain:developers.cloudflare.com)",
-      "Bash(file:*)"
+      "Bash(file:*)",
+      "Bash(npx tsc:*)",
+      "Bash(git checkout:*)",
+      "WebFetch(domain:github.com)"
     ],
     "deny": [],
     "ask": [],

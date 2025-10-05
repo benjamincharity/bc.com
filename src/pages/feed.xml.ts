@@ -21,7 +21,7 @@ export const GET: APIRoute = async () => {
 
   // Sort by date descending
   const sortedArticles = articles.sort(
-    (a, b) => b.data.date.getTime() - a.data.date.getTime()
+    (a: typeof articles[0], b: typeof articles[0]) => b.data.date.getTime() - a.data.date.getTime()
   );
 
   const feed = `<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">

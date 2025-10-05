@@ -34,9 +34,9 @@ jobs:
       - name: Lint
         run: npm run lint
 
-      # Run type checking
+      # Run type checking (with clean cache to match fresh CI environment)
       - name: Type check
-        run: npm run typecheck
+        run: npm run typecheck:ci
 
       # Run unit tests
       - name: Unit tests
