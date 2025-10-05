@@ -40,8 +40,8 @@ function Article({
   ...divProps
 }: ArticleProps) {
   const url = `/articles/${article.id}`;
-  const { id, data } = article;
-  const { title, description, image, tags, readingTime } = data;
+  const { id, data, readingTime } = article;
+  const { title, description, image, tags } = data;
 
   const isCompact = layoutSize === 'compact' || layoutSize === 'compact-first';
   const isCompactFirst = layoutSize === 'compact-first';
