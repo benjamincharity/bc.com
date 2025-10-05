@@ -1,4 +1,25 @@
 {
+  "name": "bc-com",
+  "private": false,
+  "scripts": {
+    "build": "astro build",
+    "postbuild": "node scripts/generate-csp.js",
+    "dev": "astro dev --port 51346",
+    "preview": "astro preview",
+    "check": "astro check",
+    "build-tw": "cross-env NODE_ENV=production npx tailwindcss -i src/styles/shared.css -o public/shared.css --minify",
+    "dev:css": "npx tailwindcss -i src/styles/shared.css -o public/shared.css --watch",
+    "e2e": "playwright test",
+    "format": "npx prettier --log-level warn --write .",
+    "lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint .",
+    "pre-pr": "npm run lint && npm run typecheck && npm test run && npm run build && npm run e2e",
+    "reading-time": "node scripts/add-reading-time.js",
+    "reading-time:dry": "node scripts/add-reading-time.js --dry-run",
+    "test": "vitest",
+    "typecheck": "tsc"
+  },
+  "sideEffects": false,
+  "type": "module",
   "dependencies": {
     "@astrojs/check": "^0.9.4",
     "@astrojs/cloudflare": "^12.6.9",
@@ -92,26 +113,5 @@
     "hooks": {
       "pre-commit": "pretty-quick --staged"
     }
-  },
-  "name": "bc-com",
-  "private": false,
-  "scripts": {
-    "build": "astro build",
-    "postbuild": "node scripts/generate-csp.js",
-    "dev": "astro dev --port 51346",
-    "preview": "astro preview",
-    "check": "astro check",
-    "build-tw": "cross-env NODE_ENV=production npx tailwindcss -i src/styles/shared.css -o public/shared.css --minify",
-    "dev:css": "npx tailwindcss -i src/styles/shared.css -o public/shared.css --watch",
-    "e2e": "playwright test",
-    "format": "npx prettier --log-level warn --write .",
-    "lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint .",
-    "pre-pr": "npm run lint && npm run typecheck && npm test run && npm run build && npm run e2e",
-    "reading-time": "node scripts/add-reading-time.js",
-    "reading-time:dry": "node scripts/add-reading-time.js --dry-run",
-    "test": "vitest",
-    "typecheck": "tsc"
-  },
-  "sideEffects": false,
-  "type": "module"
+  }
 }
