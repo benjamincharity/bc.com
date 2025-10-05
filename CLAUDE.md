@@ -38,6 +38,9 @@ npm run preview
 # Type checking
 npm run typecheck
 
+# Type checking with clean cache (CI mode - more accurate)
+npm run typecheck:ci
+
 # Linting
 npm run lint
 
@@ -128,8 +131,14 @@ See `.env.example` for required variables:
 
 This project uses **npm** (switched from pnpm). Configuration:
 
-- Node.js version specified in `.nvmrc` (v20)
+- Node.js version specified in `.nvmrc` (v22)
 - npm settings in `.npmrc`
+
+**TypeScript Cache Management**:
+- Astro caches generated types in `.astro/` directory
+- Local typecheck may pass with stale cache while CI fails
+- To ensure accurate typechecking that matches CI: `npm run typecheck:ci`
+- Clear cache manually: `rm -rf .astro && astro sync`
 
 ## Deployment (Cloudflare Pages)
 
