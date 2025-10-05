@@ -9,6 +9,7 @@ export interface ArticleFrontmatter {
   description: string;
   image?: string;
   draft?: boolean;
+  readingTime?: number;
 }
 
 export interface ArticleMetadata {

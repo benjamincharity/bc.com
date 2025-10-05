@@ -20,6 +20,11 @@ const mockArticles: Article[] = Array.from({ length: 25 }, (_, i) => ({
     draft: false,
     image: '',
   },
+  readingTime: 5,
+  render: async () => ({
+    Content: () => null,
+    headings: [],
+  }),
 }));
 
 // Mock window.scrollTo
