@@ -1,26 +1,41 @@
-node_modules
+# Dependencies
+node_modules/
 
-.cache
+# Build outputs
+dist/
+build/
+.output/
+.vercel/
+.wrangler/
+
+# Astro generated files
+.astro/
+
+# Cache directories
+.cache/
+
+# Environment variables
 .env
-.vercel
-.output
+.env*.local
 
-/dist/
-/node_modules/
-/build/
-/public/build
+# OS files
+.DS_Store
+
+# Testing
+/test-results/
+/playwright-report/
+/playwright/.cache/
+coverage/
+
+# Legacy Remix artifacts (if any remain)
+/public/build/
 /public/entry.worker.js
 /public/sw.js
 /public/shared.css
 /shared.css
 /api/index.js
 /api/index.js.map
-/api/_assets
+/api/_assets/
 
-.DS_Store
-/test-results/
-/playwright-report/
-/playwright/.cache/
-.env*.local
-
+# AI experiments
 /ai/*
