@@ -46,6 +46,11 @@ jobs:
       - name: Build
         run: npm run build
 
+      # Install Playwright browsers (only on PRs)
+      - name: Install Playwright browsers
+        if: github.event_name == 'pull_request'
+        run: npx playwright install --with-deps
+
       # Run E2E tests (only on PRs)
       - name: E2E tests
         if: github.event_name == 'pull_request'
