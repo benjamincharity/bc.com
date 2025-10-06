@@ -137,6 +137,15 @@ test.describe('Article Pagination', () => {
     // Navigate directly to page 2
     await page.goto('/articles?page=2');
 
+    // Wait for React hydration to complete
+    await page.waitForLoadState('networkidle');
+
+    // Wait for articles to be rendered with the correct count (13 = 7 + 6)
+    await page.waitForFunction(
+      () => document.querySelectorAll('article').length > 7,
+      { timeout: 5000 }
+    );
+
     // Should show more than initial 7 articles (should show 13)
     const articleCount = await page.locator('article').count();
     expect(articleCount).toBeGreaterThan(7);
@@ -146,6 +155,9 @@ test.describe('Article Pagination', () => {
     page,
   }) => {
     await page.goto('/articles');
+
+    // Wait for initial hydration
+    await page.waitForLoadState('networkidle');
 
     let currentCount = await page.locator('article').count();
 
@@ -173,6 +185,9 @@ test.describe('Article Pagination', () => {
   test('browser back button works with pagination', async ({ page }) => {
     await page.goto('/articles');
 
+    // Wait for initial hydration
+    await page.waitForLoadState('networkidle');
+
     // Initial state - no page parameter
     await expect(page).toHaveURL('/articles');
 
@@ -198,8 +213,8 @@ test.describe('Article Pagination', () => {
     // Go back
     await page.goBack();
 
-    // Wait for page to settle
-    await page.waitForTimeout(500);
+    // Wait for navigation and hydration to complete
+    await page.waitForLoadState('networkidle');
 
     await expect(page).toHaveURL('/articles');
 
@@ -233,6 +248,9 @@ test.describe('Article Pagination', () => {
 
   test('shows end message when all articles are loaded', async ({ page }) => {
     await page.goto('/articles');
+
+    // Wait for initial hydration
+    await page.waitForLoadState('networkidle');
 
     // Keep clicking "Load More" until it's gone
     let attempts = 0;
@@ -283,8 +301,20 @@ test.describe('Newsletter Subscription', () => {
   test('submit button is disabled when email is empty', async ({ page }) => {
     await page.goto('/articles');
 
+    // Wait for React hydration to complete
+    await page.waitForLoadState('networkidle');
+
     const emailInput = page.getByPlaceholder(/email/i);
     const subscribeButton = page.getByRole('button', { name: /subscribe/i });
+
+    // Wait for the button to be in the correct initial state
+    await page.waitForFunction(
+      () => {
+        const button = document.querySelector('button[type="submit"]');
+        return button && button.hasAttribute('disabled');
+      },
+      { timeout: 2000 }
+    );
 
     // Button should be disabled initially (no email)
     await expect(subscribeButton).toBeDisabled();
