@@ -51,11 +51,20 @@ jobs:
         id: check_e2e
         if: github.event_name == 'pull_request'
         run: |
-          # Get the base branch for comparison
-          git fetch origin ${{ github.base_ref }}
+          # Use GitHub API to get changed files (more reliable than git diff in CI)
+          # This works even with shallow clones
+          CHANGED_FILES=$(gh pr view ${{ github.event.pull_request.number }} --json files --jq '.files[].path')
 
-          # Get list of changed files
-          CHANGED_FILES=$(git diff --name-only origin/${{ github.base_ref }}...HEAD)
+          # Debug: Show changed files
+          echo "Changed files in this PR:"
+          echo "$CHANGED_FILES"
+
+          # Check if we have any changed files
+          if [ -z "$CHANGED_FILES" ]; then
+            echo "No changed files detected, running E2E tests to be safe"
+            echo "run_e2e=true" >> $GITHUB_OUTPUT
+            exit 0
+          fi
 
           # Check if any non-MDX files changed
           if echo "$CHANGED_FILES" | grep -qvE '^src/content/blog/.*\.mdx$'; then
@@ -65,6 +74,8 @@ jobs:
             echo "Only MDX content changed, skipping E2E tests"
             echo "run_e2e=false" >> $GITHUB_OUTPUT
           fi
+        env:
+          GH_TOKEN: ${{ github.token }}
 
       # Install Playwright browsers (only on PRs when E2E needed)
       - name: Install Playwright browsers
