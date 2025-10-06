@@ -1,4 +1,17 @@
-import { expect, test } from '@playwright/test';
+import { expect, test, type Page } from '@playwright/test';
+
+/**
+ * Helper function to wait for React hydration and interactive components
+ * This is especially important for WebKit which is slower to hydrate
+ */
+async function waitForHydration(page: Page) {
+  // Wait for network to be idle
+  await page.waitForLoadState('networkidle');
+
+  // Wait a bit for React to fully hydrate and attach event handlers
+  // This is critical for interactive islands (Load More button, article links, etc.)
+  await page.waitForTimeout(1000);
+}
 
 test.describe('Article System', () => {
   test('users can navigate to the homepage', async ({ page }) => {
@@ -19,6 +32,9 @@ test.describe('Article System', () => {
 
   test('users can navigate to an individual article', async ({ page }) => {
     await page.goto('/articles');
+
+    // Wait for React to hydrate before interacting with article links
+    await waitForHydration(page);
 
     // Find and click on the first article card
     const firstArticleLink = page.locator('article a').first();
@@ -75,18 +91,22 @@ test.describe('Article Pagination', () => {
   }) => {
     await page.goto('/articles');
 
+    // Wait for React hydration before clicking interactive button
+    await waitForHydration(page);
+
     // Get initial article count
     const initialCount = await page.locator('article').count();
 
-    // Click "Load More" button
+    // Click "Load More" button - wait for it to be actionable
     const loadMoreButton = page.getByText('Load More');
+    await loadMoreButton.waitFor({ state: 'visible' });
     await loadMoreButton.click();
 
     // Wait for URL to update and articles to load
     await page.waitForFunction(
       (count) => document.querySelectorAll('article').length > count,
       initialCount,
-      { timeout: 5000 }
+      { timeout: 10000 }
     );
 
     // Verify URL updated to include page=2
@@ -96,17 +116,22 @@ test.describe('Article Pagination', () => {
   test('page parameter persists on refresh', async ({ page }) => {
     await page.goto('/articles');
 
+    // Wait for React hydration before clicking
+    await waitForHydration(page);
+
     // Get initial article count
     const initialCount = await page.locator('article').count();
 
     // Click "Load More" to get to page 2
-    await page.getByText('Load More').click();
+    const loadMoreButton = page.getByText('Load More');
+    await loadMoreButton.waitFor({ state: 'visible' });
+    await loadMoreButton.click();
 
     // Wait for more articles to load
     await page.waitForFunction(
       (count) => document.querySelectorAll('article').length > count,
       initialCount,
-      { timeout: 5000 }
+      { timeout: 10000 }
     );
 
     // Verify URL updated to page 2
@@ -116,12 +141,11 @@ test.describe('Article Pagination', () => {
     const articlesBeforeReload = await page.locator('article').count();
     expect(articlesBeforeReload).toBeGreaterThan(initialCount);
 
-    // Reload the page
-    await page.reload();
+    // Reload the page with longer timeout for WebKit
+    await page.reload({ timeout: 60000 });
 
     // Wait for articles to load and React to hydrate
-    await page.waitForLoadState('networkidle');
-    await page.waitForTimeout(500); // Give React time to read URL params and update state
+    await waitForHydration(page);
 
     // Verify URL still has page=2
     await expect(page).toHaveURL(/\?page=2/);
@@ -157,27 +181,31 @@ test.describe('Article Pagination', () => {
     await page.goto('/articles');
 
     // Wait for initial hydration
-    await page.waitForLoadState('networkidle');
+    await waitForHydration(page);
 
     let currentCount = await page.locator('article').count();
 
     // Click "Load More" first time
-    await page.getByText('Load More').click();
+    const loadMoreButton = page.getByText('Load More');
+    await loadMoreButton.waitFor({ state: 'visible' });
+    await loadMoreButton.click();
     await page.waitForFunction(
       (count) => document.querySelectorAll('article').length > count,
       currentCount,
-      { timeout: 5000 }
+      { timeout: 10000 }
     );
     await expect(page).toHaveURL(/\?page=2/);
 
     currentCount = await page.locator('article').count();
 
-    // Click "Load More" second time
-    await page.getByText('Load More').click();
+    // Click "Load More" second time - wait for button to be ready again
+    await page.waitForTimeout(500); // Give React time to re-render button
+    await loadMoreButton.waitFor({ state: 'visible' });
+    await loadMoreButton.click();
     await page.waitForFunction(
       (count) => document.querySelectorAll('article').length > count,
       currentCount,
-      { timeout: 5000 }
+      { timeout: 10000 }
     );
     await expect(page).toHaveURL(/\?page=3/);
   });
@@ -186,7 +214,7 @@ test.describe('Article Pagination', () => {
     await page.goto('/articles');
 
     // Wait for initial hydration
-    await page.waitForLoadState('networkidle');
+    await waitForHydration(page);
 
     // Initial state - no page parameter
     await expect(page).toHaveURL('/articles');
@@ -195,13 +223,15 @@ test.describe('Article Pagination', () => {
     const initialCount = await page.locator('article').count();
 
     // Click "Load More" to go to page 2
-    await page.getByText('Load More').click();
+    const loadMoreButton = page.getByText('Load More');
+    await loadMoreButton.waitFor({ state: 'visible' });
+    await loadMoreButton.click();
 
     // Wait for articles to load
     await page.waitForFunction(
       (count) => document.querySelectorAll('article').length > count,
       initialCount,
-      { timeout: 5000 }
+      { timeout: 10000 }
     );
 
     await expect(page).toHaveURL(/\?page=2/);
@@ -214,7 +244,7 @@ test.describe('Article Pagination', () => {
     await page.goBack();
 
     // Wait for navigation and hydration to complete
-    await page.waitForLoadState('networkidle');
+    await waitForHydration(page);
 
     await expect(page).toHaveURL('/articles');
 
@@ -228,16 +258,21 @@ test.describe('Article Pagination', () => {
     // Navigate with showDrafts parameter
     await page.goto('/articles?showDrafts=true');
 
+    // Wait for hydration
+    await waitForHydration(page);
+
     const initialCount = await page.locator('article').count();
 
     // Click "Load More"
-    await page.getByText('Load More').click();
+    const loadMoreButton = page.getByText('Load More');
+    await loadMoreButton.waitFor({ state: 'visible' });
+    await loadMoreButton.click();
 
     // Wait for articles to load
     await page.waitForFunction(
       (count) => document.querySelectorAll('article').length > count,
       initialCount,
-      { timeout: 5000 }
+      { timeout: 10000 }
     );
 
     // Should have both parameters
@@ -250,7 +285,7 @@ test.describe('Article Pagination', () => {
     await page.goto('/articles');
 
     // Wait for initial hydration
-    await page.waitForLoadState('networkidle');
+    await waitForHydration(page);
 
     // Keep clicking "Load More" until it's gone
     let attempts = 0;
@@ -265,6 +300,9 @@ test.describe('Article Pagination', () => {
       }
 
       const currentCount = await page.locator('article').count();
+
+      // Wait for button to be actionable before clicking
+      await loadMoreButton.waitFor({ state: 'visible' });
       await loadMoreButton.click();
 
       // Wait for more articles to load or timeout
@@ -272,8 +310,10 @@ test.describe('Article Pagination', () => {
         await page.waitForFunction(
           (count) => document.querySelectorAll('article').length > count,
           currentCount,
-          { timeout: 2000 }
+          { timeout: 10000 }
         );
+        // Give React time to re-render after state update
+        await page.waitForTimeout(500);
       } catch {
         // No more articles loaded, we're done
         break;

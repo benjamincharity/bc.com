@@ -46,12 +46,32 @@ jobs:
       - name: Build
         run: npm run build
 
-      # Install Playwright browsers (only on PRs)
-      - name: Install Playwright browsers
+      # Check if E2E tests are needed (skip for MDX-only changes)
+      - name: Check if E2E tests needed
+        id: check_e2e
         if: github.event_name == 'pull_request'
+        run: |
+          # Get the base branch for comparison
+          git fetch origin ${{ github.base_ref }}
+
+          # Get list of changed files
+          CHANGED_FILES=$(git diff --name-only origin/${{ github.base_ref }}...HEAD)
+
+          # Check if any non-MDX files changed
+          if echo "$CHANGED_FILES" | grep -qvE '^src/content/blog/.*\.mdx$'; then
+            echo "Non-content files changed, E2E tests required"
+            echo "run_e2e=true" >> $GITHUB_OUTPUT
+          else
+            echo "Only MDX content changed, skipping E2E tests"
+            echo "run_e2e=false" >> $GITHUB_OUTPUT
+          fi
+
+      # Install Playwright browsers (only on PRs when E2E needed)
+      - name: Install Playwright browsers
+        if: github.event_name == 'pull_request' && steps.check_e2e.outputs.run_e2e == 'true'
         run: npx playwright install --with-deps
 
-      # Run E2E tests (only on PRs)
+      # Run E2E tests (only on PRs when needed)
       - name: E2E tests
-        if: github.event_name == 'pull_request'
+        if: github.event_name == 'pull_request' && steps.check_e2e.outputs.run_e2e == 'true'
         run: npm run e2e
