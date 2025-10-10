@@ -28,7 +28,10 @@ const {
 const hasCanvas = showBackground && canvasLayout;
 
 const keywords = ['engineering', 'products', 'leadership', 'technology'];
-const fullTitle = title === siteMetadata.title ? title : `${title} | ${siteMetadata.title}`;
+// Don't add suffix if: title is the site title, title is the author name, or title already includes the author name
+const fullTitle = (title === siteMetadata.title || title === siteMetadata.author || title.includes(siteMetadata.author)) 
+  ? title 
+  : `${title} | ${siteMetadata.author}`;
 ---
 
 <!DOCTYPE html>
