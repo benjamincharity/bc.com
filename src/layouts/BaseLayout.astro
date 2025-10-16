@@ -109,6 +109,37 @@ const websiteSchema = {
     'query-input': 'required name=search_term_string',
   },
 };
+
+// Organization schema for brand entity recognition
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: siteMetadata.author,
+  url: siteMetadata.url,
+  logo: {
+    '@type': 'ImageObject',
+    url: siteMetadata.url + siteMetadata.image,
+  },
+  description: siteMetadata.professionalTitle,
+  email: siteMetadata.email,
+  sameAs: [
+    `https://twitter.com/${siteMetadata.twitter}`,
+    `https://github.com/${siteMetadata.github}`,
+    `https://www.linkedin.com/in/${siteMetadata.linkedIn}`,
+  ],
+  founder: {
+    '@type': 'Person',
+    name: siteMetadata.author,
+  },
+  knowsAbout: [
+    'Software Engineering',
+    'Engineering Leadership',
+    'Startup Culture',
+    'Team Building',
+    'Product Development',
+    'Engineering Management',
+  ],
+};
 ---
 
 <!DOCTYPE html>
@@ -175,6 +206,7 @@ const websiteSchema = {
     <!-- Structured Data Schemas -->
     <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
     <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} />
 
     <!-- Allow pages to inject additional head elements -->
     <slot name="head" />
