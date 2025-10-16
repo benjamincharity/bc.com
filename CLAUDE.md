@@ -49,6 +49,10 @@ npm run format
 
 # Add reading time to articles
 npm run add-reading-time
+
+# Validate article metadata and run automations
+npm run validate-article              # Validate all articles
+npm run validate-article [slug]       # Validate specific article
 ```
 
 ## Key Build Process
@@ -153,12 +157,38 @@ This project uses **npm** (switched from pnpm). Configuration:
 - Node.js ^20.0.0 required
 - Automatic deployments on push to main branch
 
+## SEO Features
+
+The site includes comprehensive SEO optimizations:
+
+- **Sitemaps**: Automatically generated XML sitemaps
+  - `/sitemap-index.xml` - Main sitemap index
+  - `/sitemap-0.xml` - Pages sitemap
+  - `/sitemap-images.xml` - Image sitemap for Google Image Search
+- **Structured Data**: Rich JSON-LD schemas
+  - Person schema (author/knowledge graph)
+  - Organization schema (brand entity)
+  - WebSite schema with SearchAction
+  - BlogPosting schema with article metadata
+  - FAQ schema (24+ articles)
+  - BreadcrumbList navigation
+  - Article Series schema for related content
+- **Meta Tags**: Dynamic Open Graph and Twitter Card meta tags
+- **Image Optimization**: Cloudinary CDN with automatic WebP conversion
+- **RSS Feed**: `/feed.xml` with full content
+- **Canonical URLs**: Proper canonical tags on all pages
+- **Keywords**: Dynamic keyword generation based on article tags
+
 ## Security & Accessibility
 
-Two PRDs document planned improvements:
+PRDs documenting improvements:
 
-- `prds/security-hardening-improvements.md` - Security vulnerability remediation
+- `prds/completed/security-audit-remediation-complete.md` - Security audit remediation (completed)
 - `prds/accessibility-wcag-compliance.md` - WCAG 2.1 AA accessibility compliance
+- `prds/seo-improvements.md` - SEO optimization strategy
+- `prds/eeat-authority-signals.md` - E-E-A-T authority building
+- `prds/pillar-content-strategy.md` - Topic hub pages strategy
+- `prds/internal-linking-enhancement.md` - Internal linking improvements
 
 ## Recent Updates (Updated: 2025-10-01)
 
@@ -237,13 +267,33 @@ Two PRDs document planned improvements:
 1. Create new articles in `src/content/blog/` as `.mdx` files
 2. Include required frontmatter: `title`, `date`, `tags`, `description`, `image`
 3. Optional frontmatter: `draft: true` (hides from production), `readingTime`
-4. **Add FAQ Schema** (recommended for SEO):
+4. **Add Featured Image** (recommended for SEO):
+   - Upload image to Cloudinary (article-content folder)
+   - Use WebP format for optimal performance
+   - Add filename to frontmatter `image` field
+   - Image automatically included in image sitemap (`/sitemap-images.xml`)
+5. **Add FAQ Schema** (recommended for SEO):
    - Identify 4-6 key questions the article answers
    - Add FAQ items to `src/utils/faq-schema.ts`
    - See [FAQ Guidelines](docs/faq-guidelines.md) for detailed instructions
-5. Test locally with `npm run dev`
-6. Preview production build with `npm run preview`
-7. Deploy automatically via Cloudflare Pages on push to main branch
+6. **Validate article**: Run `npm run validate-article [slug]` to:
+   - Check required frontmatter fields
+   - Validate title/description lengths (SEO optimization)
+   - Verify image format and alt text
+   - Auto-update reading time and modified dates
+7. Test locally with `npm run dev`
+8. Preview production build with `npm run preview`
+9. Deploy automatically via Cloudflare Pages on push to main branch
+
+**Note**: The image sitemap is automatically generated during build and includes all
+published articles with featured images. No manual updates required.
+
+**Article Validation**: The `validate-article` script checks for SEO best practices:
+- Title length: 30-100 characters (warns if < 30)
+- Description length: 120-160 characters (warns if < 120)
+- Featured image in WebP format
+- Alt text on images
+- Automatically runs reading time and modified date updates
 
 ### Adding FAQs to Articles (SEO Enhancement)
 

@@ -17,6 +17,7 @@
     "reading-time:dry": "node scripts/add-reading-time.js --dry-run",
     "update-modified-dates": "node scripts/update-modified-dates.js",
     "update-modified-dates:dry": "node scripts/update-modified-dates.js --dry-run",
+    "validate-article": "node scripts/validate-article.js",
     "validate-seo": "node scripts/validate-seo.js",
     "test": "vitest",
     "typecheck": "astro sync && tsc",
