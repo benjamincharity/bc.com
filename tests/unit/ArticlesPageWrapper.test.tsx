@@ -160,21 +160,6 @@ describe('ArticlesPageWrapper - Pagination', () => {
       await user.click(screen.getByText('Load More'));
       await waitFor(() => expect(window.location.search).toBe('?page=3'));
     });
-
-    it('should preserve other query parameters when updating page', async () => {
-      const user = userEvent.setup();
-      window.history.pushState({}, '', '/articles?showDrafts=true');
-
-      render(<ArticlesPageWrapper articles={mockArticles} />);
-
-      await user.click(screen.getByText('Load More'));
-
-      await waitFor(() => {
-        const url = new URL(window.location.href);
-        expect(url.searchParams.get('page')).toBe('2');
-        expect(url.searchParams.get('showDrafts')).toBe('true');
-      });
-    });
   });
 
   describe('View toggle persistence', () => {

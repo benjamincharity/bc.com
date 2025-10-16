@@ -11,9 +11,11 @@ import { siteMetadata } from '~/data/siteMetadata';
 // Get all articles from the blog collection
 const articles = await getCollection('blog');
 
-// Filter out drafts at build time and sort by date (newest first)
+// Filter drafts based on environment and sort by date (newest first)
+// In development: show all articles including drafts
+// In production: hide draft articles
 const sortedArticles = articles
-  .filter(article => !article.data.draft)
+  .filter(article => import.meta.env.DEV || !article.data.draft)
   .sort((a, b) => {
     return new Date(b.data.date).getTime() - new Date(a.data.date).getTime();
   });

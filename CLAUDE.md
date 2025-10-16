@@ -68,8 +68,8 @@ The build process generates a static site with:
 - **Content Collections**: Blog articles stored in `src/content/blog/` as `.mdx`
   files
 - **Component System**: Mix of Astro components and React islands
-- **Draft System**: Articles support `draft: true` frontmatter, visible with
-  `?showDrafts=true` query parameter
+- **Draft System**: Articles support `draft: true` frontmatter, hidden in
+  production builds, visible in development
 - **Color Mode**: Dark/light theme support with client-side toggles
 
 ### Key Directories
@@ -92,8 +92,8 @@ The build process generates a static site with:
 - Articles are MDX files in `src/content/blog/` with frontmatter metadata
 - Schema defined in `src/content/config.ts` includes:
   - `title`, `date`, `tags[]`, `description`, `image`, `draft`, `readingTime`
-- Draft articles hidden by default, shown with `?showDrafts=true` query
-  parameter
+- Draft articles filtered at build time: hidden in production, visible in
+  development
 - Reading time automatically calculated via `scripts/add-reading-time.js`
 - Tag-based categorization with dedicated tag pages
 - Articles accessible at `/articles/[slug]` and filterable by tag at
@@ -162,10 +162,10 @@ Two PRDs document planned improvements:
 
 ### Draft Article Visibility (Latest)
 
-- Articles can now be marked with `draft: true` in frontmatter
-- Draft articles hidden from listings by default
-- Show drafts by adding `?showDrafts=true` to article list URLs
-- Implemented across all article pages and tag filters
+- Articles can be marked with `draft: true` in frontmatter
+- Draft filtering happens at build time using `import.meta.env.DEV`
+- Production builds: drafts are completely filtered out (not in HTML)
+- Development mode: all articles including drafts are visible for testing
 
 ### Content Organization
 
@@ -219,8 +219,8 @@ Two PRDs document planned improvements:
 
 ## Important Notes
 
-- **Draft articles**: Use `draft: true` in frontmatter and view with
-  `?showDrafts=true`
+- **Draft articles**: Use `draft: true` in frontmatter (visible in development,
+  hidden in production)
 - **Reading time**: Run `npm run add-reading-time` to update article reading
   times
 - **Legacy code**: Original Remix implementation preserved in `legacy-remix/`

@@ -38,4 +38,4 @@ coverage/
 /api/_assets/
 
 # AI experiments
-/ai/*
+/_ai/*

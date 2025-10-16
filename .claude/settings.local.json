@@ -64,7 +64,8 @@
       "Bash(file:*)",
       "Bash(npx tsc:*)",
       "Bash(git checkout:*)",
-      "WebFetch(domain:github.com)"
+      "WebFetch(domain:github.com)",
+      "Bash(do echo \"=== $file ===\")"
     ],
     "deny": [],
     "ask": [],
