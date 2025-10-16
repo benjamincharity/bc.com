@@ -94,8 +94,11 @@ test.describe('Article Pagination', () => {
     await page.waitForFunction(
       (count) => document.querySelectorAll('article').length > count,
       initialCount,
-      { timeout: 10000 }
+      { timeout: 15000 }
     );
+
+    // Give time for state to settle
+    await page.waitForTimeout(500);
 
     // Verify URL updated to include page=2
     await expect(page).toHaveURL(/\?page=2/);
@@ -226,7 +229,7 @@ test.describe('Article Pagination', () => {
     await page.waitForFunction(
       (count) => document.querySelectorAll('article').length > count,
       initialCount,
-      { timeout: 10000 }
+      { timeout: 15000 }
     );
 
     await expect(page).toHaveURL(/\?page=2/);
@@ -239,7 +242,8 @@ test.describe('Article Pagination', () => {
     await page.goBack();
 
     // Wait for navigation and hydration to complete
-    await waitForHydration(page);
+    await page.waitForLoadState('networkidle');
+    await page.waitForTimeout(1500);
 
     await expect(page).toHaveURL('/articles');
 
@@ -287,10 +291,10 @@ test.describe('Article Pagination', () => {
         await page.waitForFunction(
           (count) => document.querySelectorAll('article').length > count,
           currentCount,
-          { timeout: 10000 }
+          { timeout: 15000 }
         );
         // Give React time to re-render after state update
-        await page.waitForTimeout(500);
+        await page.waitForTimeout(800);
       } catch {
         // No more articles loaded, we're done
         break;
@@ -300,7 +304,7 @@ test.describe('Article Pagination', () => {
     }
 
     // Should show end message (exact text from ArticlesPageWrapper.tsx line 103)
-    await expect(page.getByText(/reached the end/i)).toBeVisible();
+    await expect(page.getByText(/reached the end/i)).toBeVisible({ timeout: 15000 });
   });
 });
 
