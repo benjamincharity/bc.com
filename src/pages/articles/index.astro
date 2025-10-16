@@ -7,6 +7,7 @@ import ArticlesPageWrapper from '~/components/islands/ArticlesPageWrapper';
 import NewsletterForm from '~/components/islands/NewsletterForm';
 import BrowseByTags from '~/components/islands/BrowseByTags';
 import { siteMetadata } from '~/data/siteMetadata';
+import { generateArticlesIndexKeywords } from '~/utils/keyword-generator';
 
 // Get all articles from the blog collection
 const articles = await getCollection('blog');
@@ -29,13 +30,37 @@ sortedArticles.forEach(article => {
   });
 });
 const tagsForBrowse = Array.from(tagCounts.entries());
+
+// Breadcrumb schema for articles index
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Home',
+      item: siteMetadata.url,
+    },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: 'Articles',
+      item: `${siteMetadata.url}/articles`,
+    },
+  ],
+};
 ---
 
 <BaseLayout
   title={`Articles on startups and engineering, by ${siteMetadata.author}`}
   description="Explore expert articles on engineering leadership in startups and scale-ups. Discover guides on career paths, team dynamics, and innovation in tech."
   showBackground={false}
+  keywords={generateArticlesIndexKeywords()}
 >
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+  </Fragment>
   <section class="prose-wrapper prose-wrapper--large">
     <ArticlesPageWrapper articles={sortedArticles} client:load />
 

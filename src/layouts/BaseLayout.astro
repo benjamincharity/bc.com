@@ -14,6 +14,13 @@ export interface Props {
   showBackground?: boolean;
   canvasLayout?: boolean;
   keywords?: string[];
+  ogType?: 'website' | 'article';
+  articleMeta?: {
+    publishedTime?: string;
+    modifiedTime?: string;
+    author?: string;
+    tags?: string[];
+  };
 }
 
 const {
@@ -24,6 +31,8 @@ const {
   showBackground = true,
   canvasLayout = false,
   keywords = ['engineering', 'products', 'leadership', 'technology'],
+  ogType = 'website',
+  articleMeta = undefined,
 } = Astro.props;
 
 // Pages with canvas background get special layout treatment
@@ -42,22 +51,63 @@ const personSchema = {
   email: siteMetadata.email,
   jobTitle: siteMetadata.workTitle,
   description: siteMetadata.professionalTitle,
+  image: siteMetadata.url + siteMetadata.image,
   sameAs: [
     `https://twitter.com/${siteMetadata.twitter}`,
     `https://github.com/${siteMetadata.github}`,
     `https://www.linkedin.com/in/${siteMetadata.linkedIn}`,
   ],
-  worksFor: siteMetadata.companies.slice(0, 1).map(company => ({
+  worksFor: {
     '@type': 'Organization',
-    name: company,
-  }))[0],
+    name: siteMetadata.companies[0],
+  },
   knowsAbout: [
     'Software Engineering',
     'Engineering Leadership',
     'Startup Culture',
     'Team Building',
     'Product Development',
+    'TypeScript',
+    'React',
+    'Node.js',
+    'Product Management',
+    'Engineering Management',
   ],
+  knowsLanguage: [
+    {
+      '@type': 'Language',
+      name: 'English',
+    },
+  ],
+  hasOccupation: {
+    '@type': 'Occupation',
+    name: 'Software Engineer',
+    occupationLocation: {
+      '@type': 'Country',
+      name: 'United States',
+    },
+  },
+};
+
+// WebSite schema for site-wide search and navigation
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: siteMetadata.title,
+  url: siteMetadata.url,
+  description: siteMetadata.tagline,
+  author: {
+    '@type': 'Person',
+    name: siteMetadata.author,
+  },
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: {
+      '@type': 'EntryPoint',
+      urlTemplate: `${siteMetadata.url}/articles?search={search_term_string}`,
+    },
+    'query-input': 'required name=search_term_string',
+  },
 };
 ---
 
@@ -74,11 +124,19 @@ const personSchema = {
     <link rel="canonical" href={siteMetadata.url + Astro.url.pathname} />
 
     <!-- Open Graph -->
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
     <meta property="og:url" content={siteMetadata.url + Astro.url.pathname} />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={image} />
+    {ogType === 'article' && articleMeta && (
+      <>
+        {articleMeta.publishedTime && <meta property="article:published_time" content={articleMeta.publishedTime} />}
+        {articleMeta.modifiedTime && <meta property="article:modified_time" content={articleMeta.modifiedTime} />}
+        {articleMeta.author && <meta property="article:author" content={articleMeta.author} />}
+        {articleMeta.tags && articleMeta.tags.map(tag => <meta property="article:tag" content={tag} />)}
+      </>
+    )}
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
@@ -114,8 +172,9 @@ const personSchema = {
 
     <!-- Astro Tailwind CSS will be injected automatically -->
 
-    <!-- Person Schema for site-wide authorship -->
+    <!-- Structured Data Schemas -->
     <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
 
     <!-- Allow pages to inject additional head elements -->
     <slot name="head" />
