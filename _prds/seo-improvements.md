@@ -9,12 +9,14 @@
 
 This document outlines critical SEO improvements needed for benjamincharity.com. The site already has strong SEO fundamentals in place (meta tags, structured data, sitemap, RSS). This PRD focuses exclusively on the gaps that need to be addressed.
 
-**Critical Issues to Fix:**
+**Critical Issues to Fix (P0):**
 1. Missing article modification dates (freshness signals)
 2. No breadcrumb structured data (rich snippet opportunity)
 3. Homepage missing semantic H1 tag
+
+**Medium Priority (P1):**
 4. ~~Images missing alt text~~ ✅ **RESOLVED** - Alt text already present
-5. Incomplete PWA manifest
+5. Incomplete PWA manifest (lower priority - nice to have for Lighthouse)
 
 **Expected Impact:**
 - Improved search rankings for article content
@@ -232,10 +234,10 @@ Create script `scripts/validate-alt-text.js`:
 
 ---
 
-### 5. Incomplete PWA Manifest
+### 5. Incomplete PWA Manifest (Lower Priority)
 
 **Problem:**
-PWA manifest exists but is minimal, missing proper icon sizes, screenshots, categories, and other PWA features.
+PWA manifest exists but is minimal, missing proper icon sizes. While "Add to Home Screen" functionality isn't critical for a blog, proper icons improve the Lighthouse PWA score and provide a better experience for users who do want to save the site.
 
 **Current State:**
 ```json
@@ -254,10 +256,9 @@ PWA manifest exists but is minimal, missing proper icon sizes, screenshots, cate
 ```
 
 **Impact:**
-- Can't be installed as PWA on most devices
-- No "Add to Home Screen" prompt
-- Missed mobile engagement opportunity
 - Lower Lighthouse PWA score
+- Missing proper favicon sizes for various devices
+- Suboptimal appearance if users bookmark/save to home screen
 
 **Solution:**
 
@@ -361,7 +362,7 @@ npx pwa-asset-generator source-icon.png public/images/pwa --manifest public/mani
 - `public/images/pwa/` - Generate icon assets
 - `src/layouts/BaseLayout.astro` - Verify manifest link
 
-**Priority:** P0 (Critical for mobile SEO & UX)
+**Priority:** P1 (Medium - Nice to have for Lighthouse score, not critical for blog SEO)
 
 ---
 
@@ -612,24 +613,6 @@ For articles that are instructional or Q&A format, add specialized schema:
 
 ---
 
-### 13. Video Schema
-
-If you add video content to articles, implement VideoObject schema:
-
-```json
-{
-  "@type": "VideoObject",
-  "name": "Video title",
-  "description": "Video description",
-  "thumbnailUrl": "...",
-  "uploadDate": "2025-01-01",
-  "duration": "PT5M30S"
-}
-```
-
-**Priority:** P3 (Future)
-
----
 
 ### 14. Expanded Author Bio Schema
 
@@ -699,12 +682,7 @@ Enhance author object with more details:
 4. ~~**Restore Image Alt Text**~~ ✅ **SKIPPED** - Alt text already present
    - Optional: Add CI validation for future images
 
-5. **Complete PWA Manifest** (3 hours)
-   - Generate icon assets in all required sizes
-   - Update manifest.json with complete data
-   - Test installation on mobile devices
-
-**Total Estimated Time:** 10 hours (reduced from 12 - alt text already present)
+**Total Estimated Time:** 7 hours (Phase 1 critical items only)
 **Success Metrics:**
 - Google Search Console shows structured data improvements
 - Lighthouse SEO score > 95
@@ -716,27 +694,32 @@ Enhance author object with more details:
 ### Phase 2: Medium Priority (Week 2)
 **Goal:** Enhance structured data and content optimization
 
-6. **Add Organization/Person Schema** (2 hours)
+6. **Complete PWA Manifest** (3 hours) - **Moved from Phase 1**
+   - Generate icon assets in all required sizes (72px to 512px)
+   - Update manifest.json with complete data
+   - Test appearance on various devices
+
+7. **Add Organization/Person Schema** (2 hours)
    - Implement site-wide Person schema
    - Add to BaseLayout
 
-7. **Dynamic Keywords** (2 hours)
+8. **Dynamic Keywords** (2 hours)
    - Make keywords prop dynamic in BaseLayout
    - Update all page types to pass relevant keywords
 
-8. **Enhanced Image Schema** (2 hours)
+9. **Enhanced Image Schema** (2 hours)
    - Update image objects to include dimensions
    - Add captions where appropriate
 
-9. **Sitemap Configuration** (2 hours)
-   - Configure custom priorities and changefreq
-   - Test generated sitemap
+10. **Sitemap Configuration** (2 hours)
+    - Configure custom priorities and changefreq
+    - Test generated sitemap
 
-10. **Last-Modified Headers** (1 hour)
+11. **Last-Modified Headers** (1 hour)
     - Update _headers file
     - Verify headers in production
 
-**Total Estimated Time:** 9 hours
+**Total Estimated Time:** 12 hours
 **Success Metrics:**
 - Improved keyword targeting per page
 - Better sitemap structure
