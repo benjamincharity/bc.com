@@ -65,7 +65,9 @@
       "Bash(npx tsc:*)",
       "Bash(git checkout:*)",
       "WebFetch(domain:github.com)",
-      "Bash(do echo \"=== $file ===\")"
+      "Bash(do echo \"=== $file ===\")",
+      "Bash(npm run update-modified-dates:*)",
+      "Bash(npm run typecheck:ci:*)"
     ],
     "deny": [],
     "ask": [],
