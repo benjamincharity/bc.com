@@ -69,7 +69,9 @@
       "Bash(npm run update-modified-dates:*)",
       "Bash(npm run typecheck:ci:*)",
       "Bash(npm run validate-article:*)",
-      "Bash(mv:*)"
+      "Bash(mv:*)",
+      "Bash(sort:*)",
+      "Bash(npm ls --depth=0)"
     ],
     "deny": [],
     "ask": [],

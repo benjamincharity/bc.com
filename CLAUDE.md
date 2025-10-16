@@ -185,7 +185,6 @@ PRDs documenting improvements:
 
 - `prds/completed/security-audit-remediation-complete.md` - Security audit remediation (completed)
 - `prds/accessibility-wcag-compliance.md` - WCAG 2.1 AA accessibility compliance
-- `prds/seo-improvements.md` - SEO optimization strategy
 - `prds/eeat-authority-signals.md` - E-E-A-T authority building
 - `prds/pillar-content-strategy.md` - Topic hub pages strategy
 - `prds/internal-linking-enhancement.md` - Internal linking improvements
