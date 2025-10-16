@@ -16,8 +16,12 @@ import { generateFAQSchema } from '~/utils/faq-schema';
 export const getStaticPaths = (async () => {
   const articles = await getCollection('blog');
 
-  // Filter out drafts at build time
-  const publishedArticles = articles.filter(article => !article.data.draft);
+  // Filter drafts based on environment
+  // In development: show all articles including drafts
+  // In production: hide draft articles
+  const publishedArticles = articles.filter(article =>
+    import.meta.env.DEV || !article.data.draft
+  );
 
   return publishedArticles.map((article) => ({
     params: { slug: article.id },
