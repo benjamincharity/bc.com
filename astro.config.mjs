@@ -27,7 +27,39 @@ export default defineConfig({
       optimize: true,
       extendMarkdownConfig: true,
     }),
-    sitemap(),
+    sitemap({
+      filter: (page) => !page.includes('/draft/'),
+      changefreq: 'weekly',
+      priority: 0.7,
+      serialize(item) {
+        // Homepage - highest priority
+        if (item.url === 'https://www.benjamincharity.com/') {
+          item.changefreq = 'weekly';
+          item.priority = 1.0;
+        }
+        // Articles listing
+        else if (item.url === 'https://www.benjamincharity.com/articles/') {
+          item.changefreq = 'daily';
+          item.priority = 0.9;
+        }
+        // Individual articles
+        else if (item.url.includes('/articles/') && !item.url.includes('/tags/')) {
+          item.changefreq = 'monthly';
+          item.priority = 0.8;
+        }
+        // Tag pages
+        else if (item.url.includes('/tags/')) {
+          item.changefreq = 'weekly';
+          item.priority = 0.7;
+        }
+        // Other pages
+        else {
+          item.changefreq = 'monthly';
+          item.priority = 0.5;
+        }
+        return item;
+      },
+    }),
     // TODO: Add PWA integration after basic setup is working
   ],
   markdown: {
