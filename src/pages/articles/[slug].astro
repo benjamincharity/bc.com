@@ -9,6 +9,9 @@ import BrowseByTags from '~/components/islands/BrowseByTags';
 import { siteMetadata } from '~/data/siteMetadata';
 import type { GetStaticPaths } from 'astro';
 import { BackToLink } from '~/components/BackToLink';
+import { detectArticleSeries, getSeriesArticles, generateSeriesSchema } from '~/utils/article-series';
+import { generateArticleKeywords } from '~/utils/keyword-generator';
+import { generateFAQSchema } from '~/utils/faq-schema';
 
 export const getStaticPaths = (async () => {
   const articles = await getCollection('blog');
@@ -52,8 +55,22 @@ const articleImage = article.data.image
   ? siteMetadata.articleImagePath + article.data.image
   : siteMetadata.url + siteMetadata.image;
 
+// Generate dynamic keywords for SEO
+const articleKeywords = generateArticleKeywords(article);
+
 // JSON-LD structured data for article
 const articleUrl = `${siteMetadata.url}/articles/${article.id}`;
+
+// Calculate word count from article body
+const wordCount = body.split(/\s+/).filter(word => word.length > 0).length;
+
+// Check if article is part of a series
+const seriesKey = detectArticleSeries(article);
+const seriesData = seriesKey ? getSeriesArticles(allArticles, seriesKey) : null;
+const seriesSchema = seriesKey && seriesData ? generateSeriesSchema(article, seriesData, seriesKey) : null;
+
+// Check if article has FAQ schema
+const faqSchema = generateFAQSchema(article.id);
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -68,6 +85,7 @@ const jsonLd = {
         width: 2560,
         height: 1440,
         caption: article.data.title,
+        alternateName: article.data.title,
       } : articleImage,
       datePublished: article.data.date.toISOString(),
       dateModified: (article.data.dateModified || article.data.date).toISOString(),
@@ -75,13 +93,24 @@ const jsonLd = {
         '@type': 'Person',
         name: siteMetadata.author,
         url: siteMetadata.url,
+        email: siteMetadata.email,
       },
       publisher: {
         '@type': 'Person',
         name: siteMetadata.author,
         url: siteMetadata.url,
       },
+      mainEntityOfPage: {
+        '@type': 'WebPage',
+        '@id': articleUrl,
+      },
+      url: articleUrl,
       keywords: article.data.tags.join(', '),
+      articleSection: article.data.tags[0],
+      wordCount: wordCount,
+      timeRequired: `PT${article.data.readingTime || 5}M`,
+      inLanguage: 'en-US',
+      ...(seriesSchema || {}),
     },
     {
       '@type': 'BreadcrumbList',
@@ -114,11 +143,19 @@ const jsonLd = {
   title={article.data.title}
   description={article.data.description || `Article: ${article.data.title}`}
   image={articleImage}
-  keywords={article.data.tags}
+  keywords={articleKeywords}
   showBackground={false}
+  ogType="article"
+  articleMeta={{
+    publishedTime: article.data.date.toISOString(),
+    modifiedTime: (article.data.dateModified || article.data.date).toISOString(),
+    author: siteMetadata.author,
+    tags: article.data.tags,
+  }}
 >
   <Fragment slot="head">
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    {faqSchema && <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />}
   </Fragment>
   <div class="prose-wrapper">
     <main>

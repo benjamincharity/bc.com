@@ -39,7 +39,7 @@ describe('RSS Feed Generation', () => {
 
       // Check RSS version
       expect(feedText).toContain(
-        '<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">'
+        '<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0">'
       );
       expect(feedText).toContain('<channel>');
       expect(feedText).toContain('</channel>');

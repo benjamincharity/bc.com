@@ -9,6 +9,7 @@ import NewsletterForm from '~/components/islands/NewsletterForm';
 import BrowseByTags from '~/components/islands/BrowseByTags';
 import { BackToLink } from '~/components/BackToLink';
 import { siteMetadata } from '~/data/siteMetadata';
+import { generateTagPageKeywords } from '~/utils/keyword-generator';
 
 export const getStaticPaths = (async () => {
   const articles = await getCollection('blog');
@@ -56,7 +57,7 @@ const relatedTags = Array.from(tagCounts.keys())
   .filter(t => t !== tag)
   .sort((a, b) => (tagCounts.get(b) || 0) - (tagCounts.get(a) || 0))
   .slice(0, 5);
-const tagKeywords = [tag as string, ...relatedTags, 'engineering', 'leadership'];
+const tagKeywords = generateTagPageKeywords(tag as string, relatedTags);
 
 // JSON-LD structured data for tag page with breadcrumbs
 const jsonLd = {
