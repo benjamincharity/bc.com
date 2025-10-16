@@ -51,6 +51,45 @@ const tagsForBrowse = Array.from(tagCounts.entries());
 const title = `${tag} - ${siteMetadata.author}`;
 const description = `Articles about ${tag} by ${siteMetadata.author}.`;
 
+// Dynamic keywords based on tag and related tags
+const relatedTags = Array.from(tagCounts.keys())
+  .filter(t => t !== tag)
+  .sort((a, b) => (tagCounts.get(b) || 0) - (tagCounts.get(a) || 0))
+  .slice(0, 5);
+const tagKeywords = [tag as string, ...relatedTags, 'engineering', 'leadership'];
+
+// JSON-LD structured data for tag page with breadcrumbs
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Home',
+      item: siteMetadata.url,
+    },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: 'Articles',
+      item: `${siteMetadata.url}/articles`,
+    },
+    {
+      '@type': 'ListItem',
+      position: 3,
+      name: 'Tags',
+      item: `${siteMetadata.url}/articles/tags`,
+    },
+    {
+      '@type': 'ListItem',
+      position: 4,
+      name: tag as string,
+      item: `${siteMetadata.url}/articles/tags/${tag}`,
+    },
+  ],
+};
+
 function pluralize(word: string, count: number): string {
   return count === 1 ? word : word + 's';
 }
@@ -59,8 +98,12 @@ function pluralize(word: string, count: number): string {
 <BaseLayout
   title={title}
   description={description}
+  keywords={tagKeywords}
   showBackground={false}
 >
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </Fragment>
   <section class="prose-wrapper prose-wrapper--large">
     <!-- Header with navigation similar to articles page -->
     <div class="relative flex items-center justify-between mb-4">

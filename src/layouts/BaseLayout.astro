@@ -13,6 +13,7 @@ export interface Props {
   theme?: 'light' | 'dark' | null;
   showBackground?: boolean;
   canvasLayout?: boolean;
+  keywords?: string[];
 }
 
 const {
@@ -22,16 +23,42 @@ const {
   theme = null,
   showBackground = true,
   canvasLayout = false,
+  keywords = ['engineering', 'products', 'leadership', 'technology'],
 } = Astro.props;
 
 // Pages with canvas background get special layout treatment
 const hasCanvas = showBackground && canvasLayout;
-
-const keywords = ['engineering', 'products', 'leadership', 'technology'];
 // Don't add suffix if: title is the site title, title is the author name, or title already includes the author name
-const fullTitle = (title === siteMetadata.title || title === siteMetadata.author || title.includes(siteMetadata.author)) 
-  ? title 
+const fullTitle = (title === siteMetadata.title || title === siteMetadata.author || title.includes(siteMetadata.author))
+  ? title
   : `${title} | ${siteMetadata.author}`;
+
+// Person schema for site-wide authorship and knowledge graph
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: siteMetadata.author,
+  url: siteMetadata.url,
+  email: siteMetadata.email,
+  jobTitle: siteMetadata.workTitle,
+  description: siteMetadata.professionalTitle,
+  sameAs: [
+    `https://twitter.com/${siteMetadata.twitter}`,
+    `https://github.com/${siteMetadata.github}`,
+    `https://www.linkedin.com/in/${siteMetadata.linkedIn}`,
+  ],
+  worksFor: siteMetadata.companies.slice(0, 1).map(company => ({
+    '@type': 'Organization',
+    name: company,
+  }))[0],
+  knowsAbout: [
+    'Software Engineering',
+    'Engineering Leadership',
+    'Startup Culture',
+    'Team Building',
+    'Product Development',
+  ],
+};
 ---
 
 <!DOCTYPE html>
@@ -86,6 +113,9 @@ const fullTitle = (title === siteMetadata.title || title === siteMetadata.author
     <link rel="stylesheet" href="/fonts/fonts.css" />
 
     <!-- Astro Tailwind CSS will be injected automatically -->
+
+    <!-- Person Schema for site-wide authorship -->
+    <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
 
     <!-- Allow pages to inject additional head elements -->
     <slot name="head" />
