@@ -7,6 +7,11 @@ on:
   pull_request:
     branches: [main] # Run on PRs targeting main
 
+# Concurrency control: cancel in-progress runs when new commits are pushed
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 # Job definitions
 jobs:
   # Main test job
