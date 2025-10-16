@@ -13,6 +13,14 @@ export interface Props {
   theme?: 'light' | 'dark' | null;
   showBackground?: boolean;
   canvasLayout?: boolean;
+  keywords?: string[];
+  ogType?: 'website' | 'article';
+  articleMeta?: {
+    publishedTime?: string;
+    modifiedTime?: string;
+    author?: string;
+    tags?: string[];
+  };
 }
 
 const {
@@ -22,16 +30,116 @@ const {
   theme = null,
   showBackground = true,
   canvasLayout = false,
+  keywords = ['engineering', 'products', 'leadership', 'technology'],
+  ogType = 'website',
+  articleMeta = undefined,
 } = Astro.props;
 
 // Pages with canvas background get special layout treatment
 const hasCanvas = showBackground && canvasLayout;
-
-const keywords = ['engineering', 'products', 'leadership', 'technology'];
 // Don't add suffix if: title is the site title, title is the author name, or title already includes the author name
-const fullTitle = (title === siteMetadata.title || title === siteMetadata.author || title.includes(siteMetadata.author)) 
-  ? title 
+const fullTitle = (title === siteMetadata.title || title === siteMetadata.author || title.includes(siteMetadata.author))
+  ? title
   : `${title} | ${siteMetadata.author}`;
+
+// Person schema for site-wide authorship and knowledge graph
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: siteMetadata.author,
+  url: siteMetadata.url,
+  email: siteMetadata.email,
+  jobTitle: siteMetadata.workTitle,
+  description: siteMetadata.professionalTitle,
+  image: siteMetadata.url + siteMetadata.image,
+  sameAs: [
+    `https://twitter.com/${siteMetadata.twitter}`,
+    `https://github.com/${siteMetadata.github}`,
+    `https://www.linkedin.com/in/${siteMetadata.linkedIn}`,
+  ],
+  worksFor: {
+    '@type': 'Organization',
+    name: siteMetadata.companies[0],
+  },
+  knowsAbout: [
+    'Software Engineering',
+    'Engineering Leadership',
+    'Startup Culture',
+    'Team Building',
+    'Product Development',
+    'TypeScript',
+    'React',
+    'Node.js',
+    'Product Management',
+    'Engineering Management',
+  ],
+  knowsLanguage: [
+    {
+      '@type': 'Language',
+      name: 'English',
+    },
+  ],
+  hasOccupation: {
+    '@type': 'Occupation',
+    name: 'Software Engineer',
+    occupationLocation: {
+      '@type': 'Country',
+      name: 'United States',
+    },
+  },
+};
+
+// WebSite schema for site-wide search and navigation
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: siteMetadata.title,
+  url: siteMetadata.url,
+  description: siteMetadata.tagline,
+  author: {
+    '@type': 'Person',
+    name: siteMetadata.author,
+  },
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: {
+      '@type': 'EntryPoint',
+      urlTemplate: `${siteMetadata.url}/articles?search={search_term_string}`,
+    },
+    'query-input': 'required name=search_term_string',
+  },
+};
+
+// Organization schema for brand entity recognition
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: siteMetadata.author,
+  url: siteMetadata.url,
+  logo: {
+    '@type': 'ImageObject',
+    url: siteMetadata.url + siteMetadata.image,
+  },
+  description: siteMetadata.professionalTitle,
+  email: siteMetadata.email,
+  sameAs: [
+    `https://twitter.com/${siteMetadata.twitter}`,
+    `https://github.com/${siteMetadata.github}`,
+    `https://www.linkedin.com/in/${siteMetadata.linkedIn}`,
+  ],
+  founder: {
+    '@type': 'Person',
+    name: siteMetadata.author,
+  },
+  knowsAbout: [
+    'Software Engineering',
+    'Engineering Leadership',
+    'Startup Culture',
+    'Team Building',
+    'Product Development',
+    'Engineering Management',
+  ],
+};
 ---
 
 <!DOCTYPE html>
@@ -47,11 +155,19 @@ const fullTitle = (title === siteMetadata.title || title === siteMetadata.author
     <link rel="canonical" href={siteMetadata.url + Astro.url.pathname} />
 
     <!-- Open Graph -->
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
     <meta property="og:url" content={siteMetadata.url + Astro.url.pathname} />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={image} />
+    {ogType === 'article' && articleMeta && (
+      <>
+        {articleMeta.publishedTime && <meta property="article:published_time" content={articleMeta.publishedTime} />}
+        {articleMeta.modifiedTime && <meta property="article:modified_time" content={articleMeta.modifiedTime} />}
+        {articleMeta.author && <meta property="article:author" content={articleMeta.author} />}
+        {articleMeta.tags && articleMeta.tags.map(tag => <meta property="article:tag" content={tag} />)}
+      </>
+    )}
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
@@ -86,6 +202,11 @@ const fullTitle = (title === siteMetadata.title || title === siteMetadata.author
     <link rel="stylesheet" href="/fonts/fonts.css" />
 
     <!-- Astro Tailwind CSS will be injected automatically -->
+
+    <!-- Structured Data Schemas -->
+    <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} />
 
     <!-- Allow pages to inject additional head elements -->
     <slot name="head" />

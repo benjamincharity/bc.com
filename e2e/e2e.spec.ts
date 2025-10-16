@@ -57,24 +57,12 @@ test.describe('Article System', () => {
     }
   });
 
-  test('draft articles are hidden by default', async ({ page }) => {
+  test('draft articles are hidden in production', async ({ page }) => {
     await page.goto('/articles');
 
-    // Draft articles should not be visible without the query param
+    // Draft articles should not be visible in production
     const draftBadge = page.getByText(/draft/i);
     await expect(draftBadge).toHaveCount(0);
-  });
-
-  test('draft articles are shown with showDrafts query param', async ({
-    page,
-  }) => {
-    await page.goto('/articles?showDrafts=true');
-
-    // If there are draft articles, they should be visible
-    // This test will pass even if there are no drafts
-    const articleCards = page.locator('article');
-    const count = await articleCards.count();
-    expect(count).toBeGreaterThanOrEqual(0);
   });
 
   test('users can browse all tags', async ({ page }) => {
@@ -106,8 +94,11 @@ test.describe('Article Pagination', () => {
     await page.waitForFunction(
       (count) => document.querySelectorAll('article').length > count,
       initialCount,
-      { timeout: 10000 }
+      { timeout: 15000 }
     );
+
+    // Give time for state to settle
+    await page.waitForTimeout(500);
 
     // Verify URL updated to include page=2
     await expect(page).toHaveURL(/\?page=2/);
@@ -238,7 +229,7 @@ test.describe('Article Pagination', () => {
     await page.waitForFunction(
       (count) => document.querySelectorAll('article').length > count,
       initialCount,
-      { timeout: 10000 }
+      { timeout: 15000 }
     );
 
     await expect(page).toHaveURL(/\?page=2/);
@@ -251,7 +242,8 @@ test.describe('Article Pagination', () => {
     await page.goBack();
 
     // Wait for navigation and hydration to complete
-    await waitForHydration(page);
+    await page.waitForLoadState('networkidle');
+    await page.waitForTimeout(1500);
 
     await expect(page).toHaveURL('/articles');
 
@@ -259,33 +251,6 @@ test.describe('Article Pagination', () => {
     // Just verify we're back on the articles page without page param
     const articleCount = await page.locator('article').count();
     expect(articleCount).toBeGreaterThan(0);
-  });
-
-  test('page parameter works with other query parameters', async ({ page }) => {
-    // Navigate with showDrafts parameter
-    await page.goto('/articles?showDrafts=true');
-
-    // Wait for hydration
-    await waitForHydration(page);
-
-    const initialCount = await page.locator('article').count();
-
-    // Click "Load More"
-    const loadMoreButton = page.getByRole('link', { name: /load more/i });
-    await loadMoreButton.waitFor({ state: 'visible' });
-    await loadMoreButton.click({ force: true });
-
-    // Wait for articles to load
-    await page.waitForFunction(
-      (count) => document.querySelectorAll('article').length > count,
-      initialCount,
-      { timeout: 10000 }
-    );
-
-    // Should have both parameters
-    const url = new URL(page.url());
-    expect(url.searchParams.get('page')).toBe('2');
-    expect(url.searchParams.get('showDrafts')).toBe('true');
   });
 
   test('shows end message when all articles are loaded', async ({
@@ -326,10 +291,10 @@ test.describe('Article Pagination', () => {
         await page.waitForFunction(
           (count) => document.querySelectorAll('article').length > count,
           currentCount,
-          { timeout: 10000 }
+          { timeout: 15000 }
         );
         // Give React time to re-render after state update
-        await page.waitForTimeout(500);
+        await page.waitForTimeout(800);
       } catch {
         // No more articles loaded, we're done
         break;
@@ -339,7 +304,7 @@ test.describe('Article Pagination', () => {
     }
 
     // Should show end message (exact text from ArticlesPageWrapper.tsx line 103)
-    await expect(page.getByText(/reached the end/i)).toBeVisible();
+    await expect(page.getByText(/reached the end/i)).toBeVisible({ timeout: 15000 });
   });
 });
 

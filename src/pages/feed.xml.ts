@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
-
+import { processMarkdown } from '~/utils/markdown-processor';
 import { siteMetadata } from '~/data/siteMetadata';
 
 function escapeXml(unsafeString: string): string {
@@ -10,6 +10,11 @@ function escapeXml(unsafeString: string): string {
     .replace(/>/g, '&gt;') // Replace > with &gt;
     .replace(/"/g, '&quot;') // Replace " with &quot;
     .replace(/'/g, '&apos;'); // Replace ' with &apos;
+}
+
+function escapeCDATA(content: string): string {
+  // CDATA sections can't contain ]]> so we need to escape it
+  return content.replace(/]]>/g, ']]]]><![CDATA[>');
 }
 
 export const GET: APIRoute = async () => {
@@ -24,32 +29,38 @@ export const GET: APIRoute = async () => {
     (a: typeof articles[0], b: typeof articles[0]) => b.data.date.getTime() - a.data.date.getTime()
   );
 
-  const feed = `<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  // Process articles with full HTML content
+  const processedArticles = await Promise.all(
+    sortedArticles.map(async (article) => {
+      const slug = article.id.replace(/\.mdx?$/, '');
+      const htmlContent = await processMarkdown(article.body || '');
+      return {
+        ...article,
+        slug,
+        htmlContent,
+      };
+    })
+  );
+
+  const feed = `<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0">
     <channel>
         <title>${escapeXml(siteMetadata.title)}</title>
         <link>${siteMetadata.url}</link>
+        <description>${escapeXml(siteMetadata.tagline)}</description>
         <language>en-us</language>
         <managingEditor>${escapeXml(siteMetadata.email)} (${escapeXml(siteMetadata.author)})</managingEditor>
         <webMaster>${escapeXml(siteMetadata.email)} (${escapeXml(siteMetadata.author)})</webMaster>
         <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
         <atom:link href="${siteMetadata.url}/feed.xml" rel="self" type="application/rss+xml"/>
-        ${sortedArticles
+        ${processedArticles
           .map(
-            (article: {
-              id: string;
-              data: {
-                title: string;
-                description: string;
-                date: Date;
-                tags: string[];
-              };
-            }) => {
-              const slug = article.id.replace(/\.mdx?$/, '');
+            (article) => {
               return `<item>
-                <guid>${siteMetadata.url}/articles/${slug}</guid>
+                <guid>${siteMetadata.url}/articles/${article.slug}</guid>
                 <title>${escapeXml(article.data.title)}</title>
-                <link>${siteMetadata.url}/articles/${slug}</link>
+                <link>${siteMetadata.url}/articles/${article.slug}</link>
                 <description>${escapeXml(article.data.description)}</description>
+                <content:encoded><![CDATA[${escapeCDATA(article.htmlContent)}]]></content:encoded>
                 <pubDate>${article.data.date.toUTCString()}</pubDate>
                 <author>${escapeXml(siteMetadata.email)} (${escapeXml(siteMetadata.author)})</author>
                 ${article.data.tags.map((tag: string) => `<category>${escapeXml(tag)}</category>`).join('')}

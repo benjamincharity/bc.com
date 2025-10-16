@@ -6,6 +6,7 @@ import FancyBackground from '~/components/islands/FancyBackground';
 import Navigation from '~/components/islands/Navigation';
 import { getCollection } from 'astro:content';
 import { siteMetadata } from '~/data/siteMetadata';
+import { generateHomePageKeywords } from '~/utils/keyword-generator';
 
 // Site metadata for professional title
 const professionalTitleSplit = [
@@ -56,6 +57,20 @@ const latestArticles = articles
   .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
   .slice(0, 4)
   .filter(article => article.data.image);
+
+// Breadcrumb schema for homepage
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Home',
+      item: siteMetadata.url,
+    },
+  ],
+};
 ---
 
 <BaseLayout
@@ -63,6 +78,7 @@ const latestArticles = articles
   description="Engineering leader & team builder at high-growth startups & scale-ups."
   showBackground={showBackground}
   canvasLayout={true}
+  keywords={generateHomePageKeywords()}
 >
   <!-- Preload latest article images with low priority (won't block page load) -->
   <Fragment slot="head">
@@ -74,6 +90,7 @@ const latestArticles = articles
         fetchpriority="low"
       />
     ))}
+    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
   </Fragment>
 
   <!-- Your existing FancyBackground component -->

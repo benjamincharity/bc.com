@@ -9,12 +9,19 @@ import BrowseByTags from '~/components/islands/BrowseByTags';
 import { siteMetadata } from '~/data/siteMetadata';
 import type { GetStaticPaths } from 'astro';
 import { BackToLink } from '~/components/BackToLink';
+import { detectArticleSeries, getSeriesArticles, generateSeriesSchema } from '~/utils/article-series';
+import { generateArticleKeywords } from '~/utils/keyword-generator';
+import { generateFAQSchema } from '~/utils/faq-schema';
 
 export const getStaticPaths = (async () => {
   const articles = await getCollection('blog');
 
-  // Filter out drafts at build time
-  const publishedArticles = articles.filter(article => !article.data.draft);
+  // Filter drafts based on environment
+  // In development: show all articles including drafts
+  // In production: hide draft articles
+  const publishedArticles = articles.filter(article =>
+    import.meta.env.DEV || !article.data.draft
+  );
 
   return publishedArticles.map((article) => ({
     params: { slug: article.id },
@@ -52,25 +59,87 @@ const articleImage = article.data.image
   ? siteMetadata.articleImagePath + article.data.image
   : siteMetadata.url + siteMetadata.image;
 
+// Generate dynamic keywords for SEO
+const articleKeywords = generateArticleKeywords(article);
+
 // JSON-LD structured data for article
+const articleUrl = `${siteMetadata.url}/articles/${article.id}`;
+
+// Calculate word count from article body
+const wordCount = body.split(/\s+/).filter(word => word.length > 0).length;
+
+// Check if article is part of a series
+const seriesKey = detectArticleSeries(article);
+const seriesData = seriesKey ? getSeriesArticles(allArticles, seriesKey) : null;
+const seriesSchema = seriesKey && seriesData ? generateSeriesSchema(article, seriesData, seriesKey) : null;
+
+// Check if article has FAQ schema
+const faqSchema = generateFAQSchema(article.id);
+
 const jsonLd = {
   '@context': 'https://schema.org',
-  '@type': 'BlogPosting',
-  headline: article.data.title,
-  description: article.data.description,
-  image: articleImage,
-  datePublished: article.data.date.toISOString(),
-  author: {
-    '@type': 'Person',
-    name: siteMetadata.author,
-    url: siteMetadata.url,
-  },
-  publisher: {
-    '@type': 'Person',
-    name: siteMetadata.author,
-    url: siteMetadata.url,
-  },
-  keywords: article.data.tags.join(', '),
+  '@graph': [
+    {
+      '@type': 'BlogPosting',
+      headline: article.data.title,
+      description: article.data.description,
+      image: article.data.image ? {
+        '@type': 'ImageObject',
+        url: articleImage,
+        width: 2560,
+        height: 1440,
+        caption: article.data.title,
+        alternateName: article.data.title,
+      } : articleImage,
+      datePublished: article.data.date.toISOString(),
+      dateModified: (article.data.dateModified || article.data.date).toISOString(),
+      author: {
+        '@type': 'Person',
+        name: siteMetadata.author,
+        url: siteMetadata.url,
+        email: siteMetadata.email,
+      },
+      publisher: {
+        '@type': 'Person',
+        name: siteMetadata.author,
+        url: siteMetadata.url,
+      },
+      mainEntityOfPage: {
+        '@type': 'WebPage',
+        '@id': articleUrl,
+      },
+      url: articleUrl,
+      keywords: article.data.tags.join(', '),
+      articleSection: article.data.tags[0],
+      wordCount: wordCount,
+      timeRequired: `PT${article.data.readingTime || 5}M`,
+      inLanguage: 'en-US',
+      ...(seriesSchema || {}),
+    },
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Home',
+          item: siteMetadata.url,
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name: 'Articles',
+          item: `${siteMetadata.url}/articles`,
+        },
+        {
+          '@type': 'ListItem',
+          position: 3,
+          name: article.data.title,
+          item: articleUrl,
+        },
+      ],
+    },
+  ],
 };
 ---
 
@@ -78,10 +147,19 @@ const jsonLd = {
   title={article.data.title}
   description={article.data.description || `Article: ${article.data.title}`}
   image={articleImage}
+  keywords={articleKeywords}
   showBackground={false}
+  ogType="article"
+  articleMeta={{
+    publishedTime: article.data.date.toISOString(),
+    modifiedTime: (article.data.dateModified || article.data.date).toISOString(),
+    author: siteMetadata.author,
+    tags: article.data.tags,
+  }}
 >
   <Fragment slot="head">
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    {faqSchema && <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />}
   </Fragment>
   <div class="prose-wrapper">
     <main>
@@ -92,7 +170,7 @@ const jsonLd = {
       </nav>
 
       <header class="mb-4">
-        <div class="flex gap-x-2 leading-tight text-gray-600 dark:text-gray-400 mb-1">
+        <div class="flex justify-between items-start leading-tight text-gray-600 dark:text-gray-400 mb-1">
           <div class="font-mono text-[10px] italic">
             Published: {new Date(article.data.date).toLocaleDateString('en-US', {
               year: 'numeric',
@@ -100,6 +178,15 @@ const jsonLd = {
               day: 'numeric'
             })}
           </div>
+          {article.data.dateModified && article.data.dateModified.getTime() !== article.data.date.getTime() && (
+            <div class="font-mono text-[10px] italic">
+              Updated: {new Date(article.data.dateModified).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+              })}
+            </div>
+          )}
         </div>
 
         <h1 class="my-1 font-sourceSerif4 text-3xl font-bold leading-tight text-gray-700 dark:text-gray-300">
