@@ -98,6 +98,8 @@ The build process generates a static site with:
 - Tag-based categorization with dedicated tag pages
 - Articles accessible at `/articles/[slug]` and filterable by tag at
   `/articles/tags/[tag]`
+- **FAQ Schema**: Articles can include FAQ structured data for SEO - see
+  [FAQ Guidelines](docs/faq-guidelines.md)
 
 ### Styling
 
@@ -230,12 +232,33 @@ Two PRDs document planned improvements:
 
 ## Development Workflow
 
+### Creating New Articles
+
 1. Create new articles in `src/content/blog/` as `.mdx` files
 2. Include required frontmatter: `title`, `date`, `tags`, `description`, `image`
 3. Optional frontmatter: `draft: true` (hides from production), `readingTime`
-4. Test locally with `npm run dev`
-5. Preview production build with `npm run preview`
-6. Deploy automatically via Cloudflare Pages on push to main branch
+4. **Add FAQ Schema** (recommended for SEO):
+   - Identify 4-6 key questions the article answers
+   - Add FAQ items to `src/utils/faq-schema.ts`
+   - See [FAQ Guidelines](docs/faq-guidelines.md) for detailed instructions
+5. Test locally with `npm run dev`
+6. Preview production build with `npm run preview`
+7. Deploy automatically via Cloudflare Pages on push to main branch
+
+### Adding FAQs to Articles (SEO Enhancement)
+
+When creating or updating articles, consider adding FAQ structured data to improve
+SEO and enable Google FAQ rich results:
+
+1. **Identify Good Candidates**: Guides, how-tos, post-mortems, career advice,
+   technical articles
+2. **Write 4-6 Questions**: Use natural language that matches search queries
+3. **Provide Complete Answers**: 2-4 sentences, 40-300 words, stand-alone value
+4. **Add to FAQ Schema**: Edit `src/utils/faq-schema.ts` with your article slug
+5. **Test**: Build and validate with Google Rich Results Test
+
+See [docs/faq-guidelines.md](docs/faq-guidelines.md) for complete guidelines and
+examples.
 
 ## Testing
 
