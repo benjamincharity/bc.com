@@ -17,6 +17,9 @@ export default defineConfig({
   site: 'https://www.benjamincharity.com',
   output: 'server', // Server mode but pages will be prerendered
   adapter: cloudflare(),
+  image: {
+    service: { entrypoint: 'astro/assets/services/noop' }, // Use passthrough service since images are optimized by Cloudflare
+  },
   integrations: [
     react(),
     tailwind({
