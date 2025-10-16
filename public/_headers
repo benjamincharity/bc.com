@@ -68,3 +68,13 @@
 # Shared CSS
 /shared.css
   Content-Type: text/css; charset=utf-8
+
+# HTML pages - cache with revalidation
+/
+  Cache-Control: public, max-age=3600, must-revalidate
+
+/articles/*
+  Cache-Control: public, max-age=3600, must-revalidate
+
+/articles/tags/*
+  Cache-Control: public, max-age=3600, must-revalidate
