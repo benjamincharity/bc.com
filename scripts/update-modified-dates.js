@@ -3,7 +3,7 @@ import { execSync } from 'child_process';
 import { readFileSync, writeFileSync } from 'fs';
 import { globSync } from 'glob';
 import matter from 'gray-matter';
-import { dirname, join, relative } from 'path';
+import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -35,31 +35,6 @@ function getLastModifiedDate(filePath) {
 }
 
 /**
- * Gets the creation date of a file from git history
- * @param {string} filePath - Path to the file
- * @returns {Date|null} - Creation date or null if not in git
- */
-function getCreationDate(filePath) {
-  try {
-    // Get the first commit date for the file (creation date)
-    const gitLog = execSync(
-      `git log --follow --format=%aI --reverse -- "${filePath}" | head -1`,
-      { encoding: 'utf-8', shell: '/bin/bash' }
-    ).trim();
-
-    if (!gitLog) {
-      console.warn(`⚠ No git history found for ${filePath}`);
-      return null;
-    }
-
-    return new Date(gitLog);
-  } catch (error) {
-    console.error(`✗ Error getting git creation date for ${filePath}:`, error.message);
-    return null;
-  }
-}
-
-/**
  * Formats a date as YYYY-MM-DD for frontmatter
  * Note: gray-matter will parse this back to a Date object when reading
  * @param {Date} date - Date to format
@@ -84,7 +59,6 @@ function updateModifiedDate(filePath, dryRun = false) {
 
     // Get git dates
     const lastModifiedDate = getLastModifiedDate(filePath);
-    const creationDate = getCreationDate(filePath);
 
     if (!lastModifiedDate) {
       console.log(`⊘ ${filePath} - skipped (no git history)`);
