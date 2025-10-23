@@ -1,13 +1,14 @@
-import { observable } from '@legendapp/state';
+// Legacy store - being replaced with React useState hooks
+// This file is kept for backward compatibility during migration
 
-// CANVAS STATE
-export const state$ = observable({
-  isPaused: false,
-  isVisible: true,
-  isPartyModeEnabled: false,
-});
+// CANVAS STATE - moved to individual components using useState
+export const state$ = {
+  isPaused: { get: () => false, set: () => {} },
+  isVisible: { get: () => true, set: () => {} },
+  isPartyModeEnabled: { get: () => false, set: () => {} },
+};
 
-// NAVIGATION STATE
+// NAVIGATION STATE - moved to individual components
 interface NavigationState {
   history: string[];
 }
@@ -16,12 +17,14 @@ const initialState: NavigationState = {
   history: [],
 };
 
-export const navigationState$ = observable(initialState);
+export const navigationState$ = {
+  history: { get: () => [], set: () => {} },
+};
 
-// ARTICLES VIEW STATE
-export const articlesViewState$ = observable({
-  isCompactView:
-    typeof window !== 'undefined'
-      ? localStorage.getItem('articlesCompactView') === 'true'
-      : false,
-});
+// ARTICLES VIEW STATE - moved to ArticlesPageWrapper component
+export const articlesViewState$ = {
+  isCompactView: {
+    get: () => typeof window !== 'undefined' ? localStorage.getItem('articlesCompactView') === 'true' : false,
+    set: () => {}
+  },
+};

@@ -30,7 +30,10 @@ export default function ArticlesPageWrapper({
       const pageParam = urlParams.get('page');
       if (pageParam) {
         const page = parseInt(pageParam, 10);
-        if (page > 0) {
+        // Add upper bound validation to prevent DoS
+        const maxPage = Math.ceil(articles.length / 6) || 1000;
+        
+        if (page > 0 && page <= maxPage) {
           // Calculate visible count: 7 for page 1, then +6 for each additional page
           const count = 7 + (page - 1) * 6;
           setVisibleCount(count);
