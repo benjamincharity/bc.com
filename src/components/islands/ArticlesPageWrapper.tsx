@@ -7,6 +7,13 @@ import { BackToLink } from '../BackToLink';
 import { Badge } from '../Badge';
 import { ViewToggle } from '../ViewToggle';
 
+/**
+ * Maximum allowed page number for pagination.
+ * Prevents DoS attacks via excessive page parameter values (e.g., ?page=999999).
+ * With 6 articles per page, this allows up to 6,000 articles to be paginated.
+ */
+const MAX_ALLOWED_PAGES = 1000;
+
 interface ArticlesPageWrapperProps {
   articles: Article[];
 }
@@ -31,7 +38,7 @@ export default function ArticlesPageWrapper({
       if (pageParam) {
         const page = parseInt(pageParam, 10);
         // Add upper bound validation to prevent DoS
-        const maxPage = Math.ceil(articles.length / 6) || 1000;
+        const maxPage = Math.ceil(articles.length / 6) || MAX_ALLOWED_PAGES;
         
         if (page > 0 && page <= maxPage) {
           // Calculate visible count: 7 for page 1, then +6 for each additional page
@@ -40,7 +47,7 @@ export default function ArticlesPageWrapper({
         }
       }
     }
-  }, []);
+  }, [articles.length]);
 
   const toggleView = () => {
     const newValue = !isCompactView;
