@@ -4,13 +4,18 @@ import type { CollectionEntry } from 'astro:content';
  * Calculates Jaccard similarity between two sets of tags
  * Formula: |A ∩ B| / |A ∪ B|
  */
-function calculateTagSimilarity(tags1: string[], tags2: string[]): number {
+export function calculateTagSimilarity(tags1: string[], tags2: string[]): number {
   const set1 = new Set(tags1);
   const set2 = new Set(tags2);
-  
+
   const intersection = new Set([...set1].filter(tag => set2.has(tag)));
   const union = new Set([...set1, ...set2]);
-  
+
+  // Prevent division by zero when both tag arrays are empty
+  if (union.size === 0) {
+    return 0;
+  }
+
   return intersection.size / union.size;
 }
 

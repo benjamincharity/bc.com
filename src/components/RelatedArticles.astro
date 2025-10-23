@@ -1,6 +1,7 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 import ArticleCard from './ArticleCard.astro';
+import { calculateTagSimilarity } from '~/utils/related-articles';
 
 interface Props {
   currentArticle: CollectionEntry<'blog'>;
@@ -15,19 +16,6 @@ if (!currentArticle || !allArticles) {
   return null;
 }
 
-/**
- * Calculate similarity score based on shared tags using Jaccard similarity
- */
-function calculateSimilarity(article1: CollectionEntry<'blog'>, article2: CollectionEntry<'blog'>): number {
-  const tags1 = new Set(article1.data.tags || []);
-  const tags2 = new Set(article2.data.tags || []);
-
-  const intersection = new Set([...tags1].filter(tag => tags2.has(tag)));
-  const union = new Set([...tags1, ...tags2]);
-
-  return intersection.size / union.size; // Jaccard similarity
-}
-
 // Find related articles
 const publishedArticles = allArticles.filter(article => !article.data.draft);
 
@@ -35,7 +23,10 @@ const relatedArticles = publishedArticles
   .filter(article => article.id !== currentArticle.id)
   .map(article => ({
     article,
-    similarity: calculateSimilarity(currentArticle, article)
+    similarity: calculateTagSimilarity(
+      currentArticle.data.tags || [],
+      article.data.tags || []
+    )
   }))
   .filter(({ similarity }) => similarity > 0.1) // Lowered to 10% tag overlap
   .sort((a, b) => b.similarity - a.similarity)
