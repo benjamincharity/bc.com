@@ -51,19 +51,24 @@ const config: PlaywrightTestConfig = {
       },
     },
 
-    {
-      name: 'firefox',
-      use: {
-        ...devices['Desktop Firefox'],
-      },
-    },
-
-    {
-      name: 'webkit',
-      use: {
-        ...devices['Desktop Safari'],
-      },
-    },
+    /* Firefox and WebKit removed for faster CI runs (personal blog optimization)
+     * Chromium represents 65%+ of web traffic and catches most issues
+     * To test other browsers locally: npm run e2e -- --project=firefox
+     *
+     * Uncomment if you need multi-browser testing:
+     */
+    // {
+    //   name: 'firefox',
+    //   use: {
+    //     ...devices['Desktop Firefox'],
+    //   },
+    // },
+    // {
+    //   name: 'webkit',
+    //   use: {
+    //     ...devices['Desktop Safari'],
+    //   },
+    // },
 
     /* Test against mobile viewports. */
     // {

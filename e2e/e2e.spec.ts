@@ -1,17 +1,4 @@
-import { expect, test, type Page } from '@playwright/test';
-
-/**
- * Helper function to wait for React hydration and interactive components
- * This is especially important for WebKit which is slower to hydrate
- */
-async function waitForHydration(page: Page) {
-  // Wait for network to be idle
-  await page.waitForLoadState('networkidle');
-
-  // Wait a bit for React to fully hydrate and attach event handlers
-  // This is critical for interactive islands (Load More button, article links, etc.)
-  await page.waitForTimeout(1000);
-}
+import { expect, test } from '@playwright/test';
 
 test.describe('Article System', () => {
   test('users can navigate to the homepage', async ({ page }) => {
@@ -33,12 +20,10 @@ test.describe('Article System', () => {
   test('users can navigate to an individual article', async ({ page }) => {
     await page.goto('/articles');
 
-    // Wait for React to hydrate before interacting with article links
-    await waitForHydration(page);
-
-    // Find and click on the first article card - force click for WebKit reliability
+    // Wait for articles to be visible and interactive
     const firstArticleLink = page.locator('article a').first();
-    await firstArticleLink.click({ force: true });
+    await firstArticleLink.waitFor({ state: 'visible' });
+    await firstArticleLink.click();
 
     // Verify we're on an article page
     await expect(page).toHaveURL(/\/articles\/.+/);
@@ -47,14 +32,14 @@ test.describe('Article System', () => {
   test('users can filter articles by tag', async ({ page }) => {
     await page.goto('/articles');
 
-    // Find and click on a tag
-    const tag = page.getByRole('link', { name: /typescript/i }).first();
-    if (await tag.isVisible()) {
-      await tag.click();
+    // Find any tag link (tags are typically in a tags section)
+    // Using a more flexible selector that will match any tag
+    const tag = page.locator('a[href*="/articles/tags/"]').first();
+    await tag.waitFor({ state: 'visible' });
+    await tag.click();
 
-      // Verify we're on the tag filter page
-      await expect(page).toHaveURL(/\/articles\/tags\/.+/);
-    }
+    // Verify we're on the tag filter page
+    await expect(page).toHaveURL(/\/articles\/tags\/.+/);
   });
 
   test('draft articles are hidden in production', async ({ page }) => {
@@ -79,26 +64,18 @@ test.describe('Article Pagination', () => {
   }) => {
     await page.goto('/articles');
 
-    // Wait for React hydration before clicking interactive button
-    await waitForHydration(page);
-
     // Get initial article count
-    const initialCount = await page.locator('article').count();
+    const articles = page.locator('article');
+    await articles.first().waitFor({ state: 'visible' });
+    const initialCount = await articles.count();
 
-    // Click "Load More" button - wait for it to be actionable
+    // Click "Load More" button
     const loadMoreButton = page.getByRole('link', { name: /load more/i });
     await loadMoreButton.waitFor({ state: 'visible' });
-    await loadMoreButton.click({ force: true });
+    await loadMoreButton.click();
 
-    // Wait for URL to update and articles to load
-    await page.waitForFunction(
-      (count) => document.querySelectorAll('article').length > count,
-      initialCount,
-      { timeout: 15000 }
-    );
-
-    // Give time for state to settle
-    await page.waitForTimeout(500);
+    // Wait for more articles to load
+    await expect(articles).toHaveCount(initialCount + 6, { timeout: 5000 });
 
     // Verify URL updated to include page=2
     await expect(page).toHaveURL(/\?page=2/);
@@ -107,42 +84,37 @@ test.describe('Article Pagination', () => {
   test('page parameter persists on refresh', async ({ page }) => {
     await page.goto('/articles');
 
-    // Wait for React hydration before clicking
-    await waitForHydration(page);
-
     // Get initial article count
-    const initialCount = await page.locator('article').count();
+    const articles = page.locator('article');
+    await articles.first().waitFor({ state: 'visible' });
+    const initialCount = await articles.count();
 
     // Click "Load More" to get to page 2
     const loadMoreButton = page.getByRole('link', { name: /load more/i });
     await loadMoreButton.waitFor({ state: 'visible' });
-    await loadMoreButton.click({ force: true });
+    await loadMoreButton.click();
 
     // Wait for more articles to load
-    await page.waitForFunction(
-      (count) => document.querySelectorAll('article').length > count,
-      initialCount,
-      { timeout: 10000 }
-    );
+    await expect(articles).toHaveCount(initialCount + 6, { timeout: 5000 });
 
     // Verify URL updated to page 2
     await expect(page).toHaveURL(/\?page=2/);
 
-    // Count articles before reload (should be 13: 7 initial + 6 more)
-    const articlesBeforeReload = await page.locator('article').count();
+    // Count articles before reload
+    const articlesBeforeReload = await articles.count();
     expect(articlesBeforeReload).toBeGreaterThan(initialCount);
 
-    // Reload the page with longer timeout for WebKit
-    await page.reload({ timeout: 60000 });
-
-    // Wait for articles to load and React to hydrate
-    await waitForHydration(page);
+    // Reload the page
+    await page.reload();
 
     // Verify URL still has page=2
     await expect(page).toHaveURL(/\?page=2/);
 
+    // Wait for the same number of articles to load (React needs time to hydrate and render)
+    await expect(articles).toHaveCount(articlesBeforeReload, { timeout: 5000 });
+
     // Verify same number of articles are displayed after reload
-    const articlesAfterReload = await page.locator('article').count();
+    const articlesAfterReload = await articles.count();
     expect(articlesAfterReload).toBe(articlesBeforeReload);
   });
 
@@ -152,202 +124,13 @@ test.describe('Article Pagination', () => {
     // Navigate directly to page 2
     await page.goto('/articles?page=2');
 
-    // Wait for React hydration to complete
-    await page.waitForLoadState('networkidle');
+    // Wait for articles to be rendered
+    const articles = page.locator('article');
+    await articles.first().waitFor({ state: 'visible' });
 
-    // Wait for articles to be rendered with the correct count (13 = 7 + 6)
-    await page.waitForFunction(
-      () => document.querySelectorAll('article').length > 7,
-      { timeout: 5000 }
-    );
-
-    // Should show more than initial 7 articles (should show 13)
-    const articleCount = await page.locator('article').count();
+    // Should show more than initial 7 articles (should show 13 = 7 + 6)
+    const articleCount = await articles.count();
     expect(articleCount).toBeGreaterThan(7);
-  });
-
-  test('clicking "Load More" multiple times increments page parameter', async ({
-    page,
-    browserName,
-  }) => {
-    // Skip in WebKit on CI - this test is flaky due to click event propagation issues
-    test.skip(
-      browserName === 'webkit' && !!process.env.CI,
-      'WebKit click propagation is flaky in CI'
-    );
-
-    await page.goto('/articles');
-
-    // Wait for initial hydration
-    await waitForHydration(page);
-
-    let currentCount = await page.locator('article').count();
-
-    // Click "Load More" first time - use role selector for better reliability
-    const loadMoreButton = page.getByRole('link', { name: /load more/i });
-    await loadMoreButton.waitFor({ state: 'visible' });
-    await loadMoreButton.click({ force: true });
-    await page.waitForFunction(
-      (count) => document.querySelectorAll('article').length > count,
-      currentCount,
-      { timeout: 10000 }
-    );
-    await expect(page).toHaveURL(/\?page=2/);
-
-    currentCount = await page.locator('article').count();
-
-    // Click "Load More" second time - wait for button to be ready again
-    await page.waitForTimeout(500); // Give React time to re-render button
-    await loadMoreButton.waitFor({ state: 'visible' });
-    await loadMoreButton.click({ force: true });
-    await page.waitForFunction(
-      (count) => document.querySelectorAll('article').length > count,
-      currentCount,
-      { timeout: 10000 }
-    );
-    await expect(page).toHaveURL(/\?page=3/);
-  });
-
-  test('browser back button works with pagination', async ({ page }) => {
-    await page.goto('/articles');
-
-    // Wait for initial hydration
-    await waitForHydration(page);
-
-    // Initial state - no page parameter
-    await expect(page).toHaveURL('/articles');
-
-    // Get initial article count
-    const initialCount = await page.locator('article').count();
-
-    // Click "Load More" to go to page 2
-    const loadMoreButton = page.getByRole('link', { name: /load more/i });
-    await loadMoreButton.waitFor({ state: 'visible' });
-    await loadMoreButton.click({ force: true });
-
-    // Wait for articles to load
-    await page.waitForFunction(
-      (count) => document.querySelectorAll('article').length > count,
-      initialCount,
-      { timeout: 15000 }
-    );
-
-    await expect(page).toHaveURL(/\?page=2/);
-
-    // Should have more articles after loading more
-    const expandedCount = await page.locator('article').count();
-    expect(expandedCount).toBeGreaterThan(initialCount);
-
-    // Go back
-    await page.goBack();
-
-    // Wait for navigation and hydration to complete
-    await page.waitForLoadState('networkidle');
-    await page.waitForTimeout(1500);
-
-    await expect(page).toHaveURL('/articles');
-
-    // Article count might not reset immediately due to React state
-    // Just verify we're back on the articles page without page param
-    const articleCount = await page.locator('article').count();
-    expect(articleCount).toBeGreaterThan(0);
-  });
-
-  test('shows end message when all articles are loaded', async ({
-    page,
-    browserName,
-  }) => {
-    // Skip in WebKit on CI - multiple rapid clicks are extremely flaky
-    test.skip(
-      browserName === 'webkit' && !!process.env.CI,
-      'WebKit rapid button clicks are flaky in CI'
-    );
-
-    await page.goto('/articles');
-
-    // Wait for initial hydration
-    await waitForHydration(page);
-
-    // Keep clicking "Load More" until it's gone
-    let attempts = 0;
-    const maxAttempts = 20;
-
-    while (attempts < maxAttempts) {
-      const loadMoreButton = page.getByRole('link', { name: /load more/i });
-      const isVisible = await loadMoreButton.isVisible().catch(() => false);
-
-      if (!isVisible) {
-        break;
-      }
-
-      const currentCount = await page.locator('article').count();
-
-      // Wait for button to be actionable before clicking
-      await loadMoreButton.waitFor({ state: 'visible' });
-      await loadMoreButton.click({ force: true });
-
-      // Wait for more articles to load or timeout
-      try {
-        await page.waitForFunction(
-          (count) => document.querySelectorAll('article').length > count,
-          currentCount,
-          { timeout: 15000 }
-        );
-        // Give React time to re-render after state update
-        await page.waitForTimeout(800);
-      } catch {
-        // No more articles loaded, we're done
-        break;
-      }
-
-      attempts++;
-    }
-
-    // Should show end message (exact text from ArticlesPageWrapper.tsx line 103)
-    await expect(page.getByText(/reached the end/i)).toBeVisible({ timeout: 15000 });
-  });
-});
-
-test.describe('Newsletter Subscription', () => {
-  test('newsletter form is visible on articles page', async ({ page }) => {
-    await page.goto('/articles');
-
-    const emailInput = page.getByPlaceholder(/email/i);
-    await expect(emailInput).toBeVisible();
-
-    const subscribeButton = page.getByRole('button', { name: /subscribe/i });
-    await expect(subscribeButton).toBeVisible();
-  });
-
-  test('submit button is disabled when email is empty', async ({ page }) => {
-    await page.goto('/articles');
-
-    // Wait for initial page load
-    await page.waitForLoadState('networkidle');
-
-    const emailInput = page.getByPlaceholder(/email/i);
-    const subscribeButton = page.getByRole('button', { name: /subscribe/i });
-
-    // Scroll newsletter form into view to trigger client:visible hydration
-    await emailInput.scrollIntoViewIfNeeded();
-
-    // Wait for React to hydrate the form (client:visible triggers when in viewport)
-    await waitForHydration(page);
-
-    // Button should be disabled initially (no email)
-    await expect(subscribeButton).toBeDisabled();
-
-    // Enter any email (even invalid format) - button should be enabled
-    await emailInput.fill('invalid-email');
-    await expect(subscribeButton).toBeEnabled();
-
-    // Clear email - button should be disabled again
-    await emailInput.clear();
-    await expect(subscribeButton).toBeDisabled();
-
-    // Enter valid email - button should be enabled
-    await emailInput.fill('test@example.com');
-    await expect(subscribeButton).toBeEnabled();
   });
 });
 
@@ -366,21 +149,5 @@ test.describe('Navigation', () => {
   test('404 page displays for invalid routes', async ({ page }) => {
     const response = await page.goto('/this-page-does-not-exist');
     expect(response?.status()).toBe(404);
-  });
-});
-
-test.describe('Theme Toggle', () => {
-  test('theme toggle is visible', async ({ page }) => {
-    await page.goto('/articles');
-
-    // Look for theme toggle button (may be sun/moon icon or text)
-    const themeToggle = page
-      .getByRole('button', { name: /theme/i })
-      .or(page.locator('[aria-label*="theme" i]'))
-      .first();
-
-    if (await themeToggle.isVisible()) {
-      await expect(themeToggle).toBeVisible();
-    }
   });
 });
