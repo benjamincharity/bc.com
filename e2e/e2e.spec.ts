@@ -322,20 +322,17 @@ test.describe('Newsletter Subscription', () => {
   test('submit button is disabled when email is empty', async ({ page }) => {
     await page.goto('/articles');
 
-    // Wait for React hydration to complete
+    // Wait for initial page load
     await page.waitForLoadState('networkidle');
 
     const emailInput = page.getByPlaceholder(/email/i);
     const subscribeButton = page.getByRole('button', { name: /subscribe/i });
 
-    // Wait for the button to be in the correct initial state
-    await page.waitForFunction(
-      () => {
-        const button = document.querySelector('button[type="submit"]');
-        return button && button.hasAttribute('disabled');
-      },
-      { timeout: 2000 }
-    );
+    // Scroll newsletter form into view to trigger client:visible hydration
+    await emailInput.scrollIntoViewIfNeeded();
+
+    // Wait for React to hydrate the form (client:visible triggers when in viewport)
+    await waitForHydration(page);
 
     // Button should be disabled initially (no email)
     await expect(subscribeButton).toBeDisabled();
@@ -368,7 +365,7 @@ test.describe('Navigation', () => {
 
 test.describe('Theme Toggle', () => {
   test('theme toggle is visible', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/articles');
 
     // Look for theme toggle button (may be sun/moon icon or text)
     const themeToggle = page
