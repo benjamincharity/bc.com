@@ -9,14 +9,6 @@ export const state$ = {
 };
 
 // NAVIGATION STATE - moved to individual components
-interface NavigationState {
-  history: string[];
-}
-
-const initialState: NavigationState = {
-  history: [],
-};
-
 export const navigationState$ = {
   history: { get: () => [], set: () => {} },
 };
