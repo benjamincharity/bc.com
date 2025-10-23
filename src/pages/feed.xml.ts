@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
-import { processMarkdown } from '~/utils/markdown-processor';
+import { processMarkdownForFeed } from '~/utils/markdown-processor-feed';
 import { siteMetadata } from '~/data/siteMetadata';
 
 function escapeXml(unsafeString: string): string {
@@ -33,7 +33,7 @@ export const GET: APIRoute = async () => {
   const processedArticles = await Promise.all(
     sortedArticles.map(async (article) => {
       const slug = article.id.replace(/\.mdx?$/, '');
-      const htmlContent = await processMarkdown(article.body || '');
+      const htmlContent = await processMarkdownForFeed(article.body || '');
       return {
         ...article,
         slug,
