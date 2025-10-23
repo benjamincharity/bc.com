@@ -12,6 +12,7 @@ import { BackToLink } from '~/components/BackToLink';
 import { detectArticleSeries, getSeriesArticles, generateSeriesSchema } from '~/utils/article-series';
 import { generateArticleKeywords } from '~/utils/keyword-generator';
 import { generateFAQSchema } from '~/utils/faq-schema';
+import RelatedArticles from '~/components/RelatedArticles.astro';
 
 export const getStaticPaths = (async () => {
   const articles = await getCollection('blog');
@@ -211,7 +212,6 @@ const jsonLd = {
           </p>
           <NewsletterForm
             className="mx-auto"
-            successMessage="Boom! You're in the club! 🎉 Expect a warm welcome in your inbox soon!"
             client:load
           />
         </div>
@@ -226,6 +226,12 @@ const jsonLd = {
           />
         </section>
       )}
+
+      <RelatedArticles 
+        currentArticle={article} 
+        allArticles={allArticles}
+        maxResults={2}
+      />
 
       <footer class="text-center pt-8 mt-12 border-t border-gray-200 dark:border-gray-700">
         <BackToLink to="/articles" />

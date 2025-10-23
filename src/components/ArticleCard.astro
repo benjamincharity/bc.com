@@ -1,6 +1,7 @@
 ---
 import { formatDate } from '~/utils/date';
 import type { CollectionEntry } from 'astro:content';
+import { siteMetadata } from '~/data/siteMetadata';
 
 export interface Props {
   article: CollectionEntry<'blog'>;
@@ -16,8 +17,8 @@ const {
   showExcerpt = true
 } = Astro.props;
 
-const { data: frontmatter, slug } = article;
-const articleUrl = `/blog/${slug}`;
+const { data: frontmatter, id } = article;
+const articleUrl = `/articles/${id}`;
 ---
 
 <article class={`group bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800 hover:border-pink-300 dark:hover:border-pink-700 transition-all duration-200 hover:shadow-lg ${className}`}>
@@ -25,7 +26,7 @@ const articleUrl = `/blog/${slug}`;
     {showImage && frontmatter.image && (
       <div class="aspect-video overflow-hidden rounded-t-lg">
         <img
-          src={`/images/articles/${frontmatter.image}`}
+          src={siteMetadata.articleImagePath + frontmatter.image}
           alt={frontmatter.title}
           class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
           loading="lazy"
