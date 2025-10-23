@@ -353,7 +353,13 @@ test.describe('Newsletter Subscription', () => {
 
 test.describe('Navigation', () => {
   test('users can access the home page', async ({ page }) => {
-    await page.goto('/');
+    // Use 'domcontentloaded' instead of 'load' for pages with canvas animations
+    // This ensures the DOM is ready without waiting for all resources (including ongoing animations)
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
+
+    // Wait for critical interactive element to ensure React islands are hydrated
+    await page.waitForSelector('nav', { state: 'visible' });
+
     await expect(page).toHaveTitle(/Benjamin Charity/);
   });
 

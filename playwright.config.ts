@@ -101,7 +101,10 @@ const config: PlaywrightTestConfig = {
   webServer: {
     command: 'npm run dev',
     port: 51346,
+    // Only reuse server in non-CI environments (CI always starts fresh)
     reuseExistingServer: !process.env.CI,
+    // Wait for server to be ready before starting tests (2 minutes)
+    timeout: 120 * 1000,
   },
 };
 
