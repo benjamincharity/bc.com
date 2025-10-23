@@ -5,7 +5,7 @@ This document outlines best practices for writing bulletproof E2E tests with Pla
 ## Quick Reference
 
 ```bash
-# Run all E2E tests
+# Run all E2E tests (Chromium only for speed)
 npm run e2e
 
 # Run specific test
@@ -19,7 +19,51 @@ npm run e2e -- --debug
 
 # Clean up stale dev servers manually
 bash scripts/kill-dev-servers.sh
+
+# Test other browsers locally (not in CI)
+npm run e2e -- --project=firefox
+npm run e2e -- --project=webkit
 ```
+
+## Optimization: Single Browser Testing
+
+This project uses **Chromium only** for E2E tests to optimize CI speed:
+
+- **Browser install time**: ~2 minutes → ~30 seconds (Chromium only)
+- **Test execution**: 51 tests (3 browsers) → 11 tests (1 browser)
+- **Total CI time**: ~6-9 minutes → **~1-2 minutes** (83% reduction)
+
+**Rationale**:
+- Chromium represents 65%+ of web traffic
+- Personal blog doesn't require extensive cross-browser testing
+- Most bugs are caught in Chromium; browser-specific issues are rare
+- Can test Firefox/Safari locally when needed
+
+To enable multi-browser testing, uncomment the Firefox and WebKit projects in `playwright.config.ts`.
+
+## Test Suite Optimization
+
+The test suite was reduced from **17 tests** to **11 tests** by removing low-value tests:
+
+**Tests Kept (11)**:
+- ✅ Core navigation (homepage, articles page, individual article)
+- ✅ Tag filtering and browsing
+- ✅ Draft article visibility
+- ✅ 404 page handling
+- ✅ Essential pagination (Load More, URL persistence, direct navigation)
+
+**Tests Removed (6)**:
+- ❌ Newsletter form tests (better suited for unit tests)
+- ❌ Theme toggle test (low value, static functionality)
+- ❌ Complex pagination tests (back button, multiple clicks, stress test)
+  - These tests were slow, flaky, and tested edge cases
+  - Basic pagination coverage is sufficient
+
+**Anti-patterns Removed**:
+- `waitForHydration()` helper that added 1+ second per test
+- All `waitForTimeout()` calls replaced with proper element waits
+- Excessive timeout values reduced (15s → 5s where appropriate)
+- Removed `networkidle` waits in favor of targeted element waits
 
 ## The Problem We Solved
 
@@ -112,10 +156,11 @@ await page.waitForLoadState('networkidle');
 
 ### ✅ Wait Strategies
 
-- [ ] Use `domcontentloaded` for pages with canvas/animations
-- [ ] Use `networkidle` for pages with heavy API calls
+- [ ] Use `domcontentloaded` for pages with canvas/animations (e.g., homepage)
 - [ ] Use default `load` for standard content pages
-- [ ] Always wait for critical elements after navigation
+- [ ] **Always wait for specific elements** instead of arbitrary timeouts
+- [ ] Avoid `networkidle` - it's slow and often unnecessary
+- [ ] **Never use `waitForTimeout()`** - it's an anti-pattern that makes tests slow and flaky
 
 ### ✅ Selectors
 
@@ -228,8 +273,9 @@ CI=1 npm run e2e
    await page.click('button');
 
    // Good: wait for element
-   await page.waitForSelector('button', { state: 'visible' });
-   await page.click('button');
+   const button = page.getByRole('button', { name: /submit/i });
+   await button.waitFor({ state: 'visible' });
+   await button.click();
    ```
 
 2. **Network requests**: Wait for API responses
@@ -240,11 +286,15 @@ CI=1 npm run e2e
    ]);
    ```
 
-3. **Animations**: Wait for animations to complete
+3. **Animations**: Wait for element state, not arbitrary timeouts
    ```typescript
-   // Wait for element to be stable
-   await page.waitForSelector('.modal', { state: 'visible' });
-   await page.waitForTimeout(300); // Wait for CSS animation
+   // Bad: arbitrary timeout
+   await page.waitForTimeout(300);
+
+   // Good: wait for element to be in the expected state
+   const modal = page.locator('.modal');
+   await modal.waitFor({ state: 'visible' });
+   await expect(modal).toBeVisible();
    ```
 
 ### Issue: Tests pass locally but fail in CI
