@@ -46,7 +46,13 @@ module.exports = {
         ],
       },
       rules: {
-        '@typescript-eslint/no-unused-vars': 'warn',
+        '@typescript-eslint/no-unused-vars': [
+          'warn',
+          {
+            argsIgnorePattern: '^_',
+            varsIgnorePattern: '^_',
+          },
+        ],
       },
     },
 
@@ -72,7 +78,13 @@ module.exports = {
         'plugin:import/typescript',
       ],
       rules: {
-        '@typescript-eslint/no-unused-vars': 'warn',
+        '@typescript-eslint/no-unused-vars': [
+          'warn',
+          {
+            argsIgnorePattern: '^_',
+            varsIgnorePattern: '^_',
+          },
+        ],
         '@typescript-eslint/triple-slash-reference': [
           'error',
           { path: 'always', types: 'never', lib: 'never' },

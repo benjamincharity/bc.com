@@ -3,9 +3,9 @@
 
 // CANVAS STATE - moved to individual components using useState
 export const state$ = {
-  isPaused: { get: () => false, set: () => {} },
-  isVisible: { get: () => true, set: () => {} },
-  isPartyModeEnabled: { get: () => false, set: () => {} },
+  isPaused: { get: () => false, set: (_value: boolean) => {} },
+  isVisible: { get: () => true, set: (_value: boolean) => {} },
+  isPartyModeEnabled: { get: () => false, set: (_value: boolean) => {} },
 };
 
 // NAVIGATION STATE - moved to individual components
