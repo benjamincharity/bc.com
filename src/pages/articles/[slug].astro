@@ -212,7 +212,7 @@ const jsonLd = {
           </p>
           <NewsletterForm
             className="mx-auto"
-            client:load
+            client:visible
           />
         </div>
       </section>
@@ -222,7 +222,7 @@ const jsonLd = {
           <BrowseByTags
             tags={tagsWithCounts}
             heading="Tags:"
-            client:load
+            client:idle
           />
         </section>
       )}

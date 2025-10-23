@@ -1,7 +1,7 @@
-import { useReducedMotion } from '@mantine/hooks';
 import { useEffect, useState } from 'react';
 
 import { state$ } from '../../store';
+import { useReducedMotion } from '../../hooks/useReducedMotion';
 import { InteractiveCanvas } from '../InteractiveCanvas/InteractiveCanvas';
 
 export default function FancyBackground({

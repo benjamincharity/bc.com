@@ -62,7 +62,7 @@ const breadcrumbSchema = {
     <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
   </Fragment>
   <section class="prose-wrapper prose-wrapper--large">
-    <ArticlesPageWrapper articles={sortedArticles} client:load />
+    <ArticlesPageWrapper articles={sortedArticles} client:visible />
 
     <div class="max-w-screen-2xl mx-auto px-8 py-12">
       <div class="max-w-xl mx-auto text-center">
@@ -75,7 +75,7 @@ const breadcrumbSchema = {
         <NewsletterForm
           className="mx-auto"
           successMessage="Boom! You're in the club! 🎉 Expect a warm welcome in your inbox soon!"
-          client:load
+          client:visible
         />
       </div>
     </div>
@@ -86,7 +86,7 @@ const breadcrumbSchema = {
       tags={tagsForBrowse}
       heading="Browse by tags:"
       id="tags-section"
-      client:load
+      client:idle
     />
   </section>
 </BaseLayout>

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { isValidEmail } from '~/utils/validators';
 
 interface NewsletterFormProps {
   className?: string;
@@ -23,10 +24,6 @@ export default function NewsletterForm({
     message: '',
   });
 
-  const isValidEmail = (email: string): boolean => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFormState((prev) => ({
