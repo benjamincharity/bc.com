@@ -19,6 +19,7 @@
     "update-modified-dates:dry": "node scripts/update-modified-dates.js --dry-run",
     "validate-article": "node scripts/validate-article.js",
     "validate-seo": "node scripts/validate-seo.js",
+    "analyze-links": "node scripts/analyze-internal-links.js",
     "test": "vitest",
     "typecheck": "astro sync && tsc",
     "typecheck:ci": "rm -rf .astro && astro sync && tsc"

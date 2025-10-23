@@ -1,0 +1,36 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { getRelatedArticles } from '~/utils/related-articles';
+import ArticleCard from '~/components/ArticleCard.astro';
+
+interface Props {
+  currentArticle: CollectionEntry<'blog'>;
+  allArticles: CollectionEntry<'blog'>[];
+  maxResults?: number;
+}
+
+const { currentArticle, allArticles, maxResults = 3 } = Astro.props;
+
+// Get related articles using the utility function
+const relatedArticles = getRelatedArticles(currentArticle, allArticles, maxResults);
+
+// Only render if we have at least 2 related articles
+const shouldRender = relatedArticles.length >= 2;
+---
+
+{shouldRender && (
+  <section class="related-articles mb-12" aria-labelledby="related-heading">
+    <h2 id="related-heading" class="text-2xl font-semibold font-sourceSerif4 text-gray-800 dark:text-white mb-6">
+      Related Articles
+    </h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {relatedArticles.map(article => (
+        <ArticleCard 
+          article={article} 
+          showImage={true}
+          showExcerpt={true}
+        />
+      ))}
+    </div>
+  </section>
+)}
