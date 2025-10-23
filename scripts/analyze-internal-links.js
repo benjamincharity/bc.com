@@ -3,6 +3,7 @@
 import fs from 'fs';
 import path from 'path';
 import { glob } from 'glob';
+import matter from 'gray-matter';
 
 /**
  * Internal Linking Analysis Script
@@ -16,42 +17,17 @@ import { glob } from 'glob';
 const BLOG_DIR = 'src/content/blog';
 const OUTPUT_FILE = 'internal-linking-analysis.md';
 
-// Keywords to look for in content (derived from common tags)
-const KEYWORDS = [
-  'engineering', 'leadership', 'management', 'startup', 'team', 'culture',
-  'productivity', 'remote', 'career', 'growth', 'scaling', 'performance',
-  'post-mortem', 'incident', 'process', 'strategy', 'development', 'technical',
-  'communication', 'collaboration', 'onboarding', 'mentoring', 'feedback'
-];
-
 /**
- * Extract frontmatter from MDX file
+ * Extract frontmatter from MDX file using proper YAML parser
  */
 function extractFrontmatter(content) {
-  const frontmatterMatch = content.match(/^---\n([\s\S]*?)\n---/);
-  if (!frontmatterMatch) return null;
-  
-  const frontmatterText = frontmatterMatch[1];
-  const frontmatter = {};
-  
-  // Simple YAML parsing for basic fields
-  frontmatterText.split('\n').forEach(line => {
-    const match = line.match(/^(\w+):\s*(.+)$/);
-    if (match) {
-      const [, key, value] = match;
-      if (key === 'tags') {
-        // Parse tags array
-        const tagsMatch = value.match(/\[(.*?)\]/);
-        if (tagsMatch) {
-          frontmatter.tags = tagsMatch[1].split(',').map(tag => tag.trim().replace(/['"]/g, ''));
-        }
-      } else {
-        frontmatter[key] = value.replace(/['"]/g, '');
-      }
-    }
-  });
-  
-  return frontmatter;
+  try {
+    const { data } = matter(content);
+    return data;
+  } catch (error) {
+    console.warn('Failed to parse frontmatter:', error.message);
+    return null;
+  }
 }
 
 /**
@@ -150,8 +126,8 @@ function analyzeInternalLinks() {
     try {
       const content = fs.readFileSync(filePath, 'utf8');
       const frontmatter = extractFrontmatter(content);
-      
-      if (!frontmatter || frontmatter.draft === 'true') {
+
+      if (!frontmatter || frontmatter.draft === true) {
         return; // Skip drafts
       }
       
