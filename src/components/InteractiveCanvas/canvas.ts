@@ -7,6 +7,8 @@ export const PaletteDirection = {
   PREV: 'prev',
 } as const;
 
+// Type extracted from const - this is a valid pattern
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export type PaletteDirection =
   (typeof PaletteDirection)[keyof typeof PaletteDirection];
 

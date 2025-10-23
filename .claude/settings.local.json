@@ -71,7 +71,9 @@
       "Bash(npm run validate-article:*)",
       "Bash(mv:*)",
       "Bash(sort:*)",
-      "Bash(npm ls --depth=0)"
+      "Bash(npm ls --depth=0)",
+      "Bash(npm view:*)",
+      "Bash(npm run pre-pr:*)"
     ],
     "deny": [],
     "ask": [],
