@@ -128,9 +128,9 @@ test.describe('Article Pagination', () => {
     const articles = page.locator('article');
     await articles.first().waitFor({ state: 'visible' });
 
-    // Should show more than initial 7 articles (should show 13 = 7 + 6)
-    const articleCount = await articles.count();
-    expect(articleCount).toBeGreaterThan(7);
+    // Wait for React to hydrate and apply the page parameter
+    // The component should show 13 articles (7 initial + 6 from page 2)
+    await expect(articles).toHaveCount(13, { timeout: 5000 });
   });
 });
 
