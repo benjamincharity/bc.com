@@ -33,7 +33,7 @@ interface ArticleProps extends React.HTMLProps<HTMLDivElement> {
   hideImage?: boolean;
 }
 
-function Article({
+function ArticleCard({
   article,
   layoutSize = 'large',
   hideImage = false,
@@ -168,14 +168,14 @@ export function ArticlesList({
         <div className="container mx-auto py-8">
           <div className="space-y-6">
             {firstArticle && (
-              <Article
+              <ArticleCard
                 article={firstArticle}
                 layoutSize={'compact-first'}
                 hideImage={true}
               />
             )}
             {rest?.map((item) => (
-              <Article
+              <ArticleCard
                 article={item}
                 key={item.id}
                 layoutSize={'compact'}
@@ -191,11 +191,11 @@ export function ArticlesList({
   return (
     <section className={`body-font ${className}`}>
       <div className="container mx-auto py-8">
-        {firstArticle && <Article article={firstArticle} />}
+        {firstArticle && <ArticleCard article={firstArticle} />}
 
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
           {rest?.map((item) => (
-            <Article article={item} key={item.id} layoutSize={'small'} />
+            <ArticleCard article={item} key={item.id} layoutSize={'small'} />
           ))}
         </div>
       </div>

@@ -53,7 +53,8 @@ publishedArticles.forEach(a => {
 const articleTags = article.data.tags || [];
 const tagsWithCounts = articleTags
   .map(tag => [tag, tagCounts.get(tag) || 0] as [string, number])
-  .filter(([_, count]) => count > 0);
+  // eslint-disable-next-line no-unused-vars
+  .filter(([_tag, count]) => count > 0);
 
 // Construct full Cloudinary URL for article image
 const articleImage = article.data.image

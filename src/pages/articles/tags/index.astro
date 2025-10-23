@@ -6,9 +6,7 @@ import { getCollection } from 'astro:content';
 import NewsletterForm from '~/components/islands/NewsletterForm';
 import { Badge } from '~/components/Badge';
 import { colors } from '~/data/colors';
-import BrowseByTags from '~/components/islands/BrowseByTags';
 import { BackToLink } from '~/components/BackToLink';
-import { siteMetadata } from '~/data/siteMetadata';
 
 // Get all articles from the blog collection
 const articles = await getCollection('blog');
