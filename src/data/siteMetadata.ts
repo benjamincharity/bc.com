@@ -39,3 +39,4 @@ export const siteMetadata = {
   ],
   website: 'https://www.benjamincharity.com',
 };
+

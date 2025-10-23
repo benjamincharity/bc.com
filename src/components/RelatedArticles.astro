@@ -1,7 +1,6 @@
 ---
 import type { CollectionEntry } from 'astro:content';
-import { getRelatedArticles } from '~/utils/related-articles';
-import ArticleCard from '~/components/ArticleCard.astro';
+import ArticleCard from './ArticleCard.astro';
 
 interface Props {
   currentArticle: CollectionEntry<'blog'>;
@@ -9,27 +8,58 @@ interface Props {
   maxResults?: number;
 }
 
-const { currentArticle, allArticles, maxResults = 3 } = Astro.props;
+const { currentArticle, allArticles, maxResults = 4 } = Astro.props;
 
-// Get related articles using the utility function
-const relatedArticles = getRelatedArticles(currentArticle, allArticles, maxResults);
+// Safety checks
+if (!currentArticle || !allArticles) {
+  return null;
+}
 
-// Only render if we have at least 2 related articles
-const shouldRender = relatedArticles.length >= 2;
+/**
+ * Calculate similarity score based on shared tags using Jaccard similarity
+ */
+function calculateSimilarity(article1: CollectionEntry<'blog'>, article2: CollectionEntry<'blog'>): number {
+  const tags1 = new Set(article1.data.tags || []);
+  const tags2 = new Set(article2.data.tags || []);
+
+  const intersection = new Set([...tags1].filter(tag => tags2.has(tag)));
+  const union = new Set([...tags1, ...tags2]);
+
+  return intersection.size / union.size; // Jaccard similarity
+}
+
+// Find related articles
+const publishedArticles = allArticles.filter(article => !article.data.draft);
+
+const relatedArticles = publishedArticles
+  .filter(article => article.id !== currentArticle.id)
+  .map(article => ({
+    article,
+    similarity: calculateSimilarity(currentArticle, article)
+  }))
+  .filter(({ similarity }) => similarity > 0.1) // Lowered to 10% tag overlap
+  .sort((a, b) => b.similarity - a.similarity)
+  .slice(0, maxResults)
+  .map(({ article }) => article);
+
+// If no related articles found by similarity, show recent articles as fallback
+const fallbackArticles = relatedArticles.length === 0 
+  ? publishedArticles
+      .filter(article => article.id !== currentArticle.id)
+      .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
+      .slice(0, maxResults)
+  : relatedArticles;
+
 ---
 
-{shouldRender && (
-  <section class="related-articles mb-12" aria-labelledby="related-heading">
-    <h2 id="related-heading" class="text-2xl font-semibold font-sourceSerif4 text-gray-800 dark:text-white mb-6">
-      Related Articles
+{fallbackArticles.length > 0 && (
+  <section class="related-articles mt-12 pt-8 border-t border-gray-200 dark:border-gray-700" aria-labelledby="related-heading">
+    <h2 id="related-heading" class="mb-6 text-2xl font-semibold font-sourceSerif4 text-gray-800 dark:text-white">
+      {relatedArticles.length > 0 ? 'Related Articles' : 'Recent Articles'}
     </h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      {relatedArticles.map(article => (
-        <ArticleCard 
-          article={article} 
-          showImage={true}
-          showExcerpt={true}
-        />
+    <div class="grid gap-6 md:grid-cols-2">
+      {fallbackArticles.map(article => (
+        <ArticleCard article={article} />
       ))}
     </div>
   </section>
