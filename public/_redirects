@@ -1,0 +1,21 @@
+# Cloudflare Pages Redirects
+# https://developers.cloudflare.com/pages/configuration/redirects/
+
+# Enforce clean URLs without trailing slashes
+# The ! forces the redirect even when the page exists
+
+# Articles
+/articles/:slug/  /articles/:slug  301!
+
+# Article tags
+/articles/tags/:tag/  /articles/tags/:tag  301!
+/articles/tags/  /articles/tags  301!
+
+# Articles index
+/articles/  /articles  301!
+
+# Subscribe success
+/subscribe-success/  /subscribe-success  301!
+
+# Legacy privacy policy (removed during Remix migration)
+/privacy-policy  /  301

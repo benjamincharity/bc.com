@@ -73,7 +73,11 @@
       "Bash(sort:*)",
       "Bash(npm ls --depth=0)",
       "Bash(npm view:*)",
-      "Bash(npm run pre-pr:*)"
+      "Bash(npm run pre-pr:*)",
+      "Bash(test:*)",
+      "Bash(do echo \"Request $i:\")",
+      "Bash(do echo \"Test $i\")",
+      "Bash(xmllint:*)"
     ],
     "deny": [],
     "ask": [],

@@ -3,6 +3,9 @@ import { getCollection } from 'astro:content';
 import { processMarkdownForFeed } from '~/utils/markdown-processor-feed';
 import { siteMetadata } from '~/data/siteMetadata';
 
+// Prerender at build time to avoid Cloudflare Worker timeouts
+export const prerender = true;
+
 function escapeXml(unsafeString: string): string {
   return unsafeString
     .replace(/&/g, '&amp;') // Replace & with &amp;

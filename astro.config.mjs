@@ -15,6 +15,7 @@ import rehypeCloudinaryImages from './src/utils/rehype-cloudinary-images.ts';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://www.benjamincharity.com',
+  trailingSlash: 'never', // Enforce clean URLs without trailing slashes
   output: 'server', // Server mode but pages will be prerendered
   adapter: cloudflare(),
   image: {
