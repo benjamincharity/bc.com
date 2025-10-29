@@ -37,6 +37,8 @@ const {
 
 // Pages with canvas background get special layout treatment
 const hasCanvas = showBackground && canvasLayout;
+// Canonical URL without trailing slash (except for homepage)
+const canonicalPath = Astro.url.pathname === '/' ? '/' : Astro.url.pathname.replace(/\/$/, '');
 // Don't add suffix if: title is the site title, title is the author name, or title already includes the author name
 const fullTitle = (title === siteMetadata.title || title === siteMetadata.author || title.includes(siteMetadata.author))
   ? title
@@ -89,7 +91,7 @@ const personSchema = {
   },
 };
 
-// WebSite schema for site-wide search and navigation
+// WebSite schema for site-wide navigation
 const websiteSchema = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
@@ -99,14 +101,6 @@ const websiteSchema = {
   author: {
     '@type': 'Person',
     name: siteMetadata.author,
-  },
-  potentialAction: {
-    '@type': 'SearchAction',
-    target: {
-      '@type': 'EntryPoint',
-      urlTemplate: `${siteMetadata.url}/articles?search={search_term_string}`,
-    },
-    'query-input': 'required name=search_term_string',
   },
 };
 
@@ -152,11 +146,11 @@ const organizationSchema = {
     <meta name="keywords" content={keywords.join(', ')} />
     <meta name="author" content={siteMetadata.author} />
     <meta name="robots" content="index, follow" />
-    <link rel="canonical" href={siteMetadata.url + Astro.url.pathname} />
+    <link rel="canonical" href={siteMetadata.url + canonicalPath} />
 
     <!-- Open Graph -->
     <meta property="og:type" content={ogType} />
-    <meta property="og:url" content={siteMetadata.url + Astro.url.pathname} />
+    <meta property="og:url" content={siteMetadata.url + canonicalPath} />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={image} />
@@ -171,7 +165,7 @@ const organizationSchema = {
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:url" content={siteMetadata.url + Astro.url.pathname} />
+    <meta name="twitter:url" content={siteMetadata.url + canonicalPath} />
     <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={image} />
