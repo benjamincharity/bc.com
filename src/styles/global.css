@@ -296,6 +296,9 @@ a.animated-gradient-text {
 .rendered-markdown h6:hover .anchor {
   @apply scale-100 opacity-80;
 }
+.rendered-markdown h1 {
+  @apply mb-4 mt-8 text-3xl;
+}
 .rendered-markdown h2 {
   @apply mb-4 mt-8 text-2xl;
 }
