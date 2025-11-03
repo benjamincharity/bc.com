@@ -2,11 +2,8 @@
   "includeCoAuthoredBy": false,
   "permissions": {
     "allow": [
-      "Bash(.specify/scripts/bash/create-new-feature.sh:*)",
-      "Bash(.specify/scripts/bash/setup-plan.sh:*)",
       "mcp__astro-docs__search_astro_docs",
-      "Bash(.specify/scripts/bash/update-agent-context.sh:*)",
-      "Bash(.specify/scripts/bash/check-prerequisites.sh:*)",
+      "Bash(.specify/**/*.sh:*)",
       "Bash(npm create:*)",
       "Bash(pnpm add:*)",
       "Bash(pnpm vitest:*)",
