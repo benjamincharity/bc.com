@@ -74,7 +74,8 @@
       "Bash(test:*)",
       "Bash(do echo \"Request $i:\")",
       "Bash(do echo \"Test $i\")",
-      "Bash(xmllint:*)"
+      "Bash(xmllint:*)",
+      "Bash(git revert:*)"
     ],
     "deny": [],
     "ask": [],
