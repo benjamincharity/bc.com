@@ -82,6 +82,7 @@ export interface InteractiveCanvasRefType {
   canvasRef: React.RefObject<HTMLCanvasElement>;
   resetMousePositions: () => void;
   togglePause: () => void;
+  // eslint-disable-next-line no-unused-vars
   wobbleRows: (goToNextPalette?: boolean) => void;
 }
 
