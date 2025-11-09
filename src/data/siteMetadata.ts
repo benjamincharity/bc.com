@@ -6,7 +6,7 @@ export const siteMetadata = {
     'Engineering leader & team builder at high-growth startups & scale-ups.',
   domain: 'www.benjamincharity.com',
   url: 'https://www.benjamincharity.com',
-  image: `/images/social.LinkedIn.png`,
+  image: `/images/pwa/apple-splash-2732-2048.jpg`,
   articleImagePath: `https://res.cloudinary.com/${CLOUDINARY_ACCOUNT}/image/upload/f_auto,q_auto,w_auto,dpr_auto,c_scale,w_2560/article-content/`,
   articleThinImagePath: `https://res.cloudinary.com/${CLOUDINARY_ACCOUNT}/image/upload/f_auto,q_auto,w_auto,dpr_auto,c_scale,w_2560,ar_3.1,c_lfill/article-content/`,
   websiteImagePath: `https://res.cloudinary.com/${CLOUDINARY_ACCOUNT}/image/upload/f_auto,q_auto,w_auto,dpr_auto,c_scale,w_2560/website/`,
