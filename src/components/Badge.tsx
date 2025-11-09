@@ -3,6 +3,7 @@ interface Props {
   count: number;
   linkTo: string;
   tag: string;
+  // eslint-disable-next-line no-unused-vars
   onClick?: (e: React.MouseEvent) => void;
 }
 

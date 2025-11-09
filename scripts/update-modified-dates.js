@@ -150,7 +150,7 @@ function main() {
   // Check if git is available
   try {
     execSync('git --version', { stdio: 'ignore' });
-  } catch (error) {
+  } catch (_error) {
     console.error('✗ Git is not available. This script requires git to be installed.');
     process.exit(1);
   }

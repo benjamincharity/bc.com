@@ -162,7 +162,7 @@ function runAutomations() {
     log(colors.blue, '📚 Updating reading times...');
     execSync('npm run add-reading-time', { stdio: 'inherit' });
     log(colors.green, '✅ Reading times updated\n');
-  } catch (error) {
+  } catch (_error) {
     log(colors.red, '❌ Failed to update reading times\n');
   }
 
@@ -171,7 +171,7 @@ function runAutomations() {
     log(colors.blue, '📅 Updating modified dates...');
     execSync('npm run update-modified-dates', { stdio: 'inherit' });
     log(colors.green, '✅ Modified dates updated\n');
-  } catch (error) {
+  } catch (_error) {
     log(colors.yellow, '⚠️  No update-modified-dates script found (optional)\n');
   }
 }
